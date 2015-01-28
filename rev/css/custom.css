@@ -1,0 +1,49 @@
+﻿
+body{background:#f9f9f9;}
+
+
+.floating-img-nav{float:left;}
+.extended-brand{width:380px;background:;height:100px;}
+.pulled-height{height:80px;}
+.pulled-left{margin-right:80px;margin-top:20px;}
+.clearfix{clear:both;}
+.default-color{background:maroon;border-top:5px solid gold;}
+.pulled-down{margin-top:120px;}
+
+#show_phase_2{position:fixed;bottom:15px;display:none;}
+.check-max{min-height:420px !important;background:;}
+.footer{position:fixed;bottom:1px;background:;height:50px;}
+.bg-enabled{background:#fff;}
+.padded{padding:10px;}
+.border-visible{border:1px solid #D0D1D5;border-radius:3px;border-bottom:none;}
+.radius-enabled{border-radius:3px;}
+.left-padded{padding-left:85px;}
+.left-padded-min{padding-left:30px;}
+.right-padded{padding-right:100px;}
+.show-margin{border-bottom:thin solid #d0d1d5;}
+.show-margin:last-child{border-bottom:thin solid 0px;}
+.highlighted-div{background:#f9f9f9;height:50px;}
+.padd-removed{padding:0px !important;}
+.max-height{max-height:100% !important;}
+.res{width:230px !important;}
+.up{margin-top:-15px;}
+.mug-shot{
+    width:65px;
+    height:65px;
+    
+}
+.left-nav-user > h4{
+    font-size:14px;
+    font-weight:600;
+    color:#333;
+    cursor:pointer;
+   
+}
+
+.left-nav-user > h4 a{
+    color:#333;
+     font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+.theming{
+    color:#A6635D !important;
+}

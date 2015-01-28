@@ -1,0 +1,18 @@
+﻿
+
+
+.default-theme{background:maroon;}
+.shadowed{ box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.5) !important;border-top:4px solid #FFC40D !important;}
+.extended-brand{background:transparent;width:230px;height:83px;}
+ .img-float-nav{ float:left;  }
+ .clearfix{clear:both;}
+ .extended-brand > h3{float:right;}
+ .bolder{font-weight:bold;}
+ .border-enabled{border:1px solid #D0D1D5;border-radius:3px;  }
+ .highlighted-div{background:#f5f5f5;width:100%;padding:15px;}
+ .highlighted-div > p{color:#333;}
+ .minified{font-size:13px;}
+ .header-padded{padding:3px;padding-bottom:8px;font-size:15px;font-weight:bold;color:rgba(0, 0, 0, 0.5);}
+ .theme-color{color:#fff;}
+ .text-theme{color:#333;}
+ .golden{color:#F0AD4E;}

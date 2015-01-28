@@ -1,0 +1,43 @@
+﻿.chart-horiz .chart { width: 90% }
+ 
+.chart-horiz .chart li {
+  display: block;
+  height: 23px;
+  margin-top: 3px;
+  position: relative;
+  margin-top:15px;
+}
+ 
+.chart-horiz .chart li:before {
+  color: #fff;
+  content: attr(title);
+  left: 5px;
+  position: absolute
+}
+ 
+.chart-horiz .chart li.title:before {
+  color: black;
+  font-weight: bold;
+  left: 0
+}
+ 
+.chart-horiz .chart li:first-child { margin-top: 0 }
+ 
+.chart-horiz .chart li .bar {
+  background: #A6635D;
+  height: 100%;
+  min-width: 164px
+}
+ 
+.chart-horiz .chart li .number {
+  color:#A6635D;
+  font-size: 16px;
+  font-weight: ;
+  padding-left: 5px;
+  position: absolute;
+  top: 2px
+}
+ 
+.chart-horiz .chart li.past .bar { background: #2ecc71 }
+ 
+.chart-horiz .chart li.past .number { color: #2ecc71 }

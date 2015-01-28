@@ -1,0 +1,203 @@
+﻿$(document).ready(function () {
+   
+    $.get("./Ui/timeline.aspx", function (autoLoad) {
+        $("#content-updatable").html(autoLoad).show();
+    });
+
+    $.get("./Ui/user-timeline.aspx", function (autoLoad) {
+        $("#user-content-updatable").html(autoLoad).show();
+    });
+
+
+    $(function () {
+        $(".timeline_UI").click( function () {
+            $.get("./Ui/timeline.aspx", function (autoLoad) {
+                $("#content-updatable").html(autoLoad).show();
+            });
+        });
+        
+    });
+
+
+    $(function () {
+        $("#goto_messagesUI_c").click(function (e) {
+            e.preventDefault();
+            $.get("./Ui/messagesUI-coordinator.aspx", function (autoLoad) {
+                $("#content-updatable").html(autoLoad).show();
+
+            });
+        });
+
+        $("#goto_messagesUI_c").click(function (e) {
+            e.preventDefault();
+            $.get("./Ui/messagesSideBar-coordinator.aspx", function (autoLoad) {
+                $("#sidebar-updatable").html(autoLoad).show();
+
+            });
+        });
+
+    });
+
+
+
+
+
+    $(function () {
+        $("#goto_pollUI").click(function (e) {
+            e.preventDefault();
+            $.get("./Ui/pollQuestion.aspx", function (autoLoad) {
+                $("#content-updatable").html(autoLoad).show();
+              
+            });
+        });
+
+        $("#goto_pollUI").click(function (e) {
+            e.preventDefault();
+            $.get("./Ui/pollSideBar.aspx", function (autoLoad) {
+                $("#sidebar-updatable").html(autoLoad).show();
+                
+            });
+        });
+
+    });
+
+
+    $(function () {
+        $("#goto_surveyUI").click(function (e) {
+            e.preventDefault();
+            $.get("./Ui/surveyUI.aspx", function (autoLoad) {
+                $("#content-updatable").html(autoLoad).show();
+               
+            });
+        });
+
+        $("#goto_surveyUI").click(function (e) {
+            e.preventDefault();
+            $.get("./Ui/surveySideBar.aspx", function (autoLoad) {
+                $("#sidebar-updatable").html(autoLoad).show();
+               
+            });
+        });
+
+    });
+
+    $(function () {
+        $("#goto_tokenUI").click(function (e) {
+            e.preventDefault();
+            $.get("./Ui/tokenUI.aspx", function (autoLoad) {
+                $("#content-updatable").html(autoLoad).show();
+
+            });
+        });
+
+        $("#goto_tokenUI").click(function (e) {
+            e.preventDefault();
+            $.get("./Ui/tokenSideBar.aspx", function (autoLoad) {
+                $("#sidebar-updatable").html(autoLoad).show();
+
+            });
+        });
+
+    });
+
+    $(function () {
+        $("#goto_statisticsUI").click(function (e) {
+            e.preventDefault();
+            $.get("./Ui/statisticsUI.aspx", function (autoLoad) {
+                $("#content-updatable").html(autoLoad).show();
+
+            });
+        });
+
+        $("#goto_statisticsUI").click(function (e) {
+            e.preventDefault();
+            $.get("./Ui/tokenSideBar.aspx", function (autoLoad) {
+                $("#sidebar-updatable").html("").hide();
+
+            });
+        });
+
+    });
+    
+
+    var divs = $(".traverse-cont>.traverse");
+    var defaultView = 0;
+    $("#prev").hide();
+    $("#create_btn").hide();
+    divs.hide().first().show();
+  
+    $("#next").click(function (e) {
+        divs.eq(defaultView).hide();
+        defaultView = (defaultView + 1 < divs.length) ? defaultView + 1 : 0;
+        divs.eq(defaultView).show();
+       
+        $("#prev").show();
+    });
+
+    $("#prev").click(function(e){
+        divs.eq(defaultView).hide();
+        defaultView = (defaultView > 0) ? defaultView - 1 : divs.length - 1;
+        divs.eq(defaultView).show();
+        if (defaultView == 0) { $(this).hide(); }
+    });
+        
+    var travDiv = $(".traversable-stat").css("display", "none");
+
+    $("#grad").click(function () {
+        
+        $(".graduating-status-opt").show();
+        $(".alumni-status-opt").hide();
+        $(".password-show").show();
+        $(".createShow").show();
+    });
+
+
+    $("#alumni").click(function () {
+        $(".graduating-status-opt").hide();
+        $(".alumni-status-opt").show();
+        $(".password-show").hide();
+        $(".createShow").hide();
+       
+    });
+
+    $("#employed_no").click(function () {
+
+        $(".ep-no").show();
+        $(".ep-yes").hide();
+        $(".password-show").show();
+        $(".createShow").show();
+    });
+    $("#employed_yes").click(function () {
+        $(".ep-yes").show();
+        $(".ep-no").hide();
+        $(".password-show").show();
+        $(".createShow").show();
+    });
+
+    $("#self_emp_opt").click(function () {
+        $("#self-employed-opt").show();
+    });
+
+    $(".nat_app").click(function () {
+        $("#self-employed-opt").hide();
+    });
+
+    $("#fu_opt_yes").click(function () {
+        $(".fu-ans").show();
+        $("#create_btn").show();
+    });
+    $("#fu_opt_no").click(function () {
+        $(".fu-ans").hide();
+        $("#create_btn").show();
+    });
+});
+$("#gender").change(function () {
+    if ($(this).val() == "Male") {
+        $("#maiden_name").hide();
+    } else if ($(this).val() == "Female") {
+        $("#maiden_name").show();
+    }
+    else {
+        $("#maiden_name").hide();
+    }
+});
