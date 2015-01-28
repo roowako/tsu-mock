@@ -46,7 +46,13 @@ Partial Class _Default
                     Response.Write(<script>alert("Email address do not match.")</script>)
                 End If
             ElseIf alumni.Checked = True Then
-                'for alumni code ------
+                If employed_yes.Checked = True Then
+                    employed() 'sub for employed option
+                ElseIf employed_no.Checked = True Then
+                    unemployed() 'sub for unemployed option
+                ElseIf employed_no.Checked = False And employed_yes.Checked = False Then
+                    Response.Write(<script>alert("Please select employment status.")</script>)
+                End If
             End If
         Else
             Response.Write(<script>alert("Email address do not match.")</script>)
@@ -116,5 +122,19 @@ Partial Class _Default
 
             sqlcon.Close()
         End Using
+    End Sub
+
+    Sub unemployed()
+        If emp_status_no.SelectedItem Is Nothing Then
+            Response.Write(<script>alert("Please select unemployment status.")</script>)
+        Else
+            'proceed to registration, null value on survey
+        End If
+    End Sub
+
+    Sub employed()
+        If first_emp.SelectedItem Is Nothing Or field_relation.SelectedItem Is Nothing Or employment_location.SelectedItem Is Nothing Or company_classification.SelectedItem Is Nothing Then
+
+        End If
     End Sub
 End Class

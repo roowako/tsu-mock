@@ -354,8 +354,7 @@
                                 <div class="col-xs-12">
                                     <label>3. Location of employment:   </label>
                                     <br /><br />
-                                    <asp:RadioButtonList ID="RadioButtonList1" runat="server">
-                                           
+                                    <asp:RadioButtonList ID="employment_location" runat="server">
                                             <asp:ListItem Text="Abroad" />
                                             <asp:ListItem Text="Local" />
                                     </asp:RadioButtonList>
@@ -365,8 +364,7 @@
                                 <div class="col-xs-12">
                                     <label>4. The classification of your company or institution:    </label>
                                     <br /><br />
-                                    <asp:RadioButtonList ID="RadioButtonList2" runat="server">
-                                           
+                                    <asp:RadioButtonList ID="company_classification" runat="server">
                                             <asp:ListItem Text="Private" />
                                             <asp:ListItem Text="Public" />
                                     </asp:RadioButtonList>
