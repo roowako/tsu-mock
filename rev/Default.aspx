@@ -25,9 +25,6 @@
                         <span class="icon-bar"></span>
                         </button>
                         <a class="navbar-brand extended-brand " href="./Default.aspx">
-                            <span class="pulled-left">
-                                <h4>Pogi ako</h4>
-                               </span>
                             <div class="clearfix"></div>
                         </a>
 
