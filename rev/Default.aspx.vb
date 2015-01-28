@@ -7,7 +7,12 @@ Partial Class _Default
     Dim cmd As SqlCommand
     Dim dr As SqlDataReader
 
+    Dim college_id As Integer
     Dim account_status As Integer
+
+    Protected Sub Page_Load(sender As Object, e As EventArgs) Handles Me.Load
+        fetch_college()
+    End Sub
 
     Protected Sub creatBtn_Click(sender As Object, e As EventArgs) Handles creatBtn.Click
         If txtEmail.Text = txtConfirm_Email.Text Then
@@ -43,6 +48,61 @@ Partial Class _Default
     End Sub
 
     'functions
+    Sub fetch_college()
+        cboCollege.Items.Clear()
+
+        Using sqlcon As New SqlConnection(constr)
+            sqlcon.Open()
+
+            cmd = New SqlCommand("SELECT description FROM tblColleges", sqlcon)
+            dr = cmd.ExecuteReader
+
+            Do While dr.Read
+                cboCollege.Items.Add(dr.GetString(0))
+            Loop
+
+            sqlcon.Close()
+        End Using
+    End Sub
+
+    Sub fetch_college_id()
+        Using sqlcon As New SqlConnection(constr)
+            sqlcon.Open()
+
+            cmd = New SqlCommand("SELECT college_idpk FROM tblColleges WHERE description=@p1", sqlcon)
+            cmd.Parameters.AddWithValue("@p1", cboCollege.SelectedItem.Text)
+            dr = cmd.ExecuteReader
+
+            Do While dr.Read
+                college_id = dr.GetValue(0)
+            Loop
+
+            sqlcon.Close()
+        End Using
+    End Sub
+
+    Sub fetch_course()
+        cboCourse.Items.Clear()
+
+        Using sqlcon As New SqlConnection(constr)
+            sqlcon.Open()
+
+            cmd = New SqlCommand("SELECT description from tblCourses WHERE college_idfk=@p1", sqlcon)
+            cmd.Parameters.AddWithValue("@p1", college_id)
+            dr = cmd.ExecuteReader
+
+            Do While dr.Read
+                cboCourse.Items.Add(dr.GetString(0))
+            Loop
+
+            sqlcon.Close()
+        End Using
+    End Sub
+
+    Sub fetch_course_id()
+
+    End Sub
+
     Sub add_account()
         Using sqlcon As New SqlConnection(constr)
             sqlcon.Open()
