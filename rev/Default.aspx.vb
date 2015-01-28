@@ -7,7 +7,6 @@ Partial Class _Default
     Dim cmd As SqlCommand
     Dim dr As SqlDataReader
 
-    Dim college_id As Integer
     Dim course_id As Integer
     Dim account_status As Integer
 
@@ -15,17 +14,8 @@ Partial Class _Default
         If IsPostBack Then
             'DISREGARD PAGE LOAD FUNCTION ON POSTBACK
         Else
-            fetch_college()
+            fetch_course()
         End If
-    End Sub
-
-    Protected Sub cboCollege_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cboCollege.SelectedIndexChanged
-        fetch_college_id()
-        fetch_course()
-    End Sub
-
-    Protected Sub cboCourse_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cboCourse.SelectedIndexChanged
-        fetch_college_id()
     End Sub
 
     Protected Sub creatBtn_Click(sender As Object, e As EventArgs) Handles creatBtn.Click
@@ -64,40 +54,6 @@ Partial Class _Default
     End Sub
 
     'functions
-    Sub fetch_college()
-        cboCollege.Items.Clear()
-        cboCollege.Items.Add(" ")
-
-        Using sqlcon As New SqlConnection(constr)
-            sqlcon.Open()
-
-            cmd = New SqlCommand("SELECT description FROM tblColleges", sqlcon)
-            dr = cmd.ExecuteReader
-
-            Do While dr.Read
-                cboCollege.Items.Add(dr.GetString(0))
-            Loop
-
-            sqlcon.Close()
-        End Using
-    End Sub
-
-    Sub fetch_college_id()
-        Using sqlcon As New SqlConnection(constr)
-            sqlcon.Open()
-
-            cmd = New SqlCommand("SELECT college_idpk FROM tblColleges WHERE description=@p1", sqlcon)
-            cmd.Parameters.AddWithValue("@p1", cboCollege.SelectedItem.Text)
-            dr = cmd.ExecuteReader
-
-            Do While dr.Read
-                college_id = dr.GetValue(0)
-            Loop
-
-            sqlcon.Close()
-        End Using
-    End Sub
-
     Sub fetch_course()
         cboCourse.Items.Clear()
         cboCourse.Items.Add(" ")
@@ -105,8 +61,7 @@ Partial Class _Default
         Using sqlcon As New SqlConnection(constr)
             sqlcon.Open()
 
-            cmd = New SqlCommand("SELECT description from tblCourses WHERE college_idfk=@p1", sqlcon)
-            cmd.Parameters.AddWithValue("@p1", college_id)
+            cmd = New SqlCommand("SELECT description from tblCourses", sqlcon)
             dr = cmd.ExecuteReader
 
             Do While dr.Read
@@ -134,15 +89,13 @@ Partial Class _Default
     End Sub
 
     Sub add_account()
-        fetch_college_id() 'fetch college id
         fetch_course_id() 'fetch course id
 
         Using sqlcon As New SqlConnection(constr)
             sqlcon.Open()
 
-            cmd = New SqlCommand("INSERT INTO tblAccounts(userlevel_idfk,college_idfk,course_idfk,student_id,password,family_name,given_name,middle_name,maiden_name,address,telephone_number,email_address,birthday,citizenship,religion,marital_status,gender,account_status) VALUES(@p1,@p2,@p3,@p4,@p5,@p6,@p7,@p8,@p9,@p10,@p11,@p12,@p13,@p14,@p15,@p16,@p17,@p18)", sqlcon)
+            cmd = New SqlCommand("INSERT INTO tblAccounts(userlevel_idfk,course_idfk,student_id,password,family_name,given_name,middle_name,maiden_name,address,telephone_number,email_address,birthday,citizenship,religion,marital_status,gender,account_status) VALUES(@p1,@p3,@p4,@p5,@p6,@p7,@p8,@p9,@p10,@p11,@p12,@p13,@p14,@p15,@p16,@p17,@p18)", sqlcon)
             cmd.Parameters.AddWithValue("@p1", 1)
-            cmd.Parameters.AddWithValue("@p2", college_id)
             cmd.Parameters.AddWithValue("@p3", course_id)
             cmd.Parameters.AddWithValue("@p4", "NoStudID")
             cmd.Parameters.AddWithValue("@p5", txtAccountPassword.Text)

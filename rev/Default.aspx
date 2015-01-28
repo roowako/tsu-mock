@@ -1,5 +1,11 @@
 ﻿<%@ Page Language="VB" AutoEventWireup="false" CodeFile="Default.aspx.vb" Inherits="_Default" %>
 
+<script runat="server">
+    Sub alumni_checked(obj As Object, e As EventArgs)
+        
+    End Sub
+</script>
+
 <!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -262,29 +268,9 @@
 
                             <div class="form-group row">
                                 <div class="col-xs-6">
-                                    <div class="input-group">
-                                        <div class="input-group-addon">College</div>
-                                         <asp:DropDownList ID="cboCollege" runat="server" AutoPostBack="true" CssClass="form-control" required>
-                                            <asp:ListItem Text="College 1" />
-                                            <asp:ListItem Text="College 2" />
-                                            <asp:ListItem Text="College 3" />
-                                            <asp:ListItem Text="College 4" />
-                                            <asp:ListItem Text="College 5" />
-                                            <asp:ListItem Text="College 6" />
-                                        </asp:DropDownList>
-                                    </div>
-                                    
-                                </div>
-                                <div class="col-xs-6">
                                      <div class="input-group">
                                         <div class="input-group-addon">Course</div>
                                          <asp:DropDownList ID="cboCourse" runat="server" CssClass="form-control" required>
-                                            <asp:ListItem Text="Course 1" />
-                                            <asp:ListItem Text="Course 2" />
-                                            <asp:ListItem Text="Course 3" />
-                                            <asp:ListItem Text="Course 4" />
-                                            <asp:ListItem Text="Course 5" />
-                                            <asp:ListItem Text="Course 6" />
                                         </asp:DropDownList>
                                     </div>
                                 </div>
@@ -327,7 +313,6 @@
                                         <asp:Label Text="If unemployed choose your status" runat="server" />
                                         <br /><br />
                                         <asp:RadioButtonList ID="emp_status_no" runat="server">
-                                       
                                             <asp:ListItem Text="End of Contract" />
                                             <asp:ListItem Text="Resigned or Terminated" />
                                             <asp:ListItem Text="Not employed but seeking employment" />
