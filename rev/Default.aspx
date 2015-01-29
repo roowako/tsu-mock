@@ -453,7 +453,6 @@
                                     <div class="input-group">
                                         <div class="input-group-addon">Password</div>
                                         <asp:TextBox ID="txtAccountPassword" runat="server" CssClass="form-control" placeholder="Password" TextMode="Password"></asp:TextBox>
-
                                     </div>
                                 </div>
                             </div>
@@ -462,7 +461,6 @@
                                      <div class="input-group ">
                                         <div class="input-group-addon">Re-type Password</div>
                                         <asp:TextBox ID="txtRetypePassword" runat="server" CssClass="form-control" placeholder="Password" TextMode="Password"></asp:TextBox>
-
                                     </div>
                                 </div>
                             </div>
