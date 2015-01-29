@@ -2,7 +2,7 @@
 
 Partial Class _Default
     Inherits System.Web.UI.Page
-    Dim constr As String = "Data Source=.\SQLEXPRESS;Initial Catalog=tsuat_db;User ID=sa;Password=masterfile"
+    Dim constr As String = "Data Source=.\SQLEXPRESS2005;Initial Catalog=tsuat_db;User ID=sa;Password=segatronph12"
     Dim sqlcon As New SqlConnection
     Dim cmd As SqlCommand
     Dim dr As SqlDataReader
@@ -103,7 +103,7 @@ Partial Class _Default
             cmd = New SqlCommand("INSERT INTO tblAccounts(userlevel_idfk,course_idfk,student_id,password,family_name,given_name,middle_name,maiden_name,address,telephone_number,email_address,birthday,citizenship,religion,marital_status,gender,account_status) VALUES(@p1,@p3,@p4,@p5,@p6,@p7,@p8,@p9,@p10,@p11,@p12,@p13,@p14,@p15,@p16,@p17,@p18)", sqlcon)
             cmd.Parameters.AddWithValue("@p1", 1)
             cmd.Parameters.AddWithValue("@p3", course_id)
-            cmd.Parameters.AddWithValue("@p4", "NoStudID")
+            cmd.Parameters.AddWithValue("@p4", txtStudent_Number.Text)
             cmd.Parameters.AddWithValue("@p5", txtAccountPassword.Text)
             cmd.Parameters.AddWithValue("@p6", txtFamily_Name.Text)
             cmd.Parameters.AddWithValue("@p7", txtGiven_Name.Text)
