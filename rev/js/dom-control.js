@@ -174,7 +174,7 @@
         $(".createShow").show();
     });
 
-    $("#self_emp_opt").click(function () {
+    $("#self_emp_opt").change(function () {
         $("#self-employed-opt").show();
     });
 

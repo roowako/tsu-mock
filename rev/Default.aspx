@@ -383,8 +383,11 @@
                                 <div class="col-xs-12">
                                     <label>Self-employment type  </label>
                                     <br /><br />
-                                    <asp:RadioButton ID="RadioButton4" runat="server" Text="Business" GroupName="sep_type" />
-                                    <asp:RadioButton ID="RadioButton5" runat="server" Text="Others" GroupName="sep_type" />
+                                    <asp:RadioButtonList ID="RadioButtonList1" runat="server">
+                                        <asp:ListItem Text="Business" />
+                                        <asp:ListItem Text="Others" />
+                                    </asp:RadioButtonList>
+                                   
                                   
                                 </div>
                             </div>
@@ -395,10 +398,15 @@
                                 <div class="col-xs-12">
                                     <label>6. What is your Present Position? </label>
                                     <br /><br />
-                                    <asp:RadioButton  ID="pres_pos1" runat="server" Text="Rank and File" GroupName="b" />
-                                    <asp:RadioButton  ID="pres_pos2" runat="server" Text="Supervisory Level" GroupName="b" />
-                                    <asp:RadioButton ID="pres_pos3" runat="server" Text="Self-employed" GroupName="b" />
-                                    <asp:RadioButton ID="pres_pos4" runat="server" Text="Self-employed" GroupName="b" />
+
+                                    <asp:RadioButtonList ID="pres_pos" runat="server">
+                                        <asp:ListItem Text="Rank and File" />
+                                        <asp:ListItem Text="Supervisory Level" />
+                                        <asp:ListItem Text="Managerial Level" />
+                                        <asp:ListItem Text="Others" />
+                                    </asp:RadioButtonList>
+
+                                    
                                 </div>
                             </div>
 
@@ -406,10 +414,14 @@
                                 <div class="col-xs-12">
                                     <label>7. How long have you been working in your current company? </label>
                                     <br /><br />
-                                    <asp:RadioButton  ID="RadioButton3" runat="server" Text="1 to 6 months " GroupName="c" />
-                                    <asp:RadioButton  ID="RadioButton6" runat="server" Text="7 months to 1 year" GroupName="c" />
-                                    <asp:RadioButton ID="RadioButton7" runat="server" Text="1 year to 3 years" GroupName="c" />
-                                    <asp:RadioButton ID="RadioButton8" runat="server" Text="Others " GroupName="c" />
+                                    <asp:RadioButtonList ID="work_duration" runat="server">
+                                        <asp:ListItem Text="1 to 6 months" />
+                                        <asp:ListItem Text="7 months to 1 year" />
+                                        <asp:ListItem Text="1 year to 3 years" />
+                                        <asp:ListItem Text="Others" />    
+                                    </asp:RadioButtonList>
+
+                                    
                                 </div>
                             </div>
                             <div class="row form-group ep-yes" style="display:none;">
@@ -425,10 +437,12 @@
                             <div class="row form-group fu-ans" style="display:none;">
                                 <div class="col-xs-12">
                                     <label>Choose your highest Educational Attainment </label>
-                                 
-                                    <asp:RadioButton  ID="RadioButton9" runat="server" Text="Doctoral" GroupName="e" CssClass="fu-opt" />
-                                    <asp:RadioButton  ID="RadioButton10" runat="server" Text="Masters" GroupName="e" CssClass="fu-opt"/>
-                                    <asp:RadioButton  ID="RadioButton11" runat="server" Text="Others" GroupName="e" CssClass="fu-opt"/>
+                                    <asp:RadioButtonList ID="highest_educ_attainment" runat="server">
+                                        <asp:ListItem Text="Doctoral" />
+                                        <asp:ListItem Text="Masteral" />
+                                        <asp:ListItem Text="Others" />
+                                    </asp:RadioButtonList>
+                                  
                                    
                                 </div>
                             </div>
