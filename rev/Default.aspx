@@ -274,6 +274,9 @@
                                             <asp:ListItem Text="College 6" />
                                         </asp:DropDownList>
                                     </div>
+                                    
+                                </div>
+                                <div class="col-xs-6">
                                      <div class="input-group">
                                         <div class="input-group-addon">Course</div>
                                          <asp:DropDownList ID="cboCourse" runat="server" CssClass="form-control" required>
