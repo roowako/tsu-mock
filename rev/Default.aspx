@@ -26,7 +26,7 @@
                         </button>
                         <a class="navbar-brand extended-brand " href="./Default.aspx">
                             <span class="pulled-left">
-                                <h4>Pogi ako</h4>
+                                <h4> Tarlac State University</h4>
                                </span>
                             <div class="clearfix"></div>
                         </a>
@@ -253,6 +253,33 @@
                                             <asp:ListItem Text="Single" />
                                             <asp:ListItem Text="Married" />
                                             <asp:ListItem Text="Widowed" />
+                                        </asp:DropDownList>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="col-xs-6">
+                                    <div class="input-group">
+                                        <div class="input-group-addon">College</div>
+                                         <asp:DropDownList ID="cboCollege" runat="server" CssClass="form-control" required>
+                                            <asp:ListItem Text="College 1" />
+                                            <asp:ListItem Text="College 2" />
+                                            <asp:ListItem Text="College 3" />
+                                            <asp:ListItem Text="College 4" />
+                                            <asp:ListItem Text="College 5" />
+                                            <asp:ListItem Text="College 6" />
+                                        </asp:DropDownList>
+                                    </div>
+                                     <div class="input-group">
+                                        <div class="input-group-addon">Course</div>
+                                         <asp:DropDownList ID="cboCourse" runat="server" CssClass="form-control" required>
+                                            <asp:ListItem Text="Course 1" />
+                                            <asp:ListItem Text="Course 2" />
+                                            <asp:ListItem Text="Course 3" />
+                                            <asp:ListItem Text="Course 4" />
+                                            <asp:ListItem Text="Course 5" />
+                                            <asp:ListItem Text="Course 6" />
                                         </asp:DropDownList>
                                     </div>
                                 </div>
