@@ -191,13 +191,13 @@
         $("#create_btn").show();
     });
 });
-$("#gender").change(function () {
+$("#cboGender").change(function () {
     if ($(this).val() == "Male") {
-        $("#maiden_name").hide();
+        $("#txtMaiden_Name").hide();
     } else if ($(this).val() == "Female") {
-        $("#maiden_name").show();
+        $("#txtMaiden_Name").show();
     }
     else {
-        $("#maiden_name").hide();
+        $("#txtMaiden_Name").hide();
     }
 });
