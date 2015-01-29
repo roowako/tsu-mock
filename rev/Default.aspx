@@ -25,12 +25,11 @@
                         <span class="icon-bar"></span>
                         </button>
                         <a class="navbar-brand extended-brand " href="./Default.aspx">
-<<<<<<< HEAD
+
                             <span class="pulled-left">
                                 <h4> Tarlac State University</h4>
                                </span>
-=======
->>>>>>> origin/master
+
                             <div class="clearfix"></div>
                         </a>
 
