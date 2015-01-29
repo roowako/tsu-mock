@@ -442,8 +442,6 @@
                                         <asp:ListItem Text="Masteral" />
                                         <asp:ListItem Text="Others" />
                                     </asp:RadioButtonList>
-                                  
-                                   
                                 </div>
                             </div>
 

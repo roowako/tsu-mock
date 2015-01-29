@@ -22,7 +22,9 @@ Partial Class _Default
         If txtEmail.Text = txtConfirm_Email.Text Then
             If grad.Checked = True Then
                 If txtAccountPassword.Text = txtRetypePassword.Text Then
-                    If cboMarital_Status.Text = "Married" And txtMaiden_Name.Text <> vbNullString Then
+                    If cboMarital_Status.Text = "Married" And cboGender.Text = "Female" And txtMaiden_Name.Text <> vbNullString Then
+                        Response.Write(<script>alert("Maiden name is required.")</script>)
+                    Else
                         Using sqlcon As New SqlConnection(constr)
                             sqlcon.Open()
 
@@ -39,8 +41,6 @@ Partial Class _Default
 
                             sqlcon.Close()
                         End Using
-                    Else
-                        Response.Write(<script>alert("Maiden name is required.")</script>)
                     End If
                 Else
                     Response.Write(<script>alert("Email address do not match.")</script>)
@@ -60,6 +60,46 @@ Partial Class _Default
     End Sub
 
     'functions
+    Sub new_traps()
+        If cboGender.SelectedItem.Text = "Female" And cboMarital_Status.SelectedItem.Text = "Married" And txtMaiden_Name.Text = vbNullString Then
+            Response.Write(<script>alert("Maiden name is required.")</script>)
+        ElseIf txtEmail.Text <> txtConfirm_Email.Text Then
+            Response.Write(<script>alert("Email address do not match.")</script>)
+        ElseIf txtPassword.Text <> txtAccountPassword.Text Then
+            Response.Write(<script>alert("Passwords do not match.")</script>)
+        Else
+            If grad.Checked = True And token.Text = vbNullString Then
+                Response.Write(<script>alert("Token is required for graduating students.")</script>)
+            ElseIf txtStudent_Number.Text <> vbNullString Then
+                check_studentid()
+            Else
+
+            End If
+        End If
+    End Sub
+
+    Sub check_studentid()
+        If txtStudent_Number.Text = vbNullString Then
+            Response.Write(<script>alert("Email address do not match.")</script>)
+        Else
+            Using sqlcon As New SqlConnection
+                sqlcon.Open()
+
+                cmd = New SqlCommand("SELECT graduate_idpk FROM tblGraduates WHERE student_id=@p1", sqlcon)
+                cmd.Parameters.AddWithValue("@p1", txtStudent_Number.Text)
+                dr = cmd.ExecuteReader
+
+                If dr.HasRows Then
+
+                Else
+
+                End If
+
+                sqlcon.Close()
+            End Using
+        End If
+    End Sub
+
     Sub fetch_course()
         cboCourse.Items.Clear()
         cboCourse.Items.Add(" ")
