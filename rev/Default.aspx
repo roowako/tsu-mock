@@ -102,6 +102,16 @@
                                         </asp:DropDownList>
                                  </div>
                             </div>
+                              <div class="col-xs-6">
+                                    <div class="input-group">
+                                        <div class="input-group-addon">Marital Status</div>
+                                         <asp:DropDownList ID="cboMarital_Status" runat="server" CssClass="form-control" required>
+                                            <asp:ListItem Text="Single" />
+                                            <asp:ListItem Text="Married" />
+                                            <asp:ListItem Text="Widowed" />
+                                        </asp:DropDownList>
+                                    </div>
+                                </div>
                         </div>
 
                          <div class="row form-group">
@@ -254,16 +264,7 @@
                             </div>
 
                             <div class="form-group row">
-                                <div class="col-xs-6">
-                                    <div class="input-group">
-                                        <div class="input-group-addon">Marital Status</div>
-                                         <asp:DropDownList ID="cboMarital_Status" runat="server" CssClass="form-control" required>
-                                            <asp:ListItem Text="Single" />
-                                            <asp:ListItem Text="Married" />
-                                            <asp:ListItem Text="Widowed" />
-                                        </asp:DropDownList>
-                                    </div>
-                                </div>
+                               
                             </div>
 
                             <div class="form-group row">

@@ -191,13 +191,28 @@
         $("#create_btn").show();
     });
 });
+
+
 $("#cboGender").change(function () {
     if ($(this).val() == "Male") {
         $("#txtMaiden_Name").hide();
-    } else if ($(this).val() == "Female") {
+    } else if ($(this).val() == "Female" && $("#cboMarital_Status").val() == "Married") {
+        $("#txtMaiden_Name").show();
+    } else if ($(this).val() == "Female" && $("#cboMarital_Status").val() == "Widowed") {
         $("#txtMaiden_Name").show();
     }
-    else {
+});
+
+$("#cboMarital_Status").change(function () {
+
+    if ($(this).val() == "Single" && $("#cboGender").val() == "Male" ) {
+        $("#txtMaiden_Name").hide();
+    } else if ($(this).val() == "Married" && $("#cboGender").val() == "Female") {
+        $("#txtMaiden_Name").show();
+    }
+    else if ($(this).val() == "Widowed" && $("#cboGender").val() == "Female") {
+        $("#txtMaiden_Name").show();
+    } else if ($(this).val() == "Single" && $("#cboGender").val() == "Female") {
         $("#txtMaiden_Name").hide();
     }
 });

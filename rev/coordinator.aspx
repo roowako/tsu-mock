@@ -25,7 +25,7 @@
                         </button>
                         <a class="navbar-brand extended-brand " href="./Default.aspx">
                             <span class="pulled-left">
-                                <asp:Image ID="Image1" runat="server" ImageUrl="~/assets/images/TSULOGO.png" Height="60" Width="60" CssClass="floating-img-nav" />
+                                <asp:Image ID="Image1" runat="server" ImageUrl="~/rev/assets/images/TSULOGO.png" Height="60" Width="60" CssClass="floating-img-nav" />
                                 <h3> &nbsp;&nbsp;Tarlac State University</h3>
                             </span>
                             <div class="clearfix"></div>
