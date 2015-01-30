@@ -200,7 +200,7 @@ $("#cboGender").change(function () {
         $("#txtMaiden_Name").show();
     } else if ($(this).val() == "Female" && $("#cboMarital_Status").val() == "Widowed") {
         $("#txtMaiden_Name").show();
-    }
+    } else { $("#txtMaiden_Name").hide(); }
 });
 
 $("#cboMarital_Status").change(function () {
