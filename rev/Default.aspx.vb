@@ -2,7 +2,7 @@
 
 Partial Class _Default
     Inherits System.Web.UI.Page
-    Dim constr As String = "Data Source=.\SQLEXPRESS;Initial Catalog=tsuat_db;User ID=sa;Password=masterfile"
+    Dim constr As String = "Data Source=.\SQLEXPRESS;Initial Catalog=tsuat_db;User ID=sa;Password=masterfiless"
     Dim sqlcon As New SqlConnection
     Dim cmd As SqlCommand
     Dim dr As SqlDataReader
