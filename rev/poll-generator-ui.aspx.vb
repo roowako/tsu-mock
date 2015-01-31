@@ -16,33 +16,70 @@ Partial Class UI_poll_generator_ui
     Public Shared Property dr As SqlDataReader
 
     Public Shared Property sqlStr As String
+    Public Shared Property getLast As String
 
 
 
     <System.Web.Services.WebMethod()> _
     <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
-    Public Shared Function Sample(ByVal pollOptArr As String) As String
+    Public Shared Function PushToDatabase(ByVal pollOptArr As String, ByVal pollTitle As String, ByVal pollQ As String) As String
+        'Function named PushToDatabase 
+        'Includes delimitation of user input
+        'Opening and Closing Connection to the database
+        'Adding datas to database
+
 
         Using sqlCon As New SqlConnection(constr)
-            Dim pollOpts As New List(Of pollOpt)()
-            Dim js As New JavaScriptSerializer()
-            Dim jsResult = js.Serialize(pollOpts)
-            Dim dis = js.Deserialize(Of List(Of pollOpt))(jsResult)
 
-          
             sqlCon.Open()
-            sqlStr = "INSERT INTO pollsoption_tbl(polls_idfk,option_description) VALUES(1,@poll)"
-            cmd = New SqlCommand(sqlStr, sqlCon)
-            cmd.Parameters.AddWithValue("@poll", pollOptArr)
 
+            sqlStr = "INSERT INTO polls_tbl(description,question,status) VALUES(@pollTitle,@pollQ,1)"
+
+            cmd = New SqlCommand(sqlStr, sqlCon)
+            cmd.Parameters.AddWithValue("@pollTitle", pollTitle)
+            cmd.Parameters.AddWithValue("@pollQ", pollQ)
             cmd.ExecuteNonQuery()
+
+            getLast = "SELECT MAX(polls_idpk) as pollsPk FROM polls_tbl"
+            cmd = New SqlCommand(getLast, sqlCon)
+            Dim lastId As Integer = CInt(cmd.ExecuteScalar())
+            cmd.ExecuteNonQuery()
+
+            'Delimiter
+            Dim stringSep() As String = {","}
+
+
+            Dim result() As String
+
+            'Splitting each value for database insertion, removing(,)
+            result = pollOptArr.Split(stringSep, StringSplitOptions.None)
+
+            Dim i As String
+
+
+
+
+            'Iterate each element in array with (,) eliminated
+            For Each i In result
+
+                'Insertion query
+                sqlStr = "INSERT INTO pollsoption_tbl(polls_idfk,option_description) VALUES(@pollFk,@poll)"
+                cmd = New SqlCommand(sqlStr, sqlCon)
+                cmd.Parameters.AddWithValue("@poll", i)
+                cmd.Parameters.AddWithValue("@pollFk", lastId)
+                cmd.ExecuteNonQuery()
+
+            Next
+
             sqlCon.Close()
+
+            'Returning Message : Fail or Successful
+            Return lastId
+
         End Using
 
     End Function
 
-    Public Class pollOpt
-        Public Property pollOption As String
-    End Class
+    
 
 End Class

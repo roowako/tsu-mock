@@ -26,7 +26,7 @@
                     </button>
                     <a class="navbar-brand extended-brand " href="./Default.aspx">
                         <span class="">
-                            <asp:Image ID="Image1" runat="server" ImageUrl="~/assets/images/TSULOGO.png" Height="55" Width="55" CssClass="img-float-nav" />
+                            <asp:Image ID="Image1" runat="server" ImageUrl="~/rev/assets/images/TSULOGO.png" Height="55" Width="55" CssClass="img-float-nav" />
                             <h3>&nbsp;&nbsp;&nbsp;Dashboard</h3>
                              <span class="clearfix"></span>
                         </span>
@@ -84,7 +84,7 @@
                                         <div class=" row">
                                             <div class="theme-color col-xs-12 highlighted-div">
                                                 <div class="form-group">
-                                                    <asp:TextBox ID="txtxPollTitle" runat="server" placeholder="Poll Title" CssClass="form-control"></asp:TextBox>
+                                                    <asp:TextBox ID="txtPollTitle" runat="server" placeholder="Poll Title" CssClass="form-control" ClientIDMode="Static"></asp:TextBox>
                                                     <br />
                                                     <asp:TextBox ID="txtPollQuestionArea" runat="server" TextMode="MultiLine" CssClass="form-control" ClientIDMode="Static"></asp:TextBox>
                                                     <br />
@@ -109,18 +109,19 @@
                                                 <h4 class="header-padded">Populate Poll Options</h4>
                                                 <div class="row">
                                                     <div class="col-xs-12 enable-populate form-group">
-                                                        <asp:TextBox ID="txtPollOption" runat="server" CssClass="form-control" placeholder="Poll Option"></asp:TextBox>
-                                                        
+                                                        <asp:HiddenField ID="counterPart" runat="server" />
+                                                                                                               
                                                     </div>
                                                 </div>
                                                  <br /><br />
                                                  <div class="row">
                                                      <div class="col-xs-12">
-                                                         <asp:ListView ID="ListView1" runat="server">
-                                                             
-                                                         </asp:ListView>
-                                                     
-                                                     
+                                                         
+                                                         <asp:Button ID="btnAddOption" runat="server" Text="Add Option" CssClass="btn btn-primary"/>
+                                                         <asp:Button ID="remove_poll_opt" runat="server" Text="Remove Option" CssClass="btn btn-warning"/>
+                                                         <asp:Button ID="remove_all_poll_opt" runat="server" Text="Remove all Option" CssClass="btn btn-warning"/>
+                                                         <input id="btnGetTime" type="button" class="btn btn-sm btn-success" value="Submit Poll" onclick = "pushToServer()" />
+                                                         <br /><br />
                                                      </div>
                                                    
                                                     <br /><br />
@@ -167,38 +168,64 @@
     <script type="text/javascript" src="http://ajax.cdnjs.com/ajax/libs/json2/20110223/json2.js"></script>
     <script type="text/javascript">
         function pushToServer() {
-            var g = $("#counterPart").val();
-            var pollTarget = $("#select_to_post_coor option:selected").val();
-            var pollQ = $("#txtPollQuestionArea").val();
-            var pollOptArr = [];
-            console.log(g);
-            $(".populatedOpt").each(function (i, o) {
-                pollOptArr.push($(o).val());
+            //Function for passing Poll Generator inputs to the server
+            
+            var g = $("#counterPart").val();//Counter for textbox added
+            var pollTitle = $("#txtPollTitle").val(); //Poll Title
+            var pollTarget = $("#select_to_post_coor option:selected").val();// Dropdown List value
+            var pollQ = $("#txtPollQuestionArea").val();// Poll Question
+            var pollOptArr = [];//Array variable for dynamic textboxes
+
+            //Get the values of dynamically added textbox
+            $(".populatedOpt").each(function () {
+                pollOptArr.push($(this).val().replace(",", "-"));//Replace every(,) in every textbox. Replace with(-)
                 console.log(pollOptArr);
             });
 
-            $.ajax({
-                type: "POST",
-                url: "./poll-generator-ui.aspx/Sample",
-                data: "{'pollOptArr':  '" + pollOptArr + "'  }",
-                dataType: "json",
-                processData: false,
-                traditional: true,
-                contentType: "application/json; charset=utf-8",
-                success: function (response) {
-                    $.each(function response(i,o) {
-                        console.log(o);
-                    })
-                    
-                }
-            });
+
+            if (pollTitle == "" || pollQ == "" || pollTarget == "none" || pollOptArr == "") {
+                //Check all fields for empty value
+                alert("All fields are required.");
+
+            } else {
+                
+                //Push to server using jquery Ajax
+                $.ajax({
+                    type: "POST",
+                    url: "./poll-generator-ui.aspx/PushToDatabase",
+                    data: "{'pollOptArr':  '" + pollOptArr + "','pollTitle': '" + pollTitle + "','pollQ': '" + pollQ + "' }",
+
+                    processData: false,
+                    traditional: true,
+                    contentType: "application/json; charset=utf-8",
+                    success: function (response) {
+                        //Response from server side weather fail or successful
+                        alert(response.d);
+
+                        $("#txtPollTitle").val("");
+                        $("#txtPollQuestionArea").val("");
+                        pollTarget == "none";
+                        $(container).empty();
+                        $(container).remove();
+                        $('#btSubmit').remove(); iCnt = 0;
+                        $('#btAdd').removeAttr('disabled');
+                        $('#btAdd').attr('class', 'bt');
+                        console.log(response.d);
+
+                    }
+                });
+            }
+           
            
         }
       
         var iCnt = 0;
-        var container = $(document.createElement('div')).attr('class', 'col-sm-12');
+
+        var container = $(document.createElement('div')).attr('class', 'col-sm-12');//Div container for dynamic textboxes
+
         $("#select_to_post_coor").change(function () {
 
+            // Function for course dropdown 
             var a = $("#select_to_post_coor option:selected").val();
             console.log(a);
             if (a == "college-selected") {
@@ -222,13 +249,15 @@
 
         });
 
-        $("#add_poll_opt").click(function () {
-
+        $("#btnAddOption").click(function (e) {
+            //Function for adding dynamic textboxes
+            e.preventDefault();
             if (iCnt <= 30) {
 
                 iCnt = iCnt + 1;
                 var g = $("#counterPart").val(iCnt);
 
+                //Appending textboxes to the container
                 $(container).append('<br/>' + '<input type="text" class="input form-control populatedOpt" id=tb' + iCnt + ' ' +
                                 'placeholder="Option ' + iCnt + '" />');
 
@@ -244,7 +273,8 @@
 
         });
 
-        $("#remove_poll_opt").click(function () {
+        $("#remove_poll_opt").click(function (e) {
+            e.preventDefault();
             if (iCnt != 0) { $('#tb' + iCnt).remove(); iCnt = iCnt - 1; }
             if (iCnt == 0) {
                 $(container).empty();
@@ -255,7 +285,8 @@
             }
         });
 
-        $('#remove_all_poll_opt').click(function () {    // REMOVE ALL THE ELEMENTS IN THE CONTAINER.
+        $('#remove_all_poll_opt').click(function (e) {    // REMOVE ALL THE ELEMENTS IN THE CONTAINER.
+            e.preventDefault();
             $(container).empty();
             $(container).remove();
             $('#btSubmit').remove(); iCnt = 0;
