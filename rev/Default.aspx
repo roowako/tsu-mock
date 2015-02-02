@@ -1,10 +1,4 @@
-﻿<%@ Page Language="VB" AutoEventWireup="false" CodeFile="Default.aspx.vb" Inherits="_Default" %>
-
-<script runat="server">
-    Sub alumni_checked(obj As Object, e As EventArgs)
-        
-    End Sub
-</script>
+﻿<%@ Page Language="VB" AutoEventWireup="false" CodeFile="Default.aspx.vb" Inherits="_Default" EnableEventValidation="false" %>
 
 <!DOCTYPE html>
 
@@ -33,7 +27,8 @@
                         <a class="navbar-brand extended-brand " href="./Default.aspx">
 
                             <span class="pulled-left">
-                                <h4> Tarlac State University</h4>
+                                <asp:Image ID="Image1" style="float:left;" runat="server"  ImageUrl="~/rev/assets/images/TSULOGO.png" Height="60" Width="60" />
+                                <h4 style="float:left;margin-left:30px;margin-top:20px;"> Tarlac State University</h4>
                                </span>
 
                             <div class="clearfix"></div>
@@ -90,7 +85,19 @@
                                 <asp:TextBox ID="txtFamily_Name" runat="server" CssClass="form-control" placeholder="Family Name" required></asp:TextBox>
                             </div>
                          </div>
-
+                         <div class="row form-group">
+                            <div class="col-xs-6">
+                                 <div class="input-group">
+                                      <div class="input-group-addon">Middle Name</div>
+                                      <asp:TextBox  ID="txtMiddle_Name" runat="server" CssClass="form-control" placeholder="Middle Name" required></asp:TextBox>
+                                 </div>
+                            </div>
+                          </div>
+                            <div class="row form-group">
+                            <div class="col-xs-6">
+                               <asp:TextBox style= "display:none;" ID="txtMaiden_Name" runat="server" CssClass="form-control" placeholder="Maiden Name ( married only )"></asp:TextBox>
+                            </div>
+                            </div>
                          <div class="row form-group">
                              <div class="col-sm-6">
                                  <div class="input-group">
@@ -114,14 +121,7 @@
                                 </div>
                         </div>
 
-                         <div class="row form-group">
-                            <div class="col-xs-6">
-                                <asp:TextBox  ID="txtMiddle_Name" runat="server" CssClass="form-control" placeholder="Middle Name" required></asp:TextBox>
-                            </div>
-                            <div class="col-xs-6">
-                                <asp:TextBox style= "display:none;" ID="txtMaiden_Name" runat="server" CssClass="form-control" placeholder="Maiden Name ( married only )"></asp:TextBox>
-                            </div>
-                        </div>
+                        
 
                          <div class="row form-group">
                              <div class="col-xs-12">
@@ -269,10 +269,22 @@
 
                             <div class="form-group row">
                                 <div class="col-xs-6">
-                                     <div class="input-group">
-                                        <div class="input-group-addon">Course</div>
-                                         <asp:DropDownList ID="cboCourse" runat="server" CssClass="form-control" required>
+                                    <div class="input-group">
+                                        <div class="input-group-addon">College</div>
+                                         <asp:DropDownList ID="cboCollege" runat="server" CssClass="form-control" ClientIDMode="Static">
+                                             <asp:ListItem Text="College 1" />
                                         </asp:DropDownList>
+                                    </div>
+                                     
+                                </div>
+                                <div class="col-xs-6">
+                                    <div class="input-group">
+                                        <div class="input-group-addon">Course</div>
+
+                                            <asp:DropDownList ID="cboCourse" runat="server" CssClass="form-control">
+
+                                            </asp:DropDownList>
+                                      
                                     </div>
                                 </div>
                             </div>
@@ -301,7 +313,18 @@
                             </div>
 
                             <div class="alumni-status-opt traversable-stat">
+                                <div class="row">
+                                    <div class="col-xs-6">
+                                        <div class="input-group">
+                                            <div class="input-group-addon">Year Graduated</div>
+                                            <asp:DropDownList ID="cboYearGraduated" runat="server" CssClass="form-control">
+                                                <asp:ListItem Text="1990" />
+                                            </asp:DropDownList>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="row  form-group" id="alumni_div">
+
                                     <div class="col-xs-12">
                                         <h3>Employment Status</h3>
                                         <label>Are you currently employed?</label>
@@ -466,6 +489,7 @@
 
                             <div class="row form-group createShow" style="display:none;">
                                 <div class="col-sm-4">
+                                    <asp:HyperLink ID="creatBtn1" runat="server">HyperLink</asp:HyperLink>
                                     <asp:Button ID="creatBtn" runat="server" Text="Create Account" CssClass="btn btn-success" />
                                 </div>
                             </div>
@@ -486,5 +510,59 @@
     <script type="text/javascript" src="./js/jquery.js"></script>
     <script type="text/javascript" src="./js/bootstrap.min.js"></script>
     <script type="text/javascript" src="./js/dom-control.js"></script>
+    <script>
+        $(document).ready(function () {
+
+            $("#creatBtn").click(function (e) {
+
+                e.preventDefault();
+                var studNumber = $("#txtStudent_Number").val();
+                $.ajax({
+                    
+                    type: "post",
+                    url: "Default.aspx/pushToserver",
+                    data: "{'studeNumber':'" + studNumber + "'}",
+                    dataType: "json",
+                    processData: false,
+                    traditional: true,
+                    contentType: "application/json; charset=utf-8",
+                    success: function (r) {
+                        alert(r.d);
+                        console.log(r.d);
+                    }
+
+                });
+
+            });
+
+            $("#cboCollege").change(function () {
+                $("#cboCourse").empty();
+                var fk = $("#cboCollege option:selected").val();
+                $.ajax({
+                    type: "post",
+                    url: "Default.aspx/fetchCourseByIdfk",
+                    data: "{'collegeFk':'" + fk + "'}",
+                    dataType: "json",
+                    processData: false,
+                    traditional: true,
+                    contentType: "application/json; charset=utf-8",
+                    success: function (response) {
+                        data = response.d;
+                        data = jQuery.parseJSON(data);
+                        $.each(data, function (i, o) {
+                          
+                          
+                            $("#cboCourse").append(
+                                "<option>" + o.description  + " </option>"
+                                );
+                        });
+                        console.log(response.d);
+                    }
+
+                });
+                
+            });
+        });
+    </script>
 </body>
 </html>

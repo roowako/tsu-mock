@@ -12,7 +12,7 @@
     <link href="./css/sidebar-theme.css" rel="stylesheet" />
     <link href="./css/normalize.css" rel="stylesheet" />
 </head>
-<body>
+<body onload="pullFromServer()">
     <form id="form1" runat="server">
         <div class="container-fluid">
             <nav class="navbar navbar-inverse navbar-fixed-top default-theme shadowed"> 
@@ -147,9 +147,17 @@
                                   <h5 >&nbsp; Active Polls</h5>
                                   <div class="row">
                                       <div class="col-xs-12 highlighted-div ">
-                                          <div class="form-group">
-                                              
-                                          </div>
+                                          <div class="table-responsive">
+                                                <table class="table table-hover">
+                                                    <tr>
+                                                       <td><span class="glyphicon glyphicon-th-list"></span></td>  
+                                                        <td>Poll Title</td>
+                                                        <td>Status</td>
+                                                        <td></td>
+                                                    </tr>
+                                                    
+                                                </table>
+                                            </div>
                                       </div>
                                   
                                   </div>
@@ -160,6 +168,34 @@
             </div>
         </div>
     </form>
+
+    //Modal form
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+          </div>
+          <div class="modal-body">
+              <h4>Poll Question</h4>
+              <p id="questionPlaceholder"></p>
+           
+              <br />
+              <h4>Poll Options</h4>
+              <ul id="placeholderOptions">
+                 
+              </ul>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+
+
     <script type="text/javascript" src="./js/jquery.js"></script>
     <script type="text/javascript" src="./js/bootstrap.min.js"></script>
     <script type="text/javascript" src="./js/custom.js"></script>
@@ -167,6 +203,79 @@
     <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
     <script type="text/javascript" src="http://ajax.cdnjs.com/ajax/libs/json2/20110223/json2.js"></script>
     <script type="text/javascript">
+
+       
+
+        function pullFromServer() {
+
+            $.ajax({
+                type: "post",
+                url: "./poll-generator-ui.aspx/pullFromServer",
+                dataType:"json",
+                contentType: "application/json; charset=utf-8",
+              
+            
+                success: function (r) {
+                    //Response from server side 
+                    data = r.d
+                    console.log(r)
+                    data = jQuery.parseJSON(data);
+                    $.each(data, function (i, object) {
+
+                        
+                        object.status = "active";
+                        $(".table").append(
+                            "<tr>" +
+                            "<td>  " + object.polls_idpk  +" </td>" +
+                            "<td>  " + object.description + " </td>" +
+                            "<td>  " + object.status + " </td>" +
+                            "<td>   " + "<a class='btn btn-success btn-sm theatre' id='" + object.polls_idpk + "' data-poll-title='" + object.description + "' data-poll-question='" + object.question + "' data-poll-id='" + object.polls_idpk + "' data-toggle='modal' data-target='#myModal'>View Details </a>" + " </td>" +
+                            "</tr>"
+                            );
+                        
+                    });
+
+                    $(".theatre").click(function () {
+                        $("#placeholderOptions").html("");
+                        $("#questionPlaceholder").text($(this).data("poll-question"));
+                        $("#myModalLabel").text($(this).data("poll-title"));
+                        pollsPK = $(this).data("poll-id");
+
+
+                        $.ajax({
+                            type: "post",
+                            url: "./poll-generator-ui.aspx/pullPollOptions",
+                            data: "{'optFk' :'" + pollsPK + "' }",
+                            dataType: "json",
+                            processData: false,
+                            traditional: true,
+                            contentType: "application/json; charset=utf-8",
+                            success: function (dataOpt) {
+                                
+                                optionsArr = dataOpt.d;
+                                optionsArr = jQuery.parseJSON(optionsArr);
+                               
+                                $.each(optionsArr, function (i, pollOpt) {
+                                        
+                                    var replaced = pollOpt.option_description.replace("-", ",");
+                                       $("#placeholderOptions").append(
+                                        "<li> " + replaced + " </li>"
+                                        );
+                                   
+                                });
+                                
+                                
+                                console.log(dataOpt.d);
+                            }
+                        });
+                        
+                    });
+
+                }
+            });
+        }
+
+       
         function pushToServer() {
             //Function for passing Poll Generator inputs to the server
             
@@ -211,7 +320,7 @@
                         $('#btAdd').removeAttr('disabled');
                         $('#btAdd').attr('class', 'bt');
                         console.log(response.d);
-
+                        
                     }
                 });
             }
@@ -219,6 +328,9 @@
            
         }
       
+
+      
+
         var iCnt = 0;
 
         var container = $(document.createElement('div')).attr('class', 'col-sm-12');//Div container for dynamic textboxes

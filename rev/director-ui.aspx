@@ -26,7 +26,7 @@
                     </button>
                     <a class="navbar-brand extended-brand " href="./director-ui.aspx">
                         <span class="">
-                            <asp:Image ID="Image1" runat="server" ImageUrl="~/assets/images/TSULOGO.png" Height="55" Width="55" CssClass="img-float-nav" />
+                            <asp:Image ID="Image1" runat="server" ImageUrl="~/rev/assets/images/TSULOGO.png" Height="55" Width="55" CssClass="img-float-nav" />
                             <h3>&nbsp;&nbsp;&nbsp;Dashboard</h3>
                              <span class="clearfix"></span>
                         </span>
@@ -74,33 +74,9 @@
                         <div class="row placeholders " >
                             <br />
                             <!-- start main-content -->
-                            <div class="col-xs-6 col-sm-6 placeholder ">
+                            <div class="col-xs-6 col-sm-6 placeholder announcementHolder">
                               
-                               <div class="row">
-                                  <div class="col-xs-12 border-enabled">
-                                      <h4 class="header-padded">Alumni Director</h4>
-                                      <div class=" row">
-                                          <div class="theme-color col-xs-3 highlighted-div">
-                                              <p>Something else</p> 
-
-                                          </div>
-                                      </div>
-                                       
-                                  </div>
-                               </div>
-                               <br />
-                              <div class="row">
-                                  <div class="col-xs-12 border-enabled">
-                                      <h4 class="header-padded">College Coordinator</h4>
-                                      <div class=" row">
-                                          <div class="theme-color col-xs-3 highlighted-div">
-                                              <p>Something else</p> 
-
-                                          </div>
-                                      </div>
-                                       
-                                  </div>
-                               </div>
+                              
                               
                             </div>
                             <!-- end main-content -->
@@ -132,5 +108,72 @@
             </div>
         </div>
     </form>
+    <script type="text/javascript" src="./js/jquery.js"></script>
+    <script type="text/javascript" src="./js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="./js/custom.js"></script>
+    <script type="text/javascript" src="./js/dom-control.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
+    <script>
+        $(document).ready(function () {
+           
+            $.ajax({
+                type: "post",
+                url: "director-ui.aspx/pullAnnouncement",
+                dataType: "json",
+                processData: false,
+                traditional: true,
+                contentType: "application/json; charset=utf-8",
+                success: function (announceReturn) {
+                    if (announceReturn.d == "[]") {
+                        $(".announcementHolder").append("<p> No available announcement as of the moment. </p>");
+                    }else{
+                    data = announceReturn.d
+                    data = jQuery.parseJSON(data)
+                    $.each(data, function (i, object) {
+
+                        $(".announcementHolder").append(
+                            
+                            "<div class='row'>" +
+                                "<div class='col-xs-12 border-enabled'>" +
+                                    "<h4 class='header-padded'>" + object.account_idfk +" </h4>" +
+                                    "<div class='row'>" +
+                                        "<div class='theme-color col-xs-3 highlighted-div'>" +
+                                            "<p> " + object.description + "   </p>" +
+                                            "<input type='button' '  id='btnAuth' value='Authorize' class='btn btn-default' />" +
+                                        "</div>" +
+                                   
+                                    "</div> " +
+                                "</div>" +
+                            "</div>" +
+                            
+                            "<br />"
+                            );
+                    });
+                    }
+                }
+
+            });
+
+            $("#btnPostAnnouncementCoor").click(function (e) {
+                e.preventDefault();
+                var announcement = $("#txtPostAnnouncementCoor").val();
+                console.log(announcement);
+
+                $.ajax({
+                    type: "post",
+                    url: "director-ui.aspx/pushAnnouncement",
+                    data: "{'myAnnouncement':'"+ announcement +"'}",
+                    dataType: "json",
+                    processData: false,
+                    traditional: true,
+                    contentType: "application/json; charset=utf-8",
+                    success: function (announceReturn) {
+                        $("#txtPostAnnouncementCoor").val("");
+                        console.log(announceReturn);
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html>

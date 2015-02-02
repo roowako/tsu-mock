@@ -3,7 +3,7 @@
 
 .default-theme{background:maroon;}
 .shadowed{ box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.5) !important;border-top:4px solid #FFC40D !important;}
-.extended-brand{background:transparent;width:230px;height:83px;}
+.extended-brand{background:transparent;width:300px;height:83px;}
  .img-float-nav{ float:left;  }
  .clearfix{clear:both;}
  .extended-brand > h3{float:right;}

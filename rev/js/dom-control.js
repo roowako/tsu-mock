@@ -149,6 +149,7 @@
         $(".alumni-status-opt").hide();
         $(".password-show").show();
         $(".createShow").show();
+        $(".ep-yes").hide();
     });
 
 
