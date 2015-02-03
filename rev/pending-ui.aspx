@@ -12,7 +12,7 @@
     <link href="./css/sidebar-theme.css" rel="stylesheet" />
     <link href="./css/normalize.css" rel="stylesheet" />
 </head>
-<body>
+<body onload="pullFromServer()">
     <form id="form1" runat="server">
         <div class="container-fluid">
             <nav class="navbar navbar-inverse navbar-fixed-top default-theme shadowed"> 
@@ -81,33 +81,20 @@
                                 <div class="row">
                                     <div class="col-xs-12">
                                         <div class="table-responsive" style="border-top:0px !important;">
-                                            <table class="table table-hover" style="border-top:0px !important;" >
+                                            <table class="table table-hover" style="border-top:0px !important;" id="surveyPlaceholder" >
                                                 <thead>
                                                 <tr>
                                                     <td><span class="glyphicon glyphicon-th-list"></span></td>
                                                     <td>Survey Title</td>
-                                                    <td>Coordinator's Name</td>
+                                                
                                                     <td>Current Status</td>
                                                     <td>View Survey Details</td>
                                                     <td></td>
                                                 </tr>
                                                 </thead>
                                                 <tbody>
-                                                <tr>
-                                                    <td>1</td>
-                                                    <td>Survey 1</td>
-                                                    <td>College 1</td>
-                                                    <td>Pending</td>
-                                                    <td>
-                                                        <input type="button" name="name" value="View details " class="btn btn-primary btn-sm" />
-
-                                                    </td>
-                                                    <td>
-                                                        <input type="button" name="name" value="Decline " class="btn btn-warning btn-sm"/>
-                                                        <input type="button" name="name" value="Confirm " class="btn btn-success btn-sm"/>
-                                                    </td>
-                                                </tr> 
-                                                 </tbody>          
+                                                
+                                                </tbody>          
                                             </table>
                                         </div>
                                     </div>
@@ -139,5 +126,112 @@
 
         </div>
     </form>
+    //ModalForm
+     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+          </div>
+          <div class="modal-body">
+              <ul id="placeholderOptions">
+                 
+              </ul>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    <script type="text/javascript" src="./js/jquery.js"></script>
+    <script type="text/javascript" src="./js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="./js/custom.js"></script>
+    <script type="text/javascript" src="./js/dom-control.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="http://ajax.cdnjs.com/ajax/libs/json2/20110223/json2.js"></script>
+    <script>
+     
+
+            function pullFromServer() {
+
+                $.ajax({
+                    type: "post",
+                    url: "./pending-ui.aspx/pullFromServer",
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+
+
+                    success: function (r) {
+                        //Response from server side 
+                        data = r.d
+                        console.log(r)
+                        data = jQuery.parseJSON(data);
+                        $.each(data, function (i, object) {
+                            $.ajax({
+
+                            });
+                            if (object.status == 1) {
+                                var stringify = "Active";
+                            } else {
+                                stringify = "Pending";
+                            }
+                            object.status = "active";
+                            $("#surveyPlaceholder tbody").append(
+                                "<tr>" +
+                                "<td>  " + object.survey_idpk + " </td>" +
+                                "<td>  " + object.description + " </td>" +
+                                "<td>  " + stringify + " </td>" +
+                                "<td>   " + "<a class='btn btn-primary btn-sm theatre' id='" + object.survey_idpk + "' data-poll-title='" + object.description + "'  data-survey-id='" + object.survey_idpk + "'  data-toggle='modal' data-target='#myModal'>View Details </a>" + " </td>" +
+                                "<td> " + "<a class='btn btn-success btn-sm'>Approve </a> " + "<a class='btn btn-warning btn-sm'>Reject</a> </td>" +
+                               "</tr>"
+                                );
+
+                        });
+
+                        $(".theatre").click(function () {
+                            $("#placeholderOptions").html("");
+                            $("#questionPlaceholder").text($(this).data("poll-question"));
+                            $("#myModalLabel").text($(this).data("poll-title"));
+                            pollsPK = $(this).data("survey-id");
+                          
+                            alert(pollsPK);
+                            $.ajax({
+                                type: "post",
+                                url: "./pending-ui.aspx/pullSurveyDetails",
+                                data: "{'optFk' :'" + pollsPK + "' }",
+                                dataType: "json",
+                                processData: false,
+                                traditional: true,
+                                contentType: "application/json; charset=utf-8",
+                                success: function (dataOpt) {
+
+                                    optionsArr = dataOpt.d;
+                                    optionsArr = jQuery.parseJSON(optionsArr);
+                                    
+                                    $.each(optionsArr, function (i, pollOpt) {
+
+                                     
+                                        $("#placeholderOptions").append(
+                                        "<li> "+ pollOpt.survey_question +" </li>"+
+                                       "<li> "+ pollOpt.survey_option +" </li>"
+                                         );
+
+                                    });
+
+
+                                    console.log(dataOpt.d);
+                                }
+                            });
+
+                        });
+
+                    }
+                });
+            }
+    
+    </script>
 </body>
 </html>

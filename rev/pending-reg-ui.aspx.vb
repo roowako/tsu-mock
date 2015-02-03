@@ -115,7 +115,39 @@ Partial Class rev_pending_reg_ui
         End Using
 
     End Function
+    <System.Web.Services.WebMethod()> _
+   <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
+    Public Shared Function rejectAccount(ByVal accIdTobeRejected As String) As String
+        'Function named PushToDatabase 
+        'Includes delimitation of user input
+        'Opening and Closing Connection to the database
+        'Adding datas to database
 
+
+        Using sqlCon As New SqlConnection(constr)
+
+            sqlCon.Open()
+            Using dat = New SqlDataAdapter("UPDATE tblAccounts SET account_status = 3 WHERE account_idpk = '" & accIdTobeRejected & "' ", sqlCon)
+
+                Dim table2 = New DataTable()
+                dat.Fill(table2)
+
+
+                Dim accIdPK As String = GetJson2(table2)
+                Return accIdTobeRejected
+            End Using
+
+
+
+
+            sqlCon.Close()
+
+            'Returning Message : Fail or Successful
+
+
+        End Using
+
+    End Function
     <System.Web.Services.WebMethod()> _
    <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
     Public Shared Function fetchAccountInfo(ByVal accId As String) As String

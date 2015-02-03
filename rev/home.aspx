@@ -176,5 +176,25 @@
 
         </div>
     </form>
+    <script type="text/javascript" src="./js/jquery.js"></script>
+    <script type="text/javascript" src="./js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="./js/custom.js"></script>
+    <script type="text/javascript" src="./js/dom-control.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="http://ajax.cdnjs.com/ajax/libs/json2/20110223/json2.js"></script>
+    <script>
+        $(document).ready(function () {
+            $.ajax({
+                type: "post",
+                url: "home.aspx/pullPoll",
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                success: function (pollResponse) {
+
+
+                }
+            });
+        });
+    </script>
 </body>
 </html>

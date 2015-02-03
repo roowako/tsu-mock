@@ -148,7 +148,10 @@
                     <td>Marital Status</td>
                     <td>Gender</td>
                 </tr>
-                </thead>                                  
+                </thead>       
+                <tbody>
+
+                </tbody>                           
             </table>
         </div>
       </div>
@@ -187,16 +190,17 @@
                                 "<td> " + o.given_name + "  " + o.middle_name + " " + o.family_name + " </td>" +
                                 "<td> College of Engineering </td>" +
                                 "<td> Somewhere down the road </td>" +
-                                "<td> <a class='btn btn-primary btn-sm' id='viewAccountInfo' data-acc-id='" + o.account_idpk + "' data-toggle='modal' data-target='.bs-example-modal-lg'>Vew info</a> </td>" +
-                                "<td>  <a class='btn btn-success btn-sm btnApproveAccount' id='btnApproveAccount' data-acc-id='"+ o.account_idpk +"'>Approve</a> <a class='btn btn-warning btn-sm' id='btnRejectAccount'>Reject</a></td>" +
+                                "<td> <a class='btn btn-primary btn-sm viewAccountInfo' id='viewAccountInfo' data-account-id='" + o.account_idpk + "' data-toggle='modal' data-target='.bs-example-modal-lg'>Vew info</a> </td>" +
+                                "<td>  <a class='btn btn-success btn-sm btnApproveAccount' id='btnApproveAccount' data-acc-id='"+ o.account_idpk +"'>Approve</a> <a class='btn btn-warning btn-sm' id='btnRejectAccount' data-acc-id='"+ o.account_idpk +"'>Reject</a></td>" +
                                
                             "</tr>"
                             );
                     });
 
-                    $("#viewAccountInfo").click(function () {
-                        $("#accountInfoPlaceholder tbody").html("");
-                        var accId = $(this).data("acc-id");
+                    $(".viewAccountInfo").click(function () {
+                      
+                        accId = $(this).data("account-id");
+                        $("#accountInfoPlaceholder tbody ").html("");
                         $.ajax({
                             type: "post",
                             url: "pending-reg-ui.aspx/fetchAccountInfo",
@@ -211,8 +215,8 @@
                                 $.each(response, function (i, o) {
                                     console.log(o.account_idpk);
                                     $("#myModalLabel").text(o.given_name + "  " + o.middle_name + " " + o.family_name);
-                                    $("#accountInfoPlaceholder").append(
-                                        "<tbody>"+
+                                    $("#accountInfoPlaceholder tbody").append(
+                                    
                                             "<tr>" +
                                                 "<td> " + o.account_idpk + " </td>" +
                                                 "<td> " + o.address + " </td>" +
@@ -223,9 +227,9 @@
                                                 "<td> " + o.religion + " </td>" +
                                                 "<td> " + o.marital_status + " </td>" +
                                                 "<td> " + o.gender + " </td>" +
-                                            "</tr>" +
+                                            "</tr>" 
 
-                                        "</tbody>"
+                                      
                                         );
                                 });
                             }
@@ -252,7 +256,23 @@
                     });
 
                     $("#btnRejectAccount").click(function () {
-                        alert("bn");
+                        var accId = $(this).data("acc-id");
+                        console.log(accId);
+                        $.ajax({
+                            type: "post",
+                            url: "pending-reg-ui.aspx/rejectAccount",
+                            data: "{'accIdTobeRejected':'" + accId + "'}",
+                            dataType: "json",
+                            processData: false,
+                            traditional: true,
+                            contentType: "application/json; charset=utf-8",
+                            success: function (approvalResponse) {
+
+                                alert("Account Rejected");
+                               
+
+                            }
+                        });
                     });
 
                 }
