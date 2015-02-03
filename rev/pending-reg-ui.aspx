@@ -124,6 +124,41 @@
             <!-- End content here -->
         </div>
     </form>
+      //Modal form
+   
+<div class="modal fade bs-example-modal-lg  fullNamePlaceholder" tabindex="-1" role="dialog" aria-labelledby="ddd" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+      </div>
+        <div class="modal-body">
+         <div class="table-responsive">
+            <table class="table table-hover" id="accountInfoPlaceholder">
+                <thead>
+                <tr>
+                    <td><span class="glyphicon glyphicon-th-list"></span></td>  
+                    <td>Adress</td>
+                    <td>Contact Number</td>
+                    <td>E-mail Address</td>
+                    <td>Birthday</td>
+                    <td>Citizenship</td>
+                    <td>Religion</td>
+                    <td>Marital Status</td>
+                    <td>Gender</td>
+                </tr>
+                </thead>                                  
+            </table>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+        
+      </div>
+    </div>
+  </div>
+</div>
     <script type="text/javascript" src="./js/jquery.js"></script>
     <script type="text/javascript" src="./js/bootstrap.min.js"></script>
     <script type="text/javascript" src="./js/custom.js"></script>
@@ -147,17 +182,79 @@
 
                     $.each(data, function (i,o) {
                         $("#pendingPlaceholder tbody").append(
-                            "<tr>" +
+                            "<tr id='" + o.account_idpk +"'>" +
                                 "<td> " + o.account_idpk + "  </td>" +
                                 "<td> " + o.given_name + "  " + o.middle_name + " " + o.family_name + " </td>" +
                                 "<td> College of Engineering </td>" +
                                 "<td> Somewhere down the road </td>" +
-                                "<td> <a class='btn btn-primary btn-sm'>Vew info</a> </td>" +
-                                "<td>  <a class='btn btn-success btn-sm'>Approve</a> <a class='btn btn-warning btn-sm'>Reject</a></td>" +
+                                "<td> <a class='btn btn-primary btn-sm' id='viewAccountInfo' data-acc-id='" + o.account_idpk + "' data-toggle='modal' data-target='.bs-example-modal-lg'>Vew info</a> </td>" +
+                                "<td>  <a class='btn btn-success btn-sm btnApproveAccount' id='btnApproveAccount' data-acc-id='"+ o.account_idpk +"'>Approve</a> <a class='btn btn-warning btn-sm' id='btnRejectAccount'>Reject</a></td>" +
                                
                             "</tr>"
                             );
                     });
+
+                    $("#viewAccountInfo").click(function () {
+                        $("#accountInfoPlaceholder tbody").html("");
+                        var accId = $(this).data("acc-id");
+                        $.ajax({
+                            type: "post",
+                            url: "pending-reg-ui.aspx/fetchAccountInfo",
+                            data: "{'accId':'" + accId + "'}",
+                            dataType: "json",
+                            processData: false,
+                            traditional: true,
+                            contentType: "application/json; charset=utf-8",
+                            success: function (approvalResponse) {
+                                response = approvalResponse.d;
+                                response = jQuery.parseJSON(response);
+                                $.each(response, function (i, o) {
+                                    console.log(o.account_idpk);
+                                    $("#myModalLabel").text(o.given_name + "  " + o.middle_name + " " + o.family_name);
+                                    $("#accountInfoPlaceholder").append(
+                                        "<tbody>"+
+                                            "<tr>" +
+                                                "<td> " + o.account_idpk + " </td>" +
+                                                "<td> " + o.address + " </td>" +
+                                                "<td> " + o.telephone_number + " </td>" +
+                                                "<td> " + o.email_address + " </td>" +
+                                                "<td> " + o.birthday + " </td>" +
+                                                "<td> " + o.citizenship + " </td>" +
+                                                "<td> " + o.religion + " </td>" +
+                                                "<td> " + o.marital_status + " </td>" +
+                                                "<td> " + o.gender + " </td>" +
+                                            "</tr>" +
+
+                                        "</tbody>"
+                                        );
+                                });
+                            }
+                        });
+                    });
+                    $(".btnApproveAccount").click(function () {
+                        var accId = $(this).data("acc-id");
+                        console.log(accId);
+                        $.ajax({
+                            type: "post",
+                            url: "pending-reg-ui.aspx/approveAccount",
+                            data: "{'accId':'"+ accId +"'}",
+                            dataType: "json",
+                            processData: false,
+                            traditional: true,
+                            contentType: "application/json; charset=utf-8",
+                            success: function (approvalResponse) {
+                             
+                                alert("Account Approved");
+                                console.log(o.account_idpk);
+                              
+                            }
+                        });
+                    });
+
+                    $("#btnRejectAccount").click(function () {
+                        alert("bn");
+                    });
+
                 }
 
             });
