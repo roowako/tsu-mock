@@ -87,15 +87,8 @@
                                                     <asp:TextBox ID="txtPollTitle" runat="server" placeholder="Poll Title" CssClass="form-control" ClientIDMode="Static"></asp:TextBox>
                                                     <br />
                                                     <asp:TextBox ID="txtPollQuestionArea" runat="server" TextMode="MultiLine" CssClass="form-control" ClientIDMode="Static"></asp:TextBox>
-                                                    <br />
-                                                    <br />
-                                                    <label class="text-theme">Select where to post</label>
-                                                    <asp:DropDownList ID="select_to_post_coor" runat="server" CssClass="form-control" ClientIDMode="Static">
-                                                        <asp:ListItem Text="" Value="none"/>
-                                                        <asp:ListItem Text="College" Value="college-selected"/>
-                                                        <asp:ListItem Text="Course" Value="course-selected"/>
-                                                    </asp:DropDownList>
-                                                    <div class="form-group course-wrap-selector"></div> 
+                                                   
+                                                  
                                                 </div>
                                                 
                                             </div>
@@ -292,7 +285,7 @@
             });
 
 
-            if (pollTitle == "" || pollQ == "" || pollTarget == "none" || pollOptArr == "") {
+            if (pollTitle == "" || pollQ == "" ||  pollOptArr == "") {
                 //Check all fields for empty value
                 alert("All fields are required.");
 
@@ -320,7 +313,7 @@
                         $('#btAdd').removeAttr('disabled');
                         $('#btAdd').attr('class', 'bt');
                         console.log(response.d);
-                        
+                        window.location.reload(true);
                     }
                 });
             }

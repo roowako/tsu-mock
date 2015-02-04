@@ -88,7 +88,15 @@
                                                  <asp:ListItem Text="Poll Questions" Value="poll"/>
                                                  <asp:ListItem Text="Survey Questions" Value="survey" />
                                              </asp:DropDownList>
+                                            
                                          </div>
+                                     </div>
+
+                                     <div class="col-xs-3">
+                                          <asp:DropDownList ID="cboCollege" runat="server" CssClass="form-control">
+                                                 <asp:ListItem Text="All Colleges" />
+                                                 <asp:ListItem Text="College 1" />
+                                             </asp:DropDownList>
                                      </div>
                                  </div>
                                  <div class="row">
@@ -183,7 +191,8 @@
                                 "<td> </td>" +
                                 "<td> " + o.description + " </td>" +
                                 "<td> "+ o.question +"</td>"+
-                                "<td> <a class='btn btn-primary btn-sm'>View Statistics </a> </td>"+
+                                "<td> <a class='btn btn-primary btn-sm'>View Statistics </a>&nbsp; <a class='btn btn-warning btn-sm'>Delete Poll </a></td>" +
+                                
                             "</tr>"
                             );
                     });

@@ -73,32 +73,47 @@
 
 
                     <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-                        <h3 class="page-header"><span class="glyphicon glyphicon-list-alt">&nbsp;</span>List of Alumni</h3>
+                       
+                        <div class="row">
+                            <div class="col-sm-4"> <h3 class="page-header"><span class="glyphicon glyphicon-list-alt">&nbsp;</span>List of Alumni</h3></div>
+                            <div class="col-sm-1"></div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <div class="input-group-addon">Search alumni</div>
+                                         <input type="text" name="name" value=" "  class="form-control"/>
+                                    </div>
+                                   
+                                </div>
+                            </div>
+                        </div>
                         <div class="row placeholders " >
                             <br />
                             <!-- start main-content -->
                             <div class="col-xs-6 col-sm-9 placeholder form-group">
-                                <h5>Filter view by :</h5>
+                             
                                 <div class="row">
-                                    <div class="col-xs-4">
-                                         <asp:DropDownList ID="filterCollege" runat="server" CssClass="form-control">
+                                    <div class="col-xs-5">
+                                        <div class="input-group">
+                                            <div class="input-group-addon">View:</div>
+                                              <asp:DropDownList ID="filterCollege" runat="server" CssClass="form-control">
                                             <asp:ListItem Text="College 1" />
                                              <asp:ListItem Text="College 2" />
                                              <asp:ListItem Text="College 3" />
                                         </asp:DropDownList>
+                                        </div>
+                                       
                             
                                     </div>
 
-                                    <div class="col-xs-4">
+                                    <div class="col-xs-5">
                                          <asp:DropDownList ID="filterCourse" runat="server" CssClass="form-control">
-                                            <asp:ListItem Text="Course 1" />
-                                             <asp:ListItem Text="Course 2" />
-                                             <asp:ListItem Text="Course 3" />
+                                          
                                         </asp:DropDownList>
                             
                                     </div>
 
-                                    <div class="col-xs-4">
+                                    <div class="col-xs-2">
                                          <asp:DropDownList ID="filterYear" runat="server" CssClass="form-control">
                                            <asp:ListItem Text="1970" />
                                             <asp:ListItem Text="1971" />
@@ -135,8 +150,32 @@
                                     </div>
                                 </div>
                                
-                              
-                              
+                                <br />
+                                    <div class="table-responsive">
+                                        <table class="table table-hover">
+                                            <thead>
+
+                                           
+                                            <tr>
+                                                <td><span class="glyphicon glyphicon-th-list"></span></td>  
+                                                <td>Fullname</td>
+                                                <td>College</td>
+                                                <td>Course</td>
+                                                <td>Year Graduated</td>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                             <tr>
+                                                 <td></td>
+                                                 <td>Karlo Armamento</td>
+                                                 <td>CCS</td>
+                                                 <td>IT</td>
+                                                 <td>2000</td>
+                                                 <td><a href="" class="btn btn-primary btn-sm">View info</a></td>
+                                             </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
                             </div>
                             <!-- end main-content -->
 
@@ -157,5 +196,43 @@
 
         </div>
     </form>
+
+    <script type="text/javascript" src="./js/jquery.js"></script>
+    <script type="text/javascript" src="./js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="./js/dom-control.js"></script>
+    <script>
+        $(document).ready(function () {
+
+            $("#filterCollege").change(function () {
+                $("#filterCourse").empty();
+                var fk = $("#filterCollege option:selected").val();
+                $.ajax({
+                    type: "post",
+                    url: "Default.aspx/fetchCourseByIdfk",
+                    data: "{'collegeFk':'" + fk + "'}",
+                    dataType: "json",
+                    processData: false,
+                    traditional: true,
+                    contentType: "application/json; charset=utf-8",
+                    success: function (response) {
+                        data = response.d;
+                        data = jQuery.parseJSON(data);
+                        $.each(data, function (i, o) {
+
+
+                            $("#filterCourse").append(
+                                "<option>" + o.description + " </option>"
+                                );
+                        });
+                        console.log(response.d);
+                    }
+
+                });
+
+            });
+        });
+
+
+    </script>
 </body>
 </html>

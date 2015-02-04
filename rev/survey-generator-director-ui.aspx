@@ -89,12 +89,7 @@
                                                     <br />
                                                     <br />
                                                     <label class="text-theme">Select where to post</label>
-                                                    <asp:DropDownList ID="select_to_post_coor" runat="server" CssClass="form-control" ClientIDMode="Static">
-                                                        <asp:ListItem Text="" Value="none"/>
-                                                        <asp:ListItem Text="College" Value="college-selected"/>
-                                                        <asp:ListItem Text="Course" Value="course-selected"/>
-                                                    </asp:DropDownList>
-                                                    <div class="form-group course-wrap-selector"></div> 
+                                                    
                                                 </div>
                                                 
                                             </div>

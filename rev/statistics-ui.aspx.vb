@@ -73,4 +73,34 @@ Partial Class statistics_ui
         End Using
 
     End Function
+
+   
+
+    Protected Sub Page_Load(sender As Object, e As EventArgs) Handles Me.Load
+        If Not IsPostBack Then
+            fetch_college()
+
+            'DISREGARD PAGE LOAD FUNCTION ON POSTBACK
+        Else
+
+        End If
+    End Sub
+
+    Sub fetch_college()
+        cboCollege.Items.Clear()
+        cboCollege.Items.Add("All colleges")
+
+        Using sqlcon As New SqlConnection(constr)
+            sqlcon.Open()
+
+            cmd = New SqlCommand("SELECT description from tblColleges", sqlcon)
+            dr = cmd.ExecuteReader
+
+            Do While dr.Read
+                cboCollege.Items.Add(dr.GetString(0))
+            Loop
+
+            sqlcon.Close()
+        End Using
+    End Sub
 End Class
