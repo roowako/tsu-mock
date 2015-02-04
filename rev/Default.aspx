@@ -296,9 +296,9 @@
                                     <div class="input-group">
                                         <div class="input-group-addon">Your current status</div>
                                         <div class="form-control">
-                                            <asp:RadioButton ID="grad" runat="server" Text="Graduating" GroupName="userStat" ClientIDMode="Static" />
+                                            <asp:RadioButton ID="grad" runat="server" Text="Graduating" GroupName="userStat" ClientIDMode="Static " CssClass="student_status"/>
                                             &nbsp;
-                                            <asp:RadioButton ID="alumni" runat="server" Text="Alumni" GroupName="userStat" ClientIDMode="Static" />
+                                            <asp:RadioButton ID="alumni" runat="server" Text="Alumni" GroupName="userStat" ClientIDMode="Static " CssClass="student_status"/>
                                         </div>
                                     </div>
                                 </div>
@@ -328,8 +328,8 @@
                                     <div class="col-xs-12">
                                         <h3>Employment Status</h3>
                                         <label>Are you currently employed?</label>
-                                        <asp:RadioButton ID="employed_yes" runat="server" Text="Yes" GroupName="ep_q" ClientIDMode="Static" />
-                                        &nbsp;<asp:RadioButton ID="employed_no" runat="server" Text="No" GroupName="ep_q" ClientIDMode="Static" />
+                                        <asp:RadioButton ID="employed_yes" runat="server" Text="Yes" GroupName="ep_q" ClientIDMode="Static" CssClass="emp_status"/>
+                                        &nbsp;<asp:RadioButton ID="employed_no" runat="server" Text="No" GroupName="ep_q" ClientIDMode="Static" CssClass="emp_status"/>
                                     </div>
                                 </div>
                                 <div class="row form-group ep-no" style="display:none;">
@@ -349,7 +349,7 @@
                                     <div class="col-xs-12">
                                         <label>1. How long did it take to find your First employment? </label>
                                         <br /><br />
-                                        <asp:RadioButtonList ID="first_emp" runat="server">
+                                        <asp:RadioButtonList ID="first_emp" runat="server" ClientIDMode="Static">
                                             <asp:ListItem Text="1 to 3 months " />
                                             <asp:ListItem Text="4 to 6 months" />
                                             <asp:ListItem Text="7 months to 1 year" />
@@ -398,9 +398,9 @@
                                 <div class="col-xs-12">
                                     <label>5. Nature of Appointment: </label>
                                     <br /><br />
-                                    <asp:RadioButton CssClass="nat_app" ID="RadioButton1" runat="server" Text="Regular" GroupName="nature_app" />
-                                    <asp:RadioButton CssClass="nat_app" ID="RadioButton2" runat="server" Text="Probation" GroupName="nature_app" />
-                                    <asp:RadioButton ID="self_emp_opt" runat="server" Text="Self-employed" GroupName="nature_app" />
+                                    <asp:RadioButton CssClass="nat_app" ID="nat_app_reg" runat="server" Text="Regular" GroupName="nature_app" />
+                                    <asp:RadioButton CssClass="nat_app" ID="nat_app_prob" runat="server" Text="Probation" GroupName="nature_app" />
+                                    <asp:RadioButton CssClass="nat_app" ID="self_emp_opt" runat="server" Text="Self-employed" GroupName="nature_app" />
                                 </div>
                             </div>
                             <div class="row form-group" id="self-employed-opt" style="display:none;">
@@ -512,16 +512,122 @@
     <script type="text/javascript" src="./js/dom-control.js"></script>
     <script>
         $(document).ready(function () {
+            var q1;
+            var q2;
+            var q3;
+            var q4;
+            var q5;
+            var self_employed_stats;
+            var q6;
+            var q7;
 
+            var student_status;
+            var emp_status;
+            var unemp_status;
+            var higher_education;
+            var highest_education;
+
+            $(".student_status").click(function () {
+                student_status = $(".student_status :checked").val();
+            });
+
+            $(".emp_status").click(function () {
+                emp_status = $(".emp_status :checked").val();
+            });
+
+            $("#emp_status_no").each(function () {
+                $(this).click(function () {
+                    unemp_status = $("#emp_status_no :checked").val();
+                });
+            });
+
+  
+            $("#first_emp").each(function () {
+                $(this).click(function () {
+                   q1 = $("#first_emp :checked").val();
+                });
+            });
+
+            $("#field_relation").each(function () {
+                $(this).click(function () {
+                    q2 = $("#field_relation :checked").val();
+                });
+            });
+            
+            $("#employment_location").each(function () {
+                $(this).click(function () {
+                    q3 = $("#employment_location :checked").val();
+                });
+            });
+
+            $("#company_classification").each(function () {
+                $(this).click(function () {
+                    q4 = $("#company_classification :checked").val();
+                });
+            });
+
+            $(".nat_app").click(function () {
+                q5 = $(".nat_app :checked").val();
+            });
+
+            $("#RadioButtonList1").each(function () {
+                $(this).click(function () {
+                    self_employed_stats = $("#RadioButtonList1 :checked").val();
+                });
+            });
+
+            $("#pres_pos").each(function () {
+                $(this).click(function () {
+                    q6 = $("#pres_pos :checked").val();
+                });
+            });
+
+            $("#work_duration").each(function () {
+                $(this).click(function () {
+                    q7 = $("#work_duration :checked").val();
+                });
+            });
+
+            $(".fu-opt").click(function () {
+                higher_education = $(".fu-opt :checked").val();
+            });
+
+            $("#highest_educ_attainment").each(function () {
+                $(this).click(function () {
+                    highest_education = $("#highest_educ_attainment :checked").val();
+                });
+            });
+
+
+           
             $("#creatBtn").click(function (e) {
-
                 e.preventDefault();
+                var course_desc = $("#cboCourse").val();
                 var studNumber = $("#txtStudent_Number").val();
+                var password = $("#txtAccountPassword").val();
+                var family_name = $("#txtFamily_Name").val();
+                var given_name = $("#txtGiven_Name").val();
+                var middle_name = $("#txtMiddle_Name").val();
+                var maiden_name = $("#txtMaiden_Name").val();
+                var address = $("#txtAddress").val();
+                var mobile_number = $("#txtMobile_Number").val();
+                var email_address = $("#txtEmail").val();
+                var bday_month = $("#cboMonth").val();
+                var bday_day = $("#cboDay").val();
+                var bday_year = $("#cboYear").val();
+                var citizenship = $("#txtCitizenship").val();
+                var religion = $("#txtReligion").val();
+                var marital_status = $("#cboMarital_Status").val();
+                var gender = $("#cboGender").val();
+                var account_status = 0;
+
+                var token = $("#token").val();
+                var college = $("#cboCollege").val();
+                
                 $.ajax({
-                    
                     type: "post",
                     url: "Default.aspx/pushToserver",
-                    data: "{'studeNumber':'" + studNumber + "'}",
+                    data: "{'highest_education':'" + highest_education + "', 'higher_education':'" + higher_education + "', 'self_employed_stats':'" + self_employed_stats + "', 'q7':'" + q7 + "', 'q6':'" + q6 + "', 'q5':'" + q5 + "', 'q4':'" + q4 + "', 'q3':'" + q3 + "', 'q2':'" + q2 + "', 'q1':'" + q1 + "', 'unemp_status':'" + unemp_status + "', 'emp_status':'" + emp_status + "', 'student_status':'" + student_status + "', 'college':'" + college + "', 'token':'" + token + "', 'course_desc':'" + course_desc + "', 'studNumber':'" + studNumber + "', 'password':'" + password + "', 'family_name':'" + family_name + "', 'given_name':'" + given_name + "', 'middle_name':'" + middle_name + "', 'maiden_name':'" + maiden_name + "', 'address':'" + address + "', 'mobile_number':'" + mobile_number + "', 'email_address':'" + email_address + "', 'bday_month':'" + bday_month + "', 'bday_day':'" + bday_day + "', 'bday_year':'" + bday_year + "', 'citizenship':'" + citizenship + "', 'religion':'" + religion + "', 'marital_status':'" + marital_status + "', 'gender':'" + gender + "', 'account_status':'" + account_status + "'}",
                     dataType: "json",
                     processData: false,
                     traditional: true,
@@ -530,9 +636,7 @@
                         alert(r.d);
                         console.log(r.d);
                     }
-
                 });
-
             });
 
             $("#cboCollege").change(function () {

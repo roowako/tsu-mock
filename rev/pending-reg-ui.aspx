@@ -71,16 +71,16 @@
                    <!--#include file="./includes/sidebar-director.inc"-->
 
 
-                    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+                    <div class="col-sm-11 col-sm-offset-3 col-md-10 col-md-offset-2 main">
                         <h3 class="page-header"><span class="glyphicon glyphicon-home">&nbsp;</span>Pending Registrations</h3>
                         <div class="row placeholders " >
                             <br />
                             <!-- start main-content -->
-                            <div class="col-xs-6 col-sm-10 placeholder  ">
+                            <div class="col-xs-12 col-sm-12 placeholder  ">
                                 <div class="row">
                                     <div class="col-xs-12">
                                         <div class="table-responsive" style="border-top:0px !important;">
-                                            <table class="table table-hover" style="border-top:0px !important;" id="pendingPlaceholder">
+                                            <table class="table table-hover pagination" style="border-top:0px !important;" id="pendingPlaceholder">
                                                 <thead>
                                                 <tr>
                                                     <td><span class="glyphicon glyphicon-th-list"></span></td>
@@ -88,7 +88,8 @@
                                                     <td>Fullname</td>
                                                     <td>College</td>
                                                     <td>Course</td>
-                                                    <td></td>
+                                              
+
                                                 </tr>
                                                 </thead>
                                                 <tbody>
@@ -168,9 +169,11 @@
     <script type="text/javascript" src="./js/dom-control.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
     <script type="text/javascript" src="http://ajax.cdnjs.com/ajax/libs/json2/20110223/json2.js"></script>
+   
+
     <script type="text/javascript">
         $(document).ready(function () {
-
+         
             $.ajax({
                 type: "post",
                 url: "./pending-reg-ui.aspx/pullFromServer",
@@ -183,7 +186,9 @@
                     data = r.d;
                     data = jQuery.parseJSON(data);
 
-                    $.each(data, function (i,o) {
+                    $.each(data, function (i, o) {
+
+                      
                         $("#pendingPlaceholder tbody").append(
                             "<tr id='" + o.account_idpk +"'>" +
                                 "<td> " + o.account_idpk + "  </td>" +
@@ -214,6 +219,7 @@
                                 response = jQuery.parseJSON(response);
                                 $.each(response, function (i, o) {
                                     console.log(o.account_idpk);
+                                    
                                     $("#myModalLabel").text(o.given_name + "  " + o.middle_name + " " + o.family_name);
                                     $("#accountInfoPlaceholder tbody").append(
                                     
@@ -247,9 +253,11 @@
                             traditional: true,
                             contentType: "application/json; charset=utf-8",
                             success: function (approvalResponse) {
-                             
+                              
                                 alert("Account Approved");
+                                window.location.reload(true);
                                 console.log(o.account_idpk);
+                               
                               
                             }
                         });

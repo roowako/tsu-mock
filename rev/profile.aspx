@@ -8,54 +8,47 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="./css/bootstrap.min.css" rel="stylesheet" />
     <link href="./css/bootstrap.theme.min.css" rel="stylesheet" />
-    <link href="./css/custom.css" rel="stylesheet" />
+    <link href="./css/style.css" rel="stylesheet" />
     <link href="./css/normalize.css" rel="stylesheet" />
+    <link href="./css/sidebar-theme.css" rel="stylesheet" />
 </head>
 <body>
     <form id="form1" runat="server">
         <div class="container-fluid">
-        <nav class="navbar navbar-inverse navbar-fixed-top shadowed default-color"> 
-            <div class="container pulled-height ">
-            <div class="navbar-header ">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand extended-brand " href="./Default.aspx">
-                    <span class="pulled-left">
-                        <asp:Image ID="Image1" runat="server" ImageUrl="~/assets/images/TSULOGO.png" Height="60" Width="60" CssClass="floating-img-nav" />
-                        <h3> &nbsp;&nbsp;Tarlac State University</h3>
-                    </span>
-                    <div class="clearfix"></div>
-                </a>
+        <nav class="navbar navbar-inverse navbar-fixed-top default-theme shadowed"> 
+                <div class="container-fluid">
+                <div class="navbar-header ">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand extended-brand " href="./home.aspx">
+                        <span class="">
+                            <asp:Image ID="Image1" runat="server" ImageUrl="~/rev/assets/images/TSULOGO.png" Height="55" Width="55" CssClass="img-float-nav" />
+                            <h3>&nbsp;&nbsp;&nbsp;Dashboard</h3>
+                             <span class="clearfix"></span>
+                        </span>
+                       
+                    </a>
 
                
-            </div>
-            <div id="navbar" class="navbar-collapse collapse" > <!---collapse collapse -->
-                        
-                    <br />
-                <div class="navbar-form navbar-right">
-                    <div class="form-group">
-                        <div class="col-sm-10">
-                        <div class="input-group">
-                            <div class="input-group-addon">Search</div>
-                            <asp:TextBox ID="TextBox1" runat="server" CssClass="form-control res"></asp:TextBox>
-                        </div>
-                        </div>
-                    </div>
                 </div>
-            </div><!--/.navbar-collapse -->
-            </div>
+                <div id="navbar" class="navbar-collapse collapse" > <!---collapse collapse -->
+                  
+                    
+                    
+                </div><!--/.navbar-collapse -->
+                </div>
             </nav>-->
 
             <!--- Content Start -->
-            <div class="pulled-down  container">
+            <div class="container-fluid">
                 <div class="row ">
-                    <div class="col-xs-3  max-height">
+                    <div class="col-sm-3 col-md-2 sidebar">
                        
-                        <asp:Image ID="Image2" CssClass="radius-enabled" runat="server" ImageUrl="~/assets/images/default-dp.jpg" Height="180" Width="180" /> 
+                        <asp:Image ID="Image2" CssClass="radius-enabled" runat="server" ImageUrl="~/rev/assets/images/default-dp.jpg" Height="180" Width="180" /> 
                         <br />
                         
                         <div class="row">
@@ -72,10 +65,7 @@
                                     
                                 </div>
 
-                                 <div class="row">
-                                    <div class="col-xs-12"><h5>Name: Karlo Armamento  </h5></div>
-                                    
-                                </div>
+                               
 
                                 <div class="row">
                                     <div class="col-xs-12"><h5>Occupation: Google's Web Master </h5></div>
@@ -89,75 +79,95 @@
                         </div>
                     </div>
 
-                    <div class="col-xs-9 left-padded right-padded"  >
-                       
-                        <div class="row  bg-enabled  border-visible">
-                            <div class="col-xs-12  ">
-                                <div class="row">
-                                    <div class="col-xs-12 show-margin">
-                                        <h4>Alumni Director</h4>
-                                         <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s</p>
-                                    <div class="row">
-                                        <div class="col-xs-12 highlighted-div"></div>
-                                    </div>
-                                    </div>
-                                    
-                                </div>
-                                <div class="row">
-                                    <div class="col-xs-12 show-margin">
-                                        <h4>College Coordinator</h4>
-                                         <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s</p>
-                                        <div class="row">
-                                            <div class="col-xs-12 highlighted-div"></div>
-                                        </div>
-                                    </div>
-                                </div>
+                    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main"  >
+                       <div class="row">
+                             <div class="col-xs-4">
+                                 <h3 class="page-header"><span class="glyphicon glyphicon-user">&nbsp;</span>Actor Name</h3>
+                             </div>
+                             <div class="col-xs-4">
                                 
-                                 <div class="row">
-                                    <div class="col-xs-12 show-margin">
-                                        <h4>College Coordinator</h4>
-                                         <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s</p>
-                                        <div class="row">
-                                            <div class="col-xs-12 highlighted-div"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                                 <div class="row">
-                                    <div class="col-xs-12 show-margin">
-                                        <h4>College Coordinator</h4>
-                                         <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s</p>
-                                        <div class="row">
-                                            <div class="col-xs-12 highlighted-div"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                                 <div class="row">
-                                    <div class="col-xs-12 show-margin">
-                                        <h4>College Coordinator</h4>
-                                         <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s</p>
-                                        <div class="row">
-                                            <div class="col-xs-12 highlighted-div"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                                 <div class="row">
-                                    <div class="col-xs-12 show-margin">
-                                        <h4>College Coordinator</h4>
-                                         <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s</p>
-                                        <div class="row">
-                                            <div class="col-xs-12 highlighted-div"></div>
-                                        </div>
-                                    </div>
-                                </div>
+                             </div>
+                             <div class="col-xs-2">
+                                 
+                             </div>
+                              <div class="col-xs-2">
+                                 <ul class="right-action-buttons">
+                                   <li><a href="#"><span class="glyphicon glyphicon-cog"></span> </a></li>
+                                   <li><a href="#"><span class="glyphicon glyphicon-home"></span> </a></li>
+                                  </ul>
+                             </div>
+                         </div>
+                        <div class="row placeholders">
+                            <br />
+                         <div class="col-xs-6 col-sm-6 placeholder announcementHolder">
+                              
+                              
+                              
                             </div>
                         </div>
-
-                        
                     </div>
                     
                 </div>
             </div>
         </div>
     </form>
+    <script type="text/javascript" src="./js/jquery.js"></script>
+    <script type="text/javascript" src="./js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="./js/custom.js"></script>
+    <script type="text/javascript" src="./js/dom-control.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="http://ajax.cdnjs.com/ajax/libs/json2/20110223/json2.js"></script>
+    <script>
+        $(document).ready(function () {
+
+            $.ajax({
+                type: "post",
+                url: "director-ui.aspx/pullAnnouncement",
+                dataType: "json",
+                processData: false,
+                traditional: true,
+                contentType: "application/json; charset=utf-8",
+                success: function (announceReturn) {
+                    if (announceReturn.d == "[]") {
+                        $(".announcementHolder").append("<p> No available announcement as of the moment. </p>");
+                    } else {
+                        data = announceReturn.d
+                        data = jQuery.parseJSON(data)
+                        $.each(data, function (i, object) {
+
+                            $(".announcementHolder").append(
+
+                                "<div class='row'>" +
+                                    "<div class='col-xs-12 border-enabled'>" +
+                                        "<h4 class='header-padded'>" + object.account_idfk + " </h4>" +
+                                        "<div class='row'>" +
+                                            "<div class='theme-color col-xs-3 highlighted-div'>" +
+                                                "<p> " + object.description + "   </p>" +
+                                                "<input type='button' '  id='btnAuth' value='Authorize' class='btn btn-default' />" +
+                                            "</div>" +
+
+                                        "</div> " +
+                                    "</div>" +
+                                "</div>" +
+
+                                "<br />"
+                                );
+                        });
+                    }
+                }
+
+            });
+            $.ajax({
+                type: "post",
+                url: "home.aspx/pullPoll",
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                success: function (pollResponse) {
+
+
+                }
+            });
+        });
+    </script>
 </body>
 </html>

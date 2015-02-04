@@ -16,3 +16,5 @@
  .theme-color{color:#fff;}
  .text-theme{color:#333;}
  .golden{color:#F0AD4E;}
+ .right-action-buttons > li{display:inline-block;margin-left:10px;}
+ .bulletsNone li{list-style-type:none !important;}

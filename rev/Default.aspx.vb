@@ -19,8 +19,11 @@ Partial Class _Default
     Public Shared Property sqlStr As String
     Public Shared Property getLast As String
 
-    Dim course_id As Integer
-    Dim account_status As Integer
+    Public Shared Property student_status As String
+    Public Shared Property employement_status As String
+    Public Shared Property nature_appointment As String
+    Dim isEmployed As Boolean
+    Dim course_id As String
 
     Public Shared Function GetJson(ByVal dt As DataTable) As String
         Dim serializer As New System.Web.Script.Serialization.JavaScriptSerializer()
@@ -49,157 +52,306 @@ Partial Class _Default
         'Adding datas to database
 
         Using sqlCon As New SqlConnection(constr)
-
             sqlCon.Open()
             sqlStr = " SELECT college_idpk FROM tblColleges WHERE description = '" & collegeFk & "' "
             cmd = New SqlCommand(sqlStr, sqlCon)
             Dim getFk As Integer = CInt(cmd.ExecuteScalar())
             cmd.ExecuteNonQuery()
 
-
             Using dat = New SqlDataAdapter("SELECT description FROM tblCourses WHERE college_idfk = '" & getFk & "' ", sqlCon)
-
                 Dim table2 = New DataTable()
                 dat.Fill(table2)
-
 
                 Dim pollOptionsJsonData As String = GetJson(table2)
                 Return pollOptionsJsonData
             End Using
 
-
-
-
             sqlCon.Close()
-
-            'Returning Message : Fail or Successful
-
         End Using
 
     End Function
 
     <System.Web.Services.WebMethod()> _
     <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
-    Public Shared Function pushToserver(ByVal studeNumber As String) As String
-        'Function named PushToDatabase 
-        'Includes delimitation of user input
-        'Opening and Closing Connection to the database
-        'Adding datas to database
+    Public Shared Function pushToserver(ByVal highest_education As String, ByVal higher_education As String, ByVal self_employed_stats As String, ByVal q7 As String, ByVal q6 As String, ByVal q5 As String, ByVal q4 As String, ByVal q3 As String, ByVal q2 As String, ByVal q1 As String, ByVal unemp_status As String, ByVal emp_status As String, ByVal student_status As String, ByVal college As String, ByVal token As String, ByVal course_desc As String, ByVal studNumber As String, ByVal password As String, ByVal family_name As String, ByVal given_name As String, ByVal middle_name As String, ByVal maiden_name As String, ByVal address As String, ByVal mobile_number As String, ByVal email_address As String, ByVal bday_month As String, ByVal bday_day As String, ByVal bday_year As String, ByVal citizenship As String, ByVal religion As String, ByVal marital_status As String, ByVal gender As String, ByVal account_status As String) As String
+        Dim isGraduate As Boolean
+        Dim studentid_duplicate As Boolean
+        Dim tokenStatus As Boolean
+        Dim token_id As Integer
+        Dim college_id As Integer
+        Dim course_id As Integer
+        Dim account_id As Integer
 
+        If student_status = "grad" Then
+            'fetch college id
+            Using sqlCon As New SqlConnection(constr)
+                sqlCon.Open()
 
-        Using sqlCon As New SqlConnection(constr)
+                cmd = New SqlCommand("SELECT college_idpk FROM tblColleges WHERE description = @p1", sqlCon)
+                cmd.Parameters.AddWithValue("@p1", college)
+                dr = cmd.ExecuteReader
 
-            sqlCon.Open()
+                Do While dr.Read
+                    college_id = dr.GetValue(0)
+                Loop
 
-            sqlStr = "INSERT INTO tblTokens(token) VALUES(@id)"
+                sqlCon.Close()
+            End Using
 
-            cmd = New SqlCommand(sqlStr, sqlCon)
-            cmd.Parameters.AddWithValue("@id", studeNumber)
+            'check tokens
+            Using sqlCon As New SqlConnection(constr)
+                sqlCon.Open()
 
-            cmd.ExecuteNonQuery()
+                cmd = New SqlCommand("SELECT token_idpk FROM tblTokens WHERE college_idfk = @p1 AND description = @p2 AND status = @p3", sqlCon)
+                cmd.Parameters.AddWithValue("@p1", college_id)
+                cmd.Parameters.AddWithValue("@p2", token)
+                cmd.Parameters.AddWithValue("@p3", 0)
+                dr = cmd.ExecuteReader
 
+                If dr.HasRows Then
+                    tokenStatus = True
+                    dr.Read()
+                    token_id = dr.GetValue(0)
+                    dr.Close()
+                Else
+                    tokenStatus = False
+                End If
 
+                sqlCon.Close()
+            End Using
 
+            'get course id
+            Using sqlCon As New SqlConnection(constr)
+                sqlCon.Open()
 
+                cmd = New SqlCommand("SELECT course_idpk FROM tblCourses WHERE description=@p1", sqlCon)
+                cmd.Parameters.AddWithValue("@p1", course_desc)
+                dr = cmd.ExecuteReader
 
-            sqlCon.Close()
+                Do While dr.Read
+                    course_id = dr.GetValue(0)
+                Loop
 
-            'Returning Message : Fail or Successful
-            Return studeNumber
+                sqlCon.Close()
+            End Using
 
-        End Using
+            'check duplicate student number
+            Using sqlCon As New SqlConnection(constr)
+                sqlCon.Open()
 
+                cmd = New SqlCommand("SELECT student_id FROM tblAccounts WHERE student_id=@p1", sqlCon)
+                cmd.Parameters.AddWithValue("@p1", studNumber)
+                dr = cmd.ExecuteReader
+
+                If dr.HasRows Then
+                    studentid_duplicate = True
+                Else
+                    studentid_duplicate = False
+                End If
+
+                sqlCon.Close()
+            End Using
+
+            'CHECK IF ABLE THEN REGISTER
+            If tokenStatus = False Then
+                Return "Cannot continue, token is not valid."
+            ElseIf studentid_duplicate = True Then
+                Return "Student number already exists in the database."
+            Else
+                Using sqlCon As New SqlConnection(constr)
+                    sqlCon.Open()
+
+                    cmd = New SqlCommand("INSERT INTO tblAccounts(userlevel_idfk,course_idfk,student_id,password,family_name,given_name,middle_name,maiden_name,address,telephone_number,email_address,birthday,citizenship,religion,marital_status,gender,account_status) VALUES(@p1,@p2,@p3,@p4,@p5,@p6,@p7,@p8,@p9,@p10,@p11,@p12,@p13,@p14,@p15,@p16,@p17)", sqlCon)
+                    cmd.Parameters.AddWithValue("@p1", 1)
+                    cmd.Parameters.AddWithValue("@p2", course_id)
+                    cmd.Parameters.AddWithValue("@p3", studNumber)
+                    cmd.Parameters.AddWithValue("@p4", password)
+                    cmd.Parameters.AddWithValue("@p5", family_name)
+                    cmd.Parameters.AddWithValue("@p6", given_name)
+                    cmd.Parameters.AddWithValue("@p7", middle_name)
+                    cmd.Parameters.AddWithValue("@p8", maiden_name)
+                    cmd.Parameters.AddWithValue("@p9", address)
+                    cmd.Parameters.AddWithValue("@p10", mobile_number)
+                    cmd.Parameters.AddWithValue("@p11", email_address)
+                    cmd.Parameters.AddWithValue("@p12", Date.Parse(bday_year + "-" + bday_month + "-" + bday_day))
+                    cmd.Parameters.AddWithValue("@p13", citizenship)
+                    cmd.Parameters.AddWithValue("@p14", religion)
+                    cmd.Parameters.AddWithValue("@p15", marital_status)
+                    cmd.Parameters.AddWithValue("@p16", gender)
+                    cmd.Parameters.AddWithValue("@p17", 1)
+                    cmd.ExecuteNonQuery()
+                    sqlCon.Close()
+                End Using
+
+                'update used token
+                Using sqlCon As New SqlConnection(constr)
+                    sqlCon.Open()
+
+                    cmd = New SqlCommand("UPDATE tblTokens SET status=1 WHERE token_idpk=@p1", sqlCon)
+                    cmd.Parameters.AddWithValue("@p1", token_id)
+                    cmd.ExecuteNonQuery()
+
+                    sqlCon.Close()
+                End Using
+
+                'end of registration (graduating)
+                Return "You are registered as Graduating student."
+            End If
+        ElseIf student_status = "alumni" Then
+            Using sqlCon As New SqlConnection(constr) 'get course id
+                sqlCon.Open()
+
+                cmd = New SqlCommand("SELECT course_idpk FROM tblCourses WHERE description=@p1", sqlCon)
+                cmd.Parameters.AddWithValue("@p1", course_desc)
+                dr = cmd.ExecuteReader
+
+                Do While dr.Read
+                    course_id = dr.GetValue(0)
+                Loop
+
+                sqlCon.Close()
+            End Using
+
+            Using sqlCon As New SqlConnection(constr) 'check graduate data
+                sqlCon.Open()
+
+                cmd = New SqlCommand("SELECT graduate_idpk FROM tblGraduates WHERE student_id = @p1 AND birthday = @p2 AND course_idfk = @p3", sqlCon)
+                cmd.Parameters.AddWithValue("@p1", studNumber)
+                cmd.Parameters.AddWithValue("@p2", Date.Parse(bday_year + "-" + bday_month + "-" + bday_day))
+                cmd.Parameters.AddWithValue("@p3", course_id)
+                dr = cmd.ExecuteReader
+
+                If dr.HasRows Then
+                    isGraduate = True
+                Else
+                    isGraduate = False
+                End If
+
+                sqlCon.Close()
+            End Using
+
+            If studNumber = vbNullString Then
+                Using sqlCon As New SqlConnection(constr) 'insert account and get identity
+                    Using cmd As New SqlCommand("INSERT INTO tblAccounts(userlevel_idfk,course_idfk,student_id,password,family_name,given_name,middle_name,maiden_name,address,telephone_number,email_address,birthday,citizenship,religion,marital_status,gender,account_status) VALUES(@p1,@p2,@p3,@p4,@p5,@p6,@p7,@p8,@p9,@p10,@p11,@p12,@p13,@p14,@p15,@p16,@p17)", sqlCon)
+                        cmd.Parameters.AddWithValue("@p1", 1)
+                        cmd.Parameters.AddWithValue("@p2", course_id)
+                        cmd.Parameters.AddWithValue("@p3", studNumber)
+                        cmd.Parameters.AddWithValue("@p4", password)
+                        cmd.Parameters.AddWithValue("@p5", family_name)
+                        cmd.Parameters.AddWithValue("@p6", given_name)
+                        cmd.Parameters.AddWithValue("@p7", middle_name)
+                        cmd.Parameters.AddWithValue("@p8", maiden_name)
+                        cmd.Parameters.AddWithValue("@p9", address)
+                        cmd.Parameters.AddWithValue("@p10", mobile_number)
+                        cmd.Parameters.AddWithValue("@p11", email_address)
+                        cmd.Parameters.AddWithValue("@p12", Date.Parse(bday_year + "-" + bday_month + "-" + bday_day))
+                        cmd.Parameters.AddWithValue("@p13", citizenship)
+                        cmd.Parameters.AddWithValue("@p14", religion)
+                        cmd.Parameters.AddWithValue("@p15", marital_status)
+                        cmd.Parameters.AddWithValue("@p16", gender)
+                        cmd.Parameters.AddWithValue("@p17", 0)
+
+                        sqlCon.Open()
+                        cmd.ExecuteNonQuery()
+                        Dim identity_qry As String = "Select @@Identity"
+                        cmd.CommandText = identity_qry
+                        account_id = cmd.ExecuteScalar
+                        sqlCon.Close()
+                    End Using
+                End Using
+
+                Using sqlCon As New SqlConnection(constr) 'add survey for the account
+                    sqlCon.Open()
+
+                    cmd = New SqlCommand("INSERT INTO tblEmployment(account_idfk,employment_status,q1,q2,q3,q4,q5,q6,q7,unemployed_status,selfemployed_status,further_study,highest_educ_attainment) VALUES(@p1,@p2,@p3,@p4,@p5,@p6,@p7,@p8,@p9,@p10,@p11,@p12,@p13)", sqlCon)
+                    cmd.Parameters.AddWithValue("@p1", account_id)
+                    cmd.Parameters.AddWithValue("@p2", emp_status)
+                    cmd.Parameters.AddWithValue("@p3", q1)
+                    cmd.Parameters.AddWithValue("@p4", q2)
+                    cmd.Parameters.AddWithValue("@p5", q3)
+                    cmd.Parameters.AddWithValue("@p6", q4)
+                    cmd.Parameters.AddWithValue("@p7", q5)
+                    cmd.Parameters.AddWithValue("@p8", q6)
+                    cmd.Parameters.AddWithValue("@p9", q7)
+                    cmd.Parameters.AddWithValue("@p10", unemp_status)
+                    cmd.Parameters.AddWithValue("@p11", self_employed_stats)
+                    cmd.Parameters.AddWithValue("@p12", higher_education)
+                    cmd.Parameters.AddWithValue("@p13", highest_education)
+                    cmd.ExecuteNonQuery()
+                    sqlCon.Close()
+                End Using
+
+                Return "Registration successful, your account is under review due to lack of information. Please wait for your account to be activated."
+            Else
+                If isGraduate = True Then
+                    Using sqlCon As New SqlConnection(constr) 'insert account and get identity
+                        Using cmd As New SqlCommand("INSERT INTO tblAccounts(userlevel_idfk,course_idfk,student_id,password,family_name,given_name,middle_name,maiden_name,address,telephone_number,email_address,birthday,citizenship,religion,marital_status,gender,account_status) VALUES(@p1,@p2,@p3,@p4,@p5,@p6,@p7,@p8,@p9,@p10,@p11,@p12,@p13,@p14,@p15,@p16,@p17)", sqlCon)
+                            cmd.Parameters.AddWithValue("@p1", 1)
+                            cmd.Parameters.AddWithValue("@p2", course_id)
+                            cmd.Parameters.AddWithValue("@p3", studNumber)
+                            cmd.Parameters.AddWithValue("@p4", password)
+                            cmd.Parameters.AddWithValue("@p5", family_name)
+                            cmd.Parameters.AddWithValue("@p6", given_name)
+                            cmd.Parameters.AddWithValue("@p7", middle_name)
+                            cmd.Parameters.AddWithValue("@p8", maiden_name)
+                            cmd.Parameters.AddWithValue("@p9", address)
+                            cmd.Parameters.AddWithValue("@p10", mobile_number)
+                            cmd.Parameters.AddWithValue("@p11", email_address)
+                            cmd.Parameters.AddWithValue("@p12", Date.Parse(bday_year + "-" + bday_month + "-" + bday_day))
+                            cmd.Parameters.AddWithValue("@p13", citizenship)
+                            cmd.Parameters.AddWithValue("@p14", religion)
+                            cmd.Parameters.AddWithValue("@p15", marital_status)
+                            cmd.Parameters.AddWithValue("@p16", gender)
+                            cmd.Parameters.AddWithValue("@p17", 1)
+
+                            sqlCon.Open()
+                            cmd.ExecuteNonQuery()
+                            Dim identity_qry As String = "Select @@Identity"
+                            cmd.CommandText = identity_qry
+                            account_id = cmd.ExecuteScalar
+                            sqlCon.Close()
+                        End Using
+                    End Using
+
+                    Using sqlCon As New SqlConnection(constr) 'add survey for the account
+                        sqlCon.Open()
+
+                        cmd = New SqlCommand("INSERT INTO tblEmployment(account_idfk,employment_status,q1,q2,q3,q4,q5,q6,q7,unemployed_status,selfemployed_status,further_study,highest_educ_attainment) VALUES(@p1,@p2,@p3,@p4,@p5,@p6,@p7,@p8,@p9,@p10,@p11,@p12,@p13)", sqlCon)
+                        cmd.Parameters.AddWithValue("@p1", account_id)
+                        cmd.Parameters.AddWithValue("@p2", emp_status)
+                        cmd.Parameters.AddWithValue("@p3", q1)
+                        cmd.Parameters.AddWithValue("@p4", q2)
+                        cmd.Parameters.AddWithValue("@p5", q3)
+                        cmd.Parameters.AddWithValue("@p6", q4)
+                        cmd.Parameters.AddWithValue("@p7", q5)
+                        cmd.Parameters.AddWithValue("@p8", q6)
+                        cmd.Parameters.AddWithValue("@p9", q7)
+                        cmd.Parameters.AddWithValue("@p10", unemp_status)
+                        cmd.Parameters.AddWithValue("@p11", self_employed_stats)
+                        cmd.Parameters.AddWithValue("@p12", higher_education)
+                        cmd.Parameters.AddWithValue("@p13", highest_education)
+                        cmd.ExecuteNonQuery()
+                        sqlCon.Close()
+                    End Using
+
+                    Return "Registration successful."
+                Else
+                    Return "Registration failed, please check your student id. Leave it blank if you cannot remember it."
+                End If
+            End If
+
+        End If
     End Function
 
     Protected Sub Page_Load(sender As Object, e As EventArgs) Handles Me.Load
         If Not IsPostBack Then
             fetch_college()
+
             'DISREGARD PAGE LOAD FUNCTION ON POSTBACK
         Else
 
         End If
-    End Sub
 
-    Protected Sub creatBtn_Click(sender As Object, e As EventArgs) Handles creatBtn.Click
-        If txtEmail.Text = txtConfirm_Email.Text Then
-            If grad.Checked = True Then
-                If txtAccountPassword.Text = txtRetypePassword.Text Then
-                    If cboMarital_Status.Text = "Married" And cboGender.Text = "Female" And txtMaiden_Name.Text <> vbNullString Then
-                        Response.Write(<script>alert("Maiden name is required.")</script>)
-                    Else
-                        Using sqlcon As New SqlConnection(constr)
-                            sqlcon.Open()
-
-                            cmd = New SqlCommand("SELECT token_idpk FROM tblTokens WHERE token=@p1 AND status=0", sqlcon)
-                            cmd.Parameters.AddWithValue("@p1", token.Text)
-                            dr = cmd.ExecuteReader
-
-                            If dr.HasRows Then
-                                account_status = 0
-                                add_account() 'add account for graduating
-                            Else
-                                Response.Write(<script>Alert("Invalid token.")</script>) 'invalid token.
-                            End If
-
-                            sqlcon.Close()
-                        End Using
-                    End If
-                Else
-                    Response.Write(<script>alert("Email address do not match.")</script>)
-                End If
-            ElseIf alumni.Checked = True Then
-                If employed_yes.Checked = True Then
-                    employed() 'sub for employed option
-                ElseIf employed_no.Checked = True Then
-                    unemployed() 'sub for unemployed option
-                ElseIf employed_no.Checked = False And employed_yes.Checked = False Then
-                    Response.Write(<script>alert("Please select employment status.")</script>)
-                End If
-            End If
-        Else
-            Response.Write(<script>alert("Email address do not match.")</script>)
-        End If
-    End Sub
-
-    'functions
-    Sub new_traps()
-        If cboGender.SelectedItem.Text = "Female" And cboMarital_Status.SelectedItem.Text = "Married" And txtMaiden_Name.Text = vbNullString Then
-            Response.Write(<script>alert("Maiden name is required.")</script>)
-        ElseIf txtEmail.Text <> txtConfirm_Email.Text Then
-            Response.Write(<script>alert("Email address do not match.")</script>)
-        ElseIf txtPassword.Text <> txtAccountPassword.Text Then
-            Response.Write(<script>alert("Passwords do not match.")</script>)
-        Else
-            If grad.Checked = True And token.Text = vbNullString Then
-                Response.Write(<script>alert("Token is required for graduating students.")</script>)
-            ElseIf txtStudent_Number.Text <> vbNullString Then
-                check_studentid()
-            Else
-
-            End If
-        End If
-    End Sub
-
-    Sub check_studentid()
-        If txtStudent_Number.Text = vbNullString Then
-            Response.Write(<script>alert("Email address do not match.")</script>)
-        Else
-            Using sqlcon As New SqlConnection
-                sqlcon.Open()
-
-                cmd = New SqlCommand("SELECT graduate_idpk FROM tblGraduates WHERE student_id=@p1", sqlcon)
-                cmd.Parameters.AddWithValue("@p1", txtStudent_Number.Text)
-                dr = cmd.ExecuteReader
-
-                If dr.HasRows Then
-
-                Else
-
-                End If
-
-                sqlcon.Close()
-            End Using
-        End If
     End Sub
 
     Sub fetch_college()
@@ -218,69 +370,5 @@ Partial Class _Default
 
             sqlcon.Close()
         End Using
-    End Sub
-
-    Sub fetch_course_id()
-        Using sqlcon As New SqlConnection(constr)
-            sqlcon.Open()
-
-            cmd = New SqlCommand("SELECT course_idpk from tblCourses WHERE description=@p1", sqlcon)
-            cmd.Parameters.AddWithValue("@p1", cboCourse.Text)
-            dr = cmd.ExecuteReader
-
-            Do While dr.Read
-                course_id = dr.GetValue(0)
-            Loop
-
-            sqlcon.Close()
-
-            Response.Write(<script>alert("aw")</script>)
-        End Using
-    End Sub
-
-
-
-    Sub add_account()
-        fetch_course_id() 'fetch course id
-
-        Using sqlcon As New SqlConnection(constr)
-            sqlcon.Open()
-
-            cmd = New SqlCommand("INSERT INTO tblAccounts(userlevel_idfk,course_idfk,student_id,password,family_name,given_name,middle_name,maiden_name,address,telephone_number,email_address,birthday,citizenship,religion,marital_status,gender,account_status) VALUES(@p1,@p3,@p4,@p5,@p6,@p7,@p8,@p9,@p10,@p11,@p12,@p13,@p14,@p15,@p16,@p17,@p18)", sqlcon)
-            cmd.Parameters.AddWithValue("@p1", 1)
-            cmd.Parameters.AddWithValue("@p3", course_id)
-            cmd.Parameters.AddWithValue("@p4", txtStudent_Number.Text)
-            cmd.Parameters.AddWithValue("@p5", txtAccountPassword.Text)
-            cmd.Parameters.AddWithValue("@p6", txtFamily_Name.Text)
-            cmd.Parameters.AddWithValue("@p7", txtGiven_Name.Text)
-            cmd.Parameters.AddWithValue("@p8", txtMiddle_Name.Text)
-            cmd.Parameters.AddWithValue("@p9", txtMaiden_Name.Text)
-            cmd.Parameters.AddWithValue("@p10", txtAddress.Text)
-            cmd.Parameters.AddWithValue("@p11", txtMobile_Number.Text)
-            cmd.Parameters.AddWithValue("@p12", txtEmail.Text)
-            cmd.Parameters.AddWithValue("@p13", Date.Parse(cboMonth.Text + " " + cboDay.Text + ", " + cboYear.Text))
-            cmd.Parameters.AddWithValue("@p14", txtCitizenship.Text)
-            cmd.Parameters.AddWithValue("@p15", txtReligion.Text)
-            cmd.Parameters.AddWithValue("@p16", cboMarital_Status.Text)
-            cmd.Parameters.AddWithValue("@p17", cboGender.Text)
-            cmd.Parameters.AddWithValue("@p18", account_status)
-            cmd.ExecuteNonQuery()
-
-            sqlcon.Close()
-        End Using
-    End Sub
-
-    Sub unemployed()
-        If emp_status_no.SelectedItem Is Nothing Then
-            Response.Write(<script>alert("Please select unemployment status.")</script>)
-        Else
-            'proceed to registration, null value on survey
-        End If
-    End Sub
-
-    Sub employed()
-        If first_emp.SelectedItem Is Nothing Or field_relation.SelectedItem Is Nothing Or employment_location.SelectedItem Is Nothing Or company_classification.SelectedItem Is Nothing Then
-
-        End If
     End Sub
 End Class

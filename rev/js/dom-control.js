@@ -1,22 +1,6 @@
 ﻿$(document).ready(function () {
    
-    $.get("./Ui/timeline.aspx", function (autoLoad) {
-        $("#content-updatable").html(autoLoad).show();
-    });
-
-    $.get("./Ui/user-timeline.aspx", function (autoLoad) {
-        $("#user-content-updatable").html(autoLoad).show();
-    });
-
-
-    $(function () {
-        $(".timeline_UI").click( function () {
-            $.get("./Ui/timeline.aspx", function (autoLoad) {
-                $("#content-updatable").html(autoLoad).show();
-            });
-        });
-        
-    });
+   
 
 
     $(function () {

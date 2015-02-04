@@ -100,4 +100,36 @@ Partial Class rev_director_list_ui
 
     End Function
 
+
+    <System.Web.Services.WebMethod()> _
+  <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
+    Public Shared Function pullColleges() As String
+        'Function named PushToDatabase 
+        'Includes delimitation of user input
+        'Opening and Closing Connection to the database
+        'Adding datas to database
+
+
+        Using sqlCon As New SqlConnection(constr)
+
+            sqlCon.Open()
+            Using da = New SqlDataAdapter(" SELECT * FROM tblColleges", sqlCon)
+                Dim table = New DataTable()
+                da.Fill(table)
+
+                Dim jsndata As String = GetJson(table)
+                Return jsndata
+            End Using
+
+
+
+
+            sqlCon.Close()
+
+            'Returning Message : Fail or Successful
+
+
+        End Using
+
+    End Function
 End Class

@@ -37,30 +37,7 @@
                 </div>
                 <div id="navbar" class="navbar-collapse collapse" > <!---collapse collapse -->
                   
-                     <ul class="nav navbar-nav navbar-right">
-                          
-                        <li>
-                            <a href="#">
-                                <h4>
-                                    <span class="glyphicon glyphicon-home"></span>
-                                </h4>
-                            
-
-                            </a>
-
-                        </li>
-                        <li>
-                            <a href="#">
-                                <h4>
-                                    <span class="glyphicon glyphicon-cog"></span>
-                                </h4>
-                            
-
-                            </a>
-
-                        </li>
-                       
-                      </ul>
+                     
                     
                 </div><!--/.navbar-collapse -->
                 </div>
@@ -69,12 +46,29 @@
             <div class="container-fluid">
                 <div class="row">
                     <!--#include file="./includes/sidebar-director.inc"-->
-                                  <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-                        <h3 class="page-header"><span class="glyphicon glyphicon-home">&nbsp;</span>Timeline</h3>
+                    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+                        <div class="row">
+                             <div class="col-xs-4">
+                                 <h3 class="page-header"><span class="glyphicon glyphicon-home">&nbsp;</span>Timeline</h3>
+                             </div>
+                             <div class="col-xs-2">
+                                
+                             </div>
+                             <div class="col-xs-3">
+                                 
+                             </div>
+                              <div class="col-xs-3">
+                                 <ul class="right-action-buttons">
+                                   <li><a href="#"><span class="glyphicon glyphicon-cog"></span> </a></li>
+                                   <li><a href="#"><span class="glyphicon glyphicon-home"></span> </a></li>
+                                    <li><a href="#">Log out</a></li>
+                                  </ul>
+                             </div>
+                         </div>
                         <div class="row placeholders " >
                             <br />
                             <!-- start main-content -->
-                            <div class="col-xs-6 col-sm-6 placeholder announcementHolder">
+                            <div class="col-xs-6 col-sm-6 placeholder announcementHolder" >
                               
                               
                               
@@ -90,11 +84,17 @@
                             <div class="col-xs-6 col-sm-5 placeholder border-enabled">
                               <h4 class="header-padded"><span class="glyphicon glyphicon-pencil minified"></span>&nbsp; Post Announcement</h4>
                               <div class="row">
-                                  <div class="col-xs-12 highlighted-div ">
-                                      <div class="form-group">
+                                  <div class="col-xs-12 " style="border-top:thin solid #ccc;">
+                                      <br />
+                                      <div class="">
                                           <asp:TextBox ID="txtPostAnnouncementCoor" runat="server" TextMode="MultiLine" placeholder="" CssClass="form-control"></asp:TextBox>
                                           <br />
-                                          <asp:Button ID="btnPostAnnouncementCoor" runat="server" Text="Post Announcement" CssClass="btn btn-warning" type="button" />
+                                          <div class="row">
+                                              <div class="col-xs-12 highlighted-div">
+                                                   <asp:Button ID="btnPostAnnouncementCoor" runat="server" Text="Post Announcement" CssClass="btn btn-warning" type="button" />
+                                              </div>
+                                          </div>
+                                         
                                       </div>
                                   </div>
                                   

@@ -23,7 +23,7 @@
 		    <li><a href="./statistics-ui.aspx"><span class="glyphicon glyphicon-signal"></span>&nbsp;&nbsp;Statistics</a></li>
 			  <li><a href="./director-list-ui.aspx"><span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;List of Coordinators</a></li>
 			  <li><a href="./alumni-list-ui.aspx"><span class="glyphicon glyphicon-list-alt"></span>&nbsp;&nbsp;List of Alumni</a></li>
-		    <li><a href="#"><span class="glyphicon glyphicon-off"></span>&nbsp;&nbsp;Log out</a></li>
+		    <li></li>
 	    </ul>
 
     </div>

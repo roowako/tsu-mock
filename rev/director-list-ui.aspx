@@ -94,6 +94,9 @@
                                                              <td></td>
                                                          </tr>
                                                          </thead>
+                                                         <tbody>
+
+                                                         </tbody>
                                                      </table>
                                                  </div>
                                              </div>
@@ -113,11 +116,7 @@
                                          <div class="form-group">
                                              <h5>Default Username </h5>
                                              <asp:DropDownList ID="defaultUsername" runat="server" CssClass="form-control" ClientIDMode="Static">
-                                                 <asp:ListItem Text="College 1" Value="college1"/>
-                                                 <asp:ListItem Text="College 2" Value="college2"/>
-                                                 <asp:ListItem Text="College 3" Value="college3"/>
-                                                 <asp:ListItem Text="College 4" Value="college4"/>
-                                                 <asp:ListItem Text="College 5" Value="college5"/>
+                                                 
                                              </asp:DropDownList>
                                              <br />
                                              <asp:TextBox ID="txtDefaultPassword" runat="server" placeholder="Default Password" CssClass="form-control" TextMode="Password" Value="kahitanonalang"></asp:TextBox>
@@ -143,6 +142,24 @@
     <script>
         $(document).ready(function () {
            
+                 $.ajax({
+                    
+                     type: "post",
+                     url: "director-list-ui.aspx/pullColleges",
+                     processData: false,
+                     traditional: true,
+                     contentType: "application/json; charset=utf-8",
+                     success: function (serverResponse) {
+                         data = serverResponse.d;
+                         data = jQuery.parseJSON(data);
+                         $.each(data, function (i, object) {
+                             $("#defaultUsername ").append(
+                                 "<option value='"+ object.description + "'> " + object.description +  "</option>"
+                                 );
+                             console.log(object.description);
+                         });
+                     }
+                });
                 $.ajax({
 
                     type: "post",
@@ -163,15 +180,15 @@
                                 mod = "Modified";
                                 var ext = "<td> " + "<a class='btn btn-warning btn-sm'> Restore Default </a>" + "  </td>"
                             }
-                            $("#accountTable").append(
-                                "<tbody>" +
+                            $("#accountTable tbody").append(
+                               
                                 "<tr>" +
                                  "<td> " + object.coordinatoracc_idpk + "  </td>" +
                                  "<td> " + object.coordinator_username + "  </td>" +
                                  "<td> " + object.coordinator_username + "  </td>" +
                                  "<td> " + mod + "  </td>" +
                                   ext +
-                                "</tr>" + 
+                                
                                 "</tbody>"
                              );
                             console.log(object);
