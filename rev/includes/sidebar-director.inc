@@ -19,7 +19,11 @@
           </a>
         </li>
         <li><a href="./pending-ui.aspx"><span class="glyphicon glyphicon-paperclip"></span>&nbsp;&nbsp;Pending Surveys</a></li>
-		   
+        <li>
+          <a href="./survey-generator-director-ui.aspx">
+            <span class="glyphicon glyphicon-list"></span>&nbsp;&nbsp;Surveys
+          </a>
+        </li>
 		    <li><a href="./statistics-ui.aspx"><span class="glyphicon glyphicon-signal"></span>&nbsp;&nbsp;Statistics</a></li>
 			  <li><a href="./director-list-ui.aspx"><span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;List of Coordinators</a></li>
 			  <li><a href="./alumni-list-ui.aspx"><span class="glyphicon glyphicon-list-alt"></span>&nbsp;&nbsp;List of Alumni</a></li>
