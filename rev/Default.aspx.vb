@@ -11,7 +11,7 @@ Imports System.Collections.Generic
 Partial Class _Default
     Inherits System.Web.UI.Page
 
-    Public Shared Property constr As String = "Data Source=.\SQLEXPRESS;Initial Catalog=tsuat_db;User ID=sa;Password=masterfile"
+    Public Shared Property constr As String = "Data Source=.\SQLEXPRESS2005;Initial Catalog=tsuat_db;User ID=sa;Password=segatronph12"
     Public Shared Property sqlCon As SqlConnection
     Public Shared Property cmd As SqlCommand
     Public Shared Property dr As SqlDataReader
@@ -233,7 +233,7 @@ Partial Class _Default
             If studNumber = vbNullString Then
                 Using sqlCon As New SqlConnection(constr) 'insert account and get identity
                     Using cmd As New SqlCommand("INSERT INTO tblAccounts(userlevel_idfk,course_idfk,student_id,password,family_name,given_name,middle_name,maiden_name,address,telephone_number,email_address,birthday,citizenship,religion,marital_status,gender,account_status) VALUES(@p1,@p2,@p3,@p4,@p5,@p6,@p7,@p8,@p9,@p10,@p11,@p12,@p13,@p14,@p15,@p16,@p17)", sqlCon)
-                        cmd.Parameters.AddWithValue("@p1", 1)
+                        cmd.Parameters.AddWithValue("@p1", 2)
                         cmd.Parameters.AddWithValue("@p2", course_id)
                         cmd.Parameters.AddWithValue("@p3", studNumber)
                         cmd.Parameters.AddWithValue("@p4", password)

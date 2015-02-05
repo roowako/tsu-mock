@@ -598,8 +598,6 @@
                 });
             });
 
-
-           
             $("#creatBtn").click(function (e) {
                 e.preventDefault();
                 var course_desc = $("#cboCourse").val();
