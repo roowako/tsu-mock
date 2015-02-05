@@ -1,0 +1,18 @@
+C:\Users\Admin\Desktop\TSU SMS Sender\TSU SMS Sender\bin\Debug\TSU SMS Sender.exe.config
+C:\Users\Admin\Desktop\TSU SMS Sender\TSU SMS Sender\bin\Debug\TSU SMS Sender.exe
+C:\Users\Admin\Desktop\TSU SMS Sender\TSU SMS Sender\bin\Debug\TSU SMS Sender.pdb
+C:\Users\Admin\Desktop\TSU SMS Sender\TSU SMS Sender\obj\Debug\TSU SMS Sender.csprojResolveAssemblyReference.cache
+C:\Users\Admin\Desktop\TSU SMS Sender\TSU SMS Sender\obj\Debug\TSU_SMS_Sender.frmMain.resources
+C:\Users\Admin\Desktop\TSU SMS Sender\TSU SMS Sender\obj\Debug\TSU_SMS_Sender.Properties.Resources.resources
+C:\Users\Admin\Desktop\TSU SMS Sender\TSU SMS Sender\obj\Debug\TSU SMS Sender.csproj.GenerateResource.Cache
+C:\Users\Admin\Desktop\TSU SMS Sender\TSU SMS Sender\obj\Debug\TSU SMS Sender.exe
+C:\Users\Admin\Desktop\TSU SMS Sender\TSU SMS Sender\obj\Debug\TSU SMS Sender.pdb
+C:\Users\Mac\Desktop\tsu-mock\TSU SMS Sender\TSU SMS Sender\bin\Debug\TSU SMS Sender.exe.config
+C:\Users\Mac\Desktop\tsu-mock\TSU SMS Sender\TSU SMS Sender\obj\Debug\TSU SMS Sender.exe
+C:\Users\Mac\Desktop\tsu-mock\TSU SMS Sender\TSU SMS Sender\obj\Debug\TSU SMS Sender.pdb
+C:\Users\Mac\Desktop\tsu-mock\TSU SMS Sender\TSU SMS Sender\obj\Debug\TSU SMS Sender.csprojResolveAssemblyReference.cache
+C:\Users\Mac\Desktop\tsu-mock\TSU SMS Sender\TSU SMS Sender\obj\Debug\TSU_SMS_Sender.frmMain.resources
+C:\Users\Mac\Desktop\tsu-mock\TSU SMS Sender\TSU SMS Sender\obj\Debug\TSU_SMS_Sender.Properties.Resources.resources
+C:\Users\Mac\Desktop\tsu-mock\TSU SMS Sender\TSU SMS Sender\obj\Debug\TSU SMS Sender.csproj.GenerateResource.Cache
+C:\Users\Mac\Desktop\tsu-mock\TSU SMS Sender\TSU SMS Sender\bin\Debug\TSU SMS Sender.exe
+C:\Users\Mac\Desktop\tsu-mock\TSU SMS Sender\TSU SMS Sender\bin\Debug\TSU SMS Sender.pdb
