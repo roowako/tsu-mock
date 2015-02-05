@@ -6,6 +6,7 @@ Imports System.Web.Script.Serialization
 Imports System.Linq
 Imports System.Web
 Imports System.Collections.Generic
+Imports System.Net.Mail
 
 Partial Class rev_pending_reg_ui
     Inherits System.Web.UI.Page
@@ -89,7 +90,27 @@ Partial Class rev_pending_reg_ui
         'Includes delimitation of user input
         'Opening and Closing Connection to the database
         'Adding datas to database
+        Try
+            Dim Smtp_Server As New SmtpClient
+            Dim e_mail As New MailMessage()
+            Smtp_Server.UseDefaultCredentials = False
+            Smtp_Server.Credentials = New Net.NetworkCredential("roowbergonia@gmail.com", "castme30")
+            Smtp_Server.Port = 587
+            Smtp_Server.EnableSsl = True
+            Smtp_Server.Host = "smtp.gmail.com"
 
+            e_mail = New MailMessage()
+            e_mail.From = New MailAddress("roowbergonia@gmail.com")
+            e_mail.To.Add("jpanlilio06@gmail.com")
+            e_mail.Subject = "Email Sending"
+            e_mail.IsBodyHtml = False
+            e_mail.Body = "Hola"
+            Smtp_Server.Send(e_mail)
+            MsgBox("Mail Sent")
+
+        Catch error_t As Exception
+            MsgBox(error_t.ToString)
+        End Try
 
         Using sqlCon As New SqlConnection(constr)
 
