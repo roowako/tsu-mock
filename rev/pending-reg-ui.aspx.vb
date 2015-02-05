@@ -8,6 +8,7 @@ Imports System.Web
 Imports System.Collections.Generic
 Imports System.Net.Mail
 
+
 Partial Class rev_pending_reg_ui
     Inherits System.Web.UI.Page
 
@@ -104,13 +105,15 @@ Partial Class rev_pending_reg_ui
             e_mail.To.Add("jpanlilio06@gmail.com")
             e_mail.Subject = "Email Sending"
             e_mail.IsBodyHtml = False
-            e_mail.Body = "Hola"
+            e_mail.Body = "sdds"
             Smtp_Server.Send(e_mail)
             MsgBox("Mail Sent")
 
         Catch error_t As Exception
             MsgBox(error_t.ToString)
         End Try
+
+
 
         Using sqlCon As New SqlConnection(constr)
 
