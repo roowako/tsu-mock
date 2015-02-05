@@ -86,7 +86,7 @@ Partial Class rev_pending_reg_ui
 
     <System.Web.Services.WebMethod()> _
    <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
-    Public Shared Function approveAccount(ByVal accId As String, ByVal emailAdd As String, ByVal name As String) As String
+    Public Shared Function approveAccount(ByVal accId As String, ByVal emailAdd As String, ByVal name As String, ByVal id As String) As String
         'Function named PushToDatabase 
         'Includes delimitation of user input
         'Opening and Closing Connection to the database
@@ -103,9 +103,11 @@ Partial Class rev_pending_reg_ui
             e_mail = New MailMessage()
             e_mail.From = New MailAddress("roowbergonia@gmail.com")
             e_mail.To.Add(emailAdd)
-            e_mail.Subject = "Hello '" + name + "', This is to notify you that your account has been verified and approved. "
-            e_mail.IsBodyHtml = False
-            e_mail.Body = "This is to notify you that your account has been approved."
+            e_mail.Subject = "Congratulations! This is to notify you that your account has been approved."
+            e_mail.IsBodyHtml = True
+            e_mail.Body = "Hello! " + name + ", This is to notify you that your account has been verified and approved. Here's your Student ID Number " + id + ", Please log in here : <a href='Default.aspx'> Home </a> "
+
+
             Smtp_Server.Send(e_mail)
             MsgBox("Mail Sent")
 
@@ -192,6 +194,40 @@ Partial Class rev_pending_reg_ui
 
                 Dim accIdPK As String = GetJson2(table2)
                 Return accIdPK
+            End Using
+
+
+
+
+            sqlCon.Close()
+
+            'Returning Message : Fail or Successful
+
+
+        End Using
+
+    End Function
+
+    <System.Web.Services.WebMethod()> _
+  <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
+    Public Shared Function updateStudentNumber(ByVal accId As String, ByVal studNmber As String) As String
+        'Function named PushToDatabase 
+        'Includes delimitation of user input
+        'Opening and Closing Connection to the database
+        'Adding datas to database
+
+
+        Using sqlCon As New SqlConnection(constr)
+
+            sqlCon.Open()
+            Using dat = New SqlDataAdapter("UPDATE tblAccounts set student_id = '" & studNmber & "' WHERE account_idpk = '" & accId & "'", sqlCon)
+
+                Dim table2 = New DataTable()
+                dat.Fill(table2)
+
+
+                Dim accIdPK As String = GetJson2(table2)
+                Return accId
             End Using
 
 

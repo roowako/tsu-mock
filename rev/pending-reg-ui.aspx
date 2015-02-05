@@ -157,7 +157,23 @@
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+          <div class="container">
+              <div class="row">
+                  <div class="col-xs-3">
+                      <input type="text" name="name" value=" " class="form-control numberPlacer" id="studNumberPlacer" placeholder="Please provide student number."/>
+                     
+                  </div>
+                  <div class="col-xs-2">
+                      
+                       <input type="button" name="name" value="Update Student Number" class="btn btn-success update-sudnumber"/>
+                  </div>
+                  <div class="col-xs-4">
+                      <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                  </div>
+              </div>
+          </div>
+        
+        
         
       </div>
     </div>
@@ -196,7 +212,7 @@
                                 "<td> College of Engineering </td>" +
                                 "<td> Somewhere down the road </td>" +
                                 "<td> <a class='btn btn-primary btn-sm viewAccountInfo' id='viewAccountInfo' data-account-id='" + o.account_idpk + "' data-toggle='modal' data-target='.bs-example-modal-lg'>Vew info</a> </td>" +
-                                "<td>  <a class='btn btn-success btn-sm btnApproveAccount' id='btnApproveAccount' data-acc-id='"+ o.account_idpk +"' data-email='" + o.email_address + "' data-name='" + name + "'>Approve</a> <a class='btn btn-warning btn-sm' id='btnRejectAccount' data-acc-id='"+ o.account_idpk +"'>Reject</a></td>" +
+                                "<td>  <a class='btn btn-success btn-sm btnApproveAccount' id='btnApproveAccount' data-acc-id='"+ o.account_idpk +"' data-email='" + o.email_address + "' data-name='" + name + "' data-stud-id='" + o.student_id + "'>Approve</a> <a class='btn btn-warning btn-sm' id='btnRejectAccount' data-acc-id='"+ o.account_idpk +"'>Reject</a></td>" +
                                
                             "</tr>"
                             );
@@ -218,13 +234,25 @@
                                 response = approvalResponse.d;
                                 response = jQuery.parseJSON(response);
                                 $.each(response, function (i, o) {
-                                    console.log(o.account_idpk);
+                                    console.log(o.student_id);
                                     
 
                                     $("#myModalLabel").text(o.given_name + "  " + o.middle_name + " " + o.family_name);
+                                    
+                                    
+                                    $(".update-sudnumber").attr("data-id", o.account_idpk);
+                                    if (o.student_id == "") {
+                                        $("#studNumberPlacer").removeAttr("disabled");
+                                        $(".update-sudnumber").removeAttr("disabled");
+                                    } else {
+                                        $(".update-sudnumber").attr("disabled", "disabled");
+                                        $("#studNumberPlacer").attr("disabled","disabled");
+                                        $("#studNumberPlacer").val(o.student_id);
+                                    }
                                     $("#accountInfoPlaceholder tbody").append(
                                     
                                             "<tr>" +
+                                                
                                                 "<td> " + o.account_idpk + " </td>" +
                                                 "<td> " + o.address + " </td>" +
                                                 "<td> " + o.telephone_number + " </td>" +
@@ -246,11 +274,18 @@
                         var accId = $(this).data("acc-id");
                         var email = $(this).data("email");
                         var name = $(this).data("name");
+                        var id = $(this).data("stud-id");
                         console.log(accId);
+                        if( id == ""){
+                            alert("Please provide a student number.");
+                        } else{
+
+                
+                       
                         $.ajax({
                             type: "post",
                             url: "pending-reg-ui.aspx/approveAccount",
-                            data: "{'accId':'" + accId + "','emailAdd' :'"+ email +"','name':'" + name + "'}",
+                            data: "{'accId':'" + accId + "','emailAdd' :'"+ email +"','name':'" + name + "','id':'" + id + "'}",
                             dataType: "json",
                             processData: false,
                             traditional: true,
@@ -263,7 +298,8 @@
                                
                               
                             }
-                        });
+                                });
+                        }
                     });
 
                     $("#btnRejectAccount").click(function () {
@@ -288,6 +324,27 @@
 
                 }
 
+            });
+
+            $(".update-sudnumber").click(function (e) {
+                e.preventDefault();
+                var studNumber = $("#studNumberPlacer").val();
+                var accountId = $(this).data("id");
+                $.ajax({
+                    type: "post",
+                    url: "pending-reg-ui.aspx/updateStudentNumber",
+                    data: "{'studNmber':'" + studNumber + "','accId':'"+ accountId +"'}",
+                    dataType: "json",
+                    processData: false,
+                    traditional: true,
+                    contentType: "application/json; charset=utf-8",
+                    success: function (approvalResponse) {
+
+                        alert("Updated!");
+                        window.location.reload(true);
+
+                    }
+                });
             });
         });
     </script>
