@@ -82,7 +82,7 @@ Partial Class rev_pending_ui
             sqlCon.Open()
             
 
-            Using dat = New SqlDataAdapter("SELECT survey_option FROM surveyoption_tbl WHERE surveys_idfk = '" & optFk & "'", sqlCon)
+            Using dat = New SqlDataAdapter("SELECT survey_question,survey_option FROM surveyquestion_tbl, surveyoption_tbl WHERE survey_idfk = '" & optFk & "' And surveys_idfk = '" & optFk & "' ", sqlCon)
 
                 Dim table2 = New DataTable()
                 dat.Fill(table2)
