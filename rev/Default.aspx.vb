@@ -11,7 +11,7 @@ Imports System.Collections.Generic
 Partial Class _Default
     Inherits System.Web.UI.Page
 
-    Public Shared Property constr As String = "Data Source=.\SQLEXPRESS2005;Initial Catalog=tsuat_db;User ID=sa;Password=segatronph12"
+    Public Shared Property constr As String = "Data Source=.\SQLEXPRESS;Initial Catalog=tsuat_db;Persist Security Info=True;User ID=sa;Password=masterfile"
     Public Shared Property sqlCon As SqlConnection
     Public Shared Property cmd As SqlCommand
     Public Shared Property dr As SqlDataReader

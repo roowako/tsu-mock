@@ -86,7 +86,7 @@ Partial Class rev_pending_reg_ui
 
     <System.Web.Services.WebMethod()> _
    <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
-    Public Shared Function approveAccount(ByVal accId As String) As String
+    Public Shared Function approveAccount(ByVal accId As String, ByVal emailAdd As String, ByVal name As String) As String
         'Function named PushToDatabase 
         'Includes delimitation of user input
         'Opening and Closing Connection to the database
@@ -102,10 +102,10 @@ Partial Class rev_pending_reg_ui
 
             e_mail = New MailMessage()
             e_mail.From = New MailAddress("roowbergonia@gmail.com")
-            e_mail.To.Add("jpanlilio06@gmail.com")
-            e_mail.Subject = "Email Sending"
+            e_mail.To.Add(emailAdd)
+            e_mail.Subject = "Hello '" + name + "', This is to notify you that your account has been verified and approved. "
             e_mail.IsBodyHtml = False
-            e_mail.Body = "sdds"
+            e_mail.Body = "This is to notify you that your account has been approved."
             Smtp_Server.Send(e_mail)
             MsgBox("Mail Sent")
 

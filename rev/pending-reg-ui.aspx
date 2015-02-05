@@ -187,7 +187,7 @@
                     data = jQuery.parseJSON(data);
 
                     $.each(data, function (i, o) {
-
+                        var name = o.given_name +  " " + o.family_name;
                       
                         $("#pendingPlaceholder tbody").append(
                             "<tr id='" + o.account_idpk +"' class='success'>" +
@@ -196,7 +196,7 @@
                                 "<td> College of Engineering </td>" +
                                 "<td> Somewhere down the road </td>" +
                                 "<td> <a class='btn btn-primary btn-sm viewAccountInfo' id='viewAccountInfo' data-account-id='" + o.account_idpk + "' data-toggle='modal' data-target='.bs-example-modal-lg'>Vew info</a> </td>" +
-                                "<td>  <a class='btn btn-success btn-sm btnApproveAccount' id='btnApproveAccount' data-acc-id='"+ o.account_idpk +"'>Approve</a> <a class='btn btn-warning btn-sm' id='btnRejectAccount' data-acc-id='"+ o.account_idpk +"'>Reject</a></td>" +
+                                "<td>  <a class='btn btn-success btn-sm btnApproveAccount' id='btnApproveAccount' data-acc-id='"+ o.account_idpk +"' data-email='" + o.email_address + "' data-name='" + name + "'>Approve</a> <a class='btn btn-warning btn-sm' id='btnRejectAccount' data-acc-id='"+ o.account_idpk +"'>Reject</a></td>" +
                                
                             "</tr>"
                             );
@@ -220,6 +220,7 @@
                                 $.each(response, function (i, o) {
                                     console.log(o.account_idpk);
                                     
+
                                     $("#myModalLabel").text(o.given_name + "  " + o.middle_name + " " + o.family_name);
                                     $("#accountInfoPlaceholder tbody").append(
                                     
@@ -243,11 +244,13 @@
                     });
                     $(".btnApproveAccount").click(function () {
                         var accId = $(this).data("acc-id");
+                        var email = $(this).data("email");
+                        var name = $(this).data("name");
                         console.log(accId);
                         $.ajax({
                             type: "post",
                             url: "pending-reg-ui.aspx/approveAccount",
-                            data: "{'accId':'"+ accId +"'}",
+                            data: "{'accId':'" + accId + "','emailAdd' :'"+ email +"','name':'" + name + "'}",
                             dataType: "json",
                             processData: false,
                             traditional: true,
