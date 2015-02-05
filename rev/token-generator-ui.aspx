@@ -106,17 +106,13 @@
                                          <div class="row">
                                              <div class="col-xs-12">
                                                  <div class="table-responsive">
-                                                     <table class="table table-hover">
+                                                     <table class="table table-hover" id="tokenHolder">
                                                          <tr>
                                                              <td><span class="glyphicon glyphicon-th-list"></span></td>
                                                              <td>Token</td>
                                                              <td>Status</td>
                                                          </tr>
-                                                         <tr>
-                                                             <td>1</td>
-                                                             <td> 780900 </td>
-                                                             <td> Available &nbsp; <span class="glyphicon glyphicon-ok"></span></td>
-                                                         </tr>
+                                                       
                                                      </table>
                                                  </div>
                                              </div>
@@ -142,17 +138,15 @@
                                       
                                         <div class="col-xs-12">
                                             <div class="table-responsive">
-                                                <table class="table table-hover">
+                                                <table class="table table-hover" >
                                                     <tr>
                                                         <td><span class="glyphicon glyphicon-th-list"></span></td>
                                                         <td>Token</td>
                                                         <td>Token granted for  </td>
                                                     </tr>
-                                                    <tr>
-                                                        <td>1</td>
-                                                        <td> 780900 </td>
-                                                        <td> Karlo Armamento &nbsp;&nbsp;<span class="glyphicon glyphicon-user"></span></td>
-                                                    </tr>
+                                                   <tbody>
+
+                                                   </tbody>
                                                 </table>
                                             </div>
                                         </div>
@@ -164,5 +158,63 @@
             </div>
         </div>
     </form>
+    <script type="text/javascript" src="./js/jquery.js"></script>
+    <script type="text/javascript" src="./js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="./js/custom.js"></script>
+    <script type="text/javascript" src="./js/dom-control.js"></script>
+    <script type="text/javascript" src="./js/horizBarChart.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="http://ajax.cdnjs.com/ajax/libs/json2/20110223/json2.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#btn_generate_tokens_wew").click(function (e) {
+                e.preventDefault();
+                var keyNumber = $("#generate_number_of_tokens").val();
+                $.ajax({
+                    type: "post",
+                    url: "token-generator-ui.aspx/generateTokens",
+                    data: "{ 'numKey':'" +keyNumber+"'}",
+                    contentType: "application/json; charset=utf-8",
+                    processData: false,
+                    traditional: true,
+                    success: function (genResponse) {
+                        console.log(genResponse.d);
+                    }
+                })
+            });
+
+            var status;
+            $.ajax({
+
+                type: "post",
+                url: "./token-generator-ui.aspx/pullFromServer",
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                success: function (r) {
+                   
+                    data = r.d
+                    data = jQuery.parseJSON(data)
+                    $.each(data, function (i,o) {
+                        if (o.status == 0) {
+                            status = "Active";
+                        } else {
+                            status = "Granted";
+                        }
+
+                        $("#tokenHolder tbody").append(
+                            
+                           
+                            "<tr>" +
+                                "<td class='green'> " + o.token_idpk + " </td>" +
+                                "<td class='green'> " + o.description + " </td>" +
+                                "<td class='green'> " + status + " <span class='glyphicon glyphicon-ok green'> &nbsp;</span></td>" +
+                            "</tr>"
+                            );
+                    });
+                }
+            });
+        });
+    </script> 
+
 </body>
 </html>

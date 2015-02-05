@@ -634,7 +634,7 @@
                     contentType: "application/json; charset=utf-8",
                     success: function (r) {
                         alert(r.d);
-                        window.location.reload(true);
+                        
                         console.log(r.d);
                     }
                 });

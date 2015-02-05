@@ -18,3 +18,5 @@
  .golden{color:#F0AD4E;}
  .right-action-buttons > li{display:inline-block;margin-left:10px;}
  .bulletsNone li{list-style-type:none !important;}
+ .green, .green a{color:green !important;}
+ .red{color:red;}

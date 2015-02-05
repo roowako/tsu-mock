@@ -12,7 +12,7 @@
 		  
 		    <li><a href="./director-ui.aspx" ><span class="glyphicon glyphicon-home"></span>&nbsp;&nbsp;Timeline</a></li>
 		    <li><a href="./messaging-ui.aspx" ><span class="glyphicon glyphicon-comment"></span>&nbsp;&nbsp;Messages</a></li>
-		    <li><a href="#"><span class="glyphicon glyphicon-phone"></span>&nbsp;&nbsp;SMS Notifications</a></li>
+		    <li><a href="#"><span class="glyphicon glyphicon-phone"></span>&nbsp;&nbsp;Notification Center</a></li>
         <li>
           <a href="./pending-reg-ui.aspx">
             <span class="glyphicon glyphicon-paperclip"></span>&nbsp;&nbsp;Pending Registration

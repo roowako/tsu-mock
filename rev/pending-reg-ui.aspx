@@ -71,15 +71,15 @@
                    <!--#include file="./includes/sidebar-director.inc"-->
 
 
-                    <div class="col-sm-11 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+                    <div class="col-sm-12 col-sm-offset-3 col-md-10 col-md-offset-2 main ">
                         <h3 class="page-header"><span class="glyphicon glyphicon-home">&nbsp;</span>Pending Registrations</h3>
                         <div class="row placeholders " >
                             <br />
                             <!-- start main-content -->
                             <div class="col-xs-12 col-sm-12 placeholder  ">
                                 <div class="row">
-                                    <div class="col-xs-12">
-                                        <div class="table-responsive" style="border-top:0px !important;">
+                                    <div class="col-xs-12 table-responsive">
+                                        <div class="" style="border-top:0px !important;">
                                             <table class="table table-hover pagination" style="border-top:0px !important;" id="pendingPlaceholder">
                                                 <thead>
                                                 <tr>
@@ -108,7 +108,7 @@
                             <!-- end main-content -->
 
                             <!-- star spacer -->
-                            <div class="col-xs-6 col-sm-1 placeholder"> </div>
+                            
                              <!-- end spacer -->
                            
 
@@ -190,7 +190,7 @@
 
                       
                         $("#pendingPlaceholder tbody").append(
-                            "<tr id='" + o.account_idpk +"'>" +
+                            "<tr id='" + o.account_idpk +"' class='success'>" +
                                 "<td> " + o.account_idpk + "  </td>" +
                                 "<td> " + o.given_name + "  " + o.middle_name + " " + o.family_name + " </td>" +
                                 "<td> College of Engineering </td>" +

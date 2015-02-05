@@ -155,6 +155,7 @@
                 speed: 1000
             });
             var filterView = "poll";
+            var collegeView;
             $(".filterView").change(function () {
                
                 filterView = $(this).val();
@@ -197,6 +198,10 @@
                             );
                     });
                 }
+
+            });
+
+            $("#cboCollege").click(function () {
 
             });
         });

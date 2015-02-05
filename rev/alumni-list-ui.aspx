@@ -81,9 +81,11 @@
                                 <div class="form-group">
                                     <div class="input-group">
                                         <div class="input-group-addon">Search alumni</div>
-                                         <input type="text" name="name" value=" "  class="form-control"/>
+                                         <input type="text" name="name" value=" " id="qString"  class="form-control"/>
+                                        <br />
+                                      
                                     </div>
-                                   
+                                     <span id="resultMsg"></span>
                                 </div>
                             </div>
                         </div>
@@ -152,7 +154,7 @@
                                
                                 <br />
                                     <div class="table-responsive">
-                                        <table class="table table-hover">
+                                        <table class="table table-hover" id="searchableTable">
                                             <thead>
 
                                            
@@ -171,7 +173,7 @@
                                                  <td>CCS</td>
                                                  <td>IT</td>
                                                  <td>2000</td>
-                                                 <td><a href="" class="btn btn-primary btn-sm">View info</a></td>
+                                                 <td><a href="#" class="btn btn-primary btn-sm">View info</a></td>
                                              </tr>
                                             </tbody>
                                         </table>
@@ -203,6 +205,9 @@
     <script>
         $(document).ready(function () {
 
+            $("#qString").bind("keyup", function (event) {
+                $(this).search(event);
+            });
             $("#filterCollege").change(function () {
                 $("#filterCourse").empty();
                 var fk = $("#filterCollege option:selected").val();
@@ -232,7 +237,16 @@
             });
         });
 
+        $.fn.search =function(event){
+            var ESC = 27;
+            var SPACE = 32;
 
+            var key = event.which || event.keyCode;
+            var input = $(this).val().trim();
+
+            
+
+        }
     </script>
 </body>
 </html>

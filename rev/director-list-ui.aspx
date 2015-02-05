@@ -74,7 +74,7 @@
                          <div class="row placeholders">
                              <br />
                             <!-- start main-content -->
-                             <div class="col-xs-7 col-sm-7 placeholder  ">
+                             <div class="col-xs-8 col-sm-8 placeholder  ">
                                  <div class="row">
                                      <div class="col-xs-12 ">
                                          <h4 class="header-padded "></h4>
@@ -90,7 +90,7 @@
                                                              <td><span class="glyphicon glyphicon-th-list"></span></td>
                                                              <td>College</td>
                                                              <td>Coordinator's Userame</td>
-                                                             <td>Account Status</td>
+                                                             <td>Status</td>
                                                              <td></td>
                                                          </tr>
                                                          </thead>
@@ -106,7 +106,7 @@
                                 </div>
                              </div>
                               
-                             <div class="col-xs-1"></div>
+                             
 
                              <div class="col-xs-4">
                                  <h5>Create Coordinator account</h5>
@@ -175,18 +175,28 @@
                             var accStatus = object.status;
                             if (accStatus == 0) {
                                 var mod = "Default";
-                                var ext = "<td>   </td>"
+                                var ext = ("<tr class='success'>" +
+                                            "<td> " + object.coordinatoracc_idpk + "  </td>" +
+                                            "<td> " + object.coordinator_username + "  </td>" +
+                                            "<td> " + object.coordinator_username + "  </td>" +
+                                            "<td > " + mod + "  </td>" +
+                                            "<td> </td>"+
+                                            "</tr>");
                             } else {
                                 mod = "Modified";
-                                var ext = "<td> " + "<a class='btn btn-warning btn-sm'> Restore Default </a>" + "  </td>"
+                               
+                                var ext = ("<tr class='warning'>" +
+                                            "<td> " + object.coordinatoracc_idpk + "  </td>" +
+                                            "<td> " + object.coordinator_username + "  </td>" +
+                                            "<td> " + object.coordinator_username + "  </td>" +
+                                            "<td > " + mod + "  </td>" +
+                                            "<td> " + "<a class='btn btn-warning btn-sm'> Restore Default </a>" + "  </td>" +
+                                            "</tr>");
+                                    
                             }
                             $("#accountTable tbody").append(
                                
-                                "<tr>" +
-                                 "<td> " + object.coordinatoracc_idpk + "  </td>" +
-                                 "<td> " + object.coordinator_username + "  </td>" +
-                                 "<td> " + object.coordinator_username + "  </td>" +
-                                 "<td> " + mod + "  </td>" +
+                                
                                   ext +
                                 
                                 "</tbody>"
@@ -216,7 +226,8 @@
                         contentType: "application/json; charset=utf-8",
                         success: function (serverResponse) {
                             alert(serverResponse.d);
-                            fetchUser();
+                            window.location.reload(true);
+
                         }
                
                     });
