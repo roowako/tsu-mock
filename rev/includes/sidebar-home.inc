@@ -17,8 +17,6 @@
 		    <li><a href="#" ><span class="glyphicon glyphicon-home"></span>&nbsp;&nbsp;Timeline</a></li>
 		    <li><a href="#" ><span class="glyphicon glyphicon-comment"></span>&nbsp;&nbsp;Messages</a></li>
 		    <li><a href="#"><span class="glyphicon glyphicon-phone"></span>&nbsp;&nbsp;SMS Notifications</a></li>
-       
 		    <li><a href="#"><span class="glyphicon glyphicon-off"></span>&nbsp;&nbsp;Log out</a></li>
 	    </ul>
-
     </div>
