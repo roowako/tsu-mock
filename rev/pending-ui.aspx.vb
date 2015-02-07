@@ -9,7 +9,7 @@ Imports System.Collections.Generic
 Partial Class rev_pending_ui
     Inherits System.Web.UI.Page
 
-    Public Shared Property constr As String = "Data Source=MAC-PC\SQLEXPRESS2005;Initial Catalog=tsuat_db;User ID=sa;Password=segatronph12"
+    Public Shared Property constr As String = "Data Source=MAC-PC\SQLEXPRESS;Initial Catalog=tsuat_db;Persist Security Info=True;User ID=sa;Password=masterfile"
     Public Shared Property sqlCon As SqlConnection
     Public Shared Property cmd As SqlCommand
     Public Shared Property dr As SqlDataReader
@@ -82,7 +82,7 @@ Partial Class rev_pending_ui
             sqlCon.Open()
             
 
-            Using dat = New SqlDataAdapter("SELECT survey_question,survey_option FROM surveyquestion_tbl, surveyoption_tbl WHERE survey_idfk = '" & optFk & "' And surveys_idfk = '" & optFk & "' ", sqlCon)
+            Using dat = New SqlDataAdapter("SELECT survey_question,survey_option FROM surveyquestions_tbl, surveyoption_tbl WHERE survey_idfk = '" & optFk & "' And surveys_idfk = '" & optFk & "' ", sqlCon)
 
                 Dim table2 = New DataTable()
                 dat.Fill(table2)

@@ -41,10 +41,10 @@
                             <br />
                         <div class="navbar-form navbar-right">
                         <div class="form-group">
-                            <asp:TextBox placeholder="Student Number" class="form-control input-sm" runat="server"></asp:TextBox>
+                            <asp:TextBox placeholder="Student Number" class="form-control input-sm" runat="server" ID="txtLog_Username"></asp:TextBox>
                         </div>
                         <div class="form-group">
-                            <asp:TextBox placeholder="Password" TextMode="Password" class="form-control input-sm" runat="server" ID="txtPassword" ></asp:TextBox>
+                            <asp:TextBox placeholder="Password" TextMode="Password" class="form-control input-sm" runat="server" ID="txtLog_Password" ></asp:TextBox>
                         </div>
 
          
@@ -595,6 +595,34 @@
             $("#highest_educ_attainment").each(function () {
                 $(this).click(function () {
                     highest_education = $("#highest_educ_attainment :checked").val();
+                });
+            });
+
+            $("#btnLogin").click(function (e) {
+                e.preventDefault();
+                var log_username = $("#txtLog_Username").val();
+                var log_password = $("#txtLog_Password").val();
+
+                $.ajax({
+                    type: "post",
+                    url: "Default.aspx/login",
+                    data: "{'log_username':'" + log_username + "', 'log_password':'" + log_password + "'}",
+                    dataType: "json",
+                    processData: false,
+                    traditional: true,
+                    contentType: "application/json; charset=utf-8",
+                    success: function (r) {
+                        if (r.d == "alumni")
+                        {
+                            
+                            window.location = "home.aspx?id=11";
+                        }
+                        else if(r.d == "admin")
+                        {
+                            window.location = "coordinator-custom.aspx";
+                        }
+                        console.log(r.d);
+                    }
                 });
             });
 

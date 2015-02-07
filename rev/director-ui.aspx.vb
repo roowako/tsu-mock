@@ -50,7 +50,7 @@ Partial Class director_ui
         Using sqlCon As New SqlConnection(constr)
 
             sqlCon.Open()
-            Using dat = New SqlDataAdapter(" SELECT * FROM announcements_tbl ", sqlCon)
+            Using dat = New SqlDataAdapter(" SELECT * FROM announcements_tbl ORDER BY datetime DESC", sqlCon)
 
                 Dim table2 = New DataTable()
                 dat.Fill(table2)

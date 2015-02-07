@@ -139,7 +139,10 @@
     <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
     <script type="text/javascript" src="http://ajax.cdnjs.com/ajax/libs/json2/20110223/json2.js"></script>
     <script>
-       
+
+        var myParam = location.search.split('id=')[1];
+        $("#alumni_name").val(myParam);
+
             function pullFromServer() {
 
                 $.ajax({

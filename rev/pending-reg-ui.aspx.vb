@@ -141,6 +141,8 @@ Partial Class rev_pending_reg_ui
         End Using
 
     End Function
+
+
     <System.Web.Services.WebMethod()> _
    <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
     Public Shared Function rejectAccount(ByVal accIdTobeRejected As String) As String

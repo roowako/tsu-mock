@@ -20,3 +20,13 @@
  .bulletsNone li{list-style-type:none !important;}
  .green, .green a{color:green !important;}
  .red{color:red;}
+.resultContainer{
+
+     opacity:0;
+    transition:visibility 0s linear 0.5s,opacity 0.5s linear;
+ }
+ .animateOnDisplay{
+      visibility:visible;
+      opacity:1;
+      transition-delay:0s;
+ }

@@ -8,10 +8,14 @@
 			    </a>
 
 		    </li>
-		    <li><a href="#" class="bolder"><span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;Actor Name</a></li>
+        <li>
+          <a href="#" class="bolder" >
+            <span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;<input type="text" id="alumni_name"></input>
+          </a>
+        </li>
 		  
-		    <li><a href="./director-ui.aspx" ><span class="glyphicon glyphicon-home"></span>&nbsp;&nbsp;Timeline</a></li>
-		    <li><a href="./messaging-ui.aspx" ><span class="glyphicon glyphicon-comment"></span>&nbsp;&nbsp;Messages</a></li>
+		    <li><a href="#" ><span class="glyphicon glyphicon-home"></span>&nbsp;&nbsp;Timeline</a></li>
+		    <li><a href="#" ><span class="glyphicon glyphicon-comment"></span>&nbsp;&nbsp;Messages</a></li>
 		    <li><a href="#"><span class="glyphicon glyphicon-phone"></span>&nbsp;&nbsp;SMS Notifications</a></li>
        
 		    <li><a href="#"><span class="glyphicon glyphicon-off"></span>&nbsp;&nbsp;Log out</a></li>

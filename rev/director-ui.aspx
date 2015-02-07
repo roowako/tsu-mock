@@ -170,6 +170,7 @@
                     success: function (announceReturn) {
                         $("#txtPostAnnouncementCoor").val("");
                         console.log(announceReturn);
+                        window.location.reload(true);
                     }
                 });
             });
