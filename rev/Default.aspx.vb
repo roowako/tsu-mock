@@ -460,7 +460,7 @@ Partial Class _Default
         Else
             If userlevel = 0 Then
                 Session("alumni_id") = id
-                Response.Redirect("home.aspx")
+                Response.Redirect("home2.aspx")
             ElseIf userlevel = 1 Then
                 Session("alumni_id") = id
                 Response.Redirect("director-ui.aspx")

@@ -83,6 +83,7 @@
                          </div>
                         <div class="row placeholders " >
                             <br />
+
                             <!-- start main-content -->
                             <div class="col-xs-6 col-sm-6 placeholder announcementHolder">
                               
