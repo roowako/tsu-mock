@@ -31,7 +31,9 @@
                                 <h4 style="float:left;margin-left:30px;margin-top:20px;"> Tarlac State University</h4>
                                </span>
 
-                            <div class="clearfix"></div>
+                            <div class="clearfix">
+                                
+                            </div>
                         </a>
 
                
@@ -46,11 +48,12 @@
                         <div class="form-group">
                             <asp:TextBox placeholder="Password" TextMode="Password" class="form-control input-sm" runat="server" ID="txtLog_Password" ></asp:TextBox>
                         </div>
-
-         
                             <asp:Button ID="btnLogin" class="btn btn-default btn-warning btn-sm" runat="server" Text="Sign In" />
                        </div>
+
+                        
                     </div><!--/.navbar-collapse -->
+                       
                     </div>
             </nav>-->
             
@@ -59,16 +62,22 @@
             <div class="container pulled-down">
                 <div class="row ">
                     <div class="col-sm-6 ">
+                        <div class="clearfix">
+                            <asp:Label runat="server" ID="login_result"></asp:Label>
+                        </div>                                  
                     </div>
 
                     <div class="col-sm-6 traverse-cont">
                         <div>
                             <h3 style="float:left;margin-top:0px;"> Register</h3>
                             <div class="clearfix"></div>
-                         </div>     
+
+                         </div>
+                        
+                       
                          <br />
                         <div class="">
-                         
+                          
                         <div class="row form-group">
                             <div class="col-xs-6">
                                 <asp:TextBox ID="txtStudent_Number" runat="server" CssClass="form-control" placeholder="Student Number"></asp:TextBox>
@@ -598,7 +607,7 @@
                 });
             });
 
-            $("#btnLogin").click(function (e) {
+            $("#btqwenLogin").click(function (e) {
                 e.preventDefault();
                 var log_username = $("#txtLog_Username").val();
                 var log_password = $("#txtLog_Password").val();
@@ -613,8 +622,7 @@
                     contentType: "application/json; charset=utf-8",
                     success: function (r) {
                         if (r.d == "alumni")
-                        {
-                            
+                        { 
                             window.location = "home.aspx?id=11";
                         }
                         else if(r.d == "admin")

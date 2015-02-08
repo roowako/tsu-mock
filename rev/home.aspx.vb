@@ -58,9 +58,7 @@ Partial Class home
         'Opening and Closing Connection to the database
         'Adding datas to database
 
-
         Using sqlCon As New SqlConnection(constr)
-
             sqlCon.Open()
             Using da = New SqlDataAdapter(" SELECT * FROM polls_tbl", sqlCon)
                 Dim table = New DataTable()
@@ -71,14 +69,8 @@ Partial Class home
                 Return jsndata
             End Using
 
-
-
-
             sqlCon.Close()
-
             'Returning Message : Fail or Successful
-
-
         End Using
 
     End Function
@@ -87,34 +79,42 @@ Partial Class home
     <System.Web.Services.WebMethod()> _
    <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
     Public Shared Function pullPollOptions(ByVal optFk As String) As String
-        'Function named PushToDatabase 
-        'Includes delimitation of user input
-        'Opening and Closing Connection to the database
-        'Adding datas to database
-
 
         Using sqlCon As New SqlConnection(constr)
-
             sqlCon.Open()
             Using dat = New SqlDataAdapter(" SELECT * FROM pollsoption_tbl WHERE polls_idfk = '" & optFk & "' ", sqlCon)
 
                 Dim table2 = New DataTable()
                 dat.Fill(table2)
 
-
                 Dim pollOptionsJsonData As String = GetJsonOpt(table2)
                 Return pollOptionsJsonData
             End Using
 
-
-
-
             sqlCon.Close()
-
-            'Returning Message : Fail or Successful
-
-
         End Using
 
     End Function
+
+    Protected Sub Page_Load(sender As Object, e As EventArgs) Handles Me.Load
+        If Session("alumni_id") = 0 Then
+            Response.Redirect("default.aspx")
+        Else
+            Using sqlCon As New SqlConnection(constr)
+                sqlCon.Open()
+
+                cmd = New SqlCommand("SELECT * FROM tblAccounts WHERE account_idpk=@p1", sqlCon)
+                cmd.Parameters.AddWithValue("@p1", Session("alumni_id"))
+                dr = cmd.ExecuteReader
+
+                While dr.Read
+                    alumni_name.Text = dr.GetString(6) + " " + dr.GetString(5) + ", " + dr.GetString(7)
+                End While
+
+                sqlCon.Close()
+            End Using
+
+
+        End If
+    End Sub
 End Class

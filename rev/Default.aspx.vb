@@ -409,6 +409,65 @@ Partial Class _Default
 
     End Sub
 
+    Protected Sub btnLogin_Click(sender As Object, e As EventArgs) Handles btnLogin.Click
+        Dim userlevel As Integer
+        Dim isAble As Boolean = False
+        Dim id As Integer
+
+        Using sqlCon As New SqlConnection(constr)
+            sqlCon.Open()
+
+            cmd = New SqlCommand("SELECT * FROM tblAccounts WHERE student_id=@p1 AND password=@p2 AND account_status=@p3", sqlCon)
+            cmd.Parameters.AddWithValue("@p1", txtLog_Username.Text)
+            cmd.Parameters.AddWithValue("@p2", txtLog_Password.Text)
+            cmd.Parameters.AddWithValue("@p3", 1)
+            dr = cmd.ExecuteReader
+
+            If dr.HasRows Then
+                userlevel = 0
+                isAble = True
+
+                dr.Read()
+                id = dr.GetValue(0)
+            End If
+
+            sqlCon.Close()
+        End Using
+
+        Using sqlCon As New SqlConnection(constr)
+            sqlCon.Open()
+
+            cmd = New SqlCommand("SELECT * FROM coordinatoraccount_tbl WHERE coordinator_username=@p1 AND coordinator_password=@p2 AND status=@p3", sqlCon)
+            cmd.Parameters.AddWithValue("@p1", txtLog_Username.Text)
+            cmd.Parameters.AddWithValue("@p2", txtLog_Password.Text)
+            cmd.Parameters.AddWithValue("@p3", 1)
+            dr = cmd.ExecuteReader
+
+            If dr.HasRows Then
+                userlevel = 1
+                isAble = True
+
+                dr.Read()
+                id = dr.GetValue(0)
+            End If
+
+            sqlCon.Close()
+        End Using
+
+        If isAble = False Then
+            login_result.ForeColor = Drawing.Color.Red
+            login_result.Text = "Invalid username or password."
+        Else
+            If userlevel = 0 Then
+                Session("alumni_id") = id
+                Response.Redirect("home.aspx")
+            ElseIf userlevel = 1 Then
+                Session("alumni_id") = id
+                Response.Redirect("director-ui.aspx")
+            End If
+        End If
+    End Sub
+
     Sub fetch_college()
         cboCollege.Items.Clear()
         cboCollege.Items.Add(" ")

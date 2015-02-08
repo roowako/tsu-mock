@@ -12,9 +12,9 @@
     <link href="./css/normalize.css" rel="stylesheet" />
     <link href="./css/sidebar-theme.css" rel="stylesheet" />
 </head>
+
 <body onload="pullFromServer()">
     <form id="form1" runat="server">
-     
             <div class="container-fluid">
              <nav class="navbar navbar-inverse navbar-fixed-top default-theme shadowed"> 
                 <div class="container-fluid">
@@ -46,9 +46,24 @@
 
            <div class="container-fluid">
                 <div class="row">
-                   <!--#include file="./includes/sidebar-home.inc"-->
+                    <div class="col-sm-3 col-md-2 sidebar">  <!--side-bar -->
+	                        <ul class="nav nav-sidebar">
+		                        <li>
+			                        <a href="#" >
+				                        <asp:Image ID="Image2" runat="server" ImageUrl="~/rev/assets/images/default-dp.jpg" Height="75" Width="75" BorderColor="White" BorderStyle="Solid" BorderWidth="3" />          
+			                        </a>
+		                        </li>
+                            <li>    
+                                <a href="#"><span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;<asp:Label id="alumni_name" runat="server"></asp:Label></a>
+                            </li>
+		  		                <li><a href="#" ><span class="glyphicon glyphicon-home"></span>&nbsp;&nbsp;Timeline</a></li>
+		                        <li><a href="#" ><span class="glyphicon glyphicon-comment"></span>&nbsp;&nbsp;Messages</a></li>
+		                        <li><a href="#"><span class="glyphicon glyphicon-phone"></span>&nbsp;&nbsp;SMS Notifications</a></li>
+		                        <li><a href="#"><span class="glyphicon glyphicon-off" id="alumni_logout" runat="server"></span>&nbsp;&nbsp;Log out</a></li>
+                            </ul>
+                    </div>
+
                      <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-                        
                          <div class="row">
                              <div class="col-xs-4">
                                  <h3 class="page-header"><span class="glyphicon glyphicon-home">&nbsp;</span>Timeline</h3>
@@ -105,7 +120,6 @@
             </div>
 
         </div>
-    </form>
 
      //Modal form
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -141,16 +155,14 @@
     <script>
 
         var myParam = location.search.split('id=')[1];
-        $("#alumni_name").val(myParam);
+        $("#alumni_name").text(myParam);
 
             function pullFromServer() {
-
                 $.ajax({
                     type: "post",
                     url: "./home.aspx/pullFromServer",
                     dataType: "json",
                     contentType: "application/json; charset=utf-8",
-
 
                     success: function (r) {
                         //Response from server side 
@@ -158,7 +170,6 @@
                         console.log(r)
                         data = jQuery.parseJSON(data);
                         $.each(data, function (i, object) {
-
 
                             object.status = "active";
                             $(".table").append(
@@ -169,7 +180,6 @@
                                 "<td>   " + "<a class='btn btn-success btn-sm theatre' id='" + object.polls_idpk + "' data-poll-title='" + object.description + "' data-poll-question='" + object.question + "' data-poll-id='" + object.polls_idpk + "' data-toggle='modal' data-target='#myModal'>View Details and participate </a>" + " </td>" +
                                 "</tr>"
                                 );
-
                         });
 
                         $(".theatre").click(function () {
@@ -177,7 +187,6 @@
                             $("#questionPlaceholder").text($(this).data("poll-question"));
                             $("#myModalLabel").text($(this).data("poll-title"));
                             pollsPK = $(this).data("poll-id");
-
 
                             $.ajax({
                                 type: "post",
@@ -193,14 +202,11 @@
                                     optionsArr = jQuery.parseJSON(optionsArr);
 
                                     $.each(optionsArr, function (i, pollOpt) {
-
                                         var replaced = pollOpt.option_description.replace("-", ",");
                                         $("#placeholderOptions").append(
                                          "<li><input type='radio' name='polloptions + "+ pollOpt.polls_idfk +"' value=" + replaced + "> &nbsp; " + replaced + " </li>"
                                          );
-
                                     });
-
 
                                     console.log(dataOpt.d);
                                 }
@@ -256,11 +262,12 @@
                 dataType: "json",
                 contentType: "application/json; charset=utf-8",
                 success: function (pollResponse) {
-
-
                 }
             });
       
     </script>
-</body>
+            
+    </form>
+
+     </body>
 </html>
