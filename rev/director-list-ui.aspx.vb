@@ -30,7 +30,7 @@ Partial Class rev_director_list_ui
 
             sqlCon.Open()
 
-            sqlStr = "INSERT INTO coordinatoraccount_tbl(coordinator_username,coordinator_password,status) VALUES(@defUsername,@defPassword,0)"
+            sqlStr = "INSERT INTO tblAccounts(userlevel_idfk,student_id,password) VALUES(2,@defUsername,@defPassword)"
 
             cmd = New SqlCommand(sqlStr, sqlCon)
 
@@ -80,10 +80,10 @@ Partial Class rev_director_list_ui
         Using sqlCon As New SqlConnection(constr)
 
             sqlCon.Open()
-            Using da = New SqlDataAdapter(" SELECT * FROM coordinatoraccount_tbl", sqlCon)
+            Using da = New SqlDataAdapter(" SELECT * FROM tblAccounts WHERE userlevel_idfk = 2", sqlCon)
                 Dim table = New DataTable()
                 da.Fill(table)
-              
+
                 Dim jsndata As String = GetJson(table)
                 Return jsndata
             End Using
