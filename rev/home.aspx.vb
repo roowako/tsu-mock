@@ -79,6 +79,38 @@ Partial Class home
         Return serializer.Serialize(rows)
     End Function
     <System.Web.Services.WebMethod()> _
+   <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
+    Public Shared Function pullAnnouncement() As String
+        ' 'Function named PushToDatabase 
+        'Includes delimitation of user input
+        'Opening and Closing Connection to the database
+        'Adding datas to database
+
+
+        Using sqlCon As New SqlConnection(constr)
+
+            sqlCon.Open()
+            Using dat = New SqlDataAdapter(" SELECT * FROM tblAnnouncements  ", sqlCon)
+
+                Dim table2 = New DataTable()
+                dat.Fill(table2)
+
+
+                Dim pollOptionsJsonData As String = GetJson(table2)
+                Return pollOptionsJsonData
+            End Using
+
+
+
+
+            sqlCon.Close()
+
+            'Returning Message : Fail or Successful
+
+        End Using
+
+    End Function
+    <System.Web.Services.WebMethod()> _
   <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
     Public Shared Function pullFromServer() As String
         'Function named PushToDatabase 

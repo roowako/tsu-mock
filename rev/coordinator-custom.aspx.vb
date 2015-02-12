@@ -123,4 +123,9 @@ Partial Class coordinator_custom
             End Using
         End If
     End Sub
+
+    Protected Sub alumni_logout_Click(sender As Object, e As EventArgs) Handles alumni_logout.ServerClick
+        Session.Abandon()
+        Response.Redirect("default.aspx")
+    End Sub
 End Class

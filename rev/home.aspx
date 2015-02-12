@@ -148,7 +148,7 @@
   
     <script type="text/javascript" src="http://ajax.cdnjs.com/ajax/libs/json2/20110223/json2.js"></script>
     <script>
-
+        
         var myParam = location.search.split('id=')[1];
         $("#alumni_name").text(myParam);
 
@@ -241,7 +241,7 @@
         
             $.ajax({
                 type: "post",
-                url: "director-ui.aspx/pullAnnouncement",
+                url: "home.aspx/pullAnnouncement",
                 dataType: "json",
                 processData: false,
                 traditional: true,
