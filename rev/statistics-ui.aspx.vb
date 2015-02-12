@@ -55,8 +55,7 @@ Partial Class statistics_ui
                     Return jsndata
                 End Using
 
-
-            Else If filterView = "survey" Then
+            ElseIf filterView = "survey" Then
                 Using da = New SqlDataAdapter(" SELECT * FROM tblEmployment ", sqlCon)
                     Dim table = New DataTable()
                     da.Fill(table)
