@@ -168,21 +168,21 @@
                                                                 <td><span>5</span></td>
                                                                
                                                                     <td>The classification of your company or institution:  </td>
-                                                                    <td><input type="button" class="btn btn-primary btn-sm" value="View statistics" /></td>                               
+                                                                    <td><input type="button" class="btn btn-primary btn-sm" value="View statistics" id="q4" data-toggle='modal' data-target='#myModal'/></td>                               
 
                                                                 </tr>
                                                                 <tr>
                                                                 <td><span>6</span></td>
                                                                
                                                                     <td> Nature of Appointment:  </td>
-                                                                    <td><input type="button" class="btn btn-primary btn-sm" value="View statistics" /></td>                               
+                                                                    <td><input type="button" class="btn btn-primary btn-sm" value="View statistics" id="q5" data-toggle='modal' data-target='#myModal'/></td>                               
 
                                                                 </tr>
                                                                  <tr>
                                                                 <td><span>7</span></td>
                                                                
                                                                     <td> What is your Present Position?   </td>
-                                                                    <td><input type="button" class="btn btn-primary btn-sm" value="View statistics" /></td>                               
+                                                                    <td><input type="button" class="btn btn-primary btn-sm" value="View statistics" id="q6" data-toggle='modal' data-target='#myModal' /></td>                               
 
                                                                 </tr>
                                                                  <tr>
@@ -645,6 +645,165 @@
                                     "<span class='bar' data-number=" + o.opt2 + "></span>" +
                                     "<span class='number'>" + o.opt2 + "</span>" +
                                 "</li>" 
+                                );
+                            $('.chart').horizBarChart({
+                                selector: '.bar',
+                                speed: 3000
+                            });
+                        });
+                    }
+                });
+            });
+
+            $("#q3").click(function () {
+                $("#myModalLabel").text("Location of employment.");
+                $(".chart").html("");
+                $.ajax({
+                    type: "post",
+                    url: "./statistics-ui.aspx/q3",
+
+                    dataType: "json",
+                    processData: false,
+                    traditional: true,
+                    contentType: "application/json; charset=utf-8",
+                    success: function (dataOpt) {
+                        data = dataOpt.d
+                        data = jQuery.parseJSON(data)
+                        $.each(data, function (i, o) {
+                            console.log(o.opt1);
+                            console.log(o.opt2);
+                            $(".chart").append(
+                                "<li class='current' title='Abroad' >" +
+                                    "<span class='bar' data-number=" + o.opt1 + "></span>" +
+                                    "<span class='number'>" + o.opt1 + "</span>" +
+                                "</li>" +
+                                "<li class='current' title='Local' >" +
+                                    "<span class='bar' data-number=" + o.opt2 + "></span>" +
+                                    "<span class='number'>" + o.opt2 + "</span>" +
+                                "</li>"
+                                );
+                            $('.chart').horizBarChart({
+                                selector: '.bar',
+                                speed: 3000
+                            });
+                        });
+                    }
+                });
+            });
+
+            $("#q4").click(function () {
+                $("#myModalLabel").text("The classification of your company or institution.");
+                $(".chart").html("");
+                $.ajax({
+                    type: "post",
+                    url: "./statistics-ui.aspx/q4",
+
+                    dataType: "json",
+                    processData: false,
+                    traditional: true,
+                    contentType: "application/json; charset=utf-8",
+                    success: function (dataOpt) {
+                        data = dataOpt.d
+                        data = jQuery.parseJSON(data)
+                        $.each(data, function (i, o) {
+                            console.log(o.opt1);
+                            console.log(o.opt2);
+                            $(".chart").append(
+                                "<li class='current' title='Private' >" +
+                                    "<span class='bar' data-number=" + o.opt1 + "></span>" +
+                                    "<span class='number'>" + o.opt1 + "</span>" +
+                                "</li>" +
+                                "<li class='current' title='Public' >" +
+                                    "<span class='bar' data-number=" + o.opt2 + "></span>" +
+                                    "<span class='number'>" + o.opt2 + "</span>" +
+                                "</li>"
+                                );
+                            $('.chart').horizBarChart({
+                                selector: '.bar',
+                                speed: 3000
+                            });
+                        });
+                    }
+                });
+            });
+
+            $("#q5").click(function () {
+                $("#myModalLabel").text("Nature of appointment.");
+                $(".chart").html("");
+                $.ajax({
+                    type: "post",
+                    url: "./statistics-ui.aspx/q5",
+
+                    dataType: "json",
+                    processData: false,
+                    traditional: true,
+                    contentType: "application/json; charset=utf-8",
+                    success: function (dataOpt) {
+                        data = dataOpt.d
+                        data = jQuery.parseJSON(data)
+                        $.each(data, function (i, o) {
+                            console.log(o.opt1);
+                            console.log(o.opt2);
+                            console.log(o.opt3);
+                            $(".chart").append(
+                                "<li class='current' title='Regular' >" +
+                                    "<span class='bar' data-number=" + o.opt1 + "></span>" +
+                                    "<span class='number'>" + o.opt1 + "</span>" +
+                                "</li>" +
+                                "<li class='current' title='Probation' >" +
+                                    "<span class='bar' data-number=" + o.opt2 + "></span>" +
+                                    "<span class='number'>" + o.opt2 + "</span>" +
+                                "</li>" +
+                                "<li class='current' title='Self-employed' >" +
+                                    "<span class='bar' data-number=" + o.opt3 + "></span>" +
+                                    "<span class='number'>" + o.opt3 + "</span>" +
+                                "</li>"
+                                );
+                            $('.chart').horizBarChart({
+                                selector: '.bar',
+                                speed: 3000
+                            });
+                        });
+                    }
+                });
+            });
+
+            $("#q6").click(function () {
+                $("#myModalLabel").text("What is your present position.");
+                $(".chart").html("");
+                $.ajax({
+                    type: "post",
+                    url: "./statistics-ui.aspx/q6",
+
+                    dataType: "json",
+                    processData: false,
+                    traditional: true,
+                    contentType: "application/json; charset=utf-8",
+                    success: function (dataOpt) {
+                        data = dataOpt.d
+                        data = jQuery.parseJSON(data)
+                        $.each(data, function (i, o) {
+                            console.log(o.opt1);
+                            console.log(o.opt2);
+                            console.log(o.opt3);
+                            console.log(o.opt4);
+                            $(".chart").append(
+                                "<li class='current' title='Rank and File' >" +
+                                    "<span class='bar' data-number=" + o.opt1 + "></span>" +
+                                    "<span class='number'>" + o.opt1 + "</span>" +
+                                "</li>" +
+                                "<li class='current' title='Supervisory Level' >" +
+                                    "<span class='bar' data-number=" + o.opt2 + "></span>" +
+                                    "<span class='number'>" + o.opt2 + "</span>" +
+                                "</li>" +
+                                "<li class='current' title='Managerial Level' >" +
+                                    "<span class='bar' data-number=" + o.opt3 + "></span>" +
+                                    "<span class='number'>" + o.opt3 + "</span>" +
+                                "</li>" +
+                                "<li class='current' title='Others' >" +
+                                    "<span class='bar' data-number=" + o.opt4 + "></span>" +
+                                    "<span class='number'>" + o.opt4 + "</span>" +
+                                "</li>"
                                 );
                             $('.chart').horizBarChart({
                                 selector: '.bar',

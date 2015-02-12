@@ -157,6 +157,89 @@ Partial Class statistics_ui
 
     End Function
 
+    'Location of employment
+    <System.Web.Services.WebMethod()> _
+    <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
+    Public Shared Function q3() As String
+
+        Using sqlCon As New SqlConnection(constr)
+            sqlCon.Open()
+
+            Using da = New SqlDataAdapter("SELECT COUNT(CASE when q3 = 'Abroad' then 1 else NULL end) opt1, COUNT(CASE when q3 = 'Local' then 1 else NULL end) opt2 from tblEmployment", sqlCon)
+                Dim table = New DataTable()
+                da.Fill(table)
+
+                Dim jsndata As String = GetJson(table)
+                Return jsndata
+            End Using
+
+            sqlCon.Close()
+        End Using
+
+    End Function
+
+    'Classification of company/institution
+    <System.Web.Services.WebMethod()> _
+    <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
+    Public Shared Function q4() As String
+
+        Using sqlCon As New SqlConnection(constr)
+            sqlCon.Open()
+
+            Using da = New SqlDataAdapter("SELECT COUNT(CASE when q4 = 'Private' then 1 else NULL end) opt1, COUNT(CASE when q3 = 'Public' then 1 else NULL end) opt2 from tblEmployment", sqlCon)
+                Dim table = New DataTable()
+                da.Fill(table)
+
+                Dim jsndata As String = GetJson(table)
+                Return jsndata
+            End Using
+
+            sqlCon.Close()
+        End Using
+
+    End Function
+
+    'Nature of appointment
+    <System.Web.Services.WebMethod()> _
+    <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
+    Public Shared Function q5() As String
+
+        Using sqlCon As New SqlConnection(constr)
+            sqlCon.Open()
+
+            Using da = New SqlDataAdapter("SELECT COUNT(CASE when q5 = 'nat_app_reg' then 1 else NULL end) opt1, COUNT(CASE when q5 = 'nat_app_prob' then 1 else NULL end) opt2, COUNT(CASE when q5 = 'self_emp_opt' then 1 else NULL end) opt3 from tblEmployment", sqlCon)
+                Dim table = New DataTable()
+                da.Fill(table)
+
+                Dim jsndata As String = GetJson(table)
+                Return jsndata
+            End Using
+
+            sqlCon.Close()
+        End Using
+
+    End Function
+
+    'Present position
+    <System.Web.Services.WebMethod()> _
+    <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
+    Public Shared Function q6() As String
+
+        Using sqlCon As New SqlConnection(constr)
+            sqlCon.Open()
+
+            Using da = New SqlDataAdapter("SELECT COUNT(CASE when q6 = 'Rank and File' then 1 else NULL end) opt1, COUNT(CASE when q6 = 'Supervisory Level' then 1 else NULL end) opt2, COUNT(CASE when q6 = 'Managerial Level' then 1 else NULL end) opt3, COUNT(CASE when q6 = 'Others' then 1 else NULL end) opt4 from tblEmployment", sqlCon)
+                Dim table = New DataTable()
+                da.Fill(table)
+
+                Dim jsndata As String = GetJson(table)
+                Return jsndata
+            End Using
+
+            sqlCon.Close()
+        End Using
+
+    End Function
 
     Protected Sub Page_Load(sender As Object, e As EventArgs) Handles Me.Load
         If Not IsPostBack Then
