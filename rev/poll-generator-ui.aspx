@@ -4,7 +4,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
-    <title>Poll Generator</title>
+    <title>Survey Generator</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="./css/bootstrap.min.css" rel="stylesheet" />
     <link href="./css/bootstrap.theme.min.css" rel="stylesheet" />

@@ -215,7 +215,7 @@
 
                         $.ajax({
                             type: "post",
-                            url: "./poll-generator-ui.aspx/pullPollOptions",
+                            url: "./survey-ui.aspx/pullPollOptions",
                             data: "{'optFk' :'" + pollsPK + "' }",
                             dataType: "json",
                             processData: false,

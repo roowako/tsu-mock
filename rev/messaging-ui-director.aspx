@@ -52,7 +52,7 @@
                                  <h3 class="page-header"><span class="glyphicon glyphicon-home">&nbsp;</span>Messages</h3>
                              </div>
                              <div class="col-xs-2">
-                                
+                                 
                              </div>
                              <div class="col-xs-3">
                                  
@@ -69,7 +69,9 @@
                             <br />
                             <!-- start main-content -->
                             <div class="col-xs-6 col-sm-6 placeholder announcementHolder" >
-                              
+                              <div class="form-group">
+                                     <textarea rows="5" class="form-control"></textarea>
+                                 </div>
                               
                               
                             </div>

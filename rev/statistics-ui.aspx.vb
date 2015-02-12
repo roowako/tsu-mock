@@ -57,7 +57,7 @@ Partial Class statistics_ui
 
 
             Else If filterView = "survey" Then
-                Using da = New SqlDataAdapter(" SELECT * FROM surveys_tbl ", sqlCon)
+                Using da = New SqlDataAdapter(" SELECT * FROM tblEmployment ", sqlCon)
                     Dim table = New DataTable()
                     da.Fill(table)
 
@@ -74,7 +74,58 @@ Partial Class statistics_ui
 
     End Function
 
-   
+    'Delete poll
+    <System.Web.Services.WebMethod()> _
+ <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
+    Public Shared Function deletePoll(ByVal poll_id As String) As String
+        'Function named PushToDatabase 
+        'Includes delimitation of user input
+        'Opening and Closing Connection to the database
+        'Adding datas to database
+
+        Using sqlcon As New SqlConnection(constr)
+            sqlcon.Open()
+
+            cmd = New SqlCommand("DELETE FROM  polls_tbl WHERE polls_idpk = '" & poll_id & "'", sqlcon)
+            cmd.ExecuteNonQuery()
+
+            sqlcon.Close()
+        End Using
+        Return "Deleted."
+    End Function
+
+    'Employment Status
+    <System.Web.Services.WebMethod()> _
+  <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
+    Public Shared Function empstat() As String
+        'Function named PushToDatabase 
+        'Includes delimitation of user input
+        'Opening and Closing Connection to the database
+        'Adding datas to database
+
+
+        Using sqlCon As New SqlConnection(constr)
+            sqlCon.Open()
+
+
+            Using da = New SqlDataAdapter("SELECT COUNT(CASE when employment_status = 'employed_no' then 1 else NULL end) Unmployed,COUNT(CASE when employment_status = 'employed_yes' then 1 else NULL end) Employed from tblEmployment  ", sqlCon)
+                Dim table = New DataTable()
+                da.Fill(table)
+
+                Dim jsndata As String = GetJson(table)
+                Return jsndata
+            End Using
+
+
+
+
+            sqlCon.Close()
+            'Returning Message : Fail or Successful
+
+
+        End Using
+
+    End Function
 
     Protected Sub Page_Load(sender As Object, e As EventArgs) Handles Me.Load
         If Not IsPostBack Then
@@ -103,4 +154,35 @@ Partial Class statistics_ui
             sqlcon.Close()
         End Using
     End Sub
+
+
+
+
+
+
+
+
+
+
+
+
+    <System.Web.Services.WebMethod()> _
+   <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
+    Public Shared Function pullPollOptions(ByVal optFk As String) As String
+
+        Using sqlCon As New SqlConnection(constr)
+            sqlCon.Open()
+            Using dat = New SqlDataAdapter("SELECT option_description, COUNT(pollsdata_tbl.pollsoption_idfk) as stats_data FROM  pollsoption_tbl LEFT JOIN pollsdata_tbl ON   pollsoption_tbl.pollsoption_idpk =   pollsdata_tbl.pollsoption_idfk WHERE pollsoption_tbl.polls_idfk = '" & optFk & "' GROUP BY option_description ORDER BY stats_data DESC ", sqlCon)
+
+                Dim table2 = New DataTable()
+                dat.Fill(table2)
+
+                Dim pollOptionsJsonData As String = GetJson(table2)
+                Return pollOptionsJsonData
+            End Using
+
+            sqlCon.Close()
+        End Using
+
+    End Function
 End Class

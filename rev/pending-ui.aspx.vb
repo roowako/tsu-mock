@@ -74,7 +74,8 @@ Partial Class rev_pending_ui
         'Includes delimitation of user input
         'Opening and Closing Connection to the database
         'Adding datas to database
-
+        Dim result2(10, 100) As String
+        Dim i As Integer = 0
 
         Using sqlCon As New SqlConnection(constr)
 
@@ -82,25 +83,22 @@ Partial Class rev_pending_ui
             sqlCon.Open()
             
 
-            Using dat = New SqlDataAdapter("SELECT survey_question,survey_option FROM surveyquestions_tbl, surveyoption_tbl WHERE survey_idfk = '" & optFk & "' And surveys_idfk = '" & optFk & "' ", sqlCon)
+            cmd = New SqlCommand("SELECT * FROM surveyoption_tbl WHERE surveys_idfk = '" & optFk & "' ", sqlCon)
+            dr = cmd.ExecuteReader
 
-                Dim table2 = New DataTable()
-                dat.Fill(table2)
+            While dr.Read
+                result2(i, 0) = dr.GetString(3)
+                i = i + 1
+            End While
 
-
-                Dim pollOptionsJsonData As String = GetJson(table2)
-                Return pollOptionsJsonData
-            End Using
-
-
-
-
-            sqlCon.Close()
-
-            'Returning Message : Fail or Successful
-
-
+            
         End Using
 
+
+
+
+        sqlCon.Close()
+
+        'Returning Message : Fail or Successful
     End Function
 End Class

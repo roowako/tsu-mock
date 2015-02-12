@@ -82,7 +82,11 @@
                             <!-- end main-content -->
 
                             <!-- star spacer -->
-                            <div class="col-xs-6 col-sm-1 placeholder"> </div>
+                            <div class="col-xs-6 col-sm-3 placeholder">
+                                <div id="m">
+
+                                </div>
+                            </div>
                              <!-- end spacer -->
                            
 
@@ -100,5 +104,57 @@
     <script type="text/javascript" src="./js/custom.js"></script>
     <script type="text/javascript" src="./js/dom-control.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
+    <script>
+
+        var emaiLarr =[];
+      
+        $.ajax({
+            type: "post",
+            url: "notification-center-ui.aspx/pullEmail",
+         
+            dataType: "json",
+            processData: false,
+            traditional: true,
+            contentType: "application/json; charset=utf-8",
+            success: function (dataOpt) {
+              
+                var data;
+                data = dataOpt.d;
+                data = jQuery.parseJSON(data)
+                $.each(data, function (i, o) {
+                  
+                    emaiLarr.push(o.email_address);
+                        
+                    
+                });
+
+                
+                console.log(dataOpt.d);
+            }
+
+
+        });
+
+        $("#btnSendNotification").click(function (e) {
+
+            e.preventDefault();
+            var noti = $("#txtNotificationMessage").val();
+            $.ajax({
+                type: "post",
+                url: "notification-center-ui.aspx/pushNotification",
+                data: "{'notificationSMS':'" + noti + "','email':'" + emaiLarr + "'}",
+                dataType: "json",
+                processData: false,
+                traditional: true,
+                contentType: "application/json; charset=utf-8",
+                success: function (dataOpt) {
+                    alert(dataOpt.d);
+                }
+
+
+            });
+
+        });
+    </script>
 </body>
 </html>

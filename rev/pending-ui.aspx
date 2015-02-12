@@ -214,8 +214,9 @@
                             $("#questionPlaceholder").text($(this).data("poll-question"));
                             $("#myModalLabel").text($(this).data("poll-title"));
                             pollsPK = $(this).data("survey-id");
-                          
+
                             alert(pollsPK);
+
                             $.ajax({
                                 type: "post",
                                 url: "./pending-ui.aspx/pullSurveyDetails",
@@ -226,17 +227,15 @@
                                 contentType: "application/json; charset=utf-8",
                                 success: function (dataOpt) {
 
-                                    optionsArr = dataOpt.d;
-                                    optionsArr = jQuery.parseJSON(optionsArr);
-                                    
+                                    optionsArrx = dataOpt.d;
+                                    optionsArr = jQuery.parseJSON(optionsArrx);
+
                                     $.each(optionsArr, function (i, pollOpt) {
 
-                                     
                                         $("#placeholderOptions").append(
-                                        "<li> "+ pollOpt.survey_question +" </li>"+
-                                       "<li> "+ pollOpt.survey_option +" </li>"
+                                        "<li> "+ pollOpt.survey_question +" </li>" +
+                                        "<li> " + i.survey_option + " </li>"
                                          );
-
                                     });
 
 
