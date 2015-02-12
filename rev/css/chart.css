@@ -2,17 +2,21 @@
  
 .chart-horiz .chart li {
   display: block;
-  height: 23px;
+ 
+  height:30px;
   margin-top: 3px;
   position: relative;
   margin-top:15px;
+ 
 }
  
 .chart-horiz .chart li:before {
   color: #fff;
   content: attr(title);
   left: 5px;
-  position: absolute
+  top:5px;
+  position: absolute;
+  font-weight:bolder;
 }
  
 .chart-horiz .chart li.title:before {
@@ -24,13 +28,13 @@
 .chart-horiz .chart li:first-child { margin-top: 0 }
  
 .chart-horiz .chart li .bar {
-  background: #A6635D;
+  background: #800000 !important;
   height: 100%;
   min-width: 164px
 }
  
 .chart-horiz .chart li .number {
-  color:#A6635D;
+  color:#A6635D !important;
   font-size: 16px;
   font-weight: ;
   padding-left: 5px;
