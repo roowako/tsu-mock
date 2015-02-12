@@ -199,27 +199,27 @@
                             object.status = "active";
                             $("#surveyPlaceholder tbody").append(
                                 "<tr>" +
-                                "<td>  " + object.survey_idpk + " </td>" +
+                                "<td>  " + object.polls_idpk + " </td>" +
                                 "<td>  " + object.description + " </td>" +
                                 "<td>  " + stringify + " </td>" +
-                                "<td>   " + "<a class='btn btn-primary btn-sm theatre' id='" + object.survey_idpk + "' data-poll-title='" + object.description + "'  data-survey-id='" + object.survey_idpk + "'  data-toggle='modal' data-target='#myModal'>View Details </a>" + " </td>" +
-                                "<td> " + "<a class='btn btn-success btn-sm'>Approve </a> " + "<a class='btn btn-warning btn-sm'>Reject</a> </td>" +
+                                "<td>   " + "<a class='btn btn-primary btn-sm theatre' id='" + object.polls_idpk + "' data-poll-title='" + object.description + "'  data-survey-id='" + object.polls_idpk + "'  data-toggle='modal' data-target='#myModal'>View Details </a>" + " </td>" +
+                                "<td> " + "<a class='btn btn-success btn-sm approveSurvey' data-survey-id='" + object.polls_idpk + "'>Approve </a> " + "<a class='btn btn-warning btn-sm' data-survey-id='" + object.polls_idpk + "'>Reject</a> </td>" +
                                "</tr>"
                                 );
 
                         });
 
+                        //View Detailss
                         $(".theatre").click(function () {
                             $("#placeholderOptions").html("");
                             $("#questionPlaceholder").text($(this).data("poll-question"));
                             $("#myModalLabel").text($(this).data("poll-title"));
                             pollsPK = $(this).data("survey-id");
 
-                            alert(pollsPK);
 
                             $.ajax({
                                 type: "post",
-                                url: "./pending-ui.aspx/pullSurveyDetails",
+                                url: "./pending-ui.aspx/pullPollOptions",
                                 data: "{'optFk' :'" + pollsPK + "' }",
                                 dataType: "json",
                                 processData: false,
@@ -231,14 +231,37 @@
                                     optionsArr = jQuery.parseJSON(optionsArrx);
 
                                     $.each(optionsArr, function (i, pollOpt) {
-
+                                        var replaced = pollOpt.option_description.replace("-", ",");
                                         $("#placeholderOptions").append(
-                                        "<li> "+ pollOpt.survey_question +" </li>" +
-                                        "<li> " + i.survey_option + " </li>"
+                                      
+                                        "<li> " + replaced + " </li>"
                                          );
                                     });
 
 
+                                    console.log(dataOpt.d);
+                                }
+                            });
+
+                        });
+
+                        //Approve Survey
+                        $(".approveSurvey").click(function () {
+                           
+                            pollsPK = $(this).data("survey-id");
+
+
+                            $.ajax({
+                                type: "post",
+                                url: "./pending-ui.aspx/approveSurvey",
+                                data: "{'optFk' :'" + pollsPK + "' }",
+                                dataType: "json",
+                                processData: false,
+                                traditional: true,
+                                contentType: "application/json; charset=utf-8",
+                                success: function (dataOpt) {
+                                    alert(dataOpt.d);
+                                    window.location.reload(true);
                                     console.log(dataOpt.d);
                                 }
                             });

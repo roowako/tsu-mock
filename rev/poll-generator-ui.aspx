@@ -171,11 +171,11 @@
             <h4 class="modal-title" id="myModalLabel">Modal title</h4>
           </div>
           <div class="modal-body">
-              <h4>Poll Question</h4>
+              <h4>Survey Question</h4>
               <p id="questionPlaceholder"></p>
            
               <br />
-              <h4>Poll Options</h4>
+              <h4>Survey Options</h4>
               <ul id="placeholderOptions">
                  
               </ul>
@@ -214,14 +214,18 @@
                     console.log(r)
                     data = jQuery.parseJSON(data);
                     $.each(data, function (i, object) {
-
-                        
+                        var stat;
+                        if (object.status == 0) {
+                            stat = "pending";
+                        } else {
+                            stat = "active";
+                        }
                         object.status = "active";
                         $(".table").append(
                             "<tr>" +
                             "<td>  " + object.polls_idpk  +" </td>" +
                             "<td>  " + object.description + " </td>" +
-                            "<td>  " + object.status + " </td>" +
+                            "<td>  " + stat + " </td>" +
                             "<td>   " + "<a class='btn btn-success btn-sm theatre' id='" + object.polls_idpk + "' data-poll-title='" + object.description + "' data-poll-question='" + object.question + "' data-poll-id='" + object.polls_idpk + "' data-toggle='modal' data-target='#myModal'>View Details </a>" + " </td>" +
                             "</tr>"
                             );

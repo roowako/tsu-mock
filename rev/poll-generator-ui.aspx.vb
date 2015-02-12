@@ -129,7 +129,7 @@ Partial Class UI_poll_generator_ui
 
             sqlCon.Open()
 
-            sqlStr = "INSERT INTO polls_tbl(description,question,status) VALUES(@pollTitle,@pollQ,1)"
+            sqlStr = "INSERT INTO polls_tbl(description,question,status) VALUES(@pollTitle,@pollQ,0)"
 
             cmd = New SqlCommand(sqlStr, sqlCon)
             cmd.Parameters.AddWithValue("@pollTitle", pollTitle)

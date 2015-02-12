@@ -46,10 +46,10 @@ Partial Class rev_pending_ui
         Using sqlCon As New SqlConnection(constr)
 
             sqlCon.Open()
-            Using da = New SqlDataAdapter(" SELECT * FROM surveys_tbl", sqlCon)
+            Using da = New SqlDataAdapter(" SELECT * FROM polls_tbl WHERE status = 0", sqlCon)
                 Dim table = New DataTable()
                 da.Fill(table)
-              
+
                 Dim jsndata As String = GetJson(table)
                 Return jsndata
             End Using
@@ -66,39 +66,74 @@ Partial Class rev_pending_ui
 
     End Function
 
-
-    <System.Web.Services.WebMethod()> _
-  <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
-    Public Shared Function pullSurveyDetails(ByVal optFk As String) As String
+    'Fetch details
+ <System.Web.Services.WebMethod()> _
+      <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
+    Public Shared Function pullPollOptions(ByVal optFk As String) As String
         'Function named PushToDatabase 
         'Includes delimitation of user input
         'Opening and Closing Connection to the database
         'Adding datas to database
-        Dim result2(10, 100) As String
-        Dim i As Integer = 0
+
 
         Using sqlCon As New SqlConnection(constr)
 
-            
             sqlCon.Open()
-            
+            Using dat = New SqlDataAdapter(" SELECT * FROM pollsoption_tbl WHERE polls_idfk = '" & optFk & "' ", sqlCon)
 
-            cmd = New SqlCommand("SELECT * FROM surveyoption_tbl WHERE surveys_idfk = '" & optFk & "' ", sqlCon)
-            dr = cmd.ExecuteReader
+                Dim table2 = New DataTable()
+                dat.Fill(table2)
 
-            While dr.Read
-                result2(i, 0) = dr.GetString(3)
-                i = i + 1
-            End While
 
-            
+                Dim pollOptionsJsonData As String = GetJson(table2)
+                Return pollOptionsJsonData
+            End Using
+
+
+
+
+            sqlCon.Close()
+
+            'Returning Message : Fail or Successful
+
+
+        End Using
+
+    End Function
+
+    'Approve Survey
+    <System.Web.Services.WebMethod()> _
+      <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
+    Public Shared Function approveSurvey(ByVal optFk As String) As String
+        'Function named PushToDatabase 
+        'Includes delimitation of user input
+        'Opening and Closing Connection to the database
+        'Adding datas to database
+
+        Using sqlCon As New SqlConnection(constr)
+
+            sqlCon.Open()
+
+            sqlStr = "UPDATE polls_tbl SET status = 1 WHERE polls_idpk = @verdict "
+            cmd = New SqlCommand(sqlStr, sqlCon)
+            cmd.Parameters.AddWithValue("@verdict", optFk)
+
+            cmd.ExecuteNonQuery()
+
         End Using
 
 
+       
 
 
-        sqlCon.Close()
 
-        'Returning Message : Fail or Successful
+
+        Return "Survey Approved!"
+            'Returning Message : Fail or Successful
+
+
+
+
     End Function
 End Class
+
