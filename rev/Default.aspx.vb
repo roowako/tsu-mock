@@ -435,26 +435,6 @@ Partial Class _Default
             sqlCon.Close()
         End Using
 
-        'to be removed
-        Using sqlCon As New SqlConnection(constr)
-            sqlCon.Open()
-
-            cmd = New SqlCommand("SELECT * FROM coordinatoraccount_tbl WHERE coordinator_username=@p1 AND coordinator_password=@p2 AND status=@p3", sqlCon)
-            cmd.Parameters.AddWithValue("@p1", txtLog_Username.Text)
-            cmd.Parameters.AddWithValue("@p2", txtLog_Password.Text)
-            cmd.Parameters.AddWithValue("@p3", 1)
-            dr = cmd.ExecuteReader
-
-            If dr.HasRows Then
-                isAble = True
-
-                dr.Read()
-                id = dr.GetValue(0)
-            End If
-
-            sqlCon.Close()
-        End Using
-
         If isAble = False Then
             login_result.ForeColor = Drawing.Color.Red
             login_result.Text = "Invalid username or password."

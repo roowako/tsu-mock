@@ -311,10 +311,9 @@
                             if (newpass.length == 11 || retypePass.length == 11) {
                                
                             }
-
-
                         });
                     });
+
                     //Edit Password
                     $("#editPassword").click(function (e) {
                         e.preventDefault();
