@@ -51,7 +51,7 @@ Partial Class rev_notification_center_ui
 
             sqlCon.Open()
 
-            sqlStr = "INSERT INTO tblSms(message,status) VALUES(@p1,1)"
+            sqlStr = "INSERT INTO tblSms(message,status) VALUES(@p1,0)"
 
             cmd = New SqlCommand(sqlStr, sqlCon)
             cmd.Parameters.AddWithValue("@p1", notificationSMS)
