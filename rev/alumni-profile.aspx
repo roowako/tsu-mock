@@ -296,20 +296,29 @@
                             var retypePass = $("#renum").val();
                             if (newpass != retypePass) {
                                 alert("Contact didn't match.");
-                            } else if (newpass == "" || retypePass == "") {
+                            }
+                            else if (newpass == "" || retypePass == "") {
                                 alert("All fields are required.");
                             }
-
-                            if (newpass.length > 11 || retypePass.length > 11) {
+                            else if (newpass.length > 11 || retypePass.length > 11) {
                                 alert("Length is too much")
                             }
-
-                            if (newpass.length < 11 || retypePass.length < 11) {
+                            else if (newpass.length < 11 || retypePass.length < 11) {
                                 alert("Length is too short")
                             }
+                            else {
+                                $.ajax({
+                                    type: "post",
+                                    url: "./alumni-profile.aspx/editContact",
+                                    data: "{'id':'" + id + "','newContact':'" + newpass + "'}",
+                                    dataType: "json",
+                                    contentType: "application/json; charset=utf-8",
 
-                            if (newpass.length == 11 || retypePass.length == 11) {
-                               
+                                    success: function (r) {
+                                        alert("Email address info was updated.")
+                                        window.location.reload(true);
+                                    }
+                                });
                             }
                         });
                     });

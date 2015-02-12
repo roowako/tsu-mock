@@ -101,9 +101,18 @@ Partial Class rev_alumni_profile
     'Edit contact number
     <System.Web.Services.WebMethod()> _
    <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
-    Public Shared Function editContact(ByVal id As String) As String
+    Public Shared Function editContact(ByVal id As String, ByVal newContact As String) As String
+        Using sqlCon As New SqlConnection(constr)
+            sqlCon.Open()
 
-       
+            cmd = New SqlCommand("UPDATE tblAccounts SET telephone_number=@p1 WHERE account_idpk=@p2", sqlCon)
+            cmd.Parameters.AddWithValue("@p1", newContact)
+            cmd.Parameters.AddWithValue("@p2", id)
+            cmd.ExecuteNonQuery()
+
+            sqlCon.Close()
+        End Using
+
         Return "Contact number updated"
     End Function
 
