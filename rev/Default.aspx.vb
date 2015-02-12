@@ -73,62 +73,6 @@ Partial Class _Default
 
     <System.Web.Services.WebMethod()> _
     <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
-    Public Shared Function login(ByVal log_username As String, ByVal log_password As String) As String
-        Dim userlevel As Integer
-        Dim isAble As Boolean = False
-        Dim name As String
-        Dim id As Integer
-
-        Using sqlCon As New SqlConnection(constr)
-            sqlCon.Open()
-
-            cmd = New SqlCommand("SELECT * FROM tblAccounts WHERE student_id=@p1 AND password=@p2 AND account_status=@p3", sqlCon)
-            cmd.Parameters.AddWithValue("@p1", log_username)
-            cmd.Parameters.AddWithValue("@p2", log_password)
-            cmd.Parameters.AddWithValue("@p3", 1)
-            dr = cmd.ExecuteReader
-
-            If dr.HasRows Then
-                userlevel = 0
-                isAble = True
-
-                dr.Read()
-                name = dr.GetString(6) + " " + dr.GetString(7) + " " + dr.GetString(5)
-            End If
-
-            sqlCon.Close()
-        End Using
-
-        Using sqlCon As New SqlConnection(constr)
-            sqlCon.Open()
-
-            cmd = New SqlCommand("SELECT * FROM coordinatoraccount_tbl WHERE coordinator_username=@p1 AND coordinator_password=@p2 AND status=@p3", sqlCon)
-            cmd.Parameters.AddWithValue("@p1", log_username)
-            cmd.Parameters.AddWithValue("@p2", log_password)
-            cmd.Parameters.AddWithValue("@p3", 1)
-            dr = cmd.ExecuteReader
-
-            If dr.HasRows Then
-                userlevel = 1
-                isAble = True
-            End If
-
-            sqlCon.Close()
-        End Using
-
-        If isAble = False Then
-            Return "Login failed. Please check your username or password."
-        Else
-            If userlevel = 0 Then
-                Return "alumni"
-            ElseIf userlevel = 1 Then
-                Return "admin"
-            End If
-        End If
-    End Function
-
-    <System.Web.Services.WebMethod()> _
-    <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
     Public Shared Function pushToserver(ByVal highest_education As String, ByVal higher_education As String, ByVal self_employed_stats As String, ByVal q7 As String, ByVal q6 As String, ByVal q5 As String, ByVal q4 As String, ByVal q3 As String, ByVal q2 As String, ByVal q1 As String, ByVal unemp_status As String, ByVal emp_status As String, ByVal student_status As String, ByVal college As String, ByVal token As String, ByVal course_desc As String, ByVal studNumber As String, ByVal password As String, ByVal family_name As String, ByVal given_name As String, ByVal middle_name As String, ByVal maiden_name As String, ByVal address As String, ByVal mobile_number As String, ByVal email_address As String, ByVal bday_month As String, ByVal bday_day As String, ByVal bday_year As String, ByVal citizenship As String, ByVal religion As String, ByVal marital_status As String, ByVal gender As String, ByVal account_status As String) As String
         Dim isGraduate As Boolean
         Dim studentid_duplicate As Boolean
@@ -444,7 +388,7 @@ Partial Class _Default
                 Response.Redirect("home.aspx")
             ElseIf userlevel = 2 Then
                 Session("alumni_id") = id
-                Response.Redirect("coordinator.aspx")
+                Response.Redirect("coordinator-custom.aspx")
             ElseIf userlevel = 3 Then
                 Session("alumni_id") = id
                 Response.Redirect("director-ui.aspx")
