@@ -68,7 +68,36 @@
             <!-- Start content here -->
             <div class="container-fluid">
                 <div class="row">
-                   <!--#include file="./includes/sidebar-coordinator.inc"-->
+
+               
+                  <div class="col-sm-3 col-md-2 sidebar">
+                       <!-- side bar -->
+	                <ul class="nav nav-sidebar">
+		                <li>
+			                <a href="#" >
+
+				                <asp:Image ID="Image2" runat="server" ImageUrl="~/rev/assets/images/default-dp.jpg" Height="75" Width="75" BorderColor="White" BorderStyle="Solid" BorderWidth="3" />          
+
+			                </a>
+
+		                </li>
+		                <li><a href="#" class="bolder"><span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;<asp:Label id="alumni_name" runat="server"></asp:Label></a></li>
+		                <li>
+			                <br />
+		                </li>
+		                <li><a href="./coordinator-custom.aspx" ><span class="glyphicon glyphicon-home"></span>&nbsp;&nbsp;Timeline</a></li>
+		                <li><a href="./messaging-ui.aspx" ><span class="glyphicon glyphicon-comment"></span>&nbsp;&nbsp;Messages</a></li>
+		                <li><a href="./poll-generator-ui.aspx"><span class="glyphicon glyphicon-list-alt"></span>&nbsp;&nbsp;Survey</a></li>
+		 
+		                <li><a href="./token-generator-ui.aspx"><span class="glyphicon glyphicon-star"></span>&nbsp;&nbsp;Tokens</a></li>
+		  
+		                <li><a href="#"><span class="glyphicon glyphicon-off"></span>&nbsp;&nbsp;Log out</a></li>
+                        <li>
+                            <asp:TextBox ID="account_idpk" runat="server" ></asp:TextBox>
+                        </li>
+	                </ul>
+
+                </div>
 
 
                     <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
@@ -126,10 +155,11 @@
     <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
     <script>
         $(document).ready(function () {
-           
+            var fk = $("#account_idpk").val();
             $.ajax({
                 type: "post",
                 url: "coordinator-custom.aspx/pullAnnouncement",
+                data:"{'fk':'"+ fk +"'}",
                 dataType: "json",
                 processData: false,
                 traditional: true,
@@ -141,7 +171,7 @@
                         $(".announcementHolder").append(
                             "<div class='row'>" +
                                 "<div class='col-xs-12 border-enabled'>" +
-                                    "<h4 class='header-padded'>" + object.account_idfk +" </h4>" +
+                                    "<h4 class='header-padded'>" + object.given_name +" </h4>" +
                                     "<div class='row'>" +
                                         "<div class='theme-color col-xs-3 highlighted-div'>" +
                                             "<p> "+ object.description +"   </p>"+
@@ -172,6 +202,7 @@
                     success: function (announceReturn) {
                         $("#txtPostAnnouncementCoor").val("");
                         console.log(announceReturn);
+                        window.location.reload(true);
                     }
                 });
             });

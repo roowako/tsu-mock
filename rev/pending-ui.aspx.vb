@@ -114,7 +114,7 @@ Partial Class rev_pending_ui
 
             sqlCon.Open()
 
-            sqlStr = "UPDATE pollsTbl SET status = 1 WHERE polls_idpk = @verdict "
+            sqlStr = "UPDATE tblPolls SET status = 1 WHERE polls_idpk = @verdict "
             cmd = New SqlCommand(sqlStr, sqlCon)
             cmd.Parameters.AddWithValue("@verdict", optFk)
 

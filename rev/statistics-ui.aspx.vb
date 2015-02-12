@@ -47,7 +47,7 @@ Partial Class statistics_ui
             sqlCon.Open()
             If filterView = "poll" Then
 
-                Using da = New SqlDataAdapter(" SELECT * FROM polls_tbl ", sqlCon)
+                Using da = New SqlDataAdapter(" SELECT * FROM tblPolls ", sqlCon)
                     Dim table = New DataTable()
                     da.Fill(table)
 
@@ -86,7 +86,7 @@ Partial Class statistics_ui
         Using sqlcon As New SqlConnection(constr)
             sqlcon.Open()
 
-            cmd = New SqlCommand("DELETE FROM  polls_tbl WHERE polls_idpk = '" & poll_id & "'", sqlcon)
+            cmd = New SqlCommand("DELETE FROM  tblPolls WHERE polls_idpk = '" & poll_id & "'", sqlcon)
             cmd.ExecuteNonQuery()
 
             sqlcon.Close()
@@ -192,7 +192,7 @@ Partial Class statistics_ui
 
         Using sqlCon As New SqlConnection(constr)
             sqlCon.Open()
-            Using dat = New SqlDataAdapter("SELECT option_description, COUNT(pollsdata_tbl.pollsoption_idfk) as stats_data FROM  pollsoption_tbl LEFT JOIN pollsdata_tbl ON   pollsoption_tbl.pollsoption_idpk =   pollsdata_tbl.pollsoption_idfk WHERE pollsoption_tbl.polls_idfk = '" & optFk & "' GROUP BY option_description ORDER BY stats_data DESC ", sqlCon)
+            Using dat = New SqlDataAdapter("SELECT option_description, COUNT(tblPollsdata.pollsoption_idfk) as stats_data FROM  tblPollsoption LEFT JOIN tblPollsdata ON   tblPollsoption.pollsoption_idpk =   tblPollsdata.pollsoption_idfk WHERE tblPollsoption.polls_idfk = '" & optFk & "' GROUP BY option_description ORDER BY stats_data DESC ", sqlCon)
 
                 Dim table2 = New DataTable()
                 dat.Fill(table2)

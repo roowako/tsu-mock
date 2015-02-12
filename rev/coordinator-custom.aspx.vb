@@ -38,7 +38,7 @@ Partial Class coordinator_custom
 
     <System.Web.Services.WebMethod()> _
     <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
-    Public Shared Function pullAnnouncement() As String
+    Public Shared Function pullAnnouncement(ByVal fk As String) As String
         ' 'Function named PushToDatabase 
         'Includes delimitation of user input
         'Opening and Closing Connection to the database
@@ -48,7 +48,7 @@ Partial Class coordinator_custom
         Using sqlCon As New SqlConnection(constr)
 
             sqlCon.Open()
-            Using dat = New SqlDataAdapter(" SELECT * FROM announcements_tbl ", sqlCon)
+            Using dat = New SqlDataAdapter(" SELECT * FROM tblAnnouncements,tblAccounts WHERE tblAccounts.account_idpk = '" & fk & "'  ", sqlCon)
 
                 Dim table2 = New DataTable()
                 dat.Fill(table2)
@@ -82,7 +82,7 @@ Partial Class coordinator_custom
 
             sqlCon.Open()
 
-            sqlStr = "INSERT INTO announcements_tbl(description,datetime,account_idfk) VALUES(@announcement,'" & DateTime.Now() & "',1)"
+            sqlStr = "INSERT INTO tblAnnouncements(description,datetime,account_idfk) VALUES(@announcement,'" & DateTime.Now() & "',1)"
 
             cmd = New SqlCommand(sqlStr, sqlCon)
             cmd.Parameters.AddWithValue("@announcement", myAnnouncement)
@@ -100,4 +100,27 @@ Partial Class coordinator_custom
         End Using
 
     End Function
+
+    Protected Sub Page_Load(sender As Object, e As EventArgs) Handles Me.Load
+        If Session.Item("alumni_id") Is Nothing Then
+            Console.Write("sd")
+            Response.Redirect("Default.aspx")
+        Else
+            Using sqlCon As New SqlConnection(constr)
+                sqlCon.Open()
+
+                cmd = New SqlCommand("SELECT * FROM tblAccounts WHERE account_idpk=@p1 AND userlevel_idfk = 2", sqlCon)
+                cmd.Parameters.AddWithValue("@p1", Session("alumni_id"))
+                dr = cmd.ExecuteReader
+
+                While dr.Read
+                    alumni_name.Text = dr.GetString(6)
+                    account_idpk.Text = Session("alumni_id")
+
+                End While
+
+                sqlCon.Close()
+            End Using
+        End If
+    End Sub
 End Class

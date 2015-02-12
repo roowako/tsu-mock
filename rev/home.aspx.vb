@@ -26,7 +26,7 @@ Partial Class home
             Using sqlCon As New SqlConnection(constr)
                 sqlCon.Open()
 
-                cmd = New SqlCommand("SELECT * FROM tblAccounts WHERE account_idpk=@p1", sqlCon)
+                cmd = New SqlCommand("SELECT * FROM tblAccounts WHERE account_idpk=@p1 AND userlevel_idfk = 1", sqlCon)
                 cmd.Parameters.AddWithValue("@p1", Session("alumni_id"))
                 dr = cmd.ExecuteReader
 
@@ -85,14 +85,11 @@ Partial Class home
         'Includes delimitation of user input
         'Opening and Closing Connection to the database
         'Adding datas to database
-
         Using sqlCon As New SqlConnection(constr)
             sqlCon.Open()
-            Using da = New SqlDataAdapter(" SELECT * FROM polls_tbl", sqlCon)
+            Using da = New SqlDataAdapter("SELECT * FROM tblPolls WHERE status=1", sqlCon)
                 Dim table = New DataTable()
                 da.Fill(table)
-                table.Columns(0).ColumnName = "polls_idpk"
-                table.Columns(1).ColumnName = "description"
                 Dim jsndata As String = GetJson(table)
                 Return jsndata
             End Using
@@ -110,7 +107,7 @@ Partial Class home
 
         Using sqlCon As New SqlConnection(constr)
             sqlCon.Open()
-            Using dat = New SqlDataAdapter(" SELECT * FROM pollsoption_tbl WHERE polls_idfk = '" & optFk & "' ", sqlCon)
+            Using dat = New SqlDataAdapter(" SELECT * FROM tblPollsoption WHERE polls_idfk = '" & optFk & "' ", sqlCon)
 
                 Dim table2 = New DataTable()
                 dat.Fill(table2)
@@ -141,7 +138,7 @@ Partial Class home
 
             sqlCon.Open()
 
-            sqlStr = "INSERT INTO pollsdata_tbl(polls_idfk,pollsoption_idfk,account_idfk) VALUES(@p1,@p2,@p3)"
+            sqlStr = "INSERT INTO tblPollsdata(polls_idfk,pollsoption_idfk,account_idfk) VALUES(@p1,@p2,@p3)"
 
             cmd = New SqlCommand(sqlStr, sqlCon)
             cmd.Parameters.AddWithValue("@p1", poll_idpk)
@@ -149,7 +146,7 @@ Partial Class home
             cmd.Parameters.AddWithValue("@p3", account_idfk)
             cmd.ExecuteNonQuery()
 
-            getLast = "SELECT MAX(polls_idpk) as pollsPk FROM polls_tbl"
+            getLast = "SELECT MAX(polls_idpk) as pollsPk FROM tblPolls"
             cmd = New SqlCommand(getLast, sqlCon)
             Dim lastId As Integer = CInt(cmd.ExecuteScalar())
             cmd.ExecuteNonQuery()
