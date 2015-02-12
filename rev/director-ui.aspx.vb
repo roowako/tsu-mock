@@ -40,7 +40,7 @@ Partial Class director_ui
 
     <System.Web.Services.WebMethod()> _
     <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
-    Public Shared Function pullAnnouncement() As String
+    Public Shared Function pullAnnouncement(ByVal fk As String) As String
         ' 'Function named PushToDatabase 
         'Includes delimitation of user input
         'Opening and Closing Connection to the database
@@ -50,7 +50,7 @@ Partial Class director_ui
         Using sqlCon As New SqlConnection(constr)
 
             sqlCon.Open()
-            Using dat = New SqlDataAdapter(" SELECT * FROM announcements_tbl ORDER BY datetime DESC", sqlCon)
+            Using dat = New SqlDataAdapter(" SELECT * FROM tblAnnouncements,tblAccounts WHERE tblAccounts.account_idpk = tblAnnouncements.account_idfk  ", sqlCon)
 
                 Dim table2 = New DataTable()
                 dat.Fill(table2)
@@ -86,7 +86,7 @@ Partial Class director_ui
 
             sqlCon.Open()
 
-            sqlStr = "INSERT INTO announcements_tbl(description,datetime,account_idfk) VALUES(@announcement,'" & DateTime.Now() & "',1)"
+            sqlStr = "INSERT INTO tblAnnouncements(description,datetime,account_idfk) VALUES(@announcement,'" & DateTime.Now() & "',1)"
 
             cmd = New SqlCommand(sqlStr, sqlCon)
             cmd.Parameters.AddWithValue("@announcement", myAnnouncement)
