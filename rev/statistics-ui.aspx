@@ -147,21 +147,21 @@
                                                                 <td><span>2</span></td>
                                                                
                                                                 <td> How long did it take to find your First employment? </td>
-                                                                <td><input type="button" class="btn btn-primary btn-sm" value="View statistics" /></td>                               
+                                                                <td><input type="button" class="btn btn-primary btn-sm" value="View statistics" id="q1" data-toggle='modal' data-target='#myModal'/></td>                               
 
                                                             </tr>
                                                                 <tr>
                                                                 <td><span>3</span></td>
                                                                
                                                                     <td> Is your current work/job is aligned to your field of education?  </td>
-                                                                    <td><input type="button" class="btn btn-primary btn-sm" value="View statistics" /></td>                               
+                                                                    <td><input type="button" class="btn btn-primary btn-sm" value="View statistics" id="q2" data-toggle='modal' data-target='#myModal'/></td>                               
 
                                                                 </tr>
                                                                 <tr>
                                                                 <td><span>4</span></td>
                                                                
                                                                     <td>Location of employment:  </td>
-                                                                    <td><input type="button" class="btn btn-primary btn-sm" value="View statistics" /></td>                               
+                                                                    <td><input type="button" class="btn btn-primary btn-sm" value="View statistics" id="q3" data-toggle='modal' data-target='#myModal'/></td>                               
 
                                                                 </tr>
                                                                 <tr>
@@ -311,7 +311,6 @@
                             contentType: "application/json; charset=utf-8",
                             success: function (dataOpt) {
 
-
                                 optionsArr = dataOpt.d;
                                 optionsArr = jQuery.parseJSON(optionsArr);
                                 var s;
@@ -330,11 +329,6 @@
                                             "<span class='number'>" + s + "</span>" +
                                         "</li>"
                                         );
-
-
-
-
-
                                 });
                                 $('.chart').horizBarChart({
                                     selector: '.bar',
@@ -343,11 +337,8 @@
 
 
                                 console.log(object);
-
                             }
                         });
-
-
                     });
 
                     $(".deletePoll").click(function (e) {
@@ -464,7 +455,6 @@
                 } else if (filterView == "survey") {
                    
                     //Fetch General Survey
-                   
                     $(".tableDetailsView tbody").html("");
                     $(".table-responsive").css("display", "none");
                     $(".genSurvey").css("display", "block");
@@ -521,11 +511,6 @@
                                                     "<span class='number'>" + s + "</span>" +
                                                 "</li>"
                                                 );
-
-
-
-
-
                                         });
                                         $('.chart').horizBarChart({
                                             selector: '.bar',
@@ -584,17 +569,97 @@
                                 speed: 3000
                             });
                         });
-
-                     
                     }
                 });
             });
+
+            $("#q1").click(function () {
+                $("#myModalLabel").text("How long did it take to find your First employment?");
+                $(".chart").html("");
+                $.ajax({
+                    type: "post",
+                    url: "./statistics-ui.aspx/q1",
+
+                    dataType: "json",
+                    processData: false,
+                    traditional: true,
+                    contentType: "application/json; charset=utf-8",
+                    success: function (dataOpt) {
+                        data = dataOpt.d
+                        data = jQuery.parseJSON(data)
+                        $.each(data, function (i, o) {
+                            console.log(o.opt1);
+                            console.log(o.opt2);
+                            console.log(o.opt3);
+                            console.log(o.opt4);
+                            $(".chart").append(
+                                "<li class='current' title='1 to 3 months' >" +
+                                    "<span class='bar' data-number=" + o.opt1 + "></span>" +
+                                    "<span class='number'>" + o.opt1 + "</span>" +
+                                "</li>" +
+                                "<li class='current' title='4 to 6 months' >" +
+                                    "<span class='bar' data-number=" + o.opt2 + "></span>" +
+                                    "<span class='number'>" + o.opt2 + "</span>" +
+                                "</li>" +
+                                "<li class='current' title='7 months to 1 year' >" +
+                                    "<span class='bar' data-number=" + o.opt3 + "></span>" +
+                                    "<span class='number'>" + o.opt3 + "</span>" +
+                                "</li>" +
+                                "<li class='current' title='other' >" +
+                                    "<span class='bar' data-number=" + o.opt4 + "></span>" +
+                                    "<span class='number'>" + o.opt4 + "</span>" +
+                                "</li>"
+                                );
+                            $('.chart').horizBarChart({
+                                selector: '.bar',
+                                speed: 3000
+                            });
+                        });
+                    }
+                });
+            });
+
+            $("#q2").click(function () {
+                $("#myModalLabel").text("Is your current work/job is aligned to your field of education? ");
+                $(".chart").html("");
+                $.ajax({
+                    type: "post",
+                    url: "./statistics-ui.aspx/q2",
+
+                    dataType: "json",
+                    processData: false,
+                    traditional: true,
+                    contentType: "application/json; charset=utf-8",
+                    success: function (dataOpt) {
+                        data = dataOpt.d
+                        data = jQuery.parseJSON(data)
+                        $.each(data, function (i, o) {
+                            console.log(o.opt1);
+                            console.log(o.opt2);
+                            $(".chart").append(
+                                "<li class='current' title='Yes' >" +
+                                    "<span class='bar' data-number=" + o.opt1 + "></span>" +
+                                    "<span class='number'>" + o.opt1 + "</span>" +
+                                "</li>" +
+                                "<li class='current' title='No' >" +
+                                    "<span class='bar' data-number=" + o.opt2 + "></span>" +
+                                    "<span class='number'>" + o.opt2 + "</span>" +
+                                "</li>" 
+                                );
+                            $('.chart').horizBarChart({
+                                selector: '.bar',
+                                speed: 3000
+                            });
+                        });
+                    }
+                });
+            });
+
             $(document).ready(function () {
                 $('.chart').horizBarChart({
                     selector: '.bar',
                     speed: 3000
-                });
-                
+                }); 
             });
     </script>
 </body>

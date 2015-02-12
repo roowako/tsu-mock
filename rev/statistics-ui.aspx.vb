@@ -96,17 +96,11 @@ Partial Class statistics_ui
 
     'Employment Status
     <System.Web.Services.WebMethod()> _
-  <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
+    <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
     Public Shared Function empstat() As String
-        'Function named PushToDatabase 
-        'Includes delimitation of user input
-        'Opening and Closing Connection to the database
-        'Adding datas to database
-
 
         Using sqlCon As New SqlConnection(constr)
             sqlCon.Open()
-
 
             Using da = New SqlDataAdapter("SELECT COUNT(CASE when employment_status = 'employed_no' then 1 else NULL end) Unmployed,COUNT(CASE when employment_status = 'employed_yes' then 1 else NULL end) Employed from tblEmployment  ", sqlCon)
                 Dim table = New DataTable()
@@ -116,16 +110,53 @@ Partial Class statistics_ui
                 Return jsndata
             End Using
 
-
-
-
             sqlCon.Close()
-            'Returning Message : Fail or Successful
-
-
         End Using
 
     End Function
+
+    'First employment duration stats
+    <System.Web.Services.WebMethod()> _
+    <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
+    Public Shared Function q1() As String
+
+        Using sqlCon As New SqlConnection(constr)
+            sqlCon.Open()
+
+            Using da = New SqlDataAdapter("SELECT COUNT(CASE when q1 = '1 to 3 months' then 1 else NULL end) opt1, COUNT(CASE when q1 = '4 to 6 months' then 1 else NULL end) opt2, COUNT(CASE when q1 = '7 months to 1 year' then 1 else NULL end) opt3, COUNT(CASE when q1 = 'other' then 1 else NULL end) opt4 from tblEmployment", sqlCon)
+                Dim table = New DataTable()
+                da.Fill(table)
+
+                Dim jsndata As String = GetJson(table)
+                Return jsndata
+            End Using
+
+            sqlCon.Close()
+        End Using
+
+    End Function
+
+    'Field of education and job relation
+    <System.Web.Services.WebMethod()> _
+    <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
+    Public Shared Function q2() As String
+
+        Using sqlCon As New SqlConnection(constr)
+            sqlCon.Open()
+
+            Using da = New SqlDataAdapter("SELECT COUNT(CASE when q2 = 'Yes' then 1 else NULL end) opt1, COUNT(CASE when q2 = 'No' then 1 else NULL end) opt2 from tblEmployment", sqlCon)
+                Dim table = New DataTable()
+                da.Fill(table)
+
+                Dim jsndata As String = GetJson(table)
+                Return jsndata
+            End Using
+
+            sqlCon.Close()
+        End Using
+
+    End Function
+
 
     Protected Sub Page_Load(sender As Object, e As EventArgs) Handles Me.Load
         If Not IsPostBack Then
@@ -154,17 +185,6 @@ Partial Class statistics_ui
             sqlcon.Close()
         End Using
     End Sub
-
-
-
-
-
-
-
-
-
-
-
 
     <System.Web.Services.WebMethod()> _
    <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _

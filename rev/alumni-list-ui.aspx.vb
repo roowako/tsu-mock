@@ -69,7 +69,7 @@ Partial Class rev_alumni_list_ui
             Using sqlCon As New SqlConnection(constr)
 
                 sqlCon.Open()
-                Using da = New SqlDataAdapter(" SELECT * FROM tblAccounts,tblCourses WHERE  course_idfk = course_idpk ", sqlCon)
+                Using da = New SqlDataAdapter(" SELECT * FROM tblAccounts,tblCourses WHERE course_idfk = course_idpk AND userlevel_idfk<>2", sqlCon)
                     Dim table = New DataTable()
                     da.Fill(table)
 
@@ -80,8 +80,6 @@ Partial Class rev_alumni_list_ui
                 sqlCon.Close()
 
                 'Returning Message : Fail or Successful
-
-
             End Using
         ElseIf sortBy = "alumni" Then
             Using sqlCon As New SqlConnection(constr)
