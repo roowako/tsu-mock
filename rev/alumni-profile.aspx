@@ -315,7 +315,7 @@
                                     contentType: "application/json; charset=utf-8",
 
                                     success: function (r) {
-                                        alert("Email address info was updated.")
+                                        alert("Contact info was updated.")
                                         window.location.reload(true);
                                     }
                                 });
@@ -347,10 +347,24 @@
                             var retypePass = $("#repass").val();
                             if(newpass != retypePass){
                                 alert("Password didn't match.");
-                            } else if(newpass == "" || retypePass == ""){
+                            }
+                            else if (newpass == "" || retypePass == "") {
                                 alert("All fields are required.");
                             }
+                            else {
+                                $.ajax({
+                                    type: "post",
+                                    url: "./alumni-profile.aspx/editPassword",
+                                    data: "{'id':'" + id + "','newPassword':'" + newpass + "'}",
+                                    dataType: "json",
+                                    contentType: "application/json; charset=utf-8",
 
+                                    success: function (r) {
+                                        alert("Password was updated.")
+                                        window.location.reload(true);
+                                    }
+                                });
+                            }
 
                         });
                     });

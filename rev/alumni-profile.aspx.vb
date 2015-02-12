@@ -120,8 +120,17 @@ Partial Class rev_alumni_profile
     'Edit password
     <System.Web.Services.WebMethod()> _
    <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
-    Public Shared Function editPassword(ByVal id As String) As String
+    Public Shared Function editPassword(ByVal id As String, ByVal newPassword As String) As String
+        Using sqlCon As New SqlConnection(constr)
+            sqlCon.Open()
 
+            cmd = New SqlCommand("UPDATE tblAccounts SET password=@p1 WHERE account_idpk=@p2", sqlCon)
+            cmd.Parameters.AddWithValue("@p1", newPassword)
+            cmd.Parameters.AddWithValue("@p2", id)
+            cmd.ExecuteNonQuery()
+
+            sqlCon.Close()
+        End Using
 
         Return "Password updated"
     End Function
