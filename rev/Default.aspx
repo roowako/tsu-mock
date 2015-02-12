@@ -88,17 +88,17 @@
                         </div>
                          <div class="row form-group" style="z-index:90;">
                             <div class="col-xs-6">
-                                <asp:TextBox ID="txtGiven_Name" runat="server" CssClass="form-control" placeholder="Given Name" required></asp:TextBox>
+                                <asp:TextBox ID="txtGiven_Name" runat="server" CssClass="form-control" placeholder="Given Name"  ></asp:TextBox>
                             </div>
                             <div class="col-xs-6">
-                                <asp:TextBox ID="txtFamily_Name" runat="server" CssClass="form-control" placeholder="Family Name" required></asp:TextBox>
+                                <asp:TextBox ID="txtFamily_Name" runat="server" CssClass="form-control" placeholder="Family Name" ></asp:TextBox>
                             </div>
                          </div>
                          <div class="row form-group">
                             <div class="col-xs-6">
                                  <div class="input-group">
                                       <div class="input-group-addon">Middle Name</div>
-                                      <asp:TextBox  ID="txtMiddle_Name" runat="server" CssClass="form-control" placeholder="Middle Name" required></asp:TextBox>
+                                      <asp:TextBox  ID="txtMiddle_Name" runat="server" CssClass="form-control" placeholder="Middle Name" ></asp:TextBox>
                                  </div>
                             </div>
                           </div>
@@ -111,7 +111,7 @@
                              <div class="col-sm-6">
                                  <div class="input-group">
                                     <div class="input-group-addon">Gender &nbsp;</div>
-                                        <asp:DropDownList ID="cboGender" runat="server" CssClass="form-control" required>
+                                        <asp:DropDownList ID="cboGender" runat="server" CssClass="form-control" >
                                             <asp:ListItem Text="" />
                                             <asp:ListItem Text="Male" />
                                             <asp:ListItem Text="Female" />
@@ -121,7 +121,7 @@
                               <div class="col-xs-6">
                                     <div class="input-group">
                                         <div class="input-group-addon">Marital Status</div>
-                                         <asp:DropDownList ID="cboMarital_Status" runat="server" CssClass="form-control" required>
+                                         <asp:DropDownList ID="cboMarital_Status" runat="server" CssClass="form-control" >
                                             <asp:ListItem Text="Single" />
                                             <asp:ListItem Text="Married" />
                                             <asp:ListItem Text="Widowed" />
@@ -136,7 +136,7 @@
                              <div class="col-xs-12">
                                  <div class="input-group">
                                     <div class="input-group-addon"> Home Address</div>
-                                    <asp:TextBox  CssClass="form-control" TextMode="multiline"  Rows="2" runat="server" ID="txtAddress" required/>
+                                    <asp:TextBox  CssClass="form-control" TextMode="multiline"  Rows="2" runat="server" ID="txtAddress" />
                                 </div>
                              </div>
                          </div>
@@ -145,7 +145,7 @@
                              <div class="col-xs-5">
                                  <div class="input-group">
                                     <div class="input-group-addon"> Birthday Info</div>
-                                        <asp:DropDownList ID="cboMonth" runat="server" CssClass="form-control" required>
+                                        <asp:DropDownList ID="cboMonth" runat="server" CssClass="form-control" >
                                             <asp:ListItem Text="January" />
                                             <asp:ListItem Text="February" />
                                             <asp:ListItem Text="March" />
@@ -163,7 +163,7 @@
                              </div>
 
                              <div class="col-xs-3">
-                                 <asp:DropDownList ID="cboDay" runat="server" CssClass="form-control" required>
+                                 <asp:DropDownList ID="cboDay" runat="server" CssClass="form-control" >
                                     <asp:ListItem Text="1" />
                                     <asp:ListItem Text="2" />
                                     <asp:ListItem Text="3" />
@@ -199,7 +199,7 @@
                              </div>
 
                              <div class="col-xs-4">
-                                 <asp:DropDownList ID="cboYear" runat="server" CssClass="form-control" required>
+                                 <asp:DropDownList ID="cboYear" runat="server" CssClass="form-control" >
                                     <asp:ListItem Text="1970" />
                                     <asp:ListItem Text="1971" />
                                     <asp:ListItem Text="1972" />
@@ -239,7 +239,7 @@
                                  <div class="input-group">
                                     <div class="input-group-addon">Birth Place</div>
                                  
-                                    <asp:TextBox  CssClass="form-control" TextMode="multiline"  Rows="2" runat="server" ID="txtBirth_Place" required/>
+                                    <asp:TextBox  CssClass="form-control" TextMode="multiline"  Rows="2" runat="server" ID="txtBirth_Place" />
                                 </div>
                              </div>
                          </div>
@@ -250,25 +250,25 @@
                                 <div class="col-xs-12">
                                     <div class="input-group">
                                         <div class="input-group-addon">Telephone no. / Mobile no.</div>
-                                        <asp:TextBox ID="txtMobile_Number" runat="server" placeholder="Contact Number" CssClass="form-control" required></asp:TextBox>
+                                        <asp:TextBox ID="txtMobile_Number" runat="server" placeholder="Contact Number" CssClass="form-control" ></asp:TextBox>
                                     </div>
                                 </div>
                             </div>
                             <div class="row form-group phase-2">
                                 <div class="col-xs-6">
-                                    <asp:TextBox ID="txtCitizenship" runat="server" CssClass="form-control" placeholder="Citizenship" required></asp:TextBox>
+                                    <asp:TextBox ID="txtCitizenship" runat="server" CssClass="form-control" placeholder="Citizenship" ></asp:TextBox>
                                 </div>
                                 <div class="col-xs-6">
-                                    <asp:TextBox ID="txtReligion" runat="server" CssClass="form-control" placeholder="Religion" required></asp:TextBox>
+                                    <asp:TextBox ID="txtReligion" runat="server" CssClass="form-control" placeholder="Religion" ></asp:TextBox>
                                 </div>
                             </div>  
                         
                             <div class="form-group row phase-2">
                                 <div class="col-xs-6">
-                                    <asp:TextBox ID="txtEmail" runat="server" CssClass="form-control" placeholder="Email Address" required></asp:TextBox>
+                                    <asp:TextBox ID="txtEmail" runat="server" CssClass="form-control" placeholder="Email Address" ></asp:TextBox>
                                 </div>
                                   <div class="col-xs-6">
-                                    <asp:TextBox ID="txtConfirm_Email" runat="server" CssClass="form-control" placeholder="Verify Email Address" required></asp:TextBox>
+                                    <asp:TextBox ID="txtConfirm_Email" runat="server" CssClass="form-control" placeholder="Verify Email Address" ></asp:TextBox>
                                 </div>
                             </div>
 
@@ -604,33 +604,6 @@
             $("#highest_educ_attainment").each(function () {
                 $(this).click(function () {
                     highest_education = $("#highest_educ_attainment :checked").val();
-                });
-            });
-
-            $("#btqwenLogin").click(function (e) {
-                e.preventDefault();
-                var log_username = $("#txtLog_Username").val();
-                var log_password = $("#txtLog_Password").val();
-
-                $.ajax({
-                    type: "post",
-                    url: "Default.aspx/login",
-                    data: "{'log_username':'" + log_username + "', 'log_password':'" + log_password + "'}",
-                    dataType: "json",
-                    processData: false,
-                    traditional: true,
-                    contentType: "application/json; charset=utf-8",
-                    success: function (r) {
-                        if (r.d == "alumni")
-                        { 
-                            window.location = "home.aspx?id=11";
-                        }
-                        else if(r.d == "admin")
-                        {
-                            window.location = "coordinator-custom.aspx";
-                        }
-                        console.log(r.d);
-                    }
                 });
             });
 

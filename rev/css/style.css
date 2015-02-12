@@ -5,7 +5,7 @@
 .shadowed{ box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.5) !important;border-top:4px solid #FFC40D !important;}
 .extended-brand{background:transparent;width:300px;height:83px;}
  .img-float-nav{ float:left;  }
- .clearfix{clear:both;}
+
  .extended-brand > h3{float:right;}
  .bolder{font-weight:bold;}
  .border-enabled{border:1px solid #D0D1D5;border-radius:3px;  }
@@ -30,3 +30,64 @@
       opacity:1;
       transition-delay:0s;
  }
+
+ #alumni_name{
+     text-transform:uppercase;
+     font-weight:bolder;
+ }
+
+ #frame1{
+   
+ }
+
+ .padded-left{
+      padding:10px;
+ }
+ #account_idpk{
+     display:none;
+ }
+
+ .basic-info{
+     padding:10px;
+     background:;
+ }
+
+  .basic-info > div{
+      padding:15px;
+  }
+
+  .messaging{
+
+      padding:3px;
+  }
+  #messages li{
+      list-style-type:none;
+  }
+  .messaging > b, .sender-name > b{
+      color:maroon;
+      font-size:14px;
+      text-transform:capitalize;
+  }
+  .modal-body {
+    max-height: calc(100vh - 310px);
+    overflow-y: auto;
+}
+
+.table thead>tr>th {
+vertical-align: bottom;
+border-bottom: 1px solid #ddd;
+}
+.table thead>tr>th,.table tbody>tr>th,.table tfoot>tr>th,.table thead>tr>td,.table tbody>tr>td,.table tfoot>tr>td{
+   padding:8px;
+   line-height:1.428571429;
+   vertical-align:top;
+   border-bottom:1px solid #ddd;
+   border-top:none;
+}
+
+.min {
+    font-size:14px !important;
+    color:#222;
+    font-weight:700;
+
+}

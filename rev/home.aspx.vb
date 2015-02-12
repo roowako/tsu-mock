@@ -8,7 +8,9 @@ Imports System.Web
 Imports System.Collections.Generic
 
 Partial Class home
+
     Inherits System.Web.UI.Page
+    '"Data Source=SQL5005.Smarterasp.net;Initial Catalog=DB_9BB10F_tsuatdb;User Id=DB_9BB10F_tsuatdb_admin;Password=masterfile"
     Public Shared Property constr As String = "Data Source=.\SQLEXPRESS;Initial Catalog=tsuat_db;User ID=sa;Password=masterfile"
     Public Shared Property sqlCon As SqlConnection
     Public Shared Property cmd As SqlCommand
@@ -16,6 +18,34 @@ Partial Class home
 
     Public Shared Property sqlStr As String
     Public Shared Property getLast As String
+
+
+    Protected Sub Page_Load(sender As Object, e As EventArgs) Handles Me.Load
+        If Session.Item("alumni_id") Is Nothing Then
+            Console.Write("sd")
+            Response.Redirect("Default.aspx")
+        Else
+            Using sqlCon As New SqlConnection(constr)
+                sqlCon.Open()
+
+                cmd = New SqlCommand("SELECT * FROM tblAccounts WHERE account_idpk=@p1", sqlCon)
+                cmd.Parameters.AddWithValue("@p1", Session("alumni_id"))
+                dr = cmd.ExecuteReader
+
+                While dr.Read
+                    alumni_name.Text = dr.GetString(6)
+                    account_idpk.Text = Session("alumni_id")
+
+                End While
+
+                sqlCon.Close()
+            End Using
+        End If
+    End Sub
+    Protected Sub alumni_logout_Click(sender As Object, e As EventArgs) Handles alumni_logout.ServerClick
+        Session.Abandon()
+        Response.Redirect("default.aspx")
+    End Sub
     Public Shared Function GetJsonOpt(ByVal dt As DataTable) As String
         Dim serializer As New System.Web.Script.Serialization.JavaScriptSerializer()
         serializer.MaxJsonLength = Integer.MaxValue
@@ -96,25 +126,43 @@ Partial Class home
 
     End Function
 
-    Protected Sub Page_Load(sender As Object, e As EventArgs) Handles Me.Load
-        If Session("alumni_id") = 0 Then
-            Response.Redirect("default.aspx")
-        Else
-            Using sqlCon As New SqlConnection(constr)
-                sqlCon.Open()
-
-                cmd = New SqlCommand("SELECT * FROM tblAccounts WHERE account_idpk=@p1", sqlCon)
-                cmd.Parameters.AddWithValue("@p1", Session("alumni_id"))
-                dr = cmd.ExecuteReader
-
-                While dr.Read
-                    alumni_name.Text = dr.GetString(6) + " " + dr.GetString(5) + ", " + dr.GetString(7)
-                End While
-
-                sqlCon.Close()
-            End Using
 
 
-        End If
-    End Sub
+
+    'Push data for statistics
+    <System.Web.Services.WebMethod()> _
+ <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
+    Public Shared Function pushToPollDataStats(ByVal poll_idpk As Integer, ByVal poll_option_idfk As Integer, ByVal account_idfk As Integer) As String
+        'Function named PushToDatabase 
+        'Includes delimitation of user input
+        'Opening and Closing Connection to the database
+        'Adding datas to database
+
+
+        Using sqlCon As New SqlConnection(constr)
+
+            sqlCon.Open()
+
+            sqlStr = "INSERT INTO pollsdata_tbl(polls_idfk,pollsoption_idfk,account_idfk) VALUES(@p1,@p2,@p3)"
+
+            cmd = New SqlCommand(sqlStr, sqlCon)
+            cmd.Parameters.AddWithValue("@p1", poll_idpk)
+            cmd.Parameters.AddWithValue("@p2", poll_option_idfk)
+            cmd.Parameters.AddWithValue("@p3", account_idfk)
+            cmd.ExecuteNonQuery()
+
+            getLast = "SELECT MAX(polls_idpk) as pollsPk FROM polls_tbl"
+            cmd = New SqlCommand(getLast, sqlCon)
+            Dim lastId As Integer = CInt(cmd.ExecuteScalar())
+            cmd.ExecuteNonQuery()
+
+
+            sqlCon.Close()
+
+            'Returning Message : Fail or Successful
+            Return "Your answer has been added to our statistics. Thank you for participating!"
+
+        End Using
+
+    End Function
 End Class

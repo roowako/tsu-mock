@@ -424,16 +424,18 @@ Partial Class _Default
             dr = cmd.ExecuteReader
 
             If dr.HasRows Then
-                userlevel = 0
+                dr.Read()
+
+                userlevel = dr.GetValue(1)
                 isAble = True
 
-                dr.Read()
                 id = dr.GetValue(0)
             End If
 
             sqlCon.Close()
         End Using
 
+        'to be removed
         Using sqlCon As New SqlConnection(constr)
             sqlCon.Open()
 
@@ -444,7 +446,6 @@ Partial Class _Default
             dr = cmd.ExecuteReader
 
             If dr.HasRows Then
-                userlevel = 1
                 isAble = True
 
                 dr.Read()
@@ -458,10 +459,13 @@ Partial Class _Default
             login_result.ForeColor = Drawing.Color.Red
             login_result.Text = "Invalid username or password."
         Else
-            If userlevel = 0 Then
+            If userlevel = 1 Then
                 Session("alumni_id") = id
-                Response.Redirect("home2.aspx")
-            ElseIf userlevel = 1 Then
+                Response.Redirect("home.aspx")
+            ElseIf userlevel = 2 Then
+                Session("alumni_id") = id
+                Response.Redirect("coordinator.aspx")
+            ElseIf userlevel = 3 Then
                 Session("alumni_id") = id
                 Response.Redirect("director-ui.aspx")
             End If
