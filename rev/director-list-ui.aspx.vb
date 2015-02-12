@@ -20,11 +20,39 @@ Partial Class rev_director_list_ui
     <System.Web.Services.WebMethod()> _
     <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
     Public Shared Function PushToDatabase(ByVal defUsername As String, ByVal defPass As String) As String
+        Dim isDuplicate As Boolean
+
+        Using sqlCon As New SqlConnection(constr)
+            sqlCon.Open()
+
+            cmd = New SqlCommand("SELECT * FROM tblCoordinators WHERE username=@p1", sqlCon)
+            cmd.Parameters.AddWithValue("@p1", defUsername)
+            dr = cmd.ExecuteReader
+
+            If dr.HasRows Then
+                isDuplicate = True
+            End If
+
+            sqlCon.Close()
+        End Using
+
+        If isDuplicate = True Then
+            Using sqlCon As New SqlConnection(constr)
+                sqlCon.Open()
+
+                cmd = New SqlCommand("DELETE * FROM tblCoordinators WHERE username=@p1", sqlCon)
+                cmd.Parameters.AddWithValue("@p1", defUsername)
+                cmd.ExecuteNonQuery()
+
+                sqlCon.Close()
+            End Using
+        End If
+
         Using sqlCon As New SqlConnection(constr)
 
             sqlCon.Open()
 
-            sqlStr = "INSERT INTO tblCoordinators(username,password,college_idfk,status) VALUES(@defUsername,@defPassword,@college_id,1)"
+            sqlStr = "INSERT INTO tblCoordinators(username,password,college_idfk,status) VALUES(@defUsername,@defPassword,@college_id,0)"
 
             cmd = New SqlCommand(sqlStr, sqlCon)
             cmd.Parameters.AddWithValue("@defUsername", defUsername)
