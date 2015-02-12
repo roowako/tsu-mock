@@ -104,8 +104,9 @@
                                 <div class="row">
                                     <div class="col-xs-12">
                                         <div class="form-group">
-                                            <input type="text" name="name" value=" " placeholder="Search for alumni" class="form-control"/>
-                                        </div>
+                                            <input type="text" id="qAlumni" name="name" value=" " placeholder="Search for alumni" class="form-control" autocomplete="off"/>
+                                            <input type="hidden" name="name" value=" " id="hidId" />
+                                         </div>
 
                                         <div class="form-group">
                                              <textarea rows="5" class="form-control" id="actor-message"></textarea>
@@ -256,15 +257,17 @@
                 e.preventDefault();
                 var sess_id = $("#account_idpk").val();
                 var message = $("#actor-message").val();
+                var sendTo = $("#hidId").val();
                 $.ajax({
                     type: "post",
                     url: "./messaging-ui-alumni.aspx/pushMessages",
-                    data:"{'message':'"+ message +"','actor_id':'"+ sess_id +"','send_to':13}",
+                    data:"{'message':'"+ message +"','actor_id':'"+ sess_id +"','send_to':'"+ sendTo +"'}",
                     dataType: "json",
                     contentType: "application/json; charset=utf-8",
                     async: true,
                     success: function (r) {
-
+                        $("#actor-message").val("");
+                        $("#qAlumni").val("");
                     }
                 });
 
@@ -331,6 +334,136 @@
                     }
                 });
                 console.log(account_idfk);
+            }
+
+
+            $("#qAlumni").on("keyup", function (event) {
+                $(this).search(event);
+            });
+
+
+            $.fn.search = function (event) {
+                var ESC = 27;
+                var SPACE = 32;
+                var BACKSPAE = 8;
+                event.preventDefault();
+                var key = event.which || event.keyCode;
+                var input = $(this).val().trim();
+                var f = input.match(/^[a-zA-Z\s]+$/);
+
+                if (key !== ESC && key !== BACKSPAE) {
+                    $(".resultContainer").html("");
+                    $("#searchableTable tbody").html("");
+
+                    $.ajax({
+                        type: "post",
+                        url: "alumni-list-ui.aspx/searchQ",
+                        data: "{'q':'" + f + "'}",
+                        dataType: "json",
+                        processData: false,
+                        traditional: true,
+                        contentType: "application/json; charset=utf-8",
+                        success: function (response) {
+
+                            if (response.d == "[]") {
+                                $(".resultContainer").addClass("animateOnDisplay");
+                                $(".resultContainer").append("<br>" + "No results found for " + "<span>" + input + " </span>");
+
+
+                            } else {
+                                data = response.d;
+                                data = jQuery.parseJSON(data);
+                                $.each(data, function (i, o) {
+                                    $("#qAlumni").val(o.given_name + " " + o.family_name);
+                                    $("#qAlumni").focus().select();
+                                    $("#hidId").val(o.account_idpk);
+                                    var last = data.length;
+                                    $(".resultContainer").html("");
+                                    $(".resultContainer").append("<br>" + "Found " + "<span>" + last + " result(s) for " + input + " </span>");
+
+
+
+                                    var mod = ("<tr class='warning'>" +
+                                    "<td> " + o.account_idpk + " </td>" +
+                                    "<td> " + o.given_name + "  " + o.middle_name + " " + o.family_name + " </td>" +
+                                    "<td> " + o.description + " </td>" +
+                                    "<td></td>" +
+                                    "<td> <a class='btn btn-primary btn-sm viewAccountInfo' data-account-id='" + o.account_idpk + "' data-toggle='modal' data-target='.bs-example-modal-lg'> View info </a> </td>" +
+                                     "</tr>");
+                                    $(".resultContainer").addClass("animateOnDisplay");
+
+                                    $(".searchableTable tbody").append(
+                                       mod
+                                   );
+                                });
+
+                                $(".viewAccountInfo").click(function () {
+
+                                    accId = $(this).data("account-id");
+                                    $("#accountInfoPlaceholder tbody ").html("");
+                                    $.ajax({
+                                        type: "post",
+                                        url: "pending-reg-ui.aspx/fetchAccountInfo",
+                                        data: "{'accId':'" + accId + "'}",
+                                        dataType: "json",
+                                        processData: false,
+                                        traditional: true,
+                                        contentType: "application/json; charset=utf-8",
+                                        success: function (approvalResponse) {
+                                            response = approvalResponse.d;
+                                            response = jQuery.parseJSON(response);
+                                            $.each(response, function (i, o) {
+                                                console.log(o.student_id);
+
+
+                                                $("#myModalLabel").text(o.given_name + "  " + o.middle_name + " " + o.family_name);
+
+
+                                                $(".update-sudnumber").attr("data-id", o.account_idpk);
+                                                if (o.student_id == "") {
+                                                    $("#studNumberPlacer").removeAttr("disabled");
+                                                    $(".update-sudnumber").removeAttr("disabled");
+                                                } else {
+                                                    $(".update-sudnumber").attr("disabled", "disabled");
+                                                    $("#studNumberPlacer").attr("disabled", "disabled");
+                                                    $("#studNumberPlacer").val(o.student_id);
+                                                }
+                                                $("#accountInfoPlaceholder tbody").append(
+
+                                                        "<tr>" +
+
+                                                            "<td> " + o.account_idpk + " </td>" +
+                                                            "<td> " + o.address + " </td>" +
+                                                            "<td> " + o.telephone_number + " </td>" +
+                                                            "<td> " + o.email_address + " </td>" +
+                                                            "<td> " + o.birthday + " </td>" +
+                                                            "<td> " + o.citizenship + " </td>" +
+                                                            "<td> " + o.religion + " </td>" +
+                                                            "<td> " + o.marital_status + " </td>" +
+                                                            "<td> " + o.gender + " </td>" +
+                                                        "</tr>"
+
+
+                                                    );
+                                            });
+                                        }
+                                    });
+                                });
+                            }
+
+
+                        }
+
+                    });
+                } else if (key == BACKSPAE) {
+                    if (input == "") {
+                        $("#searchableTable tbody").loadDef();
+                    }
+                    $(".resultContainer").removeClass("animateOnDisplay");
+
+                }
+
+
             }
            
      });
