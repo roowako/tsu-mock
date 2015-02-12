@@ -119,7 +119,7 @@ Partial Class home
         'Adding datas to database
         Using sqlCon As New SqlConnection(constr)
             sqlCon.Open()
-            Using da = New SqlDataAdapter("SELECT * FROM tblPolls WHERE status=1", sqlCon)
+            Using da = New SqlDataAdapter("SELECT * FROM tblPolls,tblPollsdata WHERE status = 1 AND tblPolls.polls_idpk=tblPollsdata.polls_idfk", sqlCon)
                 Dim table = New DataTable()
                 da.Fill(table)
                 Dim jsndata As String = GetJson(table)
