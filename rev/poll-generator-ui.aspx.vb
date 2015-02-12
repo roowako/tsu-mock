@@ -63,7 +63,7 @@ Partial Class UI_poll_generator_ui
         Using sqlCon As New SqlConnection(constr)
 
             sqlCon.Open()
-            Using da = New SqlDataAdapter(" SELECT * FROM polls_tbl", sqlCon)
+            Using da = New SqlDataAdapter(" SELECT * FROM tblPolls", sqlCon)
                 Dim table = New DataTable()
                 da.Fill(table)
                 table.Columns(0).ColumnName = "polls_idpk"
@@ -95,7 +95,7 @@ Partial Class UI_poll_generator_ui
         Using sqlCon As New SqlConnection(constr)
 
             sqlCon.Open()
-            Using dat = New SqlDataAdapter(" SELECT * FROM pollsoption_tbl WHERE polls_idfk = '" & optFk & "' ", sqlCon)
+            Using dat = New SqlDataAdapter(" SELECT * FROM tblPollsoption WHERE polls_idfk = '" & optFk & "' ", sqlCon)
 
                 Dim table2 = New DataTable()
                 dat.Fill(table2)
@@ -129,14 +129,14 @@ Partial Class UI_poll_generator_ui
 
             sqlCon.Open()
 
-            sqlStr = "INSERT INTO polls_tbl(description,question,status) VALUES(@pollTitle,@pollQ,0)"
+            sqlStr = "INSERT INTO tblPolls(description,question,status) VALUES(@pollTitle,@pollQ,0)"
 
             cmd = New SqlCommand(sqlStr, sqlCon)
             cmd.Parameters.AddWithValue("@pollTitle", pollTitle)
             cmd.Parameters.AddWithValue("@pollQ", pollQ)
             cmd.ExecuteNonQuery()
 
-            getLast = "SELECT MAX(polls_idpk) as pollsPk FROM polls_tbl"
+            getLast = "SELECT MAX(polls_idpk) as pollsPk FROM tblPolls"
             cmd = New SqlCommand(getLast, sqlCon)
             Dim lastId As Integer = CInt(cmd.ExecuteScalar())
             cmd.ExecuteNonQuery()
@@ -159,7 +159,7 @@ Partial Class UI_poll_generator_ui
             For Each i In result
 
                 'Insertion query
-                sqlStr = "INSERT INTO pollsoption_tbl(polls_idfk,option_description) VALUES(@pollFk,@poll)"
+                sqlStr = "INSERT INTO tblPollsoption(polls_idfk,option_description) VALUES(@pollFk,@poll)"
                 cmd = New SqlCommand(sqlStr, sqlCon)
                 cmd.Parameters.AddWithValue("@poll", i)
                 cmd.Parameters.AddWithValue("@pollFk", lastId)

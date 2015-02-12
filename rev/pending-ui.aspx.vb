@@ -9,7 +9,7 @@ Imports System.Collections.Generic
 Partial Class rev_pending_ui
     Inherits System.Web.UI.Page
 
-    Public Shared Property constr As String = "Data Source=MAC-PC\SQLEXPRESS;Initial Catalog=tsuat_db;Persist Security Info=True;User ID=sa;Password=masterfile"
+    Public Shared Property constr As String = "Data Source=SQL5012.Smarterasp.net;Initial Catalog=DB_9BB7E6_tsuat;User Id=DB_9BB7E6_tsuat_admin;Password=masterfile;"
     Public Shared Property sqlCon As SqlConnection
     Public Shared Property cmd As SqlCommand
     Public Shared Property dr As SqlDataReader
@@ -46,7 +46,7 @@ Partial Class rev_pending_ui
         Using sqlCon As New SqlConnection(constr)
 
             sqlCon.Open()
-            Using da = New SqlDataAdapter(" SELECT * FROM polls_tbl WHERE status = 0", sqlCon)
+            Using da = New SqlDataAdapter(" SELECT * FROM tblPolls WHERE status = 0", sqlCon)
                 Dim table = New DataTable()
                 da.Fill(table)
 
@@ -79,7 +79,7 @@ Partial Class rev_pending_ui
         Using sqlCon As New SqlConnection(constr)
 
             sqlCon.Open()
-            Using dat = New SqlDataAdapter(" SELECT * FROM pollsoption_tbl WHERE polls_idfk = '" & optFk & "' ", sqlCon)
+            Using dat = New SqlDataAdapter(" SELECT * FROM tblPollsoption WHERE polls_idfk = '" & optFk & "' ", sqlCon)
 
                 Dim table2 = New DataTable()
                 dat.Fill(table2)
@@ -114,7 +114,7 @@ Partial Class rev_pending_ui
 
             sqlCon.Open()
 
-            sqlStr = "UPDATE polls_tbl SET status = 1 WHERE polls_idpk = @verdict "
+            sqlStr = "UPDATE pollsTbl SET status = 1 WHERE polls_idpk = @verdict "
             cmd = New SqlCommand(sqlStr, sqlCon)
             cmd.Parameters.AddWithValue("@verdict", optFk)
 

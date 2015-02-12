@@ -49,8 +49,9 @@
                             <asp:TextBox placeholder="Password" TextMode="Password" class="form-control input-sm" runat="server" ID="txtLog_Password" ></asp:TextBox>
                         </div>
                             <asp:Button ID="btnLogin" class="btn btn-default btn-warning btn-sm" runat="server" Text="Sign In" />
+                            <a href="./password-recovery.aspx" style="color:#fff;font-size:12px;">Forgot password?</a>
                        </div>
-
+                        
                         
                     </div><!--/.navbar-collapse -->
                        
