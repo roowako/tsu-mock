@@ -87,7 +87,7 @@ Partial Class rev_alumni_list_ui
             Using sqlCon As New SqlConnection(constr)
 
                 sqlCon.Open()
-                Using da = New SqlDataAdapter(" SELECT * FROM tblAccounts,tblCourses WHERE userlevel_idfk = 2 AND  course_idfk = course_idpk ", sqlCon)
+                Using da = New SqlDataAdapter(" SELECT * FROM tblAccounts,tblCourses WHERE userlevel_idfk = 1 AND  course_idfk = course_idpk ", sqlCon)
                     Dim table = New DataTable()
                     da.Fill(table)
 
@@ -105,7 +105,7 @@ Partial Class rev_alumni_list_ui
             Using sqlCon As New SqlConnection(constr)
 
                 sqlCon.Open()
-                Using da = New SqlDataAdapter(" SELECT * FROM tblAccounts,tblCourses WHERE userlevel_idfk = 1 AND  course_idfk = course_idpk ", sqlCon)
+                Using da = New SqlDataAdapter(" SELECT * FROM tblAccounts,tblCourses WHERE userlevel_idfk = 0 AND  course_idfk = course_idpk ", sqlCon)
                     Dim table = New DataTable()
                     da.Fill(table)
 
