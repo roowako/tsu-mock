@@ -240,6 +240,27 @@ Partial Class statistics_ui
 
     End Function
 
+    'How long have you been working in your current company?
+    <System.Web.Services.WebMethod()> _
+    <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
+    Public Shared Function q7() As String
+
+        Using sqlCon As New SqlConnection(constr)
+            sqlCon.Open()
+
+            Using da = New SqlDataAdapter("SELECT COUNT(CASE when q7 = '1 to 6 months' then 1 else NULL end) opt1, COUNT(CASE when q7 = '7 months to 1 year' then 1 else NULL end) opt2, COUNT(CASE when q7 = '1 year to 3 years' then 1 else NULL end) opt3, COUNT(CASE when q7 = 'Others' then 1 else NULL end) opt4 from tblEmployment", sqlCon)
+                Dim table = New DataTable()
+                da.Fill(table)
+
+                Dim jsndata As String = GetJson(table)
+                Return jsndata
+            End Using
+
+            sqlCon.Close()
+        End Using
+
+    End Function
+
     Protected Sub Page_Load(sender As Object, e As EventArgs) Handles Me.Load
         If Not IsPostBack Then
             fetch_college()

@@ -20,26 +20,17 @@ Partial Class rev_director_list_ui
     <System.Web.Services.WebMethod()> _
     <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
     Public Shared Function PushToDatabase(ByVal defUsername As String, ByVal defPass As String) As String
-        'Function named PushToDatabase 
-        'Includes delimitation of user input
-        'Opening and Closing Connection to the database
-        'Adding datas to database
-
-
         Using sqlCon As New SqlConnection(constr)
 
             sqlCon.Open()
 
-            sqlStr = "INSERT INTO tblAccounts(userlevel_idfk,student_id,password) VALUES(2,@defUsername,@defPassword)"
+            sqlStr = "INSERT INTO tblCoordinators(username,password,college_idfk,status) VALUES(@defUsername,@defPassword,@college_id,1)"
 
             cmd = New SqlCommand(sqlStr, sqlCon)
-
             cmd.Parameters.AddWithValue("@defUsername", defUsername)
             cmd.Parameters.AddWithValue("@defPassword", defPass)
+            cmd.Parameters.AddWithValue("@college_id", 1)
             cmd.ExecuteNonQuery()
-
-         
-
 
             sqlCon.Close()
 
@@ -80,7 +71,7 @@ Partial Class rev_director_list_ui
         Using sqlCon As New SqlConnection(constr)
 
             sqlCon.Open()
-            Using da = New SqlDataAdapter(" SELECT * FROM tblAccounts WHERE userlevel_idfk = 2", sqlCon)
+            Using da = New SqlDataAdapter(" SELECT * FROM tblCoordinators", sqlCon)
                 Dim table = New DataTable()
                 da.Fill(table)
 

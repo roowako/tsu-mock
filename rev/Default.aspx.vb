@@ -370,7 +370,7 @@ Partial Class _Default
             If dr.HasRows Then
                 dr.Read()
 
-                userlevel = dr.GetValue(1)
+                userlevel = 1
                 isAble = True
 
                 id = dr.GetValue(0)
@@ -378,6 +378,47 @@ Partial Class _Default
 
             sqlCon.Close()
         End Using
+
+        Using sqlCon As New SqlConnection(constr)
+            sqlCon.Open()
+
+            cmd = New SqlCommand("SELECT * FROM tblCoordinators WHERE username=@p1 AND password=@p2", sqlCon)
+            cmd.Parameters.AddWithValue("@p1", txtLog_Username.Text)
+            cmd.Parameters.AddWithValue("@p2", txtLog_Password.Text)
+            dr = cmd.ExecuteReader
+
+            If dr.HasRows Then
+                dr.Read()
+
+                userlevel = 2
+                isAble = True
+
+                id = dr.GetValue(0)
+            End If
+
+            sqlCon.Close()
+        End Using
+
+        Using sqlCon As New SqlConnection(constr)
+            sqlCon.Open()
+
+            cmd = New SqlCommand("SELECT * FROM tblDirector WHERE username=@p1 AND password=@p2", sqlCon)
+            cmd.Parameters.AddWithValue("@p1", txtLog_Username.Text)
+            cmd.Parameters.AddWithValue("@p2", txtLog_Password.Text)
+            dr = cmd.ExecuteReader
+
+            If dr.HasRows Then
+                dr.Read()
+
+                userlevel = 3
+                isAble = True
+
+                id = dr.GetValue(0)
+            End If
+
+            sqlCon.Close()
+        End Using
+
 
         If isAble = False Then
             login_result.ForeColor = Drawing.Color.Red

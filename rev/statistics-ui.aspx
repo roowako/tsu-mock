@@ -185,14 +185,14 @@
                                                                     <td><input type="button" class="btn btn-primary btn-sm" value="View statistics" id="q6" data-toggle='modal' data-target='#myModal' /></td>                               
 
                                                                 </tr>
-                                                                 <tr>
+                                                                <tr>
                                                                 <td><span>8</span></td>
                                                                
-                                                                    <td> Further Study : Did you pursue a higher level of Education?  </td>
-                                                                    <td><input type="button" class="btn btn-primary btn-sm" value="View statistics" /></td>                               
+                                                                    <td> How long have you been working in your current company?  </td>
+                                                                    <td><input type="button" class="btn btn-primary btn-sm" value="View statistics" id="q7" data-toggle='modal' data-target='#myModal'/></td>                               
 
                                                                 </tr>
-                                                              
+                                                                                    
                                                             </tbody>          
                                                         </table>
                                                          </div>
@@ -797,6 +797,52 @@
                                     "<span class='number'>" + o.opt2 + "</span>" +
                                 "</li>" +
                                 "<li class='current' title='Managerial Level' >" +
+                                    "<span class='bar' data-number=" + o.opt3 + "></span>" +
+                                    "<span class='number'>" + o.opt3 + "</span>" +
+                                "</li>" +
+                                "<li class='current' title='Others' >" +
+                                    "<span class='bar' data-number=" + o.opt4 + "></span>" +
+                                    "<span class='number'>" + o.opt4 + "</span>" +
+                                "</li>"
+                                );
+                            $('.chart').horizBarChart({
+                                selector: '.bar',
+                                speed: 3000
+                            });
+                        });
+                    }
+                });
+            });
+
+            $("#q7").click(function () {
+                $("#myModalLabel").text("How long have you been working in your current company?");
+                $(".chart").html("");
+                $.ajax({
+                    type: "post",
+                    url: "./statistics-ui.aspx/q7",
+
+                    dataType: "json",
+                    processData: false,
+                    traditional: true,
+                    contentType: "application/json; charset=utf-8",
+                    success: function (dataOpt) {
+                        data = dataOpt.d
+                        data = jQuery.parseJSON(data)
+                        $.each(data, function (i, o) {
+                            console.log(o.opt1);
+                            console.log(o.opt2);
+                            console.log(o.opt3);
+                            console.log(o.opt4);
+                            $(".chart").append(
+                                "<li class='current' title='1 to 6 months' >" +
+                                    "<span class='bar' data-number=" + o.opt1 + "></span>" +
+                                    "<span class='number'>" + o.opt1 + "</span>" +
+                                "</li>" +
+                                "<li class='current' title='7 months to 1 year' >" +
+                                    "<span class='bar' data-number=" + o.opt2 + "></span>" +
+                                    "<span class='number'>" + o.opt2 + "</span>" +
+                                "</li>" +
+                                "<li class='current' title='1 year to 3 years' >" +
                                     "<span class='bar' data-number=" + o.opt3 + "></span>" +
                                     "<span class='number'>" + o.opt3 + "</span>" +
                                 "</li>" +

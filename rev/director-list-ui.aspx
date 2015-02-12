@@ -176,9 +176,9 @@
                             if (accStatus == 0) {
                                 var mod = "Default";
                                 var ext = ("<tr class='success'>" +
-                                            "<td> " + object.coordinatoracc_idpk + "  </td>" +
-                                            "<td> " + object.coordinator_username + "  </td>" +
-                                            "<td> " + object.coordinator_username + "  </td>" +
+                                            "<td> " + object.coordinator_idpk + "  </td>" +
+                                            "<td> " + object.username + "  </td>" +
+                                            "<td> " + object.password + "  </td>" +
                                             "<td > " + mod + "  </td>" +
                                             "<td> </td>"+
                                             "</tr>");
@@ -186,9 +186,9 @@
                                 mod = "Modified";
                                
                                 var ext = ("<tr class='warning'>" +
-                                            "<td> " + object.coordinatoracc_idpk + "  </td>" +
-                                            "<td> " + object.coordinator_username + "  </td>" +
-                                            "<td> " + object.coordinator_username + "  </td>" +
+                                            "<td> " + object.coordinator_idpk + "  </td>" +
+                                            "<td> " + object.username + "  </td>" +
+                                            "<td> " + object.password + "  </td>" +
                                             "<td > " + mod + "  </td>" +
                                             "<td> " + "<a class='btn btn-warning btn-sm'> Restore Default </a>" + "  </td>" +
                                             "</tr>");
