@@ -270,7 +270,7 @@
                                 alert("Invalid email");
                             }                         
                         });
-                    });sssss
+                    });
 
                     //Edit number
                     $("#editContact").click(function (e) {
