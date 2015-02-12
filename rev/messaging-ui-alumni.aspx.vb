@@ -10,7 +10,7 @@ Partial Class rev_messaging_ui_alumni
     Inherits System.Web.UI.Page
 
 
-    Public Shared Property constr As String = "Data Source=.\SQLEXPRESS;Initial Catalog=tsuat_db;User ID=sa;Password=masterfile"
+    Public Shared Property constr As String = "Data Source=SQL5012.Smarterasp.net;Initial Catalog=DB_9BB7E6_tsuat;User Id=DB_9BB7E6_tsuat_admin;Password=masterfile;"
     Public Shared Property sqlCon As SqlConnection
     Public Shared Property cmd As SqlCommand
     Public Shared Property dr As SqlDataReader
@@ -39,10 +39,12 @@ Partial Class rev_messaging_ui_alumni
             End Using
         End If
     End Sub
+
     Protected Sub alumni_logout_Click(sender As Object, e As EventArgs) Handles alumni_logout.ServerClick
         Session.Abandon()
         Response.Redirect("default.aspx")
     End Sub
+
     'JSON Serializer
     Public Shared Function GetJson(ByVal dt As DataTable) As String
         Dim serializer As New System.Web.Script.Serialization.JavaScriptSerializer()
@@ -95,7 +97,6 @@ Partial Class rev_messaging_ui_alumni
                 Return jsndata
             End Using
 
-
             sqlCon.Close()
             'Returning Message : Fail or Successful
         End Using
@@ -105,12 +106,6 @@ Partial Class rev_messaging_ui_alumni
     <System.Web.Services.WebMethod()> _
 <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
     Public Shared Function pushMessages(ByVal message As String, actor_id As String, ByVal send_to As String) As String
-        'Function named PushToDatabase 
-        'Includes delimitation of user input
-        'Opening and Closing Connection to the database
-        'Adding datas to database
-
-
         Using sqlCon As New SqlConnection(constr)
             sqlCon.Open()
             Using da = New SqlDataAdapter(" INSERT INTO tblMessages(recipient_idfk,sender_idfk,actor_message,date_sent) VALUES('" & send_to & "','" & actor_id & "','" & message & "','" & Date.Now & "')", sqlCon)
