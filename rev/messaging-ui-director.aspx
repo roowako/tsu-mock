@@ -67,7 +67,7 @@
                         </li>
                         <li><a href="./pending-ui.aspx"><span class="glyphicon glyphicon-paperclip"></span>&nbsp;&nbsp;Pending Surveys</a></li>
                         <li>
-                          <a href="./poll-generator-ui.aspx">
+                          <a href="./survey-gen-director.aspx">
                             <span class="glyphicon glyphicon-list"></span>&nbsp;&nbsp;Surveys
                           </a>
                         </li>
