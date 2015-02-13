@@ -13,7 +13,7 @@
     <link href="./css/normalize.css" rel="stylesheet" />
 </head>
 <body>
-    <form  runat="server">
+        <form  runat="server">
         <div class="container-fluid">
             <nav class="navbar navbar-inverse navbar-fixed-top shadowed default-theme"> 
                     <div class="container pulled-height ">
@@ -251,7 +251,7 @@
                                 <div class="col-xs-12">
                                     <div class="input-group">
                                         <div class="input-group-addon">Telephone no. / Mobile no.</div>
-                                        <input type="number" pattern="[0-0]{1}[9-9]{1}[0-9]{9}" id="txtMobile_Number" runat="server" placeholder="Contact Number" class="form-control" required/>
+                                        <asp:TextBox ID="txtMobile_Number" runat="server" placeholder="Contact Number" CssClass="form-control" ></asp:TextBox>
                                     </div>
                                 </div>
                             </div>
@@ -266,10 +266,10 @@
                         
                             <div class="form-group row phase-2">
                                 <div class="col-xs-6">
-                                    <input type="email" id="txtEmail" runat="server" cssclass="form-control" placeholder="Email Address" />
+                                    <asp:TextBox ID="txtEmail" runat="server" CssClass="form-control" placeholder="Email Address" ></asp:TextBox>
                                 </div>
                                   <div class="col-xs-6">
-                                    <input type="email" id="txtConfirm_Email" runat="server" class="form-control" placeholder="Verify Email Address" />
+                                    <asp:TextBox ID="txtConfirm_Email" runat="server" CssClass="form-control" placeholder="Verify Email Address" ></asp:TextBox>
                                 </div>
                             </div>
 
@@ -499,7 +499,8 @@
 
                             <div class="row form-group createShow" style="display:none;">
                                 <div class="col-sm-4">
-                                    <input type="submit" id="creatBtn" runat="server" value="Create Account" class="btn btn-success" />
+                                    <asp:HyperLink ID="creatBtn1" runat="server">HyperLink</asp:HyperLink>
+                                    <asp:Button ID="creatBtn" runat="server" Text="Create Account" CssClass="btn btn-success" />
                                 </div>
                             </div>
                         </div>

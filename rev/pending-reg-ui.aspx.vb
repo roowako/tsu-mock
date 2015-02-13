@@ -13,7 +13,7 @@ Partial Class rev_pending_reg_ui
     Inherits System.Web.UI.Page
 
 
-    Public Shared Property constr As String = "Data Source=SQL5012.Smarterasp.net;Initial Catalog=DB_9BB7E6_tsuat;User Id=DB_9BB7E6_tsuat_admin;Password=masterfile;"
+    Public Shared Property constr As String = "Data Source=MAC-PC\SQLEXPRESS;Initial Catalog=tsuat_db;User ID=sa;Password=masterfile"
     Public Shared Property sqlCon As SqlConnection
     Public Shared Property cmd As SqlCommand
     Public Shared Property dr As SqlDataReader
@@ -125,13 +125,19 @@ Partial Class rev_pending_reg_ui
                 Dim table2 = New DataTable()
                 dat.Fill(table2)
 
+
                 Dim accIdPK As String = GetJson2(table2)
                 Return accId
             End Using
 
+
+
+
             sqlCon.Close()
 
             'Returning Message : Fail or Successful
+
+
         End Using
 
     End Function
@@ -140,6 +146,12 @@ Partial Class rev_pending_reg_ui
     <System.Web.Services.WebMethod()> _
    <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
     Public Shared Function rejectAccount(ByVal accIdTobeRejected As String) As String
+        'Function named PushToDatabase 
+        'Includes delimitation of user input
+        'Opening and Closing Connection to the database
+        'Adding datas to database
+
+
         Using sqlCon As New SqlConnection(constr)
 
             sqlCon.Open()
@@ -153,9 +165,14 @@ Partial Class rev_pending_reg_ui
                 Return accIdTobeRejected
             End Using
 
+
+
+
             sqlCon.Close()
 
             'Returning Message : Fail or Successful
+
+
         End Using
 
     End Function
@@ -181,9 +198,14 @@ Partial Class rev_pending_reg_ui
                 Return accIdPK
             End Using
 
+
+
+
             sqlCon.Close()
 
             'Returning Message : Fail or Successful
+
+
         End Using
 
     End Function
