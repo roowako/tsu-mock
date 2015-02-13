@@ -1,11 +1,11 @@
-﻿<%@ Page Language="VB" AutoEventWireup="false" CodeFile="Default.aspx.vb" Inherits="_Default" EnableEventValidation="true"  %>
+﻿<%@ Page Language="VB" AutoEventWireup="false" CodeFile="Default.aspx.vb" Inherits="_Default" EnableEventValidation="True"%>
 
 <!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <title>TSU Alumin Tracer</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link href="./css/bootstrap.min.css" rel="stylesheet" />
     <link href="./css/bootstrap.theme.min.css" rel="stylesheet" />
     <link href="./css/custom.css" rel="stylesheet" />
@@ -13,11 +13,11 @@
     <link href="./css/normalize.css" rel="stylesheet" />
 </head>
 <body>
-        <form  runat="server">
+    <form action="Default.aspx" runat="server" id="myForm">
         <div class="container-fluid">
               <!--#include file="./includes/login.inc"-->
             
-            <!-- Content Start  -->
+                <!-- Content Start  -->
             
             <div class="container pulled-down">
                 <div class="row ">
@@ -31,7 +31,6 @@
                         <div>
                             <h3 style="float:left;margin-top:0px;"> Register</h3>
                             <div class="clearfix"></div>
-
                          </div>
                         
                        
@@ -40,7 +39,7 @@
                           
                         <div class="row form-group">
                             <div class="col-xs-6">
-                                <asp:TextBox ID="txtStudent_Number" runat="server" CssClass="form-control" placeholder="Student Number"></asp:TextBox>
+                                <input runat="server" type="text" id="txtStudent_Number" name="qwe" class="form-control" placeholder="Student Number" pattern="[0-0]{1}[9-9]{1}[0-9]{9}" title="09051234567" />
                             </div>
                             <div class="col-xs-6">
                                 <p>Leave blank if you forgot your student number.</p>
@@ -48,30 +47,30 @@
                         </div>
                          <div class="row form-group" style="z-index:90;">
                             <div class="col-xs-6">
-                                <asp:TextBox ID="txtGiven_Name" runat="server" CssClass="form-control" placeholder="Given Name"  ></asp:TextBox>
+                                <input type="text" id="txtGiven_Name" pattern="[A-Za-z]+" title="Numbers are not accepted." runat="server" class="form-control" placeholder="Given Name" required/>
                             </div>
                             <div class="col-xs-6">
-                                <asp:TextBox ID="txtFamily_Name" runat="server" CssClass="form-control" placeholder="Family Name" ></asp:TextBox>
+                                <input type="text" id="txtFamily_Name" pattern="[A-Za-z]+" title="Numbers are not accepted." runat="server" class="form-control" placeholder="Family Name" required/>
                             </div>
                          </div>
                          <div class="row form-group">
                             <div class="col-xs-6">
                                  <div class="input-group">
                                       <div class="input-group-addon">Middle Name</div>
-                                      <asp:TextBox  ID="txtMiddle_Name" runat="server" CssClass="form-control" placeholder="Middle Name" ></asp:TextBox>
+                                      <input type="text"  id="txtMiddle_Name" pattern="[A-Za-z]+" title="Numbers are not accepted." runat="server" class="form-control" placeholder="Middle Name" required/>
                                  </div>
                             </div>
                           </div>
                             <div class="row form-group">
                             <div class="col-xs-6">
-                               <asp:TextBox style= "display:none;" ID="txtMaiden_Name" runat="server" CssClass="form-control" placeholder="Maiden Name ( married only )"></asp:TextBox>
+                               <input type="text" style= "display:none;" id="txtMaiden_Name" pattern="[A-Za-z]+" title="Numbers are not accepted." runat="server" class="form-control" placeholder="Maiden Name ( married only )" />
                             </div>
                             </div>
                          <div class="row form-group">
                              <div class="col-sm-6">
                                  <div class="input-group">
                                     <div class="input-group-addon">Gender &nbsp;</div>
-                                        <asp:DropDownList ID="cboGender" runat="server" CssClass="form-control" >
+                                        <asp:DropDownList ID="cboGender" runat="server" CssClass="form-control">
                                             <asp:ListItem Text="" />
                                             <asp:ListItem Text="Male" />
                                             <asp:ListItem Text="Female" />
@@ -96,7 +95,7 @@
                              <div class="col-xs-12">
                                  <div class="input-group">
                                     <div class="input-group-addon"> Home Address</div>
-                                    <asp:TextBox  CssClass="form-control" TextMode="multiline"  Rows="2" runat="server" ID="txtAddress" />
+                                    <input type="text"  class="form-control" textmode="multiline"  rows="2" runat="server" id="txtAddress" required />
                                 </div>
                              </div>
                          </div>
@@ -199,7 +198,7 @@
                                  <div class="input-group">
                                     <div class="input-group-addon">Birth Place</div>
                                  
-                                    <asp:TextBox  CssClass="form-control" TextMode="multiline"  Rows="2" runat="server" ID="txtBirth_Place" />
+                                    <input type="text" class="form-control" textmode="multiline"  rows="2" runat="server" id="txtBirth_Place" required/>
                                 </div>
                              </div>
                          </div>
@@ -211,16 +210,16 @@
                                     <div class="input-group">
                                         <div class="input-group-addon">Telephone no. / Mobile no.</div>
                                        <label for="txtMobile_Number"></label>
-                                        <input type="tel"  name="name" pattern="[0-0]{1}[9-9]{1}[0-9]{9}" title="091512345678" id="txtMobile_Number" placeholder="Contact Number" class="form-control" required />
+                                        <input type="text"  name="name" pattern="[0-0]{1}[9-9]{1}[0-9]{9}" title="091512345678" id="txtMobile_Number" placeholder="Contact Number" class="form-control" required/>
                                     </div>
                                 </div>
                             </div>
                             <div class="row form-group phase-2">
                                 <div class="col-xs-6">
-                                    <input type="text" ID="txtCitizenship" runat="server" class="form-control" placeholder="Citizenship" required />
+                                    <input type="text" id="txtCitizenship" pattern="[A-Za-z]+" title="Numbers are not accepted." runat="server" class="form-control" placeholder="Citizenship" required />
                                 </div>
                                 <div class="col-xs-6">
-                                    <input type="text" ID="txtReligion" runat="server" CssClass="form-control" placeholder="Religion" required />
+                                    <input type="text" id="txtReligion" pattern="[A-Za-z]+" title="Numbers are not accepted." runat="server" class="form-control" placeholder="Religion" required />
                                 </div>
                             </div>  
                         
@@ -277,7 +276,7 @@
                             <div class="graduating-status-opt traversable-stat">
                                 <div class="row form-group token_div" >
                                     <div class="col-xs-12">
-                                        <asp:TextBox ID="token" runat="server" CssClass="form-control" placeholder="Token"></asp:TextBox>
+                                        <input type="text" id="token" runat="server" class="form-control" placeholder="Token" />
                                     </div>
                                 </div>
                             </div>
@@ -444,7 +443,7 @@
                                 <div class=" col-sm-12">
                                     <div class="input-group">
                                         <div class="input-group-addon">Password</div>
-                                        <asp:TextBox ID="txtAccountPassword" runat="server" CssClass="form-control" placeholder="Password" TextMode="Password"></asp:TextBox>
+                                        <input type="text" id="txtPassword" runat="server" class="form-control" placeholder="Password" required />
                                     </div>
                                 </div>
                             </div>
@@ -452,14 +451,14 @@
                                 <div class=" col-sm-12">
                                      <div class="input-group ">
                                         <div class="input-group-addon">Re-type Password</div>
-                                        <asp:TextBox ID="txtRetypePassword" runat="server" CssClass="form-control" placeholder="Password" TextMode="Password"></asp:TextBox>
+                                        <input type="text" id="txtConfirm_Password" runat="server" class="form-control" placeholder="Confirm Password" required />
                                     </div>
                                 </div>
                             </div>
 
-                            <div class="row form-group createShow" style="display:none;">
+                            <div class="row form-group createShow">
                                 <div class="col-sm-4">
-                                    <input type="submit" name="name" value="Create account " id="creatBtn" class="btn btn-success"/>
+                                    <input type="submit" runat="server" value="Create account" id="createBtn" class="btn btn-success"/>
                                 </div>
                             </div>
                         </div>
@@ -561,8 +560,35 @@
                 });
             });
 
-  
+            //REGISTER
+            $("#createBtn").click(function () {
+                var student_number = $("#txtStudent_Number").val();
+                var given_name = $("#txtGiven_Name").val();
+                var middle_name = $("#txtMiddle_Name").val();
+                var family_name = $("#txtFamily_Name").val();
+                var gender = $("#cboGender").val();
+                var marital_status = $("#cboMarital_Status").val();
+                var address = $("#txtAddress").val();
+                var birthday = $("#cboMonth").val() + " " + $("#cboDay").val() + ", " + $("#cboYear").val();
+                var birthplace = $("#txtBirth_Place").val();
+                var number = $("#txtMobile_Number").val();
+                var citizenship = $("#txtCitizenship").val();
+                var religion = $("#txtReligion").val();
+                var email = $("#txtEmail").val();
+                var cemail = $("#txtConfirm_Email").val();
+                var password = $("#txtPassword").val();
+                var cpassword = $("#txtConfirm_Password").val();
+                var token = $("token").val();
 
+                var student_status = $(".student_status :checked").val();
+                var college = $("#cboCollege").val();
+                var course = $("#cboCourse").val();
+
+                
+              
+            });
+  
+            //FETCH COURSES
             $("#cboCollege").change(function () {
                 $("#cboCourse").empty();
                 var fk = $("#cboCollege option:selected").val();
@@ -592,5 +618,7 @@
             });
         });
     </script>
+
+    
 </body>
 </html>

@@ -163,6 +163,7 @@
             var newmail;
             var retype;
             $("title").html(fullname);
+
             //Load user info
             $.ajax({
                 type: "post",

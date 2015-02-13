@@ -43,6 +43,72 @@ Partial Class _Default
         Return serializer.Serialize(rows)
     End Function
 
+    'REGISTER GRADUATE
+    <System.Web.Services.WebMethod()> _
+    <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
+    Public Shared Function graduate_register(ByVal college As String, ByVal course As String, ByVal token As String) As String
+        Dim college_id As Integer
+        Dim course_id As Integer
+        Dim token_id As Integer
+        Dim tokenStatus As Boolean
+
+        'fetch college id
+        Using sqlCon As New SqlConnection(constr)
+            sqlCon.Open()
+
+            cmd = New SqlCommand("SELECT college_idpk FROM tblColleges WHERE description = @p1", sqlCon)
+            cmd.Parameters.AddWithValue("@p1", course)
+            dr = cmd.ExecuteReader
+
+            Do While dr.Read
+                college_id = dr.GetValue(0)
+            Loop
+
+            sqlCon.Close()
+        End Using
+
+        'get course id
+        Using sqlCon As New SqlConnection(constr)
+            sqlCon.Open()
+
+            cmd = New SqlCommand("SELECT course_idpk FROM tblCourses WHERE description=@p1", sqlCon)
+            cmd.Parameters.AddWithValue("@p1", course)
+            dr = cmd.ExecuteReader
+
+            Do While dr.Read
+                course_id = dr.GetValue(0)
+            Loop
+
+            sqlCon.Close()
+        End Using
+
+        'check tokens
+        Using sqlCon As New SqlConnection(constr)
+            sqlCon.Open()
+
+            cmd = New SqlCommand("SELECT token_idpk FROM tblTokens WHERE college_idfk = @p1 AND description = @p2 AND status = @p3", sqlCon)
+            cmd.Parameters.AddWithValue("@p1", college_id)
+            cmd.Parameters.AddWithValue("@p2", token)
+            cmd.Parameters.AddWithValue("@p3", 0)
+            dr = cmd.ExecuteReader
+
+            If dr.HasRows Then
+                tokenStatus = True
+
+                dr.Read()
+                token_id = dr.GetValue(0)
+                dr.Close()
+            Else
+                tokenStatus = False
+            End If
+
+            sqlCon.Close()
+        End Using
+
+        Return "Token not accepted."
+    End Function
+
+
     <System.Web.Services.WebMethod()> _
     <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
     Public Shared Function fetchCourseByIdfk(ByVal collegeFk As String) As String
