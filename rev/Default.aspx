@@ -1,4 +1,4 @@
-﻿<%@ Page Language="VB" AutoEventWireup="false" CodeFile="Default.aspx.vb" Inherits="_Default"  %>
+﻿<%@ Page Language="VB" AutoEventWireup="false" CodeFile="Default.aspx.vb" Inherits="_Default" EnableEventValidation="true"  %>
 
 <!DOCTYPE html>
 
@@ -15,48 +15,7 @@
 <body>
         <form  runat="server">
         <div class="container-fluid">
-            <nav class="navbar navbar-inverse navbar-fixed-top shadowed default-theme"> 
-                    <div class="container pulled-height ">
-                    <div class="navbar-header ">
-                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        </button>
-                        <a class="navbar-brand extended-brand " href="./Default.aspx">
-
-                            <span class="pulled-left">
-                                <asp:Image ID="Image1" style="float:left;" runat="server"  ImageUrl="~/rev/assets/images/TSULOGO.png" Height="60" Width="60" />
-                                <h4 style="float:left;margin-left:30px;margin-top:20px;"> Tarlac State University</h4>
-                               </span>
-
-                            <div class="clearfix">
-                                
-                            </div>
-                        </a>
-
-               
-                    </div>
-                    <div id="navbar" class="navbar-collapse collapse" > <!---collapse collapse -->
-                        
-                            <br />
-                        <div class="navbar-form navbar-right">
-                        <div class="form-group">
-                            <asp:TextBox placeholder="Student Number" class="form-control input-sm" runat="server" ID="txtLog_Username"></asp:TextBox>
-                        </div>
-                        <div class="form-group">
-                            <asp:TextBox placeholder="Password" TextMode="Password" class="form-control input-sm" runat="server" ID="txtLog_Password" ></asp:TextBox>
-                        </div>
-                            <asp:Button ID="btnLogin" class="btn btn-default btn-warning btn-sm" runat="server" Text="Sign In" />
-                            <a href="./password-recovery.aspx" style="color:#fff;font-size:12px;">Forgot password?</a>
-                       </div>
-                        
-                        
-                    </div><!--/.navbar-collapse -->
-                       
-                    </div>
-            </nav>-->
+              <!--#include file="./includes/login.inc"-->
             
             <!-- Content Start  -->
             
@@ -251,25 +210,26 @@
                                 <div class="col-xs-12">
                                     <div class="input-group">
                                         <div class="input-group-addon">Telephone no. / Mobile no.</div>
-                                        <asp:TextBox ID="txtMobile_Number" runat="server" placeholder="Contact Number" CssClass="form-control" ></asp:TextBox>
+                                       <label for="txtMobile_Number"></label>
+                                        <input type="tel"  name="name" pattern="[0-0]{1}[9-9]{1}[0-9]{9}" title="091512345678" id="txtMobile_Number" placeholder="Contact Number" class="form-control" required />
                                     </div>
                                 </div>
                             </div>
                             <div class="row form-group phase-2">
                                 <div class="col-xs-6">
-                                    <asp:TextBox ID="txtCitizenship" runat="server" CssClass="form-control" placeholder="Citizenship" ></asp:TextBox>
+                                    <input type="text" ID="txtCitizenship" runat="server" class="form-control" placeholder="Citizenship" required />
                                 </div>
                                 <div class="col-xs-6">
-                                    <asp:TextBox ID="txtReligion" runat="server" CssClass="form-control" placeholder="Religion" ></asp:TextBox>
+                                    <input type="text" ID="txtReligion" runat="server" CssClass="form-control" placeholder="Religion" required />
                                 </div>
                             </div>  
                         
                             <div class="form-group row phase-2">
                                 <div class="col-xs-6">
-                                    <asp:TextBox ID="txtEmail" runat="server" CssClass="form-control" placeholder="Email Address" ></asp:TextBox>
+                                    <input type="email" name="name" value=" " id="txtEmail"  placeholder="Email Address" class="form-control" required />
                                 </div>
                                   <div class="col-xs-6">
-                                    <asp:TextBox ID="txtConfirm_Email" runat="server" CssClass="form-control" placeholder="Verify Email Address" ></asp:TextBox>
+                                    <input type="email" id="txtConfirm_Email" class="form-control" placeholder="Verify Email Address" required />
                                 </div>
                             </div>
 
@@ -499,19 +459,12 @@
 
                             <div class="row form-group createShow" style="display:none;">
                                 <div class="col-sm-4">
-                                    <asp:HyperLink ID="creatBtn1" runat="server">HyperLink</asp:HyperLink>
-                                    <asp:Button ID="creatBtn" runat="server" Text="Create Account" CssClass="btn btn-success" />
+                                    <input type="submit" name="name" value="Create account " id="creatBtn" class="btn btn-success"/>
                                 </div>
                             </div>
                         </div>
-                     
                     </div>
-
-
-
-                     
             </div>
-               
                 </div>
        </div>
        
@@ -608,45 +561,7 @@
                 });
             });
 
-            $("#creatBtn").click(function (e) {
-                e.preventDefault();
-                var course_desc = $("#cboCourse").val();
-                var studNumber = $("#txtStudent_Number").val();
-                var password = $("#txtAccountPassword").val();
-                var family_name = $("#txtFamily_Name").val();
-                var given_name = $("#txtGiven_Name").val();
-                var middle_name = $("#txtMiddle_Name").val();
-                var maiden_name = $("#txtMaiden_Name").val();
-                var address = $("#txtAddress").val();
-                var mobile_number = $("#txtMobile_Number").val();
-                var email_address = $("#txtEmail").val();
-                var bday_month = $("#cboMonth").val();
-                var bday_day = $("#cboDay").val();
-                var bday_year = $("#cboYear").val();
-                var citizenship = $("#txtCitizenship").val();
-                var religion = $("#txtReligion").val();
-                var marital_status = $("#cboMarital_Status").val();
-                var gender = $("#cboGender").val();
-                var account_status = 0;
-
-                var token = $("#token").val();
-                var college = $("#cboCollege").val();
-                
-                $.ajax({
-                    type: "post",
-                    url: "Default.aspx/pushToserver",
-                    data: "{'highest_education':'" + highest_education + "', 'higher_education':'" + higher_education + "', 'self_employed_stats':'" + self_employed_stats + "', 'q7':'" + q7 + "', 'q6':'" + q6 + "', 'q5':'" + q5 + "', 'q4':'" + q4 + "', 'q3':'" + q3 + "', 'q2':'" + q2 + "', 'q1':'" + q1 + "', 'unemp_status':'" + unemp_status + "', 'emp_status':'" + emp_status + "', 'student_status':'" + student_status + "', 'college':'" + college + "', 'token':'" + token + "', 'course_desc':'" + course_desc + "', 'studNumber':'" + studNumber + "', 'password':'" + password + "', 'family_name':'" + family_name + "', 'given_name':'" + given_name + "', 'middle_name':'" + middle_name + "', 'maiden_name':'" + maiden_name + "', 'address':'" + address + "', 'mobile_number':'" + mobile_number + "', 'email_address':'" + email_address + "', 'bday_month':'" + bday_month + "', 'bday_day':'" + bday_day + "', 'bday_year':'" + bday_year + "', 'citizenship':'" + citizenship + "', 'religion':'" + religion + "', 'marital_status':'" + marital_status + "', 'gender':'" + gender + "', 'account_status':'" + account_status + "'}",
-                    dataType: "json",
-                    processData: false,
-                    traditional: true,
-                    contentType: "application/json; charset=utf-8",
-                    success: function (r) {
-                        alert(r.d);
-                        
-                        console.log(r.d);
-                    }
-                });
-            });
+  
 
             $("#cboCollege").change(function () {
                 $("#cboCourse").empty();
