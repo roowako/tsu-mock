@@ -561,7 +561,9 @@
             });
 
             //REGISTER
-            $("#createBtn").click(function () {
+            $("#createBtn").click(function (event) {
+
+
                 var student_number = $("#txtStudent_Number").val();
                 var given_name = $("#txtGiven_Name").val();
                 var middle_name = $("#txtMiddle_Name").val();
