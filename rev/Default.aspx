@@ -561,10 +561,10 @@
             });
 
             //REGISTER
-<<<<<<< HEAD
+
             
             $("#myForm").submit(function (e) {
-=======
+
             $("#createBtn").click(function (event) {
 
 
