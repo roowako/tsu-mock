@@ -1,4 +1,4 @@
-﻿<%@ Page Language="VB" AutoEventWireup="false" CodeFile="Default.aspx.vb" Inherits="_Default" EnableEventValidation="True"%>
+﻿<%@ Page Language="VB" AutoEventWireup="false" CodeFile="Default.aspx.vb" Inherits="_Default" EnableEventValidation="False"%>
 
 <!DOCTYPE html>
 
@@ -561,33 +561,20 @@
             });
 
             //REGISTER
-            $("#createBtn").click(function () {
-                var student_number = $("#txtStudent_Number").val();
-                var given_name = $("#txtGiven_Name").val();
-                var middle_name = $("#txtMiddle_Name").val();
-                var family_name = $("#txtFamily_Name").val();
-                var gender = $("#cboGender").val();
-                var marital_status = $("#cboMarital_Status").val();
-                var address = $("#txtAddress").val();
-                var birthday = $("#cboMonth").val() + " " + $("#cboDay").val() + ", " + $("#cboYear").val();
-                var birthplace = $("#txtBirth_Place").val();
-                var number = $("#txtMobile_Number").val();
-                var citizenship = $("#txtCitizenship").val();
-                var religion = $("#txtReligion").val();
-                var email = $("#txtEmail").val();
-                var cemail = $("#txtConfirm_Email").val();
-                var password = $("#txtPassword").val();
-                var cpassword = $("#txtConfirm_Password").val();
-                var token = $("token").val();
+            
+            $("#myForm").submit(function (e) {
 
-                var student_status = $(".student_status :checked").val();
-                var college = $("#cboCollege").val();
-                var course = $("#cboCourse").val();
-
-                
-              
+                e.preventDefault();
+                var data = $(this).serializeArray();
+                $.ajax({
+                    type: "post",
+                    url: "./Default.aspx/pushToserver",
+                    data: "",
+                    success: function (r) {
+                        alert(r);
+                    }
+                });
             });
-  
             //FETCH COURSES
             $("#cboCollege").change(function () {
                 $("#cboCourse").empty();
