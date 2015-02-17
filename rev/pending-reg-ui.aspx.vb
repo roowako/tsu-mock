@@ -13,7 +13,7 @@ Partial Class rev_pending_reg_ui
     Inherits System.Web.UI.Page
 
 
-    Public Shared Property constr As String = "Data Source=MAC-PC\SQLEXPRESS;Initial Catalog=tsuat_db;User ID=sa;Password=masterfile"
+    Public Shared Property constr As String = "Data Source=SQL5012.Smarterasp.net;Initial Catalog=DB_9BB7E6_tsuat;User Id=DB_9BB7E6_tsuat_admin;Password=masterfile;"
     Public Shared Property sqlCon As SqlConnection
     Public Shared Property cmd As SqlCommand
     Public Shared Property dr As SqlDataReader
@@ -54,19 +54,15 @@ Partial Class rev_pending_reg_ui
         Next
         Return serializer.Serialize(rows)
     End Function
+
+
     <System.Web.Services.WebMethod()> _
-   <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
+    <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
     Public Shared Function pullFromServer() As String
-        'Function named PushToDatabase 
-        'Includes delimitation of user input
-        'Opening and Closing Connection to the database
-        'Adding datas to database
-
-
         Using sqlCon As New SqlConnection(constr)
 
             sqlCon.Open()
-            Using da = New SqlDataAdapter(" SELECT * FROM tblAccounts WHERE account_status = 0 ", sqlCon)
+            Using da = New SqlDataAdapter(" SELECT *,tblColleges.description as collegeDes, tblCourses.description as courseDes FROM tblAccounts,tblCourses,tblColleges WHERE account_status = 0  AND tblAccounts.course_idfk = tblCourses.course_idpk AND tblColleges.college_idpk = tblCourses.college_idfk ", sqlCon)
                 Dim table = New DataTable()
                 da.Fill(table)
 
@@ -75,83 +71,49 @@ Partial Class rev_pending_reg_ui
             End Using
 
             sqlCon.Close()
-
-            'Returning Message : Fail or Successful
-
-
         End Using
 
     End Function
 
-
+    'APPROVE ACCOUNT
     <System.Web.Services.WebMethod()> _
-   <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
+    <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
     Public Shared Function approveAccount(ByVal accId As String, ByVal emailAdd As String, ByVal name As String, ByVal id As String) As String
-        'Function named PushToDatabase 
-        'Includes delimitation of user input
-        'Opening and Closing Connection to the database
-        'Adding datas to database
+        Using sqlCon As New SqlConnection(constr)
+            sqlCon.Open()
+            cmd = New SqlCommand("UPDATE tblAccounts SET account_status = 1 WHERE  account_idpk = '" & accId & "' ", sqlCon)
+            cmd.ExecuteNonQuery()
+            sqlCon.Close()
+        End Using
+
         Try
             Dim Smtp_Server As New SmtpClient
             Dim e_mail As New MailMessage()
             Smtp_Server.UseDefaultCredentials = False
-            Smtp_Server.Credentials = New Net.NetworkCredential("roowbergonia@gmail.com", "castme30")
+            Smtp_Server.Credentials = New Net.NetworkCredential("tsualumnitracer@gmail.com", "Kjhjt8765")
             Smtp_Server.Port = 587
             Smtp_Server.EnableSsl = True
             Smtp_Server.Host = "smtp.gmail.com"
 
             e_mail = New MailMessage()
-            e_mail.From = New MailAddress("roowbergonia@gmail.com")
+            e_mail.From = New MailAddress("tsualumnitracer@gmail.com")
             e_mail.To.Add(emailAdd)
-            e_mail.Subject = "Congratulations! This is to notify you that your account has been approved."
+            e_mail.Subject = "Congratulations! Approval Notification"
             e_mail.IsBodyHtml = True
-            e_mail.Body = "Hello! " + name + ", This is to notify you that your account has been verified and approved. Here's your Student ID Number " + id + ", Please log in here : <a href='Default.aspx'> Home </a> "
-
+            e_mail.Body = "Hello! " + name + ", This is to notify you that your account has been verified and approved. Here's your Student ID Number " + id + ", Please log in here : <a href='http://tsualumnitracer-001-site1.smarterasp.net/'> Home </a> "
 
             Smtp_Server.Send(e_mail)
-            MsgBox("Mail Sent")
+            Return "Mail Sent"
 
         Catch error_t As Exception
-            MsgBox(error_t.ToString)
+            Return error_t.ToString
         End Try
-
-
-
-        Using sqlCon As New SqlConnection(constr)
-
-            sqlCon.Open()
-            Using dat = New SqlDataAdapter("UPDATE tblAccounts SET account_status = 1 WHERE account_idpk = '" & accId & "' ", sqlCon)
-
-                Dim table2 = New DataTable()
-                dat.Fill(table2)
-
-
-                Dim accIdPK As String = GetJson2(table2)
-                Return accId
-            End Using
-
-
-
-
-            sqlCon.Close()
-
-            'Returning Message : Fail or Successful
-
-
-        End Using
-
     End Function
 
-
+    'REJECT ACCOUNT
     <System.Web.Services.WebMethod()> _
-   <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
+    <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
     Public Shared Function rejectAccount(ByVal accIdTobeRejected As String) As String
-        'Function named PushToDatabase 
-        'Includes delimitation of user input
-        'Opening and Closing Connection to the database
-        'Adding datas to database
-
-
         Using sqlCon As New SqlConnection(constr)
 
             sqlCon.Open()
@@ -165,30 +127,20 @@ Partial Class rev_pending_reg_ui
                 Return accIdTobeRejected
             End Using
 
-
-
-
             sqlCon.Close()
-
-            'Returning Message : Fail or Successful
-
-
         End Using
 
     End Function
-    <System.Web.Services.WebMethod()> _
-   <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
-    Public Shared Function fetchAccountInfo(ByVal accId As String) As String
-        'Function named PushToDatabase 
-        'Includes delimitation of user input
-        'Opening and Closing Connection to the database
-        'Adding datas to database
 
+    'FETCH ACCOUNT INFO
+    <System.Web.Services.WebMethod()> _
+    <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
+    Public Shared Function fetchAccountInfo(ByVal accId As String) As String
 
         Using sqlCon As New SqlConnection(constr)
 
             sqlCon.Open()
-            Using dat = New SqlDataAdapter("SELECT * FROM tblAccounts WHERE account_idpk = '" & accId & "'", sqlCon)
+            Using dat = New SqlDataAdapter("SELECT *,CONVERT(VARCHAR, birthday,7) as formatedB FROM tblAccounts WHERE account_idpk = '" & accId & "'", sqlCon)
 
                 Dim table2 = New DataTable()
                 dat.Fill(table2)
@@ -198,26 +150,14 @@ Partial Class rev_pending_reg_ui
                 Return accIdPK
             End Using
 
-
-
-
             sqlCon.Close()
-
-            'Returning Message : Fail or Successful
-
-
         End Using
-
     End Function
 
+    'UPDATE STUDENT NUMBER
     <System.Web.Services.WebMethod()> _
-  <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
+    <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
     Public Shared Function updateStudentNumber(ByVal accId As String, ByVal studNmber As String) As String
-        'Function named PushToDatabase 
-        'Includes delimitation of user input
-        'Opening and Closing Connection to the database
-        'Adding datas to database
-
 
         Using sqlCon As New SqlConnection(constr)
 
@@ -232,15 +172,38 @@ Partial Class rev_pending_reg_ui
                 Return accId
             End Using
 
-
-
-
             sqlCon.Close()
 
-            'Returning Message : Fail or Successful
-
-
         End Using
-
     End Function
+
+    'PAGE LOAD
+    Protected Sub Page_Load(sender As Object, e As EventArgs) Handles Me.Load
+        If Session.Item("id") Is Nothing Then
+            Console.Write("sd")
+            Response.Redirect("Default.aspx")
+        Else
+            Using sqlCon As New SqlConnection(constr)
+                sqlCon.Open()
+
+                cmd = New SqlCommand("SELECT * FROM tblAccounts WHERE account_idpk=@p1", sqlCon)
+                cmd.Parameters.AddWithValue("@p1", Session("id"))
+                dr = cmd.ExecuteReader
+
+                While dr.Read
+                    alumni_name.Text = dr.GetString(6)
+                    account_idpk.Text = CStr(Session("id"))
+
+                End While
+
+                sqlCon.Close()
+            End Using
+        End If
+    End Sub
+
+    'LOG OUT
+    Protected Sub alumni_logout_Click(sender As Object, e As EventArgs) Handles alumni_logout.ServerClick
+        Session.Abandon()
+        Response.Redirect("default.aspx")
+    End Sub
 End Class

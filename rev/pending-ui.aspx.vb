@@ -135,5 +135,67 @@ Partial Class rev_pending_ui
 
 
     End Function
+
+
+
+    'Reject Survey
+    <System.Web.Services.WebMethod()> _
+      <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
+    Public Shared Function rejectSurvey(ByVal optFk As String) As String
+        'Function named PushToDatabase 
+        'Includes delimitation of user input
+        'Opening and Closing Connection to the database
+        'Adding datas to database
+
+        Using sqlCon As New SqlConnection(constr)
+
+            sqlCon.Open()
+
+            sqlStr = "UPDATE tblPolls SET status = 3 WHERE polls_idpk = @verdict "
+            cmd = New SqlCommand(sqlStr, sqlCon)
+            cmd.Parameters.AddWithValue("@verdict", optFk)
+
+            cmd.ExecuteNonQuery()
+
+        End Using
+
+
+
+
+
+
+
+        Return "Survey Rejected!"
+        'Returning Message : Fail or Successful
+
+
+
+
+    End Function
+    Protected Sub Page_Load(sender As Object, e As EventArgs) Handles Me.Load
+        If Session.Item("id") Is Nothing Then
+            Console.Write("sd")
+            Response.Redirect("Default.aspx")
+        Else
+            Using sqlCon As New SqlConnection(constr)
+                sqlCon.Open()
+
+                cmd = New SqlCommand("SELECT * FROM tblAccounts WHERE account_idpk=@p1", sqlCon)
+                cmd.Parameters.AddWithValue("@p1", Session("id"))
+                dr = cmd.ExecuteReader
+
+                While dr.Read
+                    alumni_name.Text = dr.GetString(6)
+                    account_idpk.Text = Session("id")
+                End While
+
+                sqlCon.Close()
+            End Using
+        End If
+    End Sub
+    Protected Sub alumni_logout_Click(sender As Object, e As EventArgs) Handles alumni_logout.ServerClick
+        Session.Abandon()
+        Response.Redirect("default.aspx")
+    End Sub
 End Class
 

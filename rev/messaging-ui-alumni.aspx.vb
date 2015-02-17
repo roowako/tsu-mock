@@ -19,7 +19,7 @@ Partial Class rev_messaging_ui_alumni
     Public Shared Property getLast As String
 
     Protected Sub Page_Load(sender As Object, e As EventArgs) Handles Me.Load
-        If Session.Item("alumni_id") Is Nothing Then
+        If Session.Item("id") Is Nothing Then
             Console.Write("sd")
             Response.Redirect("Default.aspx")
         Else
@@ -27,12 +27,12 @@ Partial Class rev_messaging_ui_alumni
                 sqlCon.Open()
 
                 cmd = New SqlCommand("SELECT * FROM tblAccounts WHERE account_idpk=@p1", sqlCon)
-                cmd.Parameters.AddWithValue("@p1", Session("alumni_id"))
+                cmd.Parameters.AddWithValue("@p1", Session("id"))
                 dr = cmd.ExecuteReader
 
                 While dr.Read
                     alumni_name.Text = dr.GetString(6)
-                    account_idpk.Text = Session("alumni_id")
+                    account_idpk.Text = Session("id")
                 End While
 
                 sqlCon.Close()
@@ -71,7 +71,7 @@ Partial Class rev_messaging_ui_alumni
         Using sqlCon As New SqlConnection(constr)
             sqlCon.Open()
 
-            Using da = New SqlDataAdapter("SELECT actor_message,sender_idfk,CONVERT(VARCHAR, date_sent,0) as formatedB FROM tblMessages WHERE recipient_idfk = '" & account_id & "' AND sender_idfk = '" & account_idfk & "' OR sender_idfk = '" & account_id & "' AND recipient_idfk = '" & account_idfk & "' ORDER BY date_sent ", sqlCon)
+            Using da = New SqlDataAdapter("SELECT actor_message,sender_idfk,CONVERT(VARCHAR, date_sent,0) as formatedB FROM tblMessages WHERE recipient_idfk = '" & account_id & "' AND sender_idfk = '" & account_idfk & "' OR sender_idfk = '" & account_id & "' AND recipient_idfk = '" & account_idfk & "' ORDER BY date_sent DESC ", sqlCon)
                 Dim table = New DataTable()
                 da.Fill(table)
 

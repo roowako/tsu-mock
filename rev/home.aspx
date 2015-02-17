@@ -25,9 +25,9 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand extended-brand " href="./director-ui.aspx">
+                    <a class="navbar-brand extended-brand " href="./home.aspx">
                         <span class="">
-                            <asp:Image ID="Image1" runat="server" ImageUrl="~/rev/assets/images/TSULOGO.png" Height="55" Width="55" CssClass="img-float-nav" />
+                            <asp:Image ID="Image1" runat="server" ImageUrl="./assets/images/TSULOGO.png" Height="55" Width="55" CssClass="img-float-nav" />
                             <h3>&nbsp;&nbsp;&nbsp;Dashboard</h3>
                              <span class="clearfix"></span>
                         </span>
@@ -50,7 +50,7 @@
 	                        <ul class="nav nav-sidebar">
 		                        <li>
 			                        <a href="#" >
-				                        <asp:Image ID="Image2" runat="server" ImageUrl="~/rev/assets/images/default-dp.jpg" Height="75" Width="75" BorderColor="White" BorderStyle="Solid" BorderWidth="3" />          
+				                        <asp:Image ID="Image2" runat="server" ImageUrl="./assets/images/default-dp.jpg" Height="75" Width="75" BorderColor="White" BorderStyle="Solid" BorderWidth="3" />          
 			                        </a>
 		                        </li>
                             <li>    
@@ -60,7 +60,10 @@
 		                        <li><a href="./messaging-ui-alumni.aspx" ><span class="glyphicon glyphicon-comment"></span>&nbsp;&nbsp;Messages</a></li>
 		                        <li><a href="#" id="alumni_logout" runat="server"><span class="glyphicon glyphicon-off" ></span>&nbsp;&nbsp;Log out</a></li>
                                 <li>
-                                    <asp:TextBox ID="account_idpk" runat="server" ></asp:TextBox>
+                                    <asp:TextBox ID="account_idpk" runat="server"></asp:TextBox>
+                                </li>
+                                <li>
+                                    <asp:TextBox ID="college_idpk" runat="server"></asp:TextBox>
                                 </li>
                             </ul>
                     </div>
@@ -148,7 +151,8 @@
   
     <script type="text/javascript" src="http://ajax.cdnjs.com/ajax/libs/json2/20110223/json2.js"></script>
     <script>
-        
+        var college_id = $("#college_idpk").val();
+
         var myParam = location.search.split('id=')[1];
         $("#alumni_name").text(myParam);
 
@@ -201,9 +205,7 @@
                                         var replaced = pollOpt.option_description.replace("-", ",");
                                         $("#placeholderOptions").append(
                                          "<li><input type='radio' name='polloptions' value=" + pollOpt.pollsoption_idpk + "> &nbsp; " + replaced + "  </li>"
-                                         );
-
-                                        
+                                         ); 
                                     });
 
                                     console.log(dataOpt.d);
@@ -238,10 +240,11 @@
                 });
             }
 
-        
+            
             $.ajax({
                 type: "post",
                 url: "home.aspx/pullAnnouncement",
+                data: "{'college_id' :'" + college_id + "' }",
                 dataType: "json",
                 processData: false,
                 traditional: true,
@@ -258,7 +261,7 @@
 
                                 "<div class='row'>" +
                                     "<div class='col-xs-12 border-enabled'>" +
-                                        "<h4 class='header-padded'>" + object.account_idfk + " </h4>" +
+                                        "<h4 class='header-padded'>" + object.username + " </h4>" +
                                         "<div class='row'>" +
                                             "<div class='theme-color col-xs-3 highlighted-div'>" +
                                                 "<p> " + object.description + "   </p>" +
@@ -276,6 +279,7 @@
                 }
 
             });
+
             $.ajax({
                 type: "post",
                 url: "home.aspx/pullPoll",
@@ -285,8 +289,6 @@
                 }
             });
 
-            
-      
     </script>
             
     </form>

@@ -19,6 +19,36 @@ Partial Class token_generator_ui
     Public Shared Property sqlStr As String
     Public Shared Property getLast As String
 
+    'PAGE LOAD
+    Protected Sub Page_Load(sender As Object, e As EventArgs) Handles Me.Load
+        If Session.Item("id") Is Nothing Then
+            Console.Write("sd")
+            Response.Redirect("Default.aspx")
+        Else
+            Using sqlCon As New SqlConnection(constr)
+                sqlCon.Open()
+
+                cmd = New SqlCommand("SELECT * FROM tblCoordinators WHERE coordinator_idpk=@p1", sqlCon)
+                cmd.Parameters.AddWithValue("@p1", Session("id"))
+                dr = cmd.ExecuteReader
+
+                While dr.Read
+                    alumni_name.Text = dr.GetString(1)
+                    account_idpk.Text = CStr(Session("id"))
+                    college_idfk.Text = CStr(dr.GetValue(4))
+                End While
+
+                sqlCon.Close()
+            End Using
+        End If
+    End Sub
+
+    'LOGOUT
+    Protected Sub alumni_logout_Click(sender As Object, e As EventArgs) Handles alumni_logout.ServerClick
+        Session.Abandon()
+        Response.Redirect("default.aspx")
+    End Sub
+
     Public Shared Function GetJson(ByVal dt As DataTable) As String
         Dim serializer As New System.Web.Script.Serialization.JavaScriptSerializer()
         serializer.MaxJsonLength = Int32.MaxValue
@@ -34,24 +64,39 @@ Partial Class token_generator_ui
             Next
             rows.Add(row)
         Next
-
-
         Return serializer.Serialize(rows)
 
     End Function
 
+    'GENERATE TOKENS
     <System.Web.Services.WebMethod()> _
     <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
-    Public Shared Function generateTokens(ByVal numKey As Integer) As String
-        'Function named PushToDatabase 
-        'Includes delimitation of user input
-        'Opening and Closing Connection to the database
-        'Adding datas to database
+    Public Shared Function generateTokens(ByVal keyNumber As Integer, ByVal college_idfk As Integer) As String
+            Dim KeyGen As RandomKeyGenerator
+            Dim i_keys As Integer
+            Dim randomKey As String = ""
 
-        For i As Integer = 1 To 10
-            Console.WriteLine(numKey)
+        For i_keys = 1 To keyNumber
+            Using sqlCon As New SqlConnection(constr)
+                sqlCon.Open()
+
+                KeyGen = New RandomKeyGenerator
+                KeyGen.KeyLetters = "abcdefghijklmnopqrstuvwxyz"
+                KeyGen.KeyNumbers = "0123456789"
+                KeyGen.KeyChars = 5
+
+                randomKey = KeyGen.Generate()
+
+
+                sqlStr = "INSERT INTO tblTokens(college_idfk,description,status) VALUES('" & college_idfk & "','" & randomKey & "',0)"
+                cmd = New SqlCommand(sqlStr, sqlCon)
+                cmd.ExecuteNonQuery()
+
+                sqlCon.Close()
+            End Using
         Next
-        Return numKey.ToString
+
+        Return "Tokens generated successfully."
     End Function
 
     Public Class RandomKeyGenerator
@@ -61,54 +106,30 @@ Partial Class token_generator_ui
         Dim LettersArray As Char()
         Dim NumbersArray As Char()
 
-        ''' <date>27072005</date><time>071924</time>
-        ''' <type>property</type>
-        ''' <summary>
-        ''' WRITE ONLY PROPERTY. HAS TO BE SET BEFORE CALLING GENERATE()
-        ''' </summary>
         Protected Friend WriteOnly Property KeyLetters() As String
             Set(ByVal Value As String)
                 Key_Letters = Value
             End Set
         End Property
 
-        ''' <date>27072005</date><time>071924</time>
-        ''' <type>property</type>
-        ''' <summary>
-        ''' WRITE ONLY PROPERTY. HAS TO BE SET BEFORE CALLING GENERATE()
-        ''' </summary>
         Protected Friend WriteOnly Property KeyNumbers() As String
             Set(ByVal Value As String)
                 Key_Numbers = Value
             End Set
         End Property
 
-        ''' <date>27072005</date><time>071924</time>
-        ''' <type>property</type>
-        ''' <summary>
-        ''' WRITE ONLY PROPERTY. HAS TO BE SET BEFORE CALLING GENERATE()
-        ''' </summary>
         Protected Friend WriteOnly Property KeyChars() As Integer
             Set(ByVal Value As Integer)
                 Key_Chars = Value
             End Set
         End Property
 
-        ''' <date>27072005</date><time>072344</time>
-        ''' <type>function</type>
-        ''' <summary>
-        ''' GENERATES A RANDOM STRING OF LETTERS AND NUMBERS.
-        ''' LETTERS CAN BE RANDOMLY CAPITAL OR SMALL.
-        ''' </summary>
-        ''' <returns type="String">RETURNS THE
-        '''         RANDOMLY GENERATED KEY</returns>
         Function Generate() As String
             Dim i_key As Integer
             Dim Random1 As Single
             Dim arrIndex As Int16
             Dim sb As New StringBuilder
             Dim RandomLetter As String
-
 
             LettersArray = Key_Letters.ToCharArray
             NumbersArray = Key_Numbers.ToCharArray
@@ -147,61 +168,24 @@ Partial Class token_generator_ui
         End Function
     End Class
 
-    Protected Sub btn_generate_tokens_Click(sender As Object, e As EventArgs) Handles btn_generate_tokens.Click
-        Using sqlCon As New SqlConnection(constr)
-            sqlCon.Open()
-            Dim KeyGen As RandomKeyGenerator
-            Dim numKeys As Integer
-            Dim i_keys As Integer
-            Dim randomKey As String
-
-            numKeys = Integer.Parse(generate_number_of_tokens.Text)
-            KeyGen = New RandomKeyGenerator
-            KeyGen.KeyLetters = "abcdefghijklmnopqrstuvwxyz"
-            KeyGen.KeyNumbers = "0123456789"
-            KeyGen.KeyChars = 5
-
-            For i_keys = 1 To numKeys
-                randomKey = KeyGen.Generate()
-                Console.WriteLine(randomKey)
-                sqlStr = "INSERT INTO tblTokens(college_idfk,description,status) VALUES(2,'" & randomKey & "',0)"
-                cmd = New SqlCommand(sqlStr, sqlCon)
-
-                cmd.ExecuteNonQuery()
-            Next
-            sqlCon.Close()
-        End Using
-    End Sub
-
+    'FETCH TOKENS
     <System.Web.Services.WebMethod()> _
-   <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
-    Public Shared Function pullFromServer() As String
-        'Function named PushToDatabase 
-        'Includes delimitation of user input
-        'Opening and Closing Connection to the database
-        'Adding datas to database
-
-
+    <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
+    Public Shared Function pullFromServer(ByVal college As Integer) As String
         Using sqlCon As New SqlConnection(constr)
 
             sqlCon.Open()
-            Using da = New SqlDataAdapter(" SELECT * FROM tblTokens", sqlCon)
+            Using da = New SqlDataAdapter(" SELECT * FROM tblTokens WHERE college_idfk = '" & college & "' ", sqlCon)
                 Dim table = New DataTable()
                 da.Fill(table)
-                
+
                 Dim jsndata As String = GetJson(table)
                 Return jsndata
             End Using
 
-
-
-
             sqlCon.Close()
-
-            'Returning Message : Fail or Successful
-
-
         End Using
 
     End Function
+
 End Class

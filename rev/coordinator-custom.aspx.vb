@@ -36,19 +36,14 @@ Partial Class coordinator_custom
     End Function
 
 
+    'Fetch Announcements
     <System.Web.Services.WebMethod()> _
     <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
     Public Shared Function pullAnnouncement(ByVal fk As String) As String
-        ' 'Function named PushToDatabase 
-        'Includes delimitation of user input
-        'Opening and Closing Connection to the database
-        'Adding datas to database
-
-
         Using sqlCon As New SqlConnection(constr)
 
             sqlCon.Open()
-            Using dat = New SqlDataAdapter(" SELECT * FROM tblAnnouncements,tblAccounts WHERE tblAccounts.account_idpk = '" & fk & "'  ", sqlCon)
+            Using dat = New SqlDataAdapter(" SELECT * FROM tblAnnouncements,tblCoordinators WHERE tblAnnouncements.account_idfk = '" & fk & "' AND tblCoordinators.coordinator_idpk = '" & fk & "'   ", sqlCon)
 
                 Dim table2 = New DataTable()
                 dat.Fill(table2)
@@ -57,10 +52,6 @@ Partial Class coordinator_custom
                 Dim pollOptionsJsonData As String = GetJson(table2)
                 Return pollOptionsJsonData
             End Using
-
-
-
-
             sqlCon.Close()
 
             'Returning Message : Fail or Successful
@@ -69,54 +60,42 @@ Partial Class coordinator_custom
 
     End Function
 
+    'Push announcements to database
     <System.Web.Services.WebMethod()> _
     <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
-    Public Shared Function pushAnnouncement(ByVal myAnnouncement As String) As String
-        'Function named PushToDatabase 
-        'Includes delimitation of user input
-        'Opening and Closing Connection to the database
-        'Adding datas to database
-
-
+    Public Shared Function pushAnnouncement(ByVal myAnnouncement As String, ByVal fk As Integer, ByVal college_id As Integer) As String
         Using sqlCon As New SqlConnection(constr)
 
             sqlCon.Open()
 
-            sqlStr = "INSERT INTO tblAnnouncements(description,datetime,account_idfk) VALUES(@announcement,'" & DateTime.Now() & "',1)"
-
+            sqlStr = "INSERT INTO tblAnnouncements(description,datetime_posted,target_id,account_idfk) VALUES(@announcement,'" & DateTime.Now() & "','" & college_id & "','" & fk & "')"
             cmd = New SqlCommand(sqlStr, sqlCon)
             cmd.Parameters.AddWithValue("@announcement", myAnnouncement)
-
             cmd.ExecuteNonQuery()
-
-           
-
-
             sqlCon.Close()
 
             'Returning Message : Fail or Successful
             Return myAnnouncement
-
         End Using
-
     End Function
 
+    'Initialize Session
     Protected Sub Page_Load(sender As Object, e As EventArgs) Handles Me.Load
-        If Session.Item("alumni_id") Is Nothing Then
+        If Session.Item("id") Is Nothing Then
             Console.Write("sd")
             Response.Redirect("Default.aspx")
         Else
             Using sqlCon As New SqlConnection(constr)
                 sqlCon.Open()
 
-                cmd = New SqlCommand("SELECT * FROM tblAccounts WHERE account_idpk=@p1 AND userlevel_idfk = 2", sqlCon)
-                cmd.Parameters.AddWithValue("@p1", Session("alumni_id"))
+                cmd = New SqlCommand("SELECT * FROM tblCoordinators WHERE coordinator_idpk=@p1", sqlCon)
+                cmd.Parameters.AddWithValue("@p1", Session.Item("id"))
                 dr = cmd.ExecuteReader
 
                 While dr.Read
-                    alumni_name.Text = dr.GetString(6)
-                    account_idpk.Text = Session("alumni_id")
-
+                    alumni_name.Text = dr.GetString(1)
+                    account_idpk.Text = Session("id")
+                    college_idfk.Text = dr.GetValue(4)
                 End While
 
                 sqlCon.Close()

@@ -3,7 +3,7 @@
 		    <li>
 			    <a href="#" >
 
-				    <asp:Image ID="Image2" runat="server" ImageUrl="~/rev/assets/images/default-dp.jpg" Height="75" Width="75" BorderColor="White" BorderStyle="Solid" BorderWidth="3" />          
+				    <asp:Image ID="Image2" runat="server" ImageUrl="./assets/images/default-dp.jpg" Height="75" Width="75" BorderColor="White" BorderStyle="Solid" BorderWidth="3" />          
 
 			    </a>
 
@@ -20,14 +20,21 @@
         </li>
         <li><a href="./pending-ui.aspx"><span class="glyphicon glyphicon-paperclip"></span>&nbsp;&nbsp;Pending Surveys</a></li>
         <li>
-          <a href="./poll-generator-ui.aspx">
+          <a href="./survey-gen-director.aspx">
             <span class="glyphicon glyphicon-list"></span>&nbsp;&nbsp;Surveys
           </a>
         </li>
 		    <li><a href="./statistics-ui.aspx"><span class="glyphicon glyphicon-signal"></span>&nbsp;&nbsp;Statistics</a></li>
 			  <li><a href="./director-list-ui.aspx"><span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;List of Coordinators</a></li>
 			  <li><a href="./alumni-list-ui.aspx"><span class="glyphicon glyphicon-list-alt"></span>&nbsp;&nbsp;List of Registered users</a></li>
-		    <li></li>
+        <li>
+          <a href="#" id="alumni_logout" runat="server">
+            <span class="glyphicon glyphicon-off"></span>&nbsp;&nbsp;Log out
+          </a>
+        </li>
+        <li>
+          <asp:TextBox ID="account_idpk" runat="server" ></asp:TextBox>
+        </li>
 	    </ul>
 
     </div>

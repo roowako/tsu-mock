@@ -69,7 +69,7 @@ Partial Class rev_alumni_list_ui
             Using sqlCon As New SqlConnection(constr)
 
                 sqlCon.Open()
-                Using da = New SqlDataAdapter(" SELECT * FROM tblAccounts,tblCourses WHERE course_idfk = course_idpk AND userlevel_idfk<>2", sqlCon)
+                Using da = New SqlDataAdapter(" SELECT *,tblColleges.description as collegeDes,tblCourses.description as courseDes FROM tblAccounts,tblCourses,tblColleges WHERE course_idfk = course_idpk AND userlevel_idfk<>2 AND tblCourses.college_idfk = tblColleges.college_idpk AND tblAccounts.account_status = 1", sqlCon)
                     Dim table = New DataTable()
                     da.Fill(table)
 
@@ -85,7 +85,7 @@ Partial Class rev_alumni_list_ui
             Using sqlCon As New SqlConnection(constr)
 
                 sqlCon.Open()
-                Using da = New SqlDataAdapter(" SELECT * FROM tblAccounts,tblCourses WHERE userlevel_idfk = 1 AND  course_idfk = course_idpk ", sqlCon)
+                Using da = New SqlDataAdapter(" SELECT *,tblColleges.description as collegeDes,tblCourses.description as courseDes FROM tblAccounts,tblCourses,tblColleges WHERE course_idfk = course_idpk AND userlevel_idfk = 1 AND tblCourses.college_idfk = tblColleges.college_idpk AND tblAccounts.account_status = 1 ", sqlCon)
                     Dim table = New DataTable()
                     da.Fill(table)
 
@@ -103,7 +103,7 @@ Partial Class rev_alumni_list_ui
             Using sqlCon As New SqlConnection(constr)
 
                 sqlCon.Open()
-                Using da = New SqlDataAdapter(" SELECT * FROM tblAccounts,tblCourses WHERE userlevel_idfk = 0 AND  course_idfk = course_idpk ", sqlCon)
+                Using da = New SqlDataAdapter("  SELECT *,tblColleges.description as collegeDes,tblCourses.description as courseDes FROM tblAccounts,tblCourses,tblColleges WHERE course_idfk = course_idpk AND userlevel_idfk = 0 AND tblCourses.college_idfk = tblColleges.college_idpk AND tblAccounts.account_status = 1 ", sqlCon)
                     Dim table = New DataTable()
                     da.Fill(table)
 
@@ -124,7 +124,7 @@ Partial Class rev_alumni_list_ui
 
     End Function
 
-
+    'Textbox Search
     <System.Web.Services.WebMethod()> _
  <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
     Public Shared Function searchQ(ByVal q As String) As String
@@ -132,63 +132,148 @@ Partial Class rev_alumni_list_ui
         'Includes delimitation of user input
         'Opening and Closing Connection to the database
         'Adding datas to database
+        Dim jsndata As String
 
-        Using sqlCon As New SqlConnection(constr)
+       
+            Using sqlCon As New SqlConnection(constr)
 
-            sqlCon.Open()
-            Using da = New SqlDataAdapter(" SELECT *,  given_name+ ' ' +family_name+ ' ' +middle_name    FROM tblAccounts,tblCourses WHERE  given_name+ ' ' +family_name+ ' ' +middle_name LIKE '%" & q & "%' AND course_idfk = course_idpk ", sqlCon)
+                sqlCon.Open()
+            Using da = New SqlDataAdapter(" SELECT *,  given_name+ ' ' +family_name+ ' ' +middle_name ,CONVERT(VARCHAR, birthday,7) as formatedB,tblColleges.description as collegeDes,tblCourses.description as courseDes   FROM tblAccounts,tblCourses,tblColleges WHERE  given_name+ ' ' +family_name+ ' ' +middle_name LIKE '%" & q & "%' AND tblAccounts.course_idfk = tblCourses.course_idpk AND tblColleges.college_idpk = tblCourses.college_idfk AND account_status = 1 ", sqlCon)
                 Dim table = New DataTable()
                 da.Fill(table)
 
-                Dim jsndata As String = GetJson(table)
+                jsndata = GetJson(table)
                 Return jsndata
             End Using
+                sqlCon.Close()
+                'Returning Message : Fail or Successful
+                sqlCon.Close()
+            End Using
 
-            sqlCon.Close()
-
-            'Returning Message : Fail or Successful
 
 
-        End Using
        
-            sqlCon.Close()
+
+        'Returning Message : Fail or Successful
+    End Function
+
+
+    'Filter College
+    <System.Web.Services.WebMethod()> _
+    <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
+    Public Shared Function filterView(ByVal sortBy As String, ByVal college_id As String) As String
+        
+        If sortBy = "alumni" Then
+            If college_id = "0" Then
+                Using sqlCon As New SqlConnection(constr)
+                    sqlCon.Open()
+                    Using dataAdapter = New SqlDataAdapter("SELECT *, tblColleges.description as collegeDes ,tblCourses.description as courseDes  FROM tblAccounts,tblCourses,tblColleges  WHERE  tblCourses.course_idpk = tblAccounts.course_idfk AND tblCourses.college_idfk =   tblColleges.college_idpk AND tblAccounts.userlevel_idfk = 1 AND tblAccounts.account_status = 1 ", sqlCon)
+                        Dim table = New DataTable()
+                        dataAdapter.Fill(table)
+
+                        Dim jsndata As String = GetJson(table)
+                        Return jsndata
+                    End Using
+                    sqlCon.Close()
+                    'Returning Message : Fail or Successful
+
+                End Using
+            Else
+                Using sqlCon As New SqlConnection(constr)
+                    sqlCon.Open()
+                    Using dataAdapter = New SqlDataAdapter("SELECT *, tblColleges.description as collegeDes,tblCourses.description as courseDes  FROM tblAccounts,tblCourses,tblColleges  WHERE  tblCourses.course_idpk = tblAccounts.course_idfk AND tblCourses.college_idfk = '" + college_id + "' AND  tblColleges.college_idpk = '" + college_id + "' AND tblAccounts.userlevel_idfk = 1 AND tblAccounts.account_status = 1 ", sqlCon)
+                        Dim table = New DataTable()
+                        dataAdapter.Fill(table)
+
+                        Dim jsndata As String = GetJson(table)
+                        Return jsndata
+                    End Using
+                    sqlCon.Close()
+                    'Returning Message : Fail or Successful
+
+                End Using
+
+            End If
+            
+        ElseIf sortBy = "all" Then
+            If college_id = "0" Then
+                Using sqlCon As New SqlConnection(constr)
+                    sqlCon.Open()
+                    Using dataAdapter = New SqlDataAdapter("SELECT *, tblColleges.description as collegeDes,tblCourses.description as courseDes  FROM tblAccounts,tblCourses,tblColleges  WHERE  tblCourses.course_idpk = tblAccounts.course_idfk AND tblCourses.college_idfk =   tblColleges.college_idpk AND tblAccounts.userlevel_idfk <> 2 AND tblAccounts.account_status = 1 ", sqlCon)
+                        Dim table = New DataTable()
+                        dataAdapter.Fill(table)
+
+                        Dim jsndata As String = GetJson(table)
+                        Return jsndata
+                    End Using
+                    sqlCon.Close()
+                    'Returning Message : Fail or Successful
+
+                End Using
+            Else
+                Using sqlCon As New SqlConnection(constr)
+                    sqlCon.Open()
+                    Using dataAdapter = New SqlDataAdapter("SELECT *, tblColleges.description as collegeDes,tblCourses.description as courseDes  FROM tblAccounts,tblCourses,tblColleges  WHERE  tblCourses.course_idpk = tblAccounts.course_idfk AND tblCourses.college_idfk = '" + college_id + "' AND  tblColleges.college_idpk = '" + college_id + "' AND tblAccounts.userlevel_idfk <> 2 AND tblAccounts.account_status = 1 ", sqlCon)
+                        Dim table = New DataTable()
+                        dataAdapter.Fill(table)
+
+                        Dim jsndata As String = GetJson(table)
+                        Return jsndata
+                    End Using
+                    sqlCon.Close()
+                    'Returning Message : Fail or Successful
+
+                End Using
+            End If
+           
+
+            ElseIf sortBy = "graduating" Then
+                If college_id = "0" Then
+                    Using sqlCon As New SqlConnection(constr)
+                        sqlCon.Open()
+                    Using dataAdapter = New SqlDataAdapter("SELECT *, tblColleges.description as collegeDes,tblCourses.description as courseDes  FROM tblAccounts,tblCourses,tblColleges  WHERE  tblCourses.course_idpk = tblAccounts.course_idfk AND tblCourses.college_idfk =   tblColleges.college_idpk AND tblAccounts.userlevel_idfk = 0 AND tblAccounts.account_status = 1", sqlCon)
+                        Dim table = New DataTable()
+                        dataAdapter.Fill(table)
+
+                        Dim jsndata As String = GetJson(table)
+                        Return jsndata
+                    End Using
+                        sqlCon.Close()
+                        'Returning Message : Fail or Successful
+
+                    End Using
+                Else
+                    Using sqlCon As New SqlConnection(constr)
+                        sqlCon.Open()
+                    Using dataAdapter = New SqlDataAdapter("SELECT *, tblColleges.description as collegeDes,tblCourses.description as courseDes  FROM tblAccounts,tblCourses,tblColleges  WHERE  tblCourses.course_idpk = tblAccounts.course_idfk AND tblCourses.college_idfk = '" + college_id + "' AND  tblColleges.college_idpk = '" + college_id + "' AND tblAccounts.userlevel_idfk = 0 AND tblAccounts.account_status = 1 ", sqlCon)
+                        Dim table = New DataTable()
+                        dataAdapter.Fill(table)
+
+                        Dim jsndata As String = GetJson(table)
+                        Return jsndata
+                    End Using
+                        sqlCon.Close()
+                        'Returning Message : Fail or Successful
+
+                    End Using
+
+                End If
+            End If
+
+
+
 
             'Returning Message : Fail or Successful
-
-
-
-
-
-
-
     End Function
+
+
+
+
     Protected Sub Page_Load(sender As Object, e As EventArgs) Handles Me.Load
-        If Not IsPostBack Then
-            fetch_college()
-
-            'DISREGARD PAGE LOAD FUNCTION ON POSTBACK
-        Else
-
-        End If
+       
     End Sub
 
-    Sub fetch_college()
-        'filterCollege.Items.Clear()
-        'filterCollege.Items.Add(" ")
-
-        Using sqlcon As New SqlConnection(constr)
-            sqlcon.Open()
-
-            cmd = New SqlCommand("SELECT description from tblColleges", sqlcon)
-            dr = cmd.ExecuteReader
-
-            Do While dr.Read
-                'filterCollege.Items.Add(dr.GetString(0))
-            Loop
-
-            sqlcon.Close()
-        End Using
-    End Sub
+   
 
     <System.Web.Services.WebMethod()> _
    <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
@@ -202,7 +287,7 @@ Partial Class rev_alumni_list_ui
         Using sqlCon As New SqlConnection(constr)
 
             sqlCon.Open()
-            Using dat = New SqlDataAdapter("SELECT * FROM tblAccounts WHERE account_idpk = '" & accId & "'", sqlCon)
+            Using dat = New SqlDataAdapter("SELECT *,CONVERT(VARCHAR, birthday,7) as formatedB FROM tblAccounts WHERE account_idpk = '" & accId & "'", sqlCon)
 
                 Dim table2 = New DataTable()
                 dat.Fill(table2)
@@ -210,6 +295,39 @@ Partial Class rev_alumni_list_ui
 
                 Dim accIdPK As String = GetJson2(table2)
                 Return accIdPK
+            End Using
+
+
+
+
+            sqlCon.Close()
+
+            'Returning Message : Fail or Successful
+
+
+        End Using
+
+    End Function
+
+    'Fetch colleges
+    <System.Web.Services.WebMethod()> _
+  <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
+    Public Shared Function pullColleges() As String
+        'Function named PushToDatabase 
+        'Includes delimitation of user input
+        'Opening and Closing Connection to the database
+        'Adding datas to database
+
+
+        Using sqlCon As New SqlConnection(constr)
+
+            sqlCon.Open()
+            Using da = New SqlDataAdapter(" SELECT * FROM tblColleges", sqlCon)
+                Dim table = New DataTable()
+                da.Fill(table)
+
+                Dim jsndata As String = GetJson(table)
+                Return jsndata
             End Using
 
 

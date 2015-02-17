@@ -24,9 +24,9 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand extended-brand " href="./Default.aspx">
+                    <a class="navbar-brand extended-brand " href="./director-ui.aspx">
                         <span class="">
-                            <asp:Image ID="Image1" runat="server" ImageUrl="~/rev/assets/images/TSULOGO.png" Height="55" Width="55" CssClass="img-float-nav" />
+                            <asp:Image ID="Image1" runat="server" ImageUrl="./assets/images/TSULOGO.png" Height="55" Width="55" CssClass="img-float-nav" />
                             <h3>&nbsp;&nbsp;&nbsp;Dashboard</h3>
                              <span class="clearfix"></span>
                         </span>
@@ -37,30 +37,7 @@
                 </div>
                 <div id="navbar" class="navbar-collapse collapse" > <!---collapse collapse -->
                   
-                     <ul class="nav navbar-nav navbar-right">
-                          
-                        <li>
-                            <a href="#">
-                                <h4>
-                                    <span class="glyphicon glyphicon-home"></span>
-                                </h4>
-                            
-
-                            </a>
-
-                        </li>
-                        <li>
-                            <a href="#">
-                                <h4>
-                                    <span class="glyphicon glyphicon-cog"></span>
-                                </h4>
-                            
-
-                            </a>
-
-                        </li>
-                       
-                      </ul>
+                     
                     
                 </div><!--/.navbar-collapse -->
                 </div>
@@ -69,7 +46,46 @@
             <!-- Start content here -->
             <div class="container-fluid">
                 <div class="row">
-                   <!--#include file="./includes/sidebar-director.inc"-->
+                    <div class="col-sm-3 col-md-2 sidebar">
+	                    <ul class="nav nav-sidebar">
+		                    <li>
+			                    <a href="#" >
+
+				                    <asp:Image ID="Image2" runat="server" ImageUrl="./assets/images/default-dp.jpg" Height="75" Width="75" BorderColor="White" BorderStyle="Solid" BorderWidth="3" />          
+
+			                    </a>
+
+		                    </li>
+		                    <li><a href="#" class="bolder"><span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;<asp:Label id="alumni_name" runat="server"></asp:Label></a></li>
+		  
+		                    <li><a href="./director-ui.aspx" ><span class="glyphicon glyphicon-home"></span>&nbsp;&nbsp;Timeline</a></li>
+		                    <li><a href="./messaging-ui-director.aspx" ><span class="glyphicon glyphicon-comment"></span>&nbsp;&nbsp;Messages</a></li>
+		                    <li><a href="./notification-center-ui.aspx"><span class="glyphicon glyphicon-phone"></span>&nbsp;&nbsp;Notification Center</a></li>
+                        <li>
+                          <a href="./pending-reg-ui.aspx">
+                            <span class="glyphicon glyphicon-paperclip"></span>&nbsp;&nbsp;Pending Registration
+                          </a>
+                        </li>
+                        <li><a href="./pending-ui.aspx"><span class="glyphicon glyphicon-paperclip"></span>&nbsp;&nbsp;Pending Surveys</a></li>
+                        <li>
+                          <a href="./survey-gen-director.aspx">
+                            <span class="glyphicon glyphicon-list"></span>&nbsp;&nbsp;Surveys
+                          </a>
+                        </li>
+		                    <li><a href="./statistics-ui.aspx"><span class="glyphicon glyphicon-signal"></span>&nbsp;&nbsp;Statistics</a></li>
+			                  <li><a href="./director-list-ui.aspx"><span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;List of Coordinators</a></li>
+			                  <li><a href="./alumni-list-ui.aspx"><span class="glyphicon glyphicon-list-alt"></span>&nbsp;&nbsp;List of Registered users</a></li>
+                        <li>
+                          <a href="#" id="alumni_logout" runat="server">
+                            <span class="glyphicon glyphicon-off"></span>&nbsp;&nbsp;Log out
+                          </a>
+                        </li>
+                        <li>
+                          <asp:TextBox ID="account_idpk" runat="server" ></asp:TextBox>
+                        </li>
+	                    </ul>
+
+                    </div>
 
 
                     <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
@@ -83,13 +99,7 @@
                              <div class="col-xs-3">
                                  
                              </div>
-                              <div class="col-xs-3">
-                                 <ul class="right-action-buttons">
-                                   <li><a href="#"><span class="glyphicon glyphicon-cog"></span> </a></li>
-                                   <li><a href="#"><span class="glyphicon glyphicon-home"></span> </a></li>
-                                    <li><a href="#">Log out</a></li>
-                                  </ul>
-                             </div>
+                              
                         </div>
                         
                         <div class="row placeholders " >
@@ -203,7 +213,7 @@
                                 "<td>  " + object.description + " </td>" +
                                 "<td>  " + stringify + " </td>" +
                                 "<td>   " + "<a class='btn btn-primary btn-sm theatre' id='" + object.polls_idpk + "' data-poll-title='" + object.description + "'  data-survey-id='" + object.polls_idpk + "'  data-toggle='modal' data-target='#myModal'>View Details </a>" + " </td>" +
-                                "<td> " + "<a class='btn btn-success btn-sm approveSurvey' data-survey-id='" + object.polls_idpk + "'>Approve </a> " + "<a class='btn btn-warning btn-sm' data-survey-id='" + object.polls_idpk + "'>Reject</a> </td>" +
+                                "<td> " + "<a class='btn btn-success btn-sm approveSurvey' data-survey-id='" + object.polls_idpk + "'>Approve </a> " + "<a class='btn btn-warning btn-sm rejectSurvey' data-survey-id='" + object.polls_idpk + "'>Reject</a> </td>" +
                                "</tr>"
                                 );
 
@@ -267,7 +277,27 @@
                             });
 
                         });
+                        $(".rejectSurvey").click(function () {
 
+                            pollsPK = $(this).data("survey-id");
+
+
+                            $.ajax({
+                                type: "post",
+                                url: "./pending-ui.aspx/rejectSurvey",
+                                data: "{'optFk' :'" + pollsPK + "' }",
+                                dataType: "json",
+                                processData: false,
+                                traditional: true,
+                                contentType: "application/json; charset=utf-8",
+                                success: function (dataOpt) {
+                                    alert(dataOpt.d);
+                                    window.location.reload(true);
+                                    console.log(dataOpt.d);
+                                }
+                            });
+
+                        });
                     }
                 });
             }

@@ -3,7 +3,7 @@
 
 .default-theme{background:maroon;}
 .shadowed{ box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.5) !important;border-top:4px solid #FFC40D !important;}
-.extended-brand{background:transparent;width:300px;height:83px;}
+.extended-brand{background:transparent;width:450px;height:83px;}
  .img-float-nav{ float:left;  }
 
  .extended-brand > h3{float:right;}
@@ -44,6 +44,10 @@
       padding:10px;
  }
  #account_idpk{
+     display:none;
+ }
+
+ #college_idfk{
      display:none;
  }
 
@@ -91,3 +95,8 @@ border-bottom: 1px solid #ddd;
     font-weight:700;
 
 }
+
+.pull-me-down{
+    padding-top:120px;
+}
+

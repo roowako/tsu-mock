@@ -26,7 +26,7 @@
                     </button>
                     <a class="navbar-brand extended-brand " href="./director-ui.aspx">
                         <span class="">
-                            <asp:Image ID="Image1" runat="server" ImageUrl="~/rev/assets/images/TSULOGO.png" Height="55" Width="55" CssClass="img-float-nav" />
+                            <asp:Image ID="Image1" runat="server" ImageUrl="./assets/images/TSULOGO.png" Height="55" Width="55" CssClass="img-float-nav" />
                             <h3>&nbsp;&nbsp;&nbsp;Dashboard</h3>
                              <span class="clearfix"></span>
                         </span>
@@ -50,7 +50,7 @@
 		                    <li>
 			                    <a href="#" >
 
-				                    <asp:Image ID="Image2" runat="server" ImageUrl="~/rev/assets/images/default-dp.jpg" Height="75" Width="75" BorderColor="White" BorderStyle="Solid" BorderWidth="3" />          
+				                    <asp:Image ID="Image2" runat="server" ImageUrl="./assets/images/default-dp.jpg" Height="75" Width="75" BorderColor="White" BorderStyle="Solid" BorderWidth="3" />          
 
 			                    </a>
 
@@ -95,11 +95,7 @@
                                  
                              </div>
                               <div class="col-xs-3">
-                                 <ul class="right-action-buttons">
-                                   <li><a href="#"><span class="glyphicon glyphicon-cog"></span> </a></li>
-                                   <li><a href="#"><span class="glyphicon glyphicon-home"></span> </a></li>
-                                    <li><a href="#">Log out</a></li>
-                                  </ul>
+                                 
                              </div>
                          </div>
                         <div class="row placeholders " >
@@ -195,12 +191,13 @@
             $("#btnPostAnnouncementCoor").click(function (e) {
                 e.preventDefault();
                 var announcement = $("#txtPostAnnouncementCoor").val();
+                var id = $("#account_idpk").val();
                 console.log(announcement);
 
                 $.ajax({
                     type: "post",
                     url: "director-ui.aspx/pushAnnouncement",
-                    data: "{'myAnnouncement':'"+ announcement +"'}",
+                    data: "{'myAnnouncement':'"+ announcement +"','id':'"+ id +"'}",
                     dataType: "json",
                     processData: false,
                     traditional: true,

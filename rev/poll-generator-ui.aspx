@@ -24,9 +24,9 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand extended-brand " href="./Default.aspx">
+                    <a class="navbar-brand extended-brand " href="./coordinator-custom.aspx">
                         <span class="">
-                            <asp:Image ID="Image1" runat="server" ImageUrl="~/rev/assets/images/TSULOGO.png" Height="55" Width="55" CssClass="img-float-nav" />
+                            <asp:Image ID="Image1" runat="server" ImageUrl="./assets/images/TSULOGO.png" Height="55" Width="55" CssClass="img-float-nav" />
                             <h3>&nbsp;&nbsp;&nbsp;Dashboard</h3>
                              <span class="clearfix"></span>
                         </span>
@@ -37,31 +37,7 @@
                 </div>
                 <div id="navbar" class="navbar-collapse collapse" > <!---collapse collapse -->
                   
-                     <ul class="nav navbar-nav navbar-right">
-                          
-                        <li>
-                            <a href="#">
-                                <h4>
-                                    <span class="glyphicon glyphicon-home"></span>
-                                </h4>
-                            
-
-                            </a>
-
-                        </li>
-                        <li>
-                            <a href="#">
-                                <h4>
-                                    <span class="glyphicon glyphicon-cog"></span>
-                                </h4>
-                            
-
-                            </a>
-
-                        </li>
-                       
-                      </ul>
-                    
+                     
                 </div><!--/.navbar-collapse -->
                 </div>
             </nav>-->
@@ -74,7 +50,7 @@
 		                        <li>
 			                        <a href="#" >
 
-				                        <asp:Image ID="Image2" runat="server" ImageUrl="~/rev/assets/images/default-dp.jpg" Height="75" Width="75" BorderColor="White" BorderStyle="Solid" BorderWidth="3" />          
+				                        <asp:Image ID="Image2" runat="server" ImageUrl="./assets/images/default-dp.jpg" Height="75" Width="75" BorderColor="White" BorderStyle="Solid" BorderWidth="3" />          
 
 			                        </a>
 
@@ -86,7 +62,7 @@
 		                        <li><a href="./coordinator-custom.aspx" ><span class="glyphicon glyphicon-home"></span>&nbsp;&nbsp;Timeline</a></li>
 		                        <li><a href="./messaging-ui.aspx" ><span class="glyphicon glyphicon-comment"></span>&nbsp;&nbsp;Messages</a></li>
 		                        <li><a href="./poll-generator-ui.aspx"><span class="glyphicon glyphicon-list-alt"></span>&nbsp;&nbsp;Survey</a></li>
-		 
+		                        <li><a href="./statistics-coordinator.aspx"><span class="glyphicon glyphicon-star"></span>&nbsp;&nbsp;Statistics</a></li>
 		                        <li><a href="./token-generator-ui.aspx"><span class="glyphicon glyphicon-star"></span>&nbsp;&nbsp;Tokens</a></li>
 		  
 		                        <li><a href="#" id="alumni_logout" runat="server"><span class="glyphicon glyphicon-off"></span>&nbsp;&nbsp;Log out</a></li>
@@ -97,7 +73,7 @@
                     </div>
 
                      <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-                         <h3 class="page-header"><span class="glyphicon glyphicon-list-alt">&nbsp;</span>Generate Poll Questions</h3>
+                         <h3 class="page-header"><span class="glyphicon glyphicon-list-alt">&nbsp;</span>Generate Survey Questions</h3>
                          <div class="row placeholders">
                              <br />
                              <!-- start main-content -->
@@ -105,7 +81,7 @@
                               
                                 <div class="row">
                                     <div class="col-xs-12 border-enabled">
-                                        <h4 class="header-padded ">Poll Question</h4>
+                                        <h4 class="header-padded ">Survey Question</h4>
                                         <div class=" row">
                                             <div class="theme-color col-xs-12 highlighted-div">
                                                 <div class="form-group">
@@ -124,7 +100,7 @@
                                         <div class="row">
                                             <br />
                                             <div class="col-xs-12">
-                                                <h4 class="header-padded">Populate Poll Options</h4>
+                                                <h4 class="header-padded">Populate Survey Options</h4>
                                                 <div class="row">
                                                     <div class="col-xs-12 enable-populate form-group">
                                                         <asp:HiddenField ID="counterPart" runat="server" />
@@ -242,8 +218,10 @@
                         var stat;
                         if (object.status == 0) {
                             stat = "pending";
-                        } else {
+                        } else if (object.status == 1) {
                             stat = "active";
+                        } else {
+                            stat = "rejected";
                         }
                         object.status = "active";
                         $(".table").append(
@@ -331,7 +309,7 @@
                     contentType: "application/json; charset=utf-8",
                     success: function (response) {
                         //Response from server side weather fail or successful
-                        alert(response.d);
+                    
 
                         $("#txtPollTitle").val("");
                         $("#txtPollQuestionArea").val("");
@@ -342,6 +320,7 @@
                         $('#btAdd').removeAttr('disabled');
                         $('#btAdd').attr('class', 'bt');
                         console.log(response.d);
+                        alert("Sury has been made. Please wait for the apporval of Director. Thank you.");
                         window.location.reload(true);
                     }
                 });

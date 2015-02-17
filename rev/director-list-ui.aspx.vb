@@ -19,7 +19,7 @@ Partial Class rev_director_list_ui
     
     <System.Web.Services.WebMethod()> _
     <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
-    Public Shared Function PushToDatabase(ByVal defUsername As String, ByVal defPass As String) As String
+    Public Shared Function PushToDatabase(ByVal defUsername As String, ByVal defPass As String, ByVal id As Integer) As String
         Dim isDuplicate As Boolean
 
         Using sqlCon As New SqlConnection(constr)
@@ -57,7 +57,7 @@ Partial Class rev_director_list_ui
             cmd = New SqlCommand(sqlStr, sqlCon)
             cmd.Parameters.AddWithValue("@defUsername", defUsername)
             cmd.Parameters.AddWithValue("@defPassword", defPass)
-            cmd.Parameters.AddWithValue("@college_id", 1)
+            cmd.Parameters.AddWithValue("@college_id", id)
             cmd.ExecuteNonQuery()
 
             sqlCon.Close()

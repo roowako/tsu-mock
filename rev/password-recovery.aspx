@@ -27,7 +27,7 @@
                         <a class="navbar-brand extended-brand " href="./Default.aspx">
 
                             <span class="pulled-left">
-                                <asp:Image ID="Image1" style="float:left;" runat="server"  ImageUrl="~/rev/assets/images/TSULOGO.png" Height="60" Width="60" />
+                                <asp:Image ID="Image1" style="float:left;" runat="server"  ImageUrl="./assets/images/TSULOGO.png" Height="60" Width="60" />
                                 <h4 style="float:left;margin-left:30px;margin-top:20px;"> Tarlac State University</h4>
                                </span>
 
@@ -39,10 +39,12 @@
                
                     </div>
                     <div id="navbar" class="navbar-collapse collapse" > <!---collapse collapse -->
-                        
-                    
-                        
-                        
+                        <br />
+                       <div class="navbar-form navbar-right">
+                           <a href="./loginpage.aspx" class="btn btn-warning btn-sm">Create account</a>
+                           <a href="./Default.aspx" class="btn btn-success btn-sm">Sign in</a>
+                       </div> 
+                       
                     </div><!--/.navbar-collapse -->
                        
                     </div>
@@ -56,10 +58,13 @@
                             <div class="col-xs-8">
                                 <h5> Please provide your email address used in your registration to reset your password.</h5>
                                 <div class="form-group">
-                                    <input type="text" placeholder="Email Address" class="form-control" />
+                                    <input type="text" placeholder="Email Address" class="form-control" id="mail" />
                                 </div>
                                 <div class="form-group">
-                                    <input type="button"  class="btn btn-success btn-sm"  value="Reset password"/>
+                                    <input type="button"  class="btn btn-success btn-sm"  value="Reset password" id="getMail"/>
+                                </div>
+                                <div class="form-group">
+                                    <div id="resultMailer"></div>
                                 </div>
                             </div>
                         </div>                                
@@ -75,5 +80,36 @@
                 </div>
         </div>
     </form>
+     <script type="text/javascript" src="./js/jquery.js"></script>
+    <script type="text/javascript" src="./js/bootstrap.min.js"></script>
+    <script>
+        $(document).ready(function () {
+
+            $("#getMail").click(function (e) {
+              
+                var mail = $("#mail").val();
+                console.log(mail);
+              
+                    $.ajax({
+                    type: "post",
+                    url: "./password-recovery.aspx/pullMail",
+                    data: "{'recoveryMail':'" + mail + "'}",
+                    dataType: "json",
+                    async:true,
+                    contentType: "application/json; charset=utf-8",
+
+                    success: function (r) {
+                        console.log(r.d);
+                        if (r.d == "[]") {
+                            $("#resultMailer").html("Sorry we can't seem to find the email address you've provided.");
+                        } else {
+                            console.log("s");
+                        }
+                    }
+                    });
+               
+            });
+        });
+    </script>
 </body>
 </html>

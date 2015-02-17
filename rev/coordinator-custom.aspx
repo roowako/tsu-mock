@@ -24,9 +24,9 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand extended-brand " href="./Default.aspx">
+                    <a class="navbar-brand extended-brand " href="./coordinator-custom.aspx">
                         <span class="">
-                            <asp:Image ID="Image1" runat="server" ImageUrl="~/rev/assets/images/TSULOGO.png" Height="55" Width="55" CssClass="img-float-nav" />
+                            <asp:Image ID="Image1" runat="server" ImageUrl="./assets/images/TSULOGO.png" Height="55" Width="55" CssClass="img-float-nav" />
                             <h3>&nbsp;&nbsp;&nbsp;Dashboard</h3>
                              <span class="clearfix"></span>
                         </span>
@@ -76,7 +76,7 @@
 		                <li>
 			                <a href="#" >
 
-				                <asp:Image ID="Image2" runat="server" ImageUrl="~/rev/assets/images/default-dp.jpg" Height="75" Width="75" BorderColor="White" BorderStyle="Solid" BorderWidth="3" />          
+				                <asp:Image ID="Image2" runat="server" ImageUrl="./assets/images/default-dp.jpg" Height="75" Width="75" BorderColor="White" BorderStyle="Solid" BorderWidth="3" />          
 
 			                </a>
 
@@ -88,12 +88,13 @@
 		                <li><a href="./coordinator-custom.aspx" ><span class="glyphicon glyphicon-home"></span>&nbsp;&nbsp;Timeline</a></li>
 		                <li><a href="./messaging-ui.aspx" ><span class="glyphicon glyphicon-comment"></span>&nbsp;&nbsp;Messages</a></li>
 		                <li><a href="./poll-generator-ui.aspx"><span class="glyphicon glyphicon-list-alt"></span>&nbsp;&nbsp;Survey</a></li>
-		 
+		                <li><a href="./statistics-coordinator.aspx"><span class="glyphicon glyphicon-star"></span>&nbsp;&nbsp;Statistics</a></li>
 		                <li><a href="./token-generator-ui.aspx"><span class="glyphicon glyphicon-star"></span>&nbsp;&nbsp;Tokens</a></li>
 		  
 		                <li><a href="#" id="alumni_logout" runat="server"><span class="glyphicon glyphicon-off"></span>&nbsp;&nbsp;Log out</a></li>
                         <li>
-                            <asp:TextBox ID="account_idpk" runat="server" ></asp:TextBox>
+                            <asp:TextBox ID="account_idpk" runat="server"></asp:TextBox>
+                            <asp:TextBox ID="college_idfk" runat="server"></asp:TextBox>
                         </li>
 	                </ul>
 
@@ -156,6 +157,8 @@
     <script>
         $(document).ready(function () {
             var fk = $("#account_idpk").val();
+            var college_id = $("#college_idfk").val();
+
             $.ajax({
                 type: "post",
                 url: "coordinator-custom.aspx/pullAnnouncement",
@@ -165,23 +168,32 @@
                 traditional: true,
                 contentType: "application/json; charset=utf-8",
                 success: function (announceReturn) {
-                    data = announceReturn.d
-                    data = jQuery.parseJSON(data)
-                    $.each(data, function (i,object) {
-                        $(".announcementHolder").append(
-                            "<div class='row'>" +
-                                "<div class='col-xs-12 border-enabled'>" +
-                                    "<h4 class='header-padded'>" + object.given_name +" </h4>" +
-                                    "<div class='row'>" +
-                                        "<div class='theme-color col-xs-3 highlighted-div'>" +
-                                            "<p> "+ object.description +"   </p>"+
-                                        "</div>" +
-                                    "</div> " +
+                    if (announceReturn.d == "[]") {
+                        $(".announcementHolder").append("<p> No available announcement as of the moment. </p>");
+                    } else {
+                        data = announceReturn.d
+                        data = jQuery.parseJSON(data)
+                        $.each(data, function (i, object) {
+
+                            $(".announcementHolder").append(
+
+                                "<div class='row'>" +
+                                    "<div class='col-xs-12 border-enabled'>" +
+                                        "<h4 class='header-padded'>" + object.username + " </h4>" +
+                                        "<div class='row'>" +
+                                            "<div class='theme-color col-xs-3 highlighted-div'>" +
+                                                "<p> " + object.description + "   </p>" +
+                                                "<input type='button' '  id='btnAuth' value='Authorize' class='btn btn-default' />" +
+                                            "</div>" +
+
+                                        "</div> " +
+                                    "</div>" +
                                 "</div>" +
-                            "</div>" +
-                            "<br />"
-                            );
-                    });
+
+                                "<br />"
+                                );
+                        });
+                    }
                 }
 
             });
@@ -194,7 +206,7 @@
                 $.ajax({
                     type: "post",
                     url: "coordinator-custom.aspx/pushAnnouncement",
-                    data: "{'myAnnouncement':'"+ announcement +"'}",
+                    data: "{'myAnnouncement':'" + announcement + "','fk':'" + fk + "','college_id':'" + college_id + "'}",
                     dataType: "json",
                     processData: false,
                     traditional: true,

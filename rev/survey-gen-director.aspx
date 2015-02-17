@@ -15,7 +15,7 @@
 <body onload="pullFromServer()">
     <form id="form1" runat="server">
         <div class="container-fluid">
-            <nav class="navbar navbar-inverse navbar-fixed-top default-theme shadowed"> 
+             <nav class="navbar navbar-inverse navbar-fixed-top default-theme shadowed"> 
                 <div class="container-fluid">
                 <div class="navbar-header ">
                     <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -24,9 +24,9 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand extended-brand " href="./Default.aspx">
+                    <a class="navbar-brand extended-brand " href="./coordinator-custom.aspx">
                         <span class="">
-                            <asp:Image ID="Image1" runat="server" ImageUrl="~/rev/assets/images/TSULOGO.png" Height="55" Width="55" CssClass="img-float-nav" />
+                            <asp:Image ID="Image1" runat="server" ImageUrl="./assets/images/TSULOGO.png" Height="55" Width="55" CssClass="img-float-nav" />
                             <h3>&nbsp;&nbsp;&nbsp;Dashboard</h3>
                              <span class="clearfix"></span>
                         </span>
@@ -37,31 +37,7 @@
                 </div>
                 <div id="navbar" class="navbar-collapse collapse" > <!---collapse collapse -->
                   
-                     <ul class="nav navbar-nav navbar-right">
-                          
-                        <li>
-                            <a href="#">
-                                <h4>
-                                    <span class="glyphicon glyphicon-home"></span>
-                                </h4>
-                            
-
-                            </a>
-
-                        </li>
-                        <li>
-                            <a href="#">
-                                <h4>
-                                    <span class="glyphicon glyphicon-cog"></span>
-                                </h4>
-                            
-
-                            </a>
-
-                        </li>
-                       
-                      </ul>
-                    
+                     
                 </div><!--/.navbar-collapse -->
                 </div>
             </nav>-->
@@ -69,13 +45,12 @@
             <!-- Start content here -->
             <div class="container-fluid">
                 <div class="row">
-                    <div class="col-sm-3 col-md-2 sidebar">  <!--side-bar -->
-	                  <div class="col-sm-3 col-md-2 sidebar">
+                    <<div class="col-sm-3 col-md-2 sidebar">
 	                    <ul class="nav nav-sidebar">
 		                    <li>
 			                    <a href="#" >
 
-				                    <asp:Image ID="Image2" runat="server" ImageUrl="~/rev/assets/images/default-dp.jpg" Height="75" Width="75" BorderColor="White" BorderStyle="Solid" BorderWidth="3" />          
+				                    <asp:Image ID="Image2" runat="server" ImageUrl="./assets/images/default-dp.jpg" Height="75" Width="75" BorderColor="White" BorderStyle="Solid" BorderWidth="3" />          
 
 			                    </a>
 
@@ -99,16 +74,20 @@
 		                    <li><a href="./statistics-ui.aspx"><span class="glyphicon glyphicon-signal"></span>&nbsp;&nbsp;Statistics</a></li>
 			                  <li><a href="./director-list-ui.aspx"><span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;List of Coordinators</a></li>
 			                  <li><a href="./alumni-list-ui.aspx"><span class="glyphicon glyphicon-list-alt"></span>&nbsp;&nbsp;List of Registered users</a></li>
-		                    <li><a href="#" id="alumni_logout" runat="server"><span class="glyphicon glyphicon-off"></span>&nbsp;&nbsp;Log out</a></li>
-                            <li>
-                                <asp:TextBox ID="account_idpk" runat="server" ></asp:TextBox>
-                            </li>
+                        <li>
+                          <a href="#" id="alumni_logout" runat="server">
+                            <span class="glyphicon glyphicon-off"></span>&nbsp;&nbsp;Log out
+                          </a>
+                        </li>
+                        <li>
+                          <asp:TextBox ID="account_idpk" runat="server" ></asp:TextBox>
+                        </li>
 	                    </ul>
 
                     </div>
 
                      <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-                         <h3 class="page-header"><span class="glyphicon glyphicon-list-alt">&nbsp;</span>Generate Poll Questions</h3>
+                         <h3 class="page-header"><span class="glyphicon glyphicon-list-alt">&nbsp;</span>Generate Survey Questions</h3>
                          <div class="row placeholders">
                              <br />
                              <!-- start main-content -->
@@ -116,7 +95,7 @@
                               
                                 <div class="row">
                                     <div class="col-xs-12 border-enabled">
-                                        <h4 class="header-padded ">Poll Question</h4>
+                                        <h4 class="header-padded ">Survey Question</h4>
                                         <div class=" row">
                                             <div class="theme-color col-xs-12 highlighted-div">
                                                 <div class="form-group">
@@ -135,7 +114,7 @@
                                         <div class="row">
                                             <br />
                                             <div class="col-xs-12">
-                                                <h4 class="header-padded">Populate Poll Options</h4>
+                                                <h4 class="header-padded">Populate Survey Options</h4>
                                                 <div class="row">
                                                     <div class="col-xs-12 enable-populate form-group">
                                                         <asp:HiddenField ID="counterPart" runat="server" />
@@ -195,56 +174,24 @@
                       </div>
                  </div>
             </div>
-        </div>
-             </div>
+       </div>
     </form>
-
-    //Modal form
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title" id="myModalLabel">Modal title</h4>
-          </div>
-          <div class="modal-body">
-              <h4>Survey Question</h4>
-              <p id="questionPlaceholder"></p>
-           
-              <br />
-              <h4>Survey Options</h4>
-              <ul id="placeholderOptions">
-                 
-              </ul>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-            
-          </div>
-        </div>
-      </div>
-    </div>
-   
-
     <script type="text/javascript" src="./js/jquery.js"></script>
     <script type="text/javascript" src="./js/bootstrap.min.js"></script>
     <script type="text/javascript" src="./js/custom.js"></script>
     <script type="text/javascript" src="./js/dom-control.js"></script>
-    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
-    <script type="text/javascript" src="http://ajax.cdnjs.com/ajax/libs/json2/20110223/json2.js"></script>
+    <script type="text/javascript" src="./js/json2.js"></script>
     <script type="text/javascript">
-
-       
-
+        
         function pullFromServer() {
 
             $.ajax({
                 type: "post",
-                url: "./poll-generator-ui.aspx/pullFromServer",
-                dataType:"json",
+                url: "./survey-gen-director.aspx/pullFromServer",
+                dataType: "json",
                 contentType: "application/json; charset=utf-8",
-              
-            
+
+
                 success: function (r) {
                     //Response from server side 
                     data = r.d
@@ -254,19 +201,21 @@
                         var stat;
                         if (object.status == 0) {
                             stat = "pending";
-                        } else {
+                        } else if(object.status == 1) {
                             stat = "active";
+                        } else{
+                            stat = "rejected";
                         }
                         object.status = "active";
                         $(".table").append(
                             "<tr>" +
-                            "<td>  " + object.polls_idpk  +" </td>" +
+                            "<td>  " + object.polls_idpk + " </td>" +
                             "<td>  " + object.description + " </td>" +
                             "<td>  " + stat + " </td>" +
                             "<td>   " + "<a class='btn btn-success btn-sm theatre' id='" + object.polls_idpk + "' data-poll-title='" + object.description + "' data-poll-question='" + object.question + "' data-poll-id='" + object.polls_idpk + "' data-toggle='modal' data-target='#myModal'>View Details </a>" + " </td>" +
                             "</tr>"
                             );
-                        
+
                     });
 
                     $(".theatre").click(function () {
@@ -278,41 +227,41 @@
 
                         $.ajax({
                             type: "post",
-                            url: "./poll-generator-ui.aspx/pullPollOptions",
+                            url: "./survey-gen-director.aspx/pullPollOptions",
                             data: "{'optFk' :'" + pollsPK + "' }",
                             dataType: "json",
                             processData: false,
                             traditional: true,
                             contentType: "application/json; charset=utf-8",
                             success: function (dataOpt) {
-                                
+
                                 optionsArr = dataOpt.d;
                                 optionsArr = jQuery.parseJSON(optionsArr);
-                               
+
                                 $.each(optionsArr, function (i, pollOpt) {
-                                        
+
                                     var replaced = pollOpt.option_description.replace("-", ",");
-                                       $("#placeholderOptions").append(
-                                        "<li> " + replaced + " </li>"
-                                        );
-                                   
+                                    $("#placeholderOptions").append(
+                                     "<li> " + replaced + " </li>"
+                                     );
+
                                 });
-                                
-                                
+
+
                                 console.log(dataOpt.d);
                             }
                         });
-                        
+
                     });
 
                 }
             });
         }
 
-       
+
         function pushToServer() {
             //Function for passing Poll Generator inputs to the server
-            
+
             var g = $("#counterPart").val();//Counter for textbox added
             var pollTitle = $("#txtPollTitle").val(); //Poll Title
             var pollTarget = $("#select_to_post_coor option:selected").val();// Dropdown List value
@@ -326,16 +275,16 @@
             });
 
 
-            if (pollTitle == "" || pollQ == "" ||  pollOptArr == "") {
+            if (pollTitle == "" || pollQ == "" || pollOptArr == "") {
                 //Check all fields for empty value
                 alert("All fields are required.");
 
             } else {
-                
+
                 //Push to server using jquery Ajax
                 $.ajax({
                     type: "POST",
-                    url: "./poll-generator-ui.aspx/PushToDatabase",
+                    url: "./survey-gen-director.aspx/PushToDatabase",
                     data: "{'pollOptArr':  '" + pollOptArr + "','pollTitle': '" + pollTitle + "','pollQ': '" + pollQ + "' }",
 
                     processData: false,
@@ -343,7 +292,7 @@
                     contentType: "application/json; charset=utf-8",
                     success: function (response) {
                         //Response from server side weather fail or successful
-                        alert(response.d);
+                      
 
                         $("#txtPollTitle").val("");
                         $("#txtPollQuestionArea").val("");
@@ -354,16 +303,17 @@
                         $('#btAdd').removeAttr('disabled');
                         $('#btAdd').attr('class', 'bt');
                         console.log(response.d);
+                        alert("Survey has been made and now active. Thank you.");   
                         window.location.reload(true);
                     }
                 });
             }
-           
-           
-        }
-      
 
-      
+
+        }
+
+
+
 
         var iCnt = 0;
 
@@ -440,5 +390,33 @@
             $('#btAdd').attr('class', 'bt');
         });
     </script>
+    //Modal form
+     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+          </div>
+          <div class="modal-body">
+              <h4>Survey Question</h4>
+              <p id="questionPlaceholder"></p>
+           
+              <br />
+              <h4>Survey Options</h4>
+              <ul id="placeholderOptions">
+                 
+              </ul>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+   
+
+    
 </body>
 </html>

@@ -75,7 +75,7 @@ Partial Class director_ui
 
     <System.Web.Services.WebMethod()> _
     <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
-    Public Shared Function pushAnnouncement(ByVal myAnnouncement As String) As String
+    Public Shared Function pushAnnouncement(ByVal myAnnouncement As String, ByVal id As String) As String
         'Function named PushToDatabase 
         'Includes delimitation of user input
         'Opening and Closing Connection to the database
@@ -86,7 +86,7 @@ Partial Class director_ui
 
             sqlCon.Open()
 
-            sqlStr = "INSERT INTO tblAnnouncements(description,datetime,account_idfk) VALUES(@announcement,'" & DateTime.Now() & "',1)"
+            sqlStr = "INSERT INTO tblAnnouncements(description,datetime,account_idfk) VALUES(@announcement,'" & DateTime.Now() & "','" & id & "')"
 
             cmd = New SqlCommand(sqlStr, sqlCon)
             cmd.Parameters.AddWithValue("@announcement", myAnnouncement)
@@ -105,5 +105,32 @@ Partial Class director_ui
 
     End Function
 
-   
+    'Check Session
+    Protected Sub Page_Load(sender As Object, e As EventArgs) Handles Me.Load
+        If Session.Item("id") Is Nothing Then
+            Console.Write("sd")
+            Response.Redirect("Default.aspx")
+        Else
+            Using sqlCon As New SqlConnection(constr)
+                sqlCon.Open()
+
+                cmd = New SqlCommand("SELECT * FROM tblAccounts WHERE account_idpk=@p1", sqlCon)
+                cmd.Parameters.AddWithValue("@p1", Session("id"))
+                dr = cmd.ExecuteReader
+
+                While dr.Read
+                    alumni_name.Text = dr.GetString(6)
+                    account_idpk.Text = Session("id")
+                End While
+
+                sqlCon.Close()
+            End Using
+        End If
+    End Sub
+
+    'Log out
+    Protected Sub alumni_logout_Click(sender As Object, e As EventArgs) Handles alumni_logout.ServerClick
+        Session.Abandon()
+        Response.Redirect("default.aspx")
+    End Sub
 End Class
