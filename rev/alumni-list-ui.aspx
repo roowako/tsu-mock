@@ -203,6 +203,7 @@
                 <thead>
                 <tr>
                     <td><span class="glyphicon glyphicon-th-list"></span></td>  
+                    <td>Student #</td>
                     <td>Adress</td>
                     <td>Contact Number</td>
                     <td>E-mail Address</td>
@@ -368,6 +369,7 @@
                                                 "<tr>" +
 
                                                     "<td> " + o.account_idpk + " </td>" +
+                                                    "<td> " + o.student_id + " </td>" +
                                                     "<td> " + o.address + " </td>" +
                                                     "<td> " + o.telephone_number + " </td>" +
                                                     "<td> " + o.email_address + " </td>" +
@@ -499,6 +501,7 @@
                                                 "<tr>" +
 
                                                     "<td> " + o.account_idpk + " </td>" +
+                                                    "<td> " + o.student_id + " </td>" +
                                                     "<td> " + o.address + " </td>" +
                                                     "<td> " + o.telephone_number + " </td>" +
                                                     "<td> " + o.email_address + " </td>" +

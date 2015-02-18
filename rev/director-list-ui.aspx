@@ -158,7 +158,7 @@
                                                  <asp:ListItem Text="" />
                                              </asp:DropDownList>
                                              <br />
-                                             <asp:TextBox ID="txtDefaultPassword" runat="server" placeholder="Default Password" CssClass="form-control" TextMode="Password" Value="kahitanonalang"></asp:TextBox>
+                                             <asp:TextBox ID="txtDefaultPassword" runat="server" placeholder="Default Password" CssClass="form-control" TextMode="Password" ></asp:TextBox>
                                              <br />
                                              <asp:Button ID="btnCreateDefault" runat="server" Text="Create Default account" CssClass="btn btn-primary"/>
                                              

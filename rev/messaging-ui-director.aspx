@@ -142,6 +142,44 @@
                 </div>
             </div>
         </div>
+        //Modal form
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel" style="text-transform:capitalize;">Modal title</h4>
+          </div>
+          <div class="modal-body">
+             
+              
+              <ul id="messages">
+                 
+              </ul>
+          </div>
+          <div class="modal-footer">
+              <div class="container">
+                  <div class="row">
+                      <div class="col-xs-6">
+                          <textarea class="form-control" rows="1" id="replyMessage"></textarea> &nbsp;
+                          
+                      </div>
+                      
+                  </div>
+                  <div class="row">
+                      <div class="col-xs-2">
+                           <button type="button" class="btn btn-success btn-sm reply" style="float:left;">Reply</button>
+                           <button type="button" class="btn btn-primary btn-sm" data-dismiss="modal" style="float:right;margin-right:50px;">Close</button>
+                     
+                      </div>
+                  </div>
+              </div>
+            
+            
+          </div>
+        </div>
+      </div>
+    </div>
     </form>
      <script type="text/javascript" src="./js/jquery.js"></script>
     <script type="text/javascript" src="./js/bootstrap.min.js"></script>
@@ -154,11 +192,12 @@
             var sess_id = $("#account_idpk").val();
             var fullname;
             var account_idfk;
-          
+            var name;
+            $("#myModalLabel").text("");
             console.log(sess_id);
             $.ajax({
                 type: "post",
-                url: "./messaging-ui-alumni.aspx/pullMessages",
+                url: "./messaging-ui-director.aspx/pullMessages",
                 data:"{'account_id':'"+ sess_id +"'}",
                 dataType: "json",
                 contentType: "application/json; charset=utf-8",
@@ -173,6 +212,7 @@
                         console.log("a");
                     } else{
                         $.each(data, function (i, o) {
+                            $("#myModalLabel").html("");
                             fullname =  o.given_name + " " + o.family_name ;
                                 $("#messagePlaceholder tbody").append(
                                 "<tr class='warning'> " +
@@ -181,39 +221,46 @@
                                         "</div>" +
                                     "</td>" +
                                     "<td>" +
-                                        "<input type='button' value='View conversation' class='btn btn-success btn-sm theatre' data-toggle='modal' data-target='#myModal' data-id='" + o.account_idpk + "'/>&nbsp;" +
+                                        "<input type='button' data-name='" + fullname + "' value='View conversation' class='btn btn-success btn-sm theatre' data-toggle='modal' data-target='#myModal' data-id='" + o.account_idpk + "'/>&nbsp;" +
                                        
-                                        "<input type='button' value='Delete conversation' class='btn btn-warning btn-sm theatre' data-toggle='modal' data-target='#myModal' data-id='"+ o.account_idpk +"'/>" +
+                                        "<input type='button'  value='Delete conversation' class='btn btn-warning btn-sm' data-toggle='modal' data-target='#myModal' data-id='"+ o.account_idpk +"'/>" +
                                     "</td>"+
                                 "</tr>" + "<br>");
                         });
 
                         $(".theatre").click(function () {
                             $("#messages").html("");
-                            $("#myModalLabel").text(fullname);
+                            $("#myModalLabel").text("");
+                            var fn = $(this).data("name");
+                            $("#myModalLabel").text($(this).data("name"));
+                            name = "";
+                           
+                           console.log(fullname);
                             var sess_id = $("#account_idpk").val();
                              account_idfk = $(this).data("id");
                             sendTo = $(this).data("id");
                             $.ajax({
                                 type: "post",
-                                url: "./messaging-ui-alumni.aspx/pullConversation",
+                                url: "./messaging-ui-director.aspx/pullConversation",
                                 data: "{'account_id':'" + sess_id + "','account_idfk':'"+ account_idfk +"'}",
                                 dataType: "json",
                                 contentType: "application/json; charset=utf-8",
                                 async: true,
                                 success: function (r) {
+                                  
                                     data = r.d
                                     data = jQuery.parseJSON(data)
                                     $.each(data, function (i, o) {
-                                        var name;
+                                  
+                                        
 
                                         if (sess_id == o.sender_idfk){
                                             name = "Me";
                                         }
                                         else{
-                                            name = fullname;
+                                            name =fn;
                                         }
-
+                                       
                                         $("#messages").append(
                                                 "<li class='messaging'><b> " + name + "</b>: " + o.actor_message + " </li>" +
                                                 "<li style=font-size:10px;color:#333;> " + "  - " + o.formatedB +" </li>" +
@@ -276,42 +323,7 @@
                
             });
 
-            function a() {
-              
-                $("#myModalLabel").text(fullname);
-                var sess_id = $("#account_idpk").val();
-                
-                sendTo = $(this).data("id");
-                $.ajax({
-                    type: "post",
-                    url: "./messaging-ui-alumni.aspx/pullConversation",
-                    data: "{'account_id':'" + sess_id + "','account_idfk':'" + account_idfk + "'}",
-                    dataType: "json",
-                    async:true,
-                    contentType: "application/json; charset=utf-8",
-
-                    success: function (r) {
-                        data = r.d
-                        data = jQuery.parseJSON(data)
-                        $.each(data, function (i, o) {
-                            var name;
-
-                            if (sess_id == o.sender_idfk) {
-                                name = "Me";
-                            }
-                            else {
-                                name = fullname;
-                            }
-
-                            $("#messages").append(
-                                    "<li class='messaging'><b> " + name + "</b>: " + o.actor_message + " </li>"
-                            );
-                        });
-
-                    }
-                });
-                console.log(account_idfk);
-            }
+          
 
 
             $("#qAlumni").on("keyup", function (event) {

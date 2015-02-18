@@ -180,7 +180,8 @@
             var sess_id = $("#account_idpk").val();
             var fullname;
             var account_idfk;
-          
+            $("#messages").html("");
+            $("#myModalLabel").text("")
             console.log(sess_id);
             $.ajax({
                 type: "post",
@@ -207,7 +208,7 @@
                                         "</div>" +
                                     "</td>" +
                                     "<td>" +
-                                        "<input type='button' value='View conversation' class='btn btn-success btn-sm theatre' data-toggle='modal' data-target='#myModal' data-id='" + o.account_idpk + "'/>&nbsp;" +
+                                        "<input type='button' value='View conversation' data-name='"+ fullname +"' class='btn btn-success btn-sm theatre' data-toggle='modal' data-target='#myModal' data-id='" + o.account_idpk + "'/>&nbsp;" +
                                        
                                         "<input type='button' value='Delete conversation' class='btn btn-warning btn-sm theatre' data-toggle='modal' data-target='#myModal' data-id='"+ o.account_idpk +"'/>" +
                                     "</td>"+
@@ -216,7 +217,10 @@
 
                         $(".theatre").click(function () {
                             $("#messages").html("");
-                            $("#myModalLabel").text(fullname);
+                            $("#myModalLabel").text("");
+                            var fn = $(this).data("name");
+                            $("#myModalLabel").text($(this).data("name"));
+                            name="";
                             var sess_id = $("#account_idpk").val();
                              account_idfk = $(this).data("id");
                             sendTo = $(this).data("id");
@@ -228,6 +232,7 @@
                                 contentType: "application/json; charset=utf-8",
                                 async: true,
                                 success: function (r) {
+                                    
                                     data = r.d
                                     data = jQuery.parseJSON(data)
                                     $.each(data, function (i, o) {
@@ -237,11 +242,12 @@
                                             name = "Me";
                                         }
                                         else{
-                                            name = fullname;
+                                            name = fn;
+                                            
                                         }
-
+                                        console.log(name);
                                         $("#messages").append(
-                                                "<li class='messaging'><b> " + name + "</b>: " + o.actor_message + " </li>" +
+                                                "<li class='messaging'><b> " + name  + "</b>: " + o.actor_message + " </li>" +
                                                 "<li style=font-size:10px;color:#333;> " + "  - " + o.formatedB +" </li>" +
                                                 "<br>"
                                         );
@@ -302,42 +308,7 @@
                
             });
 
-            function a() {
-              
-                $("#myModalLabel").text(fullname);
-                var sess_id = $("#account_idpk").val();
-                
-                sendTo = $(this).data("id");
-                $.ajax({
-                    type: "post",
-                    url: "./messaging-ui-alumni.aspx/pullConversation",
-                    data: "{'account_id':'" + sess_id + "','account_idfk':'" + account_idfk + "'}",
-                    dataType: "json",
-                    async:true,
-                    contentType: "application/json; charset=utf-8",
-
-                    success: function (r) {
-                        data = r.d
-                        data = jQuery.parseJSON(data)
-                        $.each(data, function (i, o) {
-                            var name;
-
-                            if (sess_id == o.sender_idfk) {
-                                name = "Me";
-                            }
-                            else {
-                                name = fullname;
-                            }
-
-                            $("#messages").append(
-                                    "<li class='messaging'><b> " + name + "</b>: " + o.actor_message + " </li>"
-                            );
-                        });
-
-                    }
-                });
-                console.log(account_idfk);
-            }
+           
 
 
             $("#qAlumni").on("keyup", function (event) {

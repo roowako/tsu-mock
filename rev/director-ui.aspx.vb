@@ -86,7 +86,7 @@ Partial Class director_ui
 
             sqlCon.Open()
 
-            sqlStr = "INSERT INTO tblAnnouncements(description,datetime,account_idfk) VALUES(@announcement,'" & DateTime.Now() & "','" & id & "')"
+            sqlStr = "INSERT INTO tblAnnouncements(description,datetime_posted,account_idfk,target_id) VALUES(@announcement,'" & DateTime.Now() & "','" & id & "',0)"
 
             cmd = New SqlCommand(sqlStr, sqlCon)
             cmd.Parameters.AddWithValue("@announcement", myAnnouncement)
