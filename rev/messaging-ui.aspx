@@ -66,7 +66,7 @@
 		                        <li><a href="./coordinator-custom.aspx" ><span class="glyphicon glyphicon-home"></span>&nbsp;&nbsp;Timeline</a></li>
 		                        <li><a href="./messaging-ui.aspx" ><span class="glyphicon glyphicon-comment"></span>&nbsp;&nbsp;Messages</a></li>
 		                        <li><a href="./poll-generator-ui.aspx"><span class="glyphicon glyphicon-list-alt"></span>&nbsp;&nbsp;Survey</a></li>
-		 
+		                        <li><a href="./statistics-coordinator.aspx"><span class="glyphicon glyphicon-signal"></span>&nbsp;&nbsp;Statistics</a></li>
 		                        <li><a href="./token-generator-ui.aspx"><span class="glyphicon glyphicon-star"></span>&nbsp;&nbsp;Tokens</a></li>
 		  
 		                        <li><a href="#" id="alumni_logout" runat="server"><span class="glyphicon glyphicon-off"></span>&nbsp;&nbsp;Log out</a></li>
@@ -152,7 +152,7 @@
             var sess_id = $("#account_idpk").val();
             var fullname;
             var account_idfk;
-          
+            var name;
             console.log(sess_id);
             $.ajax({
                 type: "post",
@@ -179,7 +179,7 @@
                                         "</div>" +
                                     "</td>" +
                                     "<td>" +
-                                        "<input type='button' value='View conversation' class='btn btn-success btn-sm theatre' data-toggle='modal' data-target='#myModal' data-id='" + o.account_idpk + "'/>&nbsp;" +
+                                        "<input type='button' value='View conversation' data-name='" + fullname + "' class='btn btn-success btn-sm theatre' data-toggle='modal' data-target='#myModal' data-id='" + o.account_idpk + "'/>&nbsp;" +
                                        
                                         "<input type='button' value='Delete conversation' class='btn btn-warning btn-sm theatre' data-toggle='modal' data-target='#myModal' data-id='"+ o.account_idpk +"'/>" +
                                     "</td>"+
@@ -188,7 +188,10 @@
 
                         $(".theatre").click(function () {
                             $("#messages").html("");
-                            $("#myModalLabel").text(fullname);
+                            $("#myModalLabel").text("");
+                            var fn = $(this).data("name");
+                            $("#myModalLabel").text($(this).data("name"));
+                            name = "";
                             var sess_id = $("#account_idpk").val();
                              account_idfk = $(this).data("id");
                             sendTo = $(this).data("id");
@@ -209,11 +212,12 @@
                                             name = "Me";
                                         }
                                         else{
-                                            name = fullname;
+                                            name = fn;
                                         }
 
                                         $("#messages").append(
-                                                "<li class='messaging'><b> " + name + "</b>: " + o.actor_message + " </li>" +
+                                                "<li class='messaging'><b> " + name + "</b> " +
+                                                "<li>" +o.actor_message + " </li>" +
                                                 "<li style=font-size:10px;color:#333;> " + "  - " + o.formatedB +" </li>" +
                                                 "<br>"
                                         );
