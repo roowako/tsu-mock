@@ -71,7 +71,7 @@ Partial Class rev_messaging_ui_director
         Using sqlCon As New SqlConnection(constr)
             sqlCon.Open()
 
-            Using da = New SqlDataAdapter("SELECT *, actor_message,sender_idfk,CONVERT(VARCHAR, date_sent,0) as formatedB FROM tblMessages WHERE recipient_idfk = '" & account_id & "' AND sender_idfk = '" & account_idfk & "' OR sender_idfk = '" & account_id & "' AND recipient_idfk = '" & account_idfk & "' ORDER BY date_sent ", sqlCon)
+            Using da = New SqlDataAdapter("SELECT *, actor_message,sender_idfk,CONVERT(VARCHAR, date_sent,0) as formatedB FROM tblMessages WHERE recipient_idfk = '" & account_id & "' AND sender_idfk = '" & account_idfk & "' OR sender_idfk = '" & account_id & "' AND recipient_idfk = '" & account_idfk & "' ORDER BY date_sent  DESC", sqlCon)
                 Dim table = New DataTable()
                 da.Fill(table)
 

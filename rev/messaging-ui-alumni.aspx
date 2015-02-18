@@ -247,7 +247,8 @@
                                         }
                                         console.log(name);
                                         $("#messages").append(
-                                                "<li class='messaging'><b> " + name  + "</b>: " + o.actor_message + " </li>" +
+                                                "<li class='messaging'><b> " + name + "</b> </li>" +
+                                                "<li class='messaging'>" + o.actor_message + " </li>" +
                                                 "<li style=font-size:10px;color:#333;> " + "  - " + o.formatedB +" </li>" +
                                                 "<br>"
                                         );
