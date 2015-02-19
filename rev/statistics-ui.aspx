@@ -448,10 +448,6 @@
                                                 "</li>"
                                                 );
 
-
-
-
-
                                         });
                                         $('.chart').horizBarChart({
                                             selector: '.bar',
