@@ -65,6 +65,9 @@
                                 <li>
                                     <asp:TextBox ID="college_idpk" runat="server"></asp:TextBox>
                                 </li>
+                                <li>
+                                    <asp:TextBox ID="college_desc" runat="server"></asp:TextBox>
+                                </li>
                             </ul>
                     </div>
 
@@ -152,6 +155,7 @@
     <script type="text/javascript" src="http://ajax.cdnjs.com/ajax/libs/json2/20110223/json2.js"></script>
     <script>
         var college_id = $("#college_idpk").val();
+        var college_desc = $("#college_desc").val();
 
         var myParam = location.search.split('id=')[1];
         $("#alumni_name").text(myParam);
@@ -256,12 +260,11 @@
                         data = announceReturn.d
                         data = jQuery.parseJSON(data)
                         $.each(data, function (i, object) {
-
-                            $(".announcementHolder").append(
-
+                            if (object.target_id == 0) {
+                                $(".announcementHolder").append(
                                 "<div class='row'>" +
                                     "<div class='col-xs-12 border-enabled'>" +
-                                        "<h4 class='header-padded'>" + object.username + " </h4>" +
+                                        "<h4 class='header-padded'>" + "DIRECTOR" + " </h4>" +
                                         "<div class='row'>" +
                                             "<div class='theme-color col-xs-3 highlighted-div'>" +
                                                 "<p> " + object.description + "   </p>" +
@@ -274,6 +277,25 @@
 
                                 "<br />"
                                 );
+                            }
+                            else {
+                                $(".announcementHolder").append(
+                                "<div class='row'>" +
+                                    "<div class='col-xs-12 border-enabled'>" +
+                                        "<h4 class='header-padded'>" + college_desc + " </h4>" +
+                                        "<div class='row'>" +
+                                            "<div class='theme-color col-xs-3 highlighted-div'>" +
+                                                "<p> " + object.description + "   </p>" +
+                                                "<input type='button' '  id='btnAuth' value='Authorize' class='btn btn-default' />" +
+                                            "</div>" +
+
+                                        "</div> " +
+                                    "</div>" +
+                                "</div>" +
+
+                                "<br />"
+                                );
+                            }
                         });
                     }
                 }

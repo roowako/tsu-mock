@@ -50,7 +50,7 @@ Partial Class director_ui
         Using sqlCon As New SqlConnection(constr)
 
             sqlCon.Open()
-            Using dat = New SqlDataAdapter(" SELECT * FROM tblAnnouncements,tblAccounts WHERE tblAccounts.account_idpk = tblAnnouncements.account_idfk  ", sqlCon)
+            Using dat = New SqlDataAdapter("SELECT account_idfk,description,CONVERT(VARCHAR, datetime_posted,0) as formatedB,username FROM tblAnnouncements,tblCoordinators WHERE tblAnnouncements.account_idfk = tblCoordinators.coordinator_idpk OR tblAnnouncements.account_idfk = 41 OR target_id = 0 ORDER BY announcement_idpk DESC  ", sqlCon)
 
                 Dim table2 = New DataTable()
                 dat.Fill(table2)

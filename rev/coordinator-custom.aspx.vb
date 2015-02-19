@@ -43,7 +43,7 @@ Partial Class coordinator_custom
         Using sqlCon As New SqlConnection(constr)
 
             sqlCon.Open()
-            Using dat = New SqlDataAdapter(" SELECT * FROM tblAnnouncements,tblCoordinators WHERE tblAnnouncements.account_idfk = '" & fk & "' AND tblCoordinators.coordinator_idpk = '" & fk & "'   ", sqlCon)
+            Using dat = New SqlDataAdapter("SELECT account_idfk,description,CONVERT(VARCHAR, datetime_posted,0) as formatedB FROM tblAnnouncements WHERE tblAnnouncements.account_idfk = '" & fk & "' OR tblAnnouncements.account_idfk = 41 OR target_id = 0 ORDER BY announcement_idpk DESC", sqlCon)
 
                 Dim table2 = New DataTable()
                 dat.Fill(table2)

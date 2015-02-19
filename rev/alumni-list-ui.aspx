@@ -212,6 +212,7 @@
                     <td>Religion</td>
                     <td>Marital Status</td>
                     <td>Gender</td>
+                    <td>Graduated</td>
                 </tr>
                 </thead>       
                 <tbody>
@@ -314,7 +315,7 @@
                                                 "<td> " + o.given_name + "  " + o.middle_name + " " + o.family_name + " </td>" +
                                                 "<td> " + o.collegeDes + " </td>" +
                                                 "<td>" + o.courseDes + " </td>" +
-                                                "<td></td>" +
+                                                "<td>"+ o.year_graduated +"</td>" +
                                                 "<td> <a class='btn btn-primary btn-sm viewAccountInfo' data-account-id='" + o.account_idpk + "' data-toggle='modal' data-target='.bs-example-modal-lg'> View info </a> </td>" +
                                             "</tr>");
                             } else {
@@ -323,7 +324,7 @@
                                                 "<td> " + o.given_name + "  " + o.middle_name + " " + o.family_name + " </td>" +
                                                 "<td> " + o.collegeDes + " </td>" +
                                                 "<td>" + o.courseDes + " </td>" +
-                                                "<td></td>" +
+                                                "<td>" + o.year_graduated + "</td>" +
                                                 "<td> <a class='btn btn-primary btn-sm viewAccountInfo' data-account-id='" + o.account_idpk + "' data-toggle='modal' data-target='.bs-example-modal-lg'> View info </a> </td>" +
                                             "</tr>");
                             }
@@ -378,6 +379,7 @@
                                                     "<td> " + o.religion + " </td>" +
                                                     "<td> " + o.marital_status + " </td>" +
                                                     "<td> " + o.gender + " </td>" +
+                                                    "<td> " + o.year_graduated + " </td>" +
                                                 "</tr>"
 
 
@@ -444,7 +446,7 @@
                                                 "<td> " + o.collegeDes + " </td>" +
                                                 "<td>" + o.courseDes + "</td>" +
 
-                                                "<td></td>" +
+                                                "<td>"+ o.year_graduated+"</td>" +
                                                 "<td> <a class='btn btn-primary btn-sm viewAccountInfo' data-account-id='" + o.account_idpk + "' data-toggle='modal' data-target='.bs-example-modal-lg' > View info </a> </td>" +
                                             "</tr>");
 
@@ -455,7 +457,7 @@
                                             "<td> " + o.collegeDes + " </td>" +
                                             "<td>" + o.courseDes + "</td>" +
 
-                                            "<td></td>" +
+                                            "<td>" + o.year_graduated + "</td>" +
                                             "<td> <a class='btn btn-primary btn-sm viewAccountInfo' data-account-id='" + o.account_idpk + "' data-toggle='modal' data-target='.bs-example-modal-lg' > View info </a> </td>" +
                                         "</tr>");
                             }
@@ -510,6 +512,7 @@
                                                     "<td> " + o.religion + " </td>" +
                                                     "<td> " + o.marital_status + " </td>" +
                                                     "<td> " + o.gender + " </td>" +
+                                                    "<td> " + o.year_graduated + "</td>" +
                                                 "</tr>"
 
 

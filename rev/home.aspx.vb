@@ -26,14 +26,15 @@ Partial Class home
             Using sqlCon As New SqlConnection(constr)
                 sqlCon.Open()
 
-                cmd = New SqlCommand("SELECT * FROM tblAccounts WHERE account_idpk=@p1", sqlCon)
+                cmd = New SqlCommand("SELECT given_name,college_idfk,tblColleges.description FROM tblAccounts,tblColleges WHERE account_idpk=@p1 AND college_idfk = college_idpk", sqlCon)
                 cmd.Parameters.AddWithValue("@p1", Session.Item("id"))
                 dr = cmd.ExecuteReader
 
                 While dr.Read
-                    alumni_name.Text = dr.GetString(6)
+                    alumni_name.Text = dr.GetString(0)
                     account_idpk.Text = Session.Item("id")
-                    college_idpk.Text = dr.GetValue(18)
+                    college_idpk.Text = dr.GetValue(1)
+                    college_desc.Text = dr.GetString(2)
                 End While
 
                 sqlCon.Close()
@@ -84,11 +85,11 @@ Partial Class home
 
     'PULL ANNOUNCEMENTS
     <System.Web.Services.WebMethod()> _
-   <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
+    <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
     Public Shared Function pullAnnouncement(ByVal college_id As Integer) As String
         Using sqlCon As New SqlConnection(constr)
             sqlCon.Open()
-            Using dat = New SqlDataAdapter("SELECT * FROM tblAnnouncements,tblCoordinators WHERE target_id = '" & college_id & "' AND account_idfk=coordinator_idpk ORDER BY tblAnnouncements.announcement_idpk DESC", sqlCon)
+            Using dat = New SqlDataAdapter("SELECT description,account_idfk,target_id FROM tblAnnouncements WHERE target_id = '" & college_id & "' OR target_id = 0 ORDER BY announcement_idpk DESC", sqlCon)
                 Dim table2 = New DataTable()
                 dat.Fill(table2)
 

@@ -36,30 +36,7 @@
                 </div>
                 <div id="navbar" class="navbar-collapse collapse" > <!---collapse collapse -->
                   
-                     <ul class="nav navbar-nav navbar-right">
-                          
-                        <li>
-                            <a href="#">
-                                <h4>
-                                    <span class="glyphicon glyphicon-home"></span>
-                                </h4>
-                            
-
-                            </a>
-
-                        </li>
-                        <li>
-                            <a href="#">
-                                <h4>
-                                    <span class="glyphicon glyphicon-cog"></span>
-                                </h4>
-                            
-
-                            </a>
-
-                        </li>
-                       
-                      </ul>
+                    
                     
                 </div><!--/.navbar-collapse -->
                 </div>
@@ -102,13 +79,13 @@
 
 
                     <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-                        <h3 class="page-header"><span class="glyphicon glyphicon-home">&nbsp;</span>Timeline</h3>
+                        <h3 class="page-header"><span class="glyphicon glyphicon-home">&nbsp;</span>Timeline </h3>
                         <div class="row placeholders " >
                             <br />
                             <!-- start main-content -->
                             <div class="col-xs-6 col-sm-6 placeholder announcementHolder ">
                               
-                              
+                              <div id="loaderImage"></div>
                             
                               
                               
@@ -153,12 +130,14 @@
     <script type="text/javascript" src="./js/bootstrap.min.js"></script>
     <script type="text/javascript" src="./js/custom.js"></script>
     <script type="text/javascript" src="./js/dom-control.js"></script>
-    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
+     <script type="text/javascript" src="./js/ajax-loader.js"></script>
+   
     <script>
         $(document).ready(function () {
             var fk = $("#account_idpk").val();
             var college_id = $("#college_idfk").val();
-
+            var name;
+            var actor_name = $("#alumni_name").text();
             $.ajax({
                 type: "post",
                 url: "coordinator-custom.aspx/pullAnnouncement",
@@ -168,25 +147,35 @@
                 traditional: true,
                 contentType: "application/json; charset=utf-8",
                 success: function (announceReturn) {
+                    $("#loaderImage").hide();
                     if (announceReturn.d == "[]") {
                         $(".announcementHolder").append("<p> No available announcement as of the moment. </p>");
                     } else {
                         data = announceReturn.d
                         data = jQuery.parseJSON(data)
                         $.each(data, function (i, object) {
-
+                            if(object.account_idfk == fk){
+                                name = actor_name;
+                            } else {
+                                name = "Director";
+                            }
                             $(".announcementHolder").append(
 
                                 "<div class='row'>" +
                                     "<div class='col-xs-12 border-enabled'>" +
-                                        "<h4 class='header-padded'>" + object.username + " </h4>" +
+                                        "<h4 class='header-padded'><span class='glyphicon glyphicon-bookmark'>&nbsp;</span>" + name + "<br>  </h4>" +
+                                        "<span class='dateIndicator'>&nbsp;&nbsp;" + object.formatedB + "</span>" +
+                                        
                                         "<div class='row'>" +
+                                            "<br>"+
                                             "<div class='theme-color col-xs-3 highlighted-div'>" +
                                                 "<p> " + object.description + "   </p>" +
                                                 "<input type='button' '  id='btnAuth' value='Authorize' class='btn btn-default' />" +
-                                            "</div>" +
 
+                                            "</div>" +
+                                          
                                         "</div> " +
+
                                     "</div>" +
                                 "</div>" +
 

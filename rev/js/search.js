@@ -15,7 +15,6 @@
         if (key !== ESC) {
             $(".resultContainer").html("Fetching results");
            
-
             $.ajax({
                 type: "post",
                 url: "alumni-list-ui.aspx/searchQ",
@@ -219,9 +218,7 @@
                             $.each(response, function (i, o) {
                                 console.log(o.student_id);
 
-
                                 $("#myModalLabel").text(o.given_name + "  " + o.middle_name + " " + o.family_name);
-
 
                                 $(".update-sudnumber").attr("data-id", o.account_idpk);
                                 if (o.student_id == "") {
@@ -291,7 +288,7 @@
                                         "<td> " + o.collegeDes + " </td>" +
                                         "<td>" + o.courseDes + "</td>" +
 
-                                        "<td></td>" +
+                                        "<td>" + o.year_graduated + "</td>" +
                                         "<td> <a class='btn btn-primary btn-sm viewAccountInfo' data-account-id='" + o.account_idpk + "' data-toggle='modal' data-target='.bs-example-modal-lg' > View info </a> </td>" +
                                     "</tr>");
 
@@ -302,7 +299,7 @@
                                     "<td> " + o.collegeDes + " </td>" +
                                     "<td>" + o.courseDes + "</td>" +
 
-                                    "<td></td>" +
+                                    "<td>" + o.year_graduated + "</td>" +
                                     "<td> <a class='btn btn-primary btn-sm viewAccountInfo' data-account-id='" + o.account_idpk + "' data-toggle='modal' data-target='.bs-example-modal-lg' > View info </a> </td>" +
                                 "</tr>");
                     }
@@ -359,6 +356,7 @@
                                             "<td> " + o.religion + " </td>" +
                                             "<td> " + o.marital_status + " </td>" +
                                             "<td> " + o.gender + " </td>" +
+                                            "<td> " + o.year_graduated + " </td>" +
                                         "</tr>"
 
 
