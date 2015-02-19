@@ -213,7 +213,7 @@ Partial Class _Default
 
                 sqlCon.Close()
 
-                Return "Thank you for registering. You are registered as graduating. Please wait for the director to activate your account."
+                Return "Thank you for registering. You are registered as graduating. You can now login your account."
             End Using
         End If
     End Function

@@ -24,6 +24,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     </button>
+
                     <a class="navbar-brand extended-brand " href="./Default.aspx">
                         <span class="">
                             <asp:Image ID="Image1" runat="server" ImageUrl="./assets/images/TSULOGO.png" Height="55" Width="55" CssClass="img-float-nav" />
@@ -36,32 +37,7 @@
                
                 </div>
                 <div id="navbar" class="navbar-collapse collapse" > <!---collapse collapse -->
-                  
-                     <ul class="nav navbar-nav navbar-right">
-                          
-                        <li>
-                            <a href="#">
-                                <h4>
-                                    <span class="glyphicon glyphicon-home"></span>
-                                </h4>
-                            
 
-                            </a>
-
-                        </li>
-                        <li>
-                            <a href="#">
-                                <h4>
-                                    <span class="glyphicon glyphicon-cog"></span>
-                                </h4>
-                            
-
-                            </a>
-
-                        </li>
-                       
-                      </ul>
-                    
                 </div><!--/.navbar-collapse -->
                 </div>
             </nav>-->
@@ -195,14 +171,14 @@
                          data = jQuery.parseJSON(data);
                          $.each(data, function (i, object) {
                              $("#defaultUsername ").append(
-                                 "<option value='"+ object.description+ "' data-id='"+ object.college_idpk +"'> " + object.description +  "</option>"
+                                 "<option value='"+ object.description + "' data-id='"+ object.college_idpk +"'> " + object.description +  "</option>"
                                  );
                              console.log(object.description);
                          });
                      }
-                });
-                $.ajax({
+                 });
 
+                $.ajax({
                     type: "post",
                     url: "director-list-ui.aspx/pullUsers",
                     processData: false,
@@ -214,16 +190,18 @@
                         data = jQuery.parseJSON(data);
                         $.each(data, function (i, object) {
                             var accStatus = object.status;
+
                             if (accStatus == 0) {
                                 var mod = "Default";
                                 var ext = ("<tr class='success'>" +
                                             "<td> " + object.coordinator_idpk + "  </td>" +
                                             "<td> " + object.username + "  </td>" +
                                             "<td> " + object.username + "  </td>" +
-                                            "<td > " + mod + "  </td>" +
-                                            "<td> </td>"+
+                                            "<td> " + mod + "  </td>" +
+                                            "<td> " + "<input type=button id='delete_coordinator' class='btn btn-success btn-sm' value='Delete'>" + " </td>" +
                                             "</tr>");
-                            } else {
+                            }
+                            else {
                                 mod = "Modified";
                                
                                 var ext = ("<tr class='warning'>" +
@@ -232,9 +210,9 @@
                                             "<td> " + object.password + "  </td>" +
                                             "<td > " + mod + "  </td>" +
                                             "<td> " + "<a class='btn btn-warning btn-sm'> Restore Default </a>" + "  </td>" +
-                                            "</tr>");
-                                    
-                            }
+                                            "</tr>");        
+                                }
+
                             $("#accountTable tbody").append(
                                
                                 
@@ -248,11 +226,10 @@
 
                     }
                 });
+
                 $("#defaultUsername").change(function () {
                      id = $("#defaultUsername option:selected").attr("data-id");
-              
-              
-            });
+                });
            
             $("#btnCreateDefault").click(function (e) {
                 e.preventDefault();

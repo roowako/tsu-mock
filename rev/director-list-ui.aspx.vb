@@ -64,11 +64,9 @@ Partial Class rev_director_list_ui
 
             'Returning Message : Fail or Successful
             Return "Account created successfully"
-
         End Using
 
     End Function
-
 
     Public Shared Function GetJson(ByVal dt As DataTable) As String
         Dim serializer As New System.Web.Script.Serialization.JavaScriptSerializer()
@@ -87,19 +85,14 @@ Partial Class rev_director_list_ui
         Next
         Return serializer.Serialize(rows)
     End Function
+
     <System.Web.Services.WebMethod()> _
-  <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
+    <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
     Public Shared Function pullUsers() As String
-        'Function named PushToDatabase 
-        'Includes delimitation of user input
-        'Opening and Closing Connection to the database
-        'Adding datas to database
-
-
         Using sqlCon As New SqlConnection(constr)
 
             sqlCon.Open()
-            Using da = New SqlDataAdapter(" SELECT * FROM tblCoordinators", sqlCon)
+            Using da = New SqlDataAdapter("SELECT * FROM tblCoordinators", sqlCon)
                 Dim table = New DataTable()
                 da.Fill(table)
 
@@ -107,32 +100,18 @@ Partial Class rev_director_list_ui
                 Return jsndata
             End Using
 
-
-
-
             sqlCon.Close()
-
-            'Returning Message : Fail or Successful
-
-
         End Using
-
     End Function
 
-
+    'PULL ACCOUNTS TO BE CREATED
     <System.Web.Services.WebMethod()> _
-  <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
+    <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
     Public Shared Function pullColleges() As String
-        'Function named PushToDatabase 
-        'Includes delimitation of user input
-        'Opening and Closing Connection to the database
-        'Adding datas to database
-
-
         Using sqlCon As New SqlConnection(constr)
 
             sqlCon.Open()
-            Using da = New SqlDataAdapter(" SELECT * FROM tblColleges", sqlCon)
+            Using da = New SqlDataAdapter("SELECT description FROM tblColleges,tblCoordinators WHERE tblCoordinators.college_idfk <> tblColleges.college_idpk", sqlCon)
                 Dim table = New DataTable()
                 da.Fill(table)
 
@@ -140,14 +119,7 @@ Partial Class rev_director_list_ui
                 Return jsndata
             End Using
 
-
-
-
             sqlCon.Close()
-
-            'Returning Message : Fail or Successful
-
-
         End Using
 
     End Function

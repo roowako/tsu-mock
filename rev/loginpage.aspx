@@ -189,6 +189,7 @@
 
                              <div class="col-xs-4">
                                  <asp:DropDownList ID="cboYear" runat="server" CssClass="form-control" >
+                                     
                                     <asp:ListItem Text="1970" />
                                     <asp:ListItem Text="1971" />
                                     <asp:ListItem Text="1972" />
@@ -588,7 +589,7 @@
                         success: function (r) {
                             alert(r.d);
 
-                            if (r.d == "Thank you for registering. You are registered as graduating. Please wait for the director to activate your account.") {
+                            if (r.d == "Thank you for registering. You are registered as graduating. You can now login your account.") {
                                 window.location.reload(true);
                             } 
                         }
