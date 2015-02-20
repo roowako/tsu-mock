@@ -117,7 +117,14 @@
 
                             <!-- start right-side -->
                             <div class="col-xs-6 col-sm-5 placeholder ">
-                              <h5 class="header-padded"><span class="glyphicon glyphicon-pencil minified"></span>&nbsp;Search for alumni</h5>
+                              <h5 class="header-padded">
+                                  <select class="selectpicker" data-style="btn-warning" style="z-index:3000;">
+                                  <option value="all">Recipient :</option>
+                                  <option value="alm">Alumnis</option>
+                                      <option value="coo">Coordinators</option>
+                              </select>
+
+                              </h5>
                                 <div class="row">
                                     <div class="col-xs-12">
                                         <div class="form-group">
@@ -192,8 +199,10 @@
     <script type="text/javascript" src="./js/bindDelay.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
     <script type="text/javascript" src="http://ajax.cdnjs.com/ajax/libs/json2/20110223/json2.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.5.4/bootstrap-select.js" ></script>
     <script>
         $(document).ready(function () {
+            $('.selectpicker').selectpicker();
             var sess_id = $("#account_idpk").val();
             var fullname;
             var account_idfk;
@@ -332,8 +341,29 @@
             });
 
           
-
-
+            $(".selectpicker").val($(".selectpicker option:first").val());
+            $(".selectpicker").on("change", function () {
+                if ($(".selectpicker option:selected").val() == "alm") {
+                    $("#qAlumni").css("display", "block");
+                } else if($(".selectpicker option:selected").val() == "coo"){
+                    $("#qAlumni").css("display", "block");
+                } else {
+                    $("#qAlumni").css("display", "none");
+                    $(".resWrapper").html("");
+                    $(".display").html("");
+                    $(".display").css("visibility", "hidden");
+                    $("#hidId").val("");
+                    $("#qAlumni").val("");
+                }
+            });
+            $(".selectpicker").on("click", function () {
+                $("#qAlumni").val("");
+                $(".resWrapper").html("");
+                $(".display").html("");
+                $(".display").css("visibility", "hidden");
+                $("#hidId").val("");
+            });
+            $("#qAlumni").css("display", "none");
             $("#qAlumni").bindWithDelay("keyup", function (event) {
                 $(this).alumniSearch(event);
             }, 500);
@@ -348,7 +378,7 @@
                 var key = event.which || event.keyCode;
                 var input = $(this).val().trim();
                 var q = input.match(/^[a-zA-Z\s]+$/);
-
+                var filterQ = $(".selectpicker option:selected").val();
                 if (key !== ESC) {
 
                     $(".resWrapper").addClass("revealWrap");
@@ -363,88 +393,146 @@
                         $(".display").html("");
                         $(".display").css("visibility", "hidden");
                         $("#hidId").val("");
-                    } else
+                    } else{
+                        if (filterQ == "alm") {
+                            $.ajax({
+                                type: "post",
+                                url: "messaging-ui-director.aspx/search",
+                                data: "{'q':'" + q + "','filterQ':'" + filterQ + "'}",
+                                dataType: "json",
+                                processData: false,
+                                traditional: true,
+                                contentType: "application/json; charset=utf-8",
+                                success: function (response) {
 
-                    $.ajax({
-                        type: "post",
-                        url: "messaging-ui-director.aspx/search",
-                        data: "{'q':'" + q + "'}",
-                        dataType: "json",
-                        processData: false,
-                        traditional: true,
-                        contentType: "application/json; charset=utf-8",
-                        success: function (response) {
+                                    data = response.d
+                                    data = jQuery.parseJSON(data)
+                                    var toShow = data.length;
+                                    var displayMessage;
+                                    var uid;
+                                    var u;
+                                    if (toShow == 1) {
+                                        displayMessage = "Displaying " + toShow + " result. "
+                                    } else {
+                                        displayMessage = "Displaying " + toShow + " results. "
+                                    }
+                                    console.log(data.length);
+                                    if (data.length > 0) {
 
-                            data = response.d
-                            data = jQuery.parseJSON(data)
-                            var toShow = data.length;
-                            var displayMessage;
-                            var uid;
-                            var u;
-                            if (toShow == 1) {
-                                displayMessage = "Displaying " + toShow + " result. "
-                            } else {
-                                displayMessage = "Displaying " + toShow + " results. "
-                            }
-                            console.log(data.length);
-                            if (data.length > 0) {
-                                
-                                $(".resWrapper").html("");
-                                $(".display").css("visibility", "visible");
-                                $.each(data, function (i, o) {
-                                    if (o.ul == 0 ) {
-                                        u = o.u;
-                                        uid = o.uid;
-                                    } else if (o.ul == 1) {
-                                        u = o.un;
-                                        uid = o.uid;
-                                    } else if (o.ul == 3) {
-                                        u = o.u;
-                                        uid = o.uid;
-                                    } else if(o.ul == null){
-                                        u = o.un;
-                                        uid = o.cid;
+                                        $(".resWrapper").html("");
+                                        $(".display").css("visibility", "visible");
+                                        $.each(data, function (i, o) {
+                                            
+
+
+                                            $(".resWrapper").append(
+                                                "<a data-id='" + o.uid + "' data-u='" + o.u + "' class='uid'>" +
+                                                "<div class='clickable'>" +
+                                                    "<span> <b> " + o.u + " </b> </span>" +
+                                                "</div>" +
+                                                "</a>");
+                                        })
+
+                                        $(".display").html("<span> <b> " + displayMessage + " </b> </span>")
+
+
+                                        $(".uid").click(function () {
+                                            $("#hidId").val("");
+                                            $("#hidId").val($(this).data("id"));
+                                            $("#qAlumni").val($(this).data("u"));
+                                            $(".resWrapper").html("");
+                                            $(".display").html("");
+                                            $(".display").css("visibility", "hidden");
+                                        });
                                     }
 
-                                 
-                                    $(".resWrapper").append(
-                                        "<a data-id='" + uid + "' data-u='" + u + "' class='uid'>" +
-                                        "<div class='clickable'>" +
-                                            "<span> <b> " + u + " </b> </span>" +
-                                        "</div>" +
-                                        "</a>");
-                                })
 
-                                $(".display").html("<span> <b> " + displayMessage + " </b> </span>")
+                                    if (data.length == 0) {
+                                        $(".resWrapper").html("");
 
-
-                                $(".uid").click(function () {
-                                    $("#hidId").val("");
-                                    $("#hidId").val($(this).data("id"));
-                                    $("#qAlumni").val($(this).data("u"));
-                                    $(".resWrapper").html("");
-                                    $(".display").html("");
-                                    $(".display").css("visibility", "hidden");
-                                });
-                            }
+                                        $(".resWrapper").append(
+                                            "<div class='clickable'>" +
+                                                "<span> <b> No results found </b> </span>" +
+                                            "</div>");
+                                        $(".display").html("");
+                                        $(".display").css("visibility", "hidden");
+                                        $("#hidId").val("");
+                                    }
 
 
-                            if (data.length == 0) {
-                                $(".resWrapper").html("");
-
-                                $(".resWrapper").append(
-                                    "<div class='clickable'>" +
-                                        "<span> <b> No results found </b> </span>" +
-                                    "</div>");
-                                $(".display").html("");
-                                $(".display").css("visibility", "hidden");
-                                $("#hidId").val("");
-                            }
-
-                            
+                                }
+                            });
                         }
-                    });
+                        else if(filterQ == "coo"){
+                            $.ajax({
+                                type: "post",
+                                url: "messaging-ui-director.aspx/search",
+                                data: "{'q':'" + q + "','filterQ':'" + filterQ + "'}",
+                                dataType: "json",
+                                processData: false,
+                                traditional: true,
+                                contentType: "application/json; charset=utf-8",
+                                success: function (response) {
 
+                                    data = response.d
+                                    data = jQuery.parseJSON(data)
+                                    var toShow = data.length;
+                                    var displayMessage;
+                                    var uid;
+                                    var u;
+                                    if (toShow == 1) {
+                                        displayMessage = "Displaying " + toShow + " result. "
+                                    } else {
+                                        displayMessage = "Displaying " + toShow + " results. "
+                                    }
+                                    console.log(data.length);
+                                    if (data.length > 0) {
+
+                                        $(".resWrapper").html("");
+                                        $(".display").css("visibility", "visible");
+                                        $.each(data, function (i, o) {
+                                            
+
+
+                                            $(".resWrapper").append(
+                                                "<a data-id='" + o.cid + "' data-u='" + o.u + "' class='uid'>" +
+                                                "<div class='clickable'>" +
+                                                    "<span> <b> " + o.u + " </b> </span>" +
+                                                "</div>" +
+                                                "</a>");
+                                        })
+
+                                        $(".display").html("<span> <b> " + displayMessage + " </b> </span>")
+
+
+                                        $(".uid").click(function () {
+                                            $("#hidId").val("");
+                                            $("#hidId").val($(this).data("id"));
+                                            $("#qAlumni").val($(this).data("u"));
+                                            $(".resWrapper").html("");
+                                            $(".display").html("");
+                                            $(".display").css("visibility", "hidden");
+                                        });
+                                    }
+
+
+                                    if (data.length == 0) {
+                                        $(".resWrapper").html("");
+
+                                        $(".resWrapper").append(
+                                            "<div class='clickable'>" +
+                                                "<span> <b> No results found </b> </span>" +
+                                            "</div>");
+                                        $(".display").html("");
+                                        $(".display").css("visibility", "hidden");
+                                        $("#hidId").val("");
+                                    }
+
+
+                                }
+                            });
+                        }
+                    }
 
 
 

@@ -1,5 +1,5 @@
 ﻿
-
+@import url("http://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.5.4/bootstrap-select.min.css");
 
 .default-theme{background:maroon;}
 .shadowed{ box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.5) !important;border-top:4px solid #FFC40D !important;}

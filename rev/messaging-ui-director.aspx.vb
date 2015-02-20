@@ -89,7 +89,7 @@ Partial Class rev_messaging_ui_director
     Public Shared Function pullMessages(ByVal account_id As String) As String
         Using sqlCon As New SqlConnection(constr)
             sqlCon.Open()
-            Using da = New SqlDataAdapter("SELECT DISTINCT given_name,family_name,account_idpk FROM tblAccounts,tblMessages WHERE account_idpk=sender_idfk AND recipient_idfk='" & account_id & "' ", sqlCon)
+            Using da = New SqlDataAdapter("SELECT DISTINCT given_name,family_name,account_idpk FROM tblAccounts,tblMessages WHERE account_idpk=sender_idfk AND recipient_idfk='" & account_id & "'  ", sqlCon)
                 Dim table = New DataTable()
                 da.Fill(table)
 
@@ -128,21 +128,37 @@ Partial Class rev_messaging_ui_director
     'PULL ALUMNI / COORDINATOR SEARCH
     <System.Web.Services.WebMethod()> _
     <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
-    Public Shared Function search(ByVal q As String) As String
+    Public Shared Function search(ByVal q As String, ByVal filterQ As String) As String
+        If filterQ = "alm" Then
+            Using sqlCon As New SqlConnection(constr)
+                sqlCon.Open()
+                Using dat = New SqlDataAdapter("SELECT  given_name+ ' ' +family_name+ ' ' +middle_name  as u,account_idpk as uid,userlevel_idfk as ul FROM tblAccounts WHERE (given_name+ ' ' +family_name+ ' ' +middle_name LIKE '%" & q & "%'  AND account_status = 1) ", sqlCon)
 
-        Using sqlCon As New SqlConnection(constr)
-            sqlCon.Open()
-            Using dat = New SqlDataAdapter("SELECT  given_name+ ' ' +family_name+ ' ' +middle_name  as u,account_idpk as uid,userlevel_idfk as ul,username as un,coordinator_idpk as cid FROM tblAccounts RIGHT JOIN tblCoordinators ON tblAccounts.college_idfk = tblCoordinators.college_idfk WHERE (given_name+ ' ' +family_name+ ' ' +middle_name LIKE '%" & q & "%'  AND account_status = 1) OR tblCoordinators.username LIKE '%" & q & "%' ", sqlCon)
+                    Dim table2 = New DataTable()
+                    dat.Fill(table2)
 
-                Dim table2 = New DataTable()
-                dat.Fill(table2)
+                    Dim pollOptionsJsonData As String = GetJson(table2)
+                    Return pollOptionsJsonData
+                End Using
 
-                Dim pollOptionsJsonData As String = GetJson(table2)
-                Return pollOptionsJsonData
+                sqlCon.Close()
             End Using
+        ElseIf filterQ = "coo" Then
+            Using sqlCon As New SqlConnection(constr)
+                sqlCon.Open()
+                Using dat = New SqlDataAdapter("SELECT  username as u, coordinator_idpk as cid FROM tblCoordinators WHERE username LIKE '%" & q & "%' ", sqlCon)
 
-            sqlCon.Close()
-        End Using
+                    Dim table = New DataTable()
+                    dat.Fill(table)
+
+                    Dim pollOptionsJsonData2 As String = GetJson(table)
+                    Return pollOptionsJsonData2
+                End Using
+
+                sqlCon.Close()
+            End Using
+        End If
+        
 
     End Function
 End Class
