@@ -111,7 +111,7 @@ Partial Class rev_director_list_ui
         Using sqlCon As New SqlConnection(constr)
 
             sqlCon.Open()
-            Using da = New SqlDataAdapter("SELECT description FROM tblColleges,tblCoordinators WHERE tblCoordinators.college_idfk <> tblColleges.college_idpk", sqlCon)
+            Using da = New SqlDataAdapter("SELECT tblColleges.description FROM tblColleges", sqlCon)
                 Dim table = New DataTable()
                 da.Fill(table)
 

@@ -8,7 +8,6 @@ Imports System.Web
 
 Imports System.Collections.Generic
 
-
 Partial Class director_ui
     Inherits System.Web.UI.Page
     Public Shared Property constr As String = "Data Source=SQL5012.Smarterasp.net;Initial Catalog=DB_9BB7E6_tsuat;User Id=DB_9BB7E6_tsuat_admin;Password=masterfile;"
@@ -41,11 +40,6 @@ Partial Class director_ui
     <System.Web.Services.WebMethod()> _
     <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
     Public Shared Function pullAnnouncement(ByVal fk As String) As String
-        ' 'Function named PushToDatabase 
-        'Includes delimitation of user input
-        'Opening and Closing Connection to the database
-        'Adding datas to database
-
 
         Using sqlCon As New SqlConnection(constr)
 
@@ -60,27 +54,14 @@ Partial Class director_ui
                 Return pollOptionsJsonData
             End Using
 
-
-
-
             sqlCon.Close()
-
-            'Returning Message : Fail or Successful
-
         End Using
 
     End Function
 
-
-
     <System.Web.Services.WebMethod()> _
     <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
     Public Shared Function pushAnnouncement(ByVal myAnnouncement As String, ByVal id As String) As String
-        'Function named PushToDatabase 
-        'Includes delimitation of user input
-        'Opening and Closing Connection to the database
-        'Adding datas to database
-
 
         Using sqlCon As New SqlConnection(constr)
 
