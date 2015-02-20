@@ -140,6 +140,44 @@
                 </div>
             </div>
         </div>
+           //Modal form
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel" style="text-transform:capitalize;">Modal title</h4>
+          </div>
+          <div class="modal-body">
+             
+              
+              <ul id="messages">
+                 
+              </ul>
+          </div>
+          <div class="modal-footer">
+              <div class="container">
+                  <div class="row">
+                      <div class="col-xs-6">
+                          <textarea class="form-control" rows="1" id="replyMessage"></textarea> &nbsp;
+                          
+                      </div>
+                      
+                  </div>
+                  <div class="row">
+                      <div class="col-xs-2">
+                           <button type="button" class="btn btn-success btn-sm reply" style="float:left;">Reply</button>
+                           <button type="button" class="btn btn-primary btn-sm" data-dismiss="modal" style="float:right;margin-right:50px;">Close</button>
+                     
+                      </div>
+                  </div>
+              </div>
+            
+            
+          </div>
+        </div>
+      </div>
+    </div>
     </form>
      <script type="text/javascript" src="./js/jquery.js"></script>
     <script type="text/javascript" src="./js/bootstrap.min.js"></script>
@@ -225,7 +263,7 @@
 
                                 }
                             });
-                            console.log(account_idfk);
+                            console.log(sess_id);
                         });
             }
                 }

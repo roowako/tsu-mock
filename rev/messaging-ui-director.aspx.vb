@@ -132,7 +132,7 @@ Partial Class rev_messaging_ui_director
 
         Using sqlCon As New SqlConnection(constr)
             sqlCon.Open()
-            Using dat = New SqlDataAdapter("SELECT given_name+ ' ' +family_name+ ' ' +middle_name  as u,account_idpk as uid,userlevel_idfk as ul,username as un FROM tblAccounts LEFT JOIN tblCoordinators ON tblAccounts.college_idfk = tblCoordinators.college_idfk OR tblAccounts.given_name LIKE '%" & q & "%' OR tblCoordinators.username LIKE '%" & q & "%' AND account_status = 1  ", sqlCon)
+            Using dat = New SqlDataAdapter("SELECT  given_name+ ' ' +family_name+ ' ' +middle_name  as u,account_idpk as uid,userlevel_idfk as ul,username as un,coordinator_idpk as cid FROM tblAccounts RIGHT JOIN tblCoordinators ON tblAccounts.college_idfk = tblCoordinators.college_idfk WHERE (given_name+ ' ' +family_name+ ' ' +middle_name LIKE '%" & q & "%'  AND account_status = 1) OR tblCoordinators.username LIKE '%" & q & "%' ", sqlCon)
 
                 Dim table2 = New DataTable()
                 dat.Fill(table2)

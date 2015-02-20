@@ -379,6 +379,7 @@
                             data = jQuery.parseJSON(data)
                             var toShow = data.length;
                             var displayMessage;
+                            var uid;
                             var u;
                             if (toShow == 1) {
                                 displayMessage = "Displaying " + toShow + " result. "
@@ -393,14 +394,21 @@
                                 $.each(data, function (i, o) {
                                     if (o.ul == 0 ) {
                                         u = o.u;
+                                        uid = o.uid;
                                     } else if (o.ul == 1) {
                                         u = o.un;
+                                        uid = o.uid;
                                     } else if (o.ul == 3) {
                                         u = o.u;
+                                        uid = o.uid;
+                                    } else if(o.ul == null){
+                                        u = o.un;
+                                        uid = o.cid;
                                     }
+
                                  
                                     $(".resWrapper").append(
-                                        "<a data-id='" + o.uid + "' data-u='" + o.u + "' class='uid'>" +
+                                        "<a data-id='" + uid + "' data-u='" + u + "' class='uid'>" +
                                         "<div class='clickable'>" +
                                             "<span> <b> " + u + " </b> </span>" +
                                         "</div>" +
