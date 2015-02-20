@@ -106,3 +106,43 @@ border-bottom: 1px solid #ddd;
     
 
 }
+
+#college_idpk{
+    display:none;
+}
+
+#college_desc{display:none;}
+
+.resWrapper{
+    padding:0px;
+    background:;
+    border:thin solid #ccc;
+    display:none;
+}
+
+.revealWrap{
+    display:block;
+}
+
+.clickable{
+    cursor:pointer;
+    padding:10px;
+    color:#A6635D;
+}
+.clickable:hover{
+    background:maroon;
+    color:#fff;
+}
+
+.clickable > span{
+    font-size:15px;
+}
+.display{
+    text-align:center;
+    background:#f5f5f5;
+    padding:5px;
+    border-top:thin solid #ccc;
+}
+.display > span{
+    font-size:12px;
+}

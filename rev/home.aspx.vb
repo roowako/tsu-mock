@@ -171,4 +171,25 @@ Partial Class home
         End Using
 
     End Function
+
+    'PULL ALUMNI SEARCH
+    <System.Web.Services.WebMethod()> _
+    <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
+    Public Shared Function search(ByVal q As String) As String
+
+        Using sqlCon As New SqlConnection(constr)
+            sqlCon.Open()
+            Using dat = New SqlDataAdapter("SELECT given_name+ ' ' +family_name as u FROM tblAccounts WHERE given_name+ ' ' +family_name+ '' +middle_name LIKE '%" & q & "%'  AND userlevel_idfk = 0  AND account_status = 1 ", sqlCon)
+
+                Dim table2 = New DataTable()
+                dat.Fill(table2)
+
+                Dim pollOptionsJsonData As String = GetJsonOpt(table2)
+                Return pollOptionsJsonData
+            End Using
+
+            sqlCon.Close()
+        End Using
+
+    End Function
 End Class

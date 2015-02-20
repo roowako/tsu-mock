@@ -77,7 +77,10 @@
                                  <h3 class="page-header"><span class="glyphicon glyphicon-home">&nbsp;</span>Timeline</h3>
                              </div>
                              <div class="col-xs-4">
-                                
+                                 <div class="form-group">
+                                     <input type="text" placeholder="Search for alumni" name=""  class="form-control" id="searching"/>
+                                     <div class="resWrapper"></div>
+                                 </div>
                              </div>
                              <div class="col-xs-2">
                                  
@@ -151,7 +154,7 @@
     <script type="text/javascript" src="./js/bootstrap.min.js"></script>
     <script type="text/javascript" src="./js/custom.js"></script>
     <script type="text/javascript" src="./js/dom-control.js"></script>
-  
+     <script type="text/javascript" src="./js/home-search.js"></script>
     <script type="text/javascript" src="http://ajax.cdnjs.com/ajax/libs/json2/20110223/json2.js"></script>
     <script>
         var college_id = $("#college_idpk").val();
