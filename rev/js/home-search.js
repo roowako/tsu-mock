@@ -20,6 +20,7 @@
         if (key !== ESC) {
            
             $(".resWrapper").addClass("revealWrap");
+            
             $.ajax({
                 type: "post",
                 url: "home.aspx/search",
@@ -41,28 +42,34 @@
                     }
                     console.log(data.length);
                     if (data.length > 0) {
+                       
+                        $(".resWrapper").html("");
+                        $(".display").css("visibility", "visible");
                         $.each(data, function (i,o) {
-                            $(".resWrapper").html("");
+                           
                             $(".resWrapper").append(
+                                "<a>"+
                                 "<div class='clickable'>" +
                                     "<span> <b> "+ o.u +" </b> </span>" +
                                 "</div>"+
-                                "<div class='display'>" +
-                                    "<span> " + displayMessage + " </span>" +
-                                "</div>");
+                                "</a>");
                         })
+                        
+                        $(".display").html("<span> <b> "+ displayMessage +" </b> </span>")
                        
-                       
-                      
+                        
                     }
 
 
                     if (data.length == 0) {
                         $(".resWrapper").html("");
+                        
                         $(".resWrapper").append(
                             "<div class='clickable'>" +
                                 "<span> <b> No results found </b> </span>"+
                             "</div>");
+                        $(".display").html("");
+                        $(".display").css("visibility", "hidden");
                     }
                 }
             });
@@ -74,6 +81,8 @@
             if (input == "") {
                 $(".resWrapper").html("");
                 $(".resWrapper").removeClass("revealWrap");
+                $(".display").html("");
+                $(".display").css("visibility", "hidden");
             }
         } 
     }

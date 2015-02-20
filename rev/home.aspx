@@ -37,13 +37,26 @@
                
                 </div>
                 <div id="navbar" class="navbar-collapse collapse" > <!---collapse collapse -->
-                  
-                    
+                    <br />
+                    <ul class="nav navbar-nav navbar-left extended">
+                        <li>
+                            <div class="form-group" style="position:absolute;z-index:40000;">
+                                <input type="text" placeholder="Search for alumni" name=""  class="form-control" id="searching"/>
+                                <div class="resWrapper">
+
+
+                                     
+                                </div>
+                            <div class="display"></div>
+                            </div>
+                        </li>
+                    </ul>
                     
                 </div><!--/.navbar-collapse -->
                 </div>
             </nav>-->
-
+            <br />
+            
            <div class="container-fluid">
                 <div class="row">
                     <div class="col-sm-3 col-md-2 sidebar">  <!--side-bar -->
@@ -77,10 +90,7 @@
                                  <h3 class="page-header"><span class="glyphicon glyphicon-home">&nbsp;</span>Timeline</h3>
                              </div>
                              <div class="col-xs-4">
-                                 <div class="form-group">
-                                     <input type="text" placeholder="Search for alumni" name=""  class="form-control" id="searching"/>
-                                     <div class="resWrapper"></div>
-                                 </div>
+                                 
                              </div>
                              <div class="col-xs-2">
                                  
@@ -102,18 +112,19 @@
 
                             <!-- start right-side -->
                             <div class="col-xs-6 col-sm-5 placeholder border-enabled">
-                              <h4 class="header-padded"><span class="glyphicon glyphicon-pencil minified"></span>&nbsp; Poll Questions</h4>
+                              <h4 class="header-padded"><span class="glyphicon glyphicon-th-alt-list minified"></span>&nbsp; Survey Questions</h4>
                               <div class="row">
                                   <table class="table table-hover">
                                         <tr>
+                                            <td></td>
                                             <td><span class="glyphicon glyphicon-th-list"></span></td>  
-                                            <td>Poll Title</td>
-                                            <td>Status</td>
+                                            <td>Survey Title</td>
+                                           
                                             <td></td>
                                         </tr>
                                                     
                                     </table>
-                                  
+                                  <div id="noPoll"></div>
                               </div>
                             </div>
                             <!-- end right-side -->
@@ -134,11 +145,11 @@
             <h4 class="modal-title" id="myModalLabel">Modal title</h4>
           </div>
           <div class="modal-body">
-              <h4>Poll Question</h4>
+              <h4>Survey Question</h4>
               <p id="questionPlaceholder"></p>
            
               <br />
-              <h4>Poll Options</h4>
+              <h4>Survey Options</h4>
               <ul id="placeholderOptions" class="bulletsNone">
                  
               </ul>
@@ -159,7 +170,7 @@
     <script>
         var college_id = $("#college_idpk").val();
         var college_desc = $("#college_desc").val();
-
+        var filterPoll = $("#account_idpk").val();
         var myParam = location.search.split('id=')[1];
         $("#alumni_name").text(myParam);
 
@@ -167,6 +178,7 @@
                 $.ajax({
                     type: "post",
                     url: "./home.aspx/pullFromServer",
+                    data:"{'filter':'"+ filterPoll +"'}",
                     dataType: "json",
                     contentType: "application/json; charset=utf-8",
 
@@ -175,6 +187,14 @@
                         data = r.d
                         console.log(r)
                         data = jQuery.parseJSON(data);
+                        console.log(data.length);
+                        if (data.length == 0) {
+                            $("#noPoll").append(
+
+                                  "<span> <b> No available survey for graduating students. </b> </span>"
+                                );
+                        } else{
+
                         $.each(data, function (i, object) {
 
                             object.status = "active";
@@ -182,7 +202,7 @@
                                 "<tr>" +
                                 "<td>  " + object.polls_idpk + " </td>" +
                                 "<td>  " + object.description + " </td>" +
-                                "<td>  " + object.status + " </td>" +
+                               
                                 "<td>   " + "<a class='btn btn-success btn-sm theatre' id='" + object.polls_idpk + "' data-poll-title='" + object.description + "' data-poll-question='" + object.question + "' data-poll-id='" + object.polls_idpk + "' data-toggle='modal' data-target='#myModal'>View Details and participate </a>" + " </td>" +
                                 "</tr>"
                                 );
@@ -242,7 +262,7 @@
                             });
                             
                         });
-
+                        }
                     }
                 });
             }
@@ -267,11 +287,13 @@
                                 $(".announcementHolder").append(
                                 "<div class='row'>" +
                                     "<div class='col-xs-12 border-enabled'>" +
-                                        "<h4 class='header-padded'>" + "DIRECTOR" + " </h4>" +
+                                        "<h4 class='header-padded'><span class='glyphicon glyphicon-bookmark'>&nbsp;</span>DIRECTOR </h4>" +
+                                         "<span class='dateIndicator'>&nbsp;&nbsp;" + object.formatedB + "</span>" +
                                         "<div class='row'>" +
+                                            "<br>" +
                                             "<div class='theme-color col-xs-3 highlighted-div'>" +
                                                 "<p> " + object.description + "   </p>" +
-                                                "<input type='button' '  id='btnAuth' value='Authorize' class='btn btn-default' />" +
+                                               
                                             "</div>" +
 
                                         "</div> " +
@@ -285,11 +307,13 @@
                                 $(".announcementHolder").append(
                                 "<div class='row'>" +
                                     "<div class='col-xs-12 border-enabled'>" +
-                                        "<h4 class='header-padded'>" + college_desc + " </h4>" +
+                                        "<h4 class='header-padded'><span class='glyphicon glyphicon-bookmark'>&nbsp;</span>" + college_desc + " </h4>" +
+                                        "<span class='dateIndicator'>&nbsp;&nbsp;" + object.formatedB + "</span>" +
                                         "<div class='row'>" +
+                                            "<br>"+
                                             "<div class='theme-color col-xs-3 highlighted-div'>" +
                                                 "<p> " + object.description + "   </p>" +
-                                                "<input type='button' '  id='btnAuth' value='Authorize' class='btn btn-default' />" +
+                                                
                                             "</div>" +
 
                                         "</div> " +

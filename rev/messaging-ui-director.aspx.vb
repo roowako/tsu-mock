@@ -71,7 +71,7 @@ Partial Class rev_messaging_ui_director
         Using sqlCon As New SqlConnection(constr)
             sqlCon.Open()
 
-            Using da = New SqlDataAdapter("SELECT *, actor_message,sender_idfk,CONVERT(VARCHAR, date_sent,0) as formatedB FROM tblMessages WHERE recipient_idfk = '" & account_id & "' AND sender_idfk = '" & account_idfk & "' OR sender_idfk = '" & account_id & "' AND recipient_idfk = '" & account_idfk & "' ORDER BY date_sent  DESC", sqlCon)
+            Using da = New SqlDataAdapter("SELECT  actor_message,sender_idfk,recipient_idfk,CONVERT(VARCHAR, date_sent,0) as formatedB FROM tblMessages WHERE recipient_idfk = '" & account_id & "' AND sender_idfk = '" & account_idfk & "' OR sender_idfk = '" & account_id & "' AND recipient_idfk = '" & account_idfk & "' ORDER BY date_sent  DESC", sqlCon)
                 Dim table = New DataTable()
                 da.Fill(table)
 
@@ -121,6 +121,28 @@ Partial Class rev_messaging_ui_director
             'Returning Message : Fail or Successful
         End Using
 
+
+    End Function
+
+
+    'PULL ALUMNI / COORDINATOR SEARCH
+    <System.Web.Services.WebMethod()> _
+    <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
+    Public Shared Function search(ByVal q As String) As String
+
+        Using sqlCon As New SqlConnection(constr)
+            sqlCon.Open()
+            Using dat = New SqlDataAdapter("SELECT given_name+ ' ' +family_name+ ' ' +middle_name  as u,account_idpk as uid,userlevel_idfk as ul,username as un FROM tblAccounts LEFT JOIN tblCoordinators ON tblAccounts.college_idfk = tblCoordinators.college_idfk OR tblAccounts.given_name LIKE '%" & q & "%' OR tblCoordinators.username LIKE '%" & q & "%' AND account_status = 1  ", sqlCon)
+
+                Dim table2 = New DataTable()
+                dat.Fill(table2)
+
+                Dim pollOptionsJsonData As String = GetJson(table2)
+                Return pollOptionsJsonData
+            End Using
+
+            sqlCon.Close()
+        End Using
 
     End Function
 End Class

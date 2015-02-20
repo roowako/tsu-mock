@@ -89,7 +89,7 @@ Partial Class home
     Public Shared Function pullAnnouncement(ByVal college_id As Integer) As String
         Using sqlCon As New SqlConnection(constr)
             sqlCon.Open()
-            Using dat = New SqlDataAdapter("SELECT description,account_idfk,target_id FROM tblAnnouncements WHERE target_id = '" & college_id & "' OR target_id = 0 ORDER BY announcement_idpk DESC", sqlCon)
+            Using dat = New SqlDataAdapter("SELECT description,account_idfk,target_id,CONVERT(VARCHAR, datetime_posted,0) as formatedB FROM tblAnnouncements WHERE target_id = '" & college_id & "' OR target_id = 0 ORDER BY announcement_idpk DESC", sqlCon)
                 Dim table2 = New DataTable()
                 dat.Fill(table2)
 
@@ -104,10 +104,10 @@ Partial Class home
     'PULL POLLS
     <System.Web.Services.WebMethod()> _
     <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
-    Public Shared Function pullFromServer() As String
+    Public Shared Function pullFromServer(ByVal filter As String) As String
         Using sqlCon As New SqlConnection(constr)
             sqlCon.Open()
-            Using da = New SqlDataAdapter("SELECT * FROM tblPolls WHERE status=1", sqlCon)
+            Using da = New SqlDataAdapter("SELECT *,tblAccounts.userlevel_idfk FROM tblPolls,tblAccounts WHERE status=1 AND tblAccounts.account_idpk = '" & filter & "' AND tblAccounts.userlevel_idfk = 1", sqlCon)
                 Dim table = New DataTable()
                 da.Fill(table)
                 Dim jsndata As String = GetJson(table)
@@ -179,7 +179,7 @@ Partial Class home
 
         Using sqlCon As New SqlConnection(constr)
             sqlCon.Open()
-            Using dat = New SqlDataAdapter("SELECT given_name+ ' ' +family_name as u FROM tblAccounts WHERE given_name+ ' ' +family_name+ '' +middle_name LIKE '%" & q & "%'  AND userlevel_idfk = 0  AND account_status = 1 ", sqlCon)
+            Using dat = New SqlDataAdapter("SELECT given_name+ ' ' +family_name+ ' ' +middle_name  as u,account_idpk as uid FROM tblAccounts WHERE given_name+ ' ' +family_name+ '' +middle_name LIKE '%" & q & "%'  AND  account_status = 1 AND  userlevel_idfk  < 2  ", sqlCon)
 
                 Dim table2 = New DataTable()
                 dat.Fill(table2)

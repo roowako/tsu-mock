@@ -115,20 +115,33 @@ border-bottom: 1px solid #ddd;
 
 .resWrapper{
     padding:0px;
-    background:;
+    background:#fff;
     border:thin solid #ccc;
     display:none;
+   border-bottom:none;
+   position:relative;
+   z-index:400000;
 }
 
 .revealWrap{
     display:block;
+   
+}
+
+.revealWrap-vis{
+    visibility:visible;
 }
 
 .clickable{
     cursor:pointer;
     padding:10px;
     color:#A6635D;
+    border-bottom:thin solid #ccc;
 }
+.clickable > last:last-child{
+    border-bottom:none;
+}
+.uid:hover{text-decoration:none;}
 .clickable:hover{
     background:maroon;
     color:#fff;
@@ -136,13 +149,38 @@ border-bottom: 1px solid #ddd;
 
 .clickable > span{
     font-size:15px;
+   
 }
 .display{
     text-align:center;
     background:#f5f5f5;
     padding:5px;
-    border-top:thin solid #ccc;
+    border:thin solid #ccc;
+    border-top:none;
+     visibility:hidden;
+    position:relative;
+    z-index:400000;
+    width:100%;
 }
 .display > span{
     font-size:12px;
+}
+
+#noPoll{
+    text-align:center;
+    padding:10px;
+    background:#f5f5f5;
+   
+}
+
+.extended{
+    width:300px;
+    border:thin solid;
+}
+.extended > li{
+    width:100%;
+}
+
+#searching{
+    width:300px;
 }

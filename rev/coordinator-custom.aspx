@@ -170,7 +170,7 @@
                                             "<br>"+
                                             "<div class='theme-color col-xs-3 highlighted-div'>" +
                                                 "<p> " + object.description + "   </p>" +
-                                                "<input type='button' '  id='btnAuth' value='Authorize' class='btn btn-default' />" +
+                                                
 
                                             "</div>" +
                                           
