@@ -130,7 +130,7 @@ Partial Class rev_messaging_ui_director
         If filterQ = "alm" Then
             Using sqlCon As New SqlConnection(constr)
                 sqlCon.Open()
-                Using dat = New SqlDataAdapter("SELECT  given_name+ ' ' +family_name+ ' ' +middle_name  as u,account_idpk as uid,userlevel_idfk as ul FROM tblAccounts WHERE (given_name+ ' ' +family_name+ ' ' +middle_name LIKE '%" & q & "%'  AND account_status = 1) ", sqlCon)
+                Using dat = New SqlDataAdapter("SELECT TOP 1 accounts.given_name+ ' ' +accounts.family_name+ ' ' +accounts.middle_name as FullName,accounts.userlevel_idfk as ul, coordinators.username as username,coordinators.coordinator_idpk as cid FROM tblAccounts accounts, tblCoordinators coordinators, tblColleges college WHERE accounts.account_status = 1 AND college.college_idpk = accounts.college_idfk AND college.college_idpk = coordinators.college_idfk AND (accounts.given_name LIKE '%" & q & "%' OR coordinators.username LIKE '%" & q & "%') GROUP BY  accounts.given_name+ ' ' +accounts.family_name+ ' ' +accounts.middle_name, accounts.account_idpk, accounts.userlevel_idfk, coordinators.username,coordinators.coordinator_idpk ", sqlCon)
 
                     Dim table2 = New DataTable()
                     dat.Fill(table2)
@@ -141,20 +141,7 @@ Partial Class rev_messaging_ui_director
 
                 sqlCon.Close()
             End Using
-        ElseIf filterQ = "coo" Then
-            Using sqlCon As New SqlConnection(constr)
-                sqlCon.Open()
-                Using dat = New SqlDataAdapter("SELECT  username as u, coordinator_idpk as cid FROM tblCoordinators WHERE username LIKE '%" & q & "%' ", sqlCon)
-
-                    Dim table = New DataTable()
-                    dat.Fill(table)
-
-                    Dim pollOptionsJsonData2 As String = GetJson(table)
-                    Return pollOptionsJsonData2
-                End Using
-
-                sqlCon.Close()
-            End Using
+       
         End If
         
 

@@ -164,8 +164,6 @@
                       </div>
                   </div>
               </div>
-            
-            
           </div>
         </div>
       </div>
@@ -179,14 +177,13 @@
     <script>
         $(document).ready(function () {
         
-            
-
             var sess_id = $("#account_idpk").val();
             var fullname;
             var account_idfk;
             $("#messages").html("");
             $("#myModalLabel").text("")
             console.log(sess_id);
+
             $.ajax({
                 type: "post",
                 url: "./messaging-ui-alumni.aspx/pullMessages",
@@ -224,10 +221,12 @@
                             $("#myModalLabel").text("");
                             var fn = $(this).data("name");
                             $("#myModalLabel").text($(this).data("name"));
-                            name="";
+                            name = "";
+
                             var sess_id = $("#account_idpk").val();
-                             account_idfk = $(this).data("id");
+                            account_idfk = $(this).data("id");
                             sendTo = $(this).data("id");
+
                             $.ajax({
                                 type: "post",
                                 url: "./messaging-ui-alumni.aspx/pullConversation",
@@ -236,7 +235,6 @@
                                 contentType: "application/json; charset=utf-8",
                                 async: true,
                                 success: function (r) {
-                                    
                                     data = r.d
                                     data = jQuery.parseJSON(data)
                                     $.each(data, function (i, o) {
@@ -247,9 +245,8 @@
                                         }
                                         else{
                                             name = fn;
-                                            
                                         }
-                                        console.log(name);
+
                                         $("#messages").append(
                                                 "<li class='messaging'><b> " + name + "</b> </li>" +
                                                 "<li class='messaging'>" + o.actor_message + " </li>" +
@@ -283,15 +280,11 @@
                         $("#actor-message").val("");
                         $("#qAlumni").val("");
                         alert("Message sent.");
-                        
                     }
                 });
-
-
             });
 
             $(".reply").click(function () {
-              
                 var message = $("#replyMessage").val();
                 
                 $.ajax({
@@ -312,19 +305,21 @@
                 $('#modal-body').stop().animate({
                     scrollTop: $("#modal-body")[0].scrollHeight
                 }, 2000);
-               
             });
 
-           
-
+            var delay = (function () {
+                var timer = 0;
+                return function (callback, ms) {
+                    clearTimeout(timer);
+                    timer = setTimeout(callback, ms);
+                };
+            })();
 
             $("#qAlumni").on("keyup", function (event) {
                 $(this).alumniSearch(event);
             });
 
-
             $.fn.alumniSearch = function (event) {
-
                 var ESC = 27;
                 var SPACE = 32;
                 var BACKSPAE = 8;
@@ -398,10 +393,6 @@
                             }
                         }
                     });
-
-
-
-
 
                     if (input == "") {
                         $(".resWrapper").html("");
