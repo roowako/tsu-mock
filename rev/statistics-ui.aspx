@@ -308,7 +308,8 @@
                                 "<td> " + o.description + " </td>" +
                                 "<td> " + o.question + "</td>" +
                                 "<td> </td>"+
-                                "<td> <a class='btn btn-primary btn-sm theatre' data-poll-id='" + o.polls_idpk + "' data-toggle='modal' data-target='#myModal'>View Statistics </a>&nbsp; <a class='btn btn-warning btn-sm deletePoll' data-poll-id='" + o.polls_idpk + "'>Delete Poll </a></td>" +
+                                "<td> <a class='btn btn-primary btn-sm theatre' data-poll-id='" + o.polls_idpk + "' data-toggle='modal' data-target='#myModal'>View Statistics </a>&nbsp; </td>" +
+                                "<td> <a class='btn btn-warning btn-sm deletePoll' data-poll-id='" + o.polls_idpk + "'>Delete Poll </a></td>" +
                             "</tr>"
                             );
                         console.log(o.polls_idpk);
@@ -568,9 +569,11 @@
                     success: function (dataOpt) {
                         data = dataOpt.d
                         data = jQuery.parseJSON(data)
-
-                        $.each(data, function (i,o) {
+                        var g;
+                        $.each(data, function (i, o) {
+                             
                             $(".chart").append(
+                                "<li> Are you currently employed?</li>" +
                                 "<li class='current' title='Employed' >" +
                                     "<span class='bar' data-number=" + o.Employed + "></span>" +
                                     "<span class='number'>" + o.Employed + "</span>" +
@@ -581,7 +584,9 @@
                                 "</li>" +
 
                                 //Q1
-                                "<ul>qwe</ul>" +
+                              
+                            
+                                "<li>How long did it take to find your First employment? </li>" +
                                 "<li class='current' title='1 to 3 months' >" +
                                     "<span class='bar' data-number=" + o.opt1 + "></span>" +
                                     "<span class='number'>" + o.opt1 + "</span>" +
