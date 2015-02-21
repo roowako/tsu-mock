@@ -144,77 +144,25 @@
                                                         </tbody>          
                                                     </table>
                                                 </div>
+
                                                  <div class="row">
                                                      <div class="col-xs-12">
                                                          <div class="genSurvey table-responsive" style="display:none;"> 
                                                           <table class="table table-hover" style="border-top:0px !important;">
                                                             <thead>
-                                                            <tr>
-                                                                <td><span class="glyphicon glyphicon-th-list"></span></td>
-                                                              
-                                                                <td><b>Question</b></td>
-                                                                <td><b></b></td>                                   
-
-                                                            </tr>
+                                                                <tr>
+                                                                    <td><span class="glyphicon glyphicon-th-list"></span></td>
+                                                                    <td><b>Survey</b></td>
+                                                                    <td><b></b></td>                                   
+                                                                </tr>
                                                             </thead>
+                                                            
                                                             <tbody>
-                                                             <tr>
-                                                                <td><span>1</span></td>
-                                                               
-                                                                 <td>Employment Status</td>
-                                                                 <td><input type="button" class="btn btn-primary btn-sm" value="View statistics" id="employed_stat" data-toggle='modal' data-target='#myModal' /></td>                               
-
-                                                             </tr>
-                                                            <tr>
-                                                                <td><span>2</span></td>
-                                                               
-                                                                <td> How long did it take to find your First employment? </td>
-                                                                <td><input type="button" class="btn btn-primary btn-sm" value="View statistics" id="q1" data-toggle='modal' data-target='#myModal'/></td>                               
-
-                                                            </tr>
                                                                 <tr>
-                                                                <td><span>3</span></td>
-                                                               
-                                                                    <td> Is your current work/job is aligned to your field of education?  </td>
-                                                                    <td><input type="button" class="btn btn-primary btn-sm" value="View statistics" id="q2" data-toggle='modal' data-target='#myModal'/></td>                               
-
-                                                                </tr>
-                                                                <tr>
-                                                                <td><span>4</span></td>
-                                                               
-                                                                    <td>Location of employment:  </td>
-                                                                    <td><input type="button" class="btn btn-primary btn-sm" value="View statistics" id="q3" data-toggle='modal' data-target='#myModal'/></td>                               
-
-                                                                </tr>
-                                                                <tr>
-                                                                <td><span>5</span></td>
-                                                               
-                                                                    <td>The classification of your company or institution:  </td>
-                                                                    <td><input type="button" class="btn btn-primary btn-sm" value="View statistics" id="q4" data-toggle='modal' data-target='#myModal'/></td>                               
-
-                                                                </tr>
-                                                                <tr>
-                                                                <td><span>6</span></td>
-                                                               
-                                                                    <td> Nature of Appointment:  </td>
-                                                                    <td><input type="button" class="btn btn-primary btn-sm" value="View statistics" id="q5" data-toggle='modal' data-target='#myModal'/></td>                               
-
-                                                                </tr>
-                                                                 <tr>
-                                                                <td><span>7</span></td>
-                                                               
-                                                                    <td> What is your Present Position?   </td>
-                                                                    <td><input type="button" class="btn btn-primary btn-sm" value="View statistics" id="q6" data-toggle='modal' data-target='#myModal' /></td>                               
-
-                                                                </tr>
-                                                                <tr>
-                                                                <td><span>8</span></td>
-                                                               
-                                                                    <td> How long have you been working in your current company?  </td>
-                                                                    <td><input type="button" class="btn btn-primary btn-sm" value="View statistics" id="q7" data-toggle='modal' data-target='#myModal'/></td>                               
-
-                                                                </tr>
-                                                                                    
+                                                                    <td><span>1</span></td>
+                                                                    <td>General Employment Survey</td>
+                                                                    <td><input type="button" class="btn btn-primary btn-sm" value="View statistics" id="employed_stat" data-toggle='modal' data-target='#myModal' /></td>                               
+                                                                </tr> 
                                                             </tbody>          
                                                         </table>
                                                          </div>
@@ -546,10 +494,6 @@
                 
             });
 
-            $("#cboCollege").click(function()  {
-               
-            });
-
         //Stats
             $("#employed_stat").click(function () {
                 $("#myModalLabel").text("Employment survey statistics.");
@@ -697,10 +641,23 @@
                                 "<li class='current' title='No' >" +
                                     "<span class='bar' data-number=" + o.FSB + "></span>" +
                                     "<span class='number'>" + o.FSB + "</span>" +
-                                "</li>" 
-                                );
+                                "</li>" +
 
-                            
+                                //HIGHEST EDUCATIONAL ATTAINMENT
+                                "<li>Highest educational attainment.</li>" +
+                                "<li class='current' title='Doctoral' >" +
+                                    "<span class='bar' data-number=" + o.HEA1 + "></span>" +
+                                    "<span class='number'>" + o.HEA1 + "</span>" +
+                                "</li>" +
+                                "<li class='current' title='Masteral' >" +
+                                    "<span class='bar' data-number=" + o.HEA2 + "></span>" +
+                                    "<span class='number'>" + o.HEA2 + "</span>" +
+                                "</li>" +
+                                "<li class='current' title='Others' >" +
+                                    "<span class='bar' data-number=" + o.HEA3 + "></span>" +
+                                    "<span class='number'>" + o.HEA3 + "</span>" +
+                                "</li>"
+                                );
 
                             $('.chart').horizBarChart({
                                 selector: '.bar',
