@@ -58,7 +58,7 @@
                         $.each(data, function (i,o) {
                            
                             $(".resWrapper").append(
-                                "<a class='uid' href='./viewprofile.aspx?id="+ o.uid +"'>"+
+                                "<a class='uid' href='./viewprofile.aspx?id="+ o.uid +"' >"+
                                 "<div class='clickable'>" +
                                     "<span> <b> "+ o.u +" </b> </span>" +
                                 "</div>"+

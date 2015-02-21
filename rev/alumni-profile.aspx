@@ -37,7 +37,20 @@
                 </div>
                 <div id="navbar" class="navbar-collapse collapse" > <!---collapse collapse -->
                   
-                    
+                    <br />
+                    <ul class="nav navbar-nav navbar-left extended" style="margin-top:8px;">
+                        <li>
+                            <div class="form-group" style="position:absolute;z-index:40000;">
+                                <input type="text" placeholder="Search for alumni" name=""  class="form-control input-sm" id="searching" autocomplete="off"/>
+                                <div class="resWrapper">
+
+
+                                     
+                                </div>
+                            <div class="display"></div>
+                            </div>
+                        </li>
+                    </ul>
                     
                 </div><!--/.navbar-collapse -->
                 </div>
@@ -67,14 +80,14 @@
 
                      <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
                          <div class="row">
-                             <div class="col-xs-4">
+                             <div class="col-xs-3">
                                  <h3 class="page-header">Profile</h3>
                              </div>
-                             <div class="col-xs-4">
+                             <div class="col-xs-5"></div>
+
+                             <div class="col-xs-4" style="text-align:right">
                                 
-                             </div>
-                             <div class="col-xs-2">
-                                 
+                                 &nbsp; <span><input type="button"  value="Update profile picture" class="btn btn-primary btn-sm" style="width:150px;"/></span>
                              </div>
                          </div>
                         <div class="row placeholders " >
@@ -151,7 +164,8 @@
     <script type="text/javascript" src="./js/bootstrap.min.js"></script>
     <script type="text/javascript" src="./js/custom.js"></script>
     <script type="text/javascript" src="./js/dom-control.js"></script>
-   
+   <script type="text/javascript" src="./js/home-search.js"></script>
+     <script type="text/javascript" src="./js/bindDelay.js"></script>
     <script type="text/javascript" src="./json2.js"></script>
     <script>
         $(document).ready(function () {

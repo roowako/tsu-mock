@@ -20,6 +20,8 @@
  .bulletsNone li{list-style-type:none !important;}
  .green, .green a{color:green !important;}
  .red{color:red;}
+ .dim{color:#7F7F7F;}
+ .borderless th,.borderless td{border:none !important;}
 .resultContainer{
 
      opacity:0;

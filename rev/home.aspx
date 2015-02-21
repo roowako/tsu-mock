@@ -41,7 +41,7 @@
                     <ul class="nav navbar-nav navbar-left extended" style="margin-top:8px;">
                         <li>
                             <div class="form-group" style="position:absolute;z-index:40000;">
-                                <input type="text" placeholder="Search for alumni" name=""  class="form-control input-sm" id="searching"/>
+                                <input type="text" placeholder="Search for alumni" name=""  class="form-control input-sm" id="searching" autocomplete="off"/>
                                 <div class="resWrapper">
 
 
