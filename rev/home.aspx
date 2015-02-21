@@ -38,10 +38,10 @@
                 </div>
                 <div id="navbar" class="navbar-collapse collapse" > <!---collapse collapse -->
                     <br />
-                    <ul class="nav navbar-nav navbar-left extended">
+                    <ul class="nav navbar-nav navbar-left extended" style="margin-top:8px;">
                         <li>
                             <div class="form-group" style="position:absolute;z-index:40000;">
-                                <input type="text" placeholder="Search for alumni" name=""  class="form-control" id="searching"/>
+                                <input type="text" placeholder="Search for alumni" name=""  class="form-control input-sm" id="searching"/>
                                 <div class="resWrapper">
 
 
@@ -166,12 +166,14 @@
     <script type="text/javascript" src="./js/custom.js"></script>
     <script type="text/javascript" src="./js/dom-control.js"></script>
      <script type="text/javascript" src="./js/home-search.js"></script>
+     <script type="text/javascript" src="./js/bindDelay.js"></script>
     <script type="text/javascript" src="http://ajax.cdnjs.com/ajax/libs/json2/20110223/json2.js"></script>
     <script>
         var college_id = $("#college_idpk").val();
         var college_desc = $("#college_desc").val();
         var filterPoll = $("#account_idpk").val();
         var myParam = location.search.split('id=')[1];
+
         $("#alumni_name").text(myParam);
 
             function pullFromServer() {

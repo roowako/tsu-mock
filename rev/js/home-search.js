@@ -1,9 +1,9 @@
 ﻿$(document).ready(function () {
 
 
-    $("#searching").on("keyup", function (event) {
+    $("#searching").bindWithDelay("keyup", function (event) {
         $(this).alumniSearch(event);
-    });
+    }, 500);
 
 
 
@@ -20,7 +20,17 @@
         if (key !== ESC) {
            
             $(".resWrapper").addClass("revealWrap");
-            
+            if (q == null) {
+                $(".resWrapper").html("");
+
+                $(".resWrapper").append(
+                    "<div class='clickable'>" +
+                        "<span> <b> No results found </b> </span>" +
+                    "</div>");
+                $(".display").html("");
+                $(".display").css("visibility", "hidden");
+                $("#hidId").val("");
+            }
             $.ajax({
                 type: "post",
                 url: "home.aspx/search",
@@ -48,7 +58,7 @@
                         $.each(data, function (i,o) {
                            
                             $(".resWrapper").append(
-                                "<a>"+
+                                "<a class='uid' href='./viewprofile.aspx?id="+ o.uid +"'>"+
                                 "<div class='clickable'>" +
                                     "<span> <b> "+ o.u +" </b> </span>" +
                                 "</div>"+
