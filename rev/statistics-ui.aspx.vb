@@ -82,7 +82,7 @@ Partial Class statistics_ui
         Return "Deleted."
     End Function
 
-    'Employment Status
+    'General Employment Statistics
     <System.Web.Services.WebMethod()> _
     <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
     Public Shared Function empstat(ByVal college_desc As String, ByVal course_desc As String) As String
@@ -372,14 +372,14 @@ Partial Class statistics_ui
         End Using
     End Sub
 
+    'Pull poll options and statistics
     <System.Web.Services.WebMethod()> _
     <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
     Public Shared Function pullPollOptions(ByVal optFk As String) As String
 
         Using sqlCon As New SqlConnection(constr)
             sqlCon.Open()
-            Using dat = New SqlDataAdapter("SELECT option_description, COUNT(tblPollsdata.pollsoption_idfk) as stats_data FROM  tblPollsoption LEFT JOIN tblPollsdata ON   tblPollsoption.pollsoption_idpk =   tblPollsdata.pollsoption_idfk WHERE tblPollsoption.polls_idfk = '" & optFk & "' GROUP BY option_description ORDER BY stats_data DESC ", sqlCon)
-
+            Using dat = New SqlDataAdapter("SELECT option_description, COUNT(tblPollsdata.pollsoption_idfk) as stats_data FROM tblPollsoption LEFT JOIN tblPollsdata ON tblPollsoption.pollsoption_idpk=tblPollsdata.pollsoption_idfk WHERE tblPollsoption.polls_idfk='" & optFk & "' GROUP BY option_description ORDER BY stats_data DESC ", sqlCon)
                 Dim table2 = New DataTable()
                 dat.Fill(table2)
 

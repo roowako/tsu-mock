@@ -53,14 +53,10 @@
 	                    <ul class="nav nav-sidebar">
 		                    <li>
 			                    <a href="#" >
-
 				                    <asp:Image ID="Image2" runat="server" ImageUrl="./assets/images/default-dp.jpg" Height="75" Width="75" BorderColor="White" BorderStyle="Solid" BorderWidth="3" />          
-
 			                    </a>
-
 		                    </li>
 		                    <li><a href="#" class="bolder"><span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;<asp:Label id="alumni_name" runat="server"></asp:Label></a></li>
-		  
 		                    <li><a href="./director-ui.aspx" ><span class="glyphicon glyphicon-home"></span>&nbsp;&nbsp;Timeline</a></li>
 		                    <li><a href="./messaging-ui-director.aspx" ><span class="glyphicon glyphicon-comment"></span>&nbsp;&nbsp;Messages</a></li>
 		                    <li><a href="./notification-center-ui.aspx"><span class="glyphicon glyphicon-phone"></span>&nbsp;&nbsp;Notification Center</a></li>
@@ -400,23 +396,16 @@
                                                     "<span class='number'>" + s + "</span>" +
                                                 "</li>"
                                                 );
-
                                         });
+
                                         $('.chart').horizBarChart({
                                             selector: '.bar',
                                             speed: 3000
                                         });
-
-
-                                        console.log(object);
-
                                     }
                                 });
-
-
                             });
                         }
-
                     });
 
                 } else if (filterView == "survey") {
