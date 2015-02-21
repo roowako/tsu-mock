@@ -37,7 +37,20 @@
                 </div>
                 <div id="navbar" class="navbar-collapse collapse" > <!---collapse collapse -->
                   
-                     
+                     <br />
+                    <ul class="nav navbar-nav navbar-left extended" style="margin-top:8px;">
+                        <li>
+                            <div class="form-group" style="position:absolute;z-index:40000;">
+                                <input type="text" placeholder="Search for alumni" name=""  class="form-control input-sm" id="searching" autocomplete="off"/>
+                                <div class="resWrapper">
+
+
+                                     
+                                </div>
+                            <div class="display"></div>
+                            </div>
+                        </li>
+                    </ul>
                     
                 </div><!--/.navbar-collapse -->
                 </div>
@@ -68,7 +81,7 @@
                     <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
                         <div class="row">
                              <div class="col-xs-4">
-                                 <h3 class="page-header"><span class="glyphicon glyphicon-home">&nbsp;</span>Messages</h3>
+                                 <h3 class="page-header"><span class="glyphicon glyphicon-comment">&nbsp;</span>Messages</h3>
                              </div>
                              <div class="col-xs-2">
                                  
@@ -100,26 +113,7 @@
 
                             <!-- start right-side -->
                             <div class="col-xs-6 col-sm-5 placeholder ">
-                              <h5 class="header-padded"><span class="glyphicon glyphicon-pencil minified"></span>&nbsp;Search for alumni</h5>
-                                <div class="row">
-                                    <div class="col-xs-12">
-                                        <div class="form-group">
-                                            <input type="text" id="qAlumni" name="name" value=" " placeholder="Search for alumni" class="form-control" autocomplete="off"/>
-                                            <input type="hidden" name="name" value=" " id="hidId" />
-                                            <div class="resWrapper">
-
-                                            </div>
-                                            <div class="display"></div>
-                                         </div>
-                                        
-                                        <div class="form-group">
-                                             <textarea rows="5" class="form-control" id="actor-message"></textarea>
-                                        </div>
-                                        <div class="form-group">
-                                            <asp:Button Text="Send message" runat="server" class="btn btn-success btn-sm" ID="btnSend"/>
-                                        </div>
-                                    </div>
-                                </div>
+                             
                                 
                             </div>
                             <!-- end right-side -->
@@ -129,10 +123,7 @@
                 </div>
             </div>
         </div>
-    </form>
-
-    
-    //Modal form
+          //Modal form
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
@@ -156,10 +147,9 @@
                       </div>
                       
                   </div>
-                  <div class="row">
-                      <div class="col-xs-2">
-                           <button type="button" class="btn btn-success btn-sm reply" style="float:left;">Reply</button>
-                           <button type="button" class="btn btn-primary btn-sm" data-dismiss="modal" style="float:right;margin-right:50px;">Close</button>
+                  <div class="row ">
+                      <div class="col-xs-2 appBtn">
+                           
                      
                       </div>
                   </div>
@@ -168,20 +158,25 @@
         </div>
       </div>
     </div>
+    </form>
+
+    
+  
     <script type="text/javascript" src="./js/jquery.js"></script>
     <script type="text/javascript" src="./js/bootstrap.min.js"></script>
     <script type="text/javascript" src="./js/custom.js"></script>
     <script type="text/javascript" src="./js/dom-control.js"></script>
-    
-    <script type="text/javascript" src="http://ajax.cdnjs.com/ajax/libs/json2/20110223/json2.js"></script>
+    <script type="text/javascript" src="./js/search.js"></script>
+     <script type="text/javascript" src="./js/bindDelay.js"></script>
+
+    <script type="text/javascript" src="./js/json2.js"></script>
     <script>
         $(document).ready(function () {
         
             var sess_id = $("#account_idpk").val();
             var fullname;
             var account_idfk;
-            $("#messages").html("");
-            $("#myModalLabel").text("")
+          
             console.log(sess_id);
 
             $.ajax({
@@ -201,28 +196,31 @@
                         console.log("a");
                     } else{
                         $.each(data, function (i, o) {
-                            fullname =  o.given_name + " " + o.family_name ;
+                            
                                 $("#messagePlaceholder tbody").append(
                                 "<tr class='warning'> " +
                                     "<td> " +
-                                        "<div class='sender-name'><b> "+ fullname +  " </b></div>" +
+                                        "<div class='sender-name'><b> "+ o.u +  " </b></div>" +
                                         "</div>" +
                                     "</td>" +
                                     "<td>" +
-                                        "<input type='button' value='View conversation' data-name='"+ fullname +"' class='btn btn-success btn-sm theatre' data-toggle='modal' data-target='#myModal' data-id='" + o.account_idpk + "'/>&nbsp;" +
+                                        "<input type='button' value='View conversation' data-name='"+ o.u +"' class='btn btn-success btn-sm theatre' data-toggle='modal' data-target='#myModal' data-id='" + o.uid + "'/>&nbsp;" +
                                        
-                                        "<input type='button' value='Delete conversation' class='btn btn-warning btn-sm theatre' data-toggle='modal' data-target='#myModal' data-id='"+ o.account_idpk +"'/>" +
+                                        "<input type='button' value='Delete conversation' class='btn btn-warning btn-sm theatre' data-toggle='modal' data-target='#myModal' data-id='"+ o.uid +"'/>" +
                                     "</td>"+
                                 "</tr>" + "<br>");
                         });
 
                         $(".theatre").click(function () {
+                            $(".appBtn").html("");
                             $("#messages").html("");
                             $("#myModalLabel").text("");
                             var fn = $(this).data("name");
                             $("#myModalLabel").text($(this).data("name"));
                             name = "";
-
+                            $(".appBtn").append(
+                                '<button type="button" class="btn btn-success btn-sm reply" style="float:left;">Reply</button>' +
+                                '<button type="button" class="btn btn-primary btn-sm" data-dismiss="modal" style="float:right;margin-right:50px;">Close</button>');
                             var sess_id = $("#account_idpk").val();
                             account_idfk = $(this).data("id");
                             sendTo = $(this).data("id");
@@ -258,48 +256,31 @@
                                 }
                             });
                             console.log(account_idfk);
+                            $(".reply").click(function () {
+                                var message = $("#replyMessage").val();
+
+                                $.ajax({
+                                    type: "post",
+                                    url: "./messaging-ui-alumni.aspx/pushMessages",
+                                    data: "{'message':'" + message + "','actor_id':'" + sess_id + "','send_to':'" + account_idfk + "'}",
+                                    dataType: "json",
+                                    contentType: "application/json; charset=utf-8",
+                                    async: true,
+                                    success: function (r) {
+                                        $("#replyMessage").val("");
+                                        alert("Reply Sent.");
+                                    }
+                                });
+                            });
                         });
             }
                 }
 
             });
 
-            $("#btnSend").click(function (e) {
-                e.preventDefault();
-                var sess_id = $("#account_idpk").val();
-                var message = $("#actor-message").val();
-                var sendTo = $("#hidId").val();
-                $.ajax({
-                    type: "post",
-                    url: "./messaging-ui-alumni.aspx/pushMessages",
-                    data:"{'message':'"+ message +"','actor_id':'"+ sess_id +"','send_to':'"+ sendTo +"'}",
-                    dataType: "json",
-                    contentType: "application/json; charset=utf-8",
-                    async: true,
-                    success: function (r) {
-                        $("#actor-message").val("");
-                        $("#qAlumni").val("");
-                        alert("Message sent.");
-                    }
-                });
-            });
+            
 
-            $(".reply").click(function () {
-                var message = $("#replyMessage").val();
-                
-                $.ajax({
-                    type: "post",
-                    url: "./messaging-ui-alumni.aspx/pushMessages",
-                    data: "{'message':'" + message + "','actor_id':'" + sess_id + "','send_to':'"+ account_idfk +"'}",
-                    dataType: "json",
-                    contentType: "application/json; charset=utf-8",
-                    async: true,
-                    success: function (r) {
-                        $("#replyMessage").val("");
-                        window.location.reload(true);
-                    }
-                });
-            });
+          
 
             $('#modal').on('shown', function () {
                 $('#modal-body').stop().animate({
@@ -307,101 +288,7 @@
                 }, 2000);
             });
 
-            var delay = (function () {
-                var timer = 0;
-                return function (callback, ms) {
-                    clearTimeout(timer);
-                    timer = setTimeout(callback, ms);
-                };
-            })();
-
-            $("#qAlumni").on("keyup", function (event) {
-                $(this).alumniSearch(event);
-            });
-
-            $.fn.alumniSearch = function (event) {
-                var ESC = 27;
-                var SPACE = 32;
-                var BACKSPAE = 8;
-                event.preventDefault();
-                var key = event.which || event.keyCode;
-                var input = $(this).val().trim();
-                var q = input.match(/^[a-zA-Z\s]+$/);
-
-                if (key !== ESC) {
-
-                    $(".resWrapper").addClass("revealWrap");
-
-                    $.ajax({
-                        type: "post",
-                        url: "home.aspx/search",
-                        data: "{'q':'" + q + "'}",
-                        dataType: "json",
-                        processData: false,
-                        traditional: true,
-                        contentType: "application/json; charset=utf-8",
-                        success: function (response) {
-
-                            data = response.d
-                            data = jQuery.parseJSON(data)
-                            var toShow = data.length;
-                            var displayMessage;
-                            if (toShow == 1) {
-                                displayMessage = "Displaying " + toShow + " result. "
-                            } else {
-                                displayMessage = "Displaying " + toShow + " results. "
-                            }
-                            console.log(data.length);
-                            if (data.length > 0) {
-
-                                $(".resWrapper").html("");
-                                $(".display").css("visibility", "visible");
-                                $.each(data, function (i, o) {
-
-                                    $(".resWrapper").append(
-                                        "<a data-id='"+ o.uid +"' data-u='"+ o.u +"' class='uid'>" +
-                                        "<div class='clickable'>" +
-                                            "<span> <b> " + o.u + " </b> </span>" +
-                                        "</div>" +
-                                        "</a>");
-                                })
-
-                                $(".display").html("<span> <b> " + displayMessage + " </b> </span>")
-
-
-                                $(".uid").click(function () {
-                                    $("#hidId").val("");
-                                    $("#hidId").val($(this).data("id"));
-                                    $("#qAlumni").val($(this).data("u"));
-                                    $(".resWrapper").html("");
-                                    $(".display").html("");
-                                    $(".display").css("visibility", "hidden");
-                                });
-                            }
-
-
-                            if (data.length == 0) {
-                                $(".resWrapper").html("");
-
-                                $(".resWrapper").append(
-                                    "<div class='clickable'>" +
-                                        "<span> <b> No results found </b> </span>" +
-                                    "</div>");
-                                $(".display").html("");
-                                $(".display").css("visibility", "hidden");
-                                $("#hidId").val("");
-                            }
-                        }
-                    });
-
-                    if (input == "") {
-                        $(".resWrapper").html("");
-                        $(".resWrapper").removeClass("revealWrap");
-                        $(".display").html("");
-                        $(".display").css("visibility", "hidden");
-                    }
-                }
-            }
+            
            
      });
     </script>

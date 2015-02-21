@@ -1,376 +1,192 @@
 ﻿$(document).ready(function () {
-    var last;
-    var sortBy;
 
-    //Search Function
-    $.fn.search = function (event) {
+
+    $("#searching").bindWithDelay("keyup", function (event) {
+        $(this).alumniSearch(event);
+    }, 500);
+
+
+
+    $.fn.alumniSearch = function (event) {
+
         var ESC = 27;
         var SPACE = 32;
         var BACKSPAE = 8;
         event.preventDefault();
         var key = event.which || event.keyCode;
         var input = $(this).val().trim();
-        var f = input.match(/^[a-zA-Z\s]+$/);
-
+        var q = input.match(/^[a-zA-Z\s]+$/);
+        var account_idfk;
         if (key !== ESC) {
-            $(".resultContainer").html("Fetching results");
-           
+
+            $(".resWrapper").addClass("revealWrap");
+            if (q == null) {
+                $(".resWrapper").html("");
+
+                $(".resWrapper").append(
+                    "<div class='clickable'>" +
+                        "<span> <b> No results found </b> </span>" +
+                    "</div>");
+                $(".display").html("");
+                $(".display").css("visibility", "hidden");
+                $("#hidId").val("");
+            }
             $.ajax({
                 type: "post",
-                url: "alumni-list-ui.aspx/searchQ",
-                data: "{'q':'" + f + "'}",
+                url: "messaging-ui-alumni.aspx/search",
+                data: "{'q':'" + q + "'}",
                 dataType: "json",
                 processData: false,
                 traditional: true,
                 contentType: "application/json; charset=utf-8",
                 success: function (response) {
 
-                    if (response.d == "[]") {
-                        $(".resultContainer").html("");
-                        $(".resultContainer").addClass("animateOnDisplay");
-                        $(".resultContainer").append("<br>" + "No results found for " + "<span>" + input + " </span>");
-                        
+                    data = response.d
+                    data = jQuery.parseJSON(data)
+                    if (data == null) {
+                        $(".resWrapper").html("");
 
-                    } 
-                        $("#searchableTable tbody").html("");
-                        data = response.d;
-                        data = jQuery.parseJSON(data);
-                        var last = data.length - 1;
+                        $(".resWrapper").append(
+                            
+                                "<div class='clickable' >" +
+                                    "<span> <b> No results found </b> </span>" +
+                                "</div>"
+                            );
+                        $(".display").html("");
+                        $(".display").css("visibility", "hidden");
+                    }
+                    var toShow = data.length;
+                    var displayMessage;
+                    if (toShow == 1) {
+                        displayMessage = "Displaying " + toShow + " result. "
+                    } else {
+                        displayMessage = "Displaying " + toShow + " results. "
+                    }
+
+                    console.log(data.length);
+                    
+                    if (data.length > 0) {
+
+                        $(".resWrapper").html("");
+                        $(".display").css("visibility", "visible");
                         $.each(data, function (i, o) {
-                          
                             
-                             
-                                $(".resultContainer").html("");
-                                $(".resultContainer").append("<br>" + "Found " + "<span>" + data.length + " result(s) for " + input + " </span>");
+                            $(".resWrapper").append(
+                               "<a href='#' data-name='"+ o.u +"' data-toggle='modal' data-id='" + o.uid + "' data-target='#myModal' class='uid'>" +
+                                "<div class='clickable' >" +
+                                    "<span> <b> " + o.u + " </b> </span>" +
+                                "</div>" +
+                                "</a>");
+                        })
 
-                                if (o.userlevel_idfk == 1) {
-                                    var mod = ("<tr class='success'>" +
-                                               "<td> " + o.account_idpk + " </td>" +
-                                               "<td> " + o.given_name + "  " + o.middle_name + " " + o.family_name + " </td>" +
-                                               "<td> " + o.collegeDes + " </td>" +
-                                               "<td> " + o.courseDes + " </td>" +
-                                               "<td></td>" +
-                                               "<td> <a class='btn btn-primary btn-sm viewAccountInfo' data-account-id='" + o.account_idpk + "' data-toggle='modal' data-target='.bs-example-modal-lg'> View info </a> </td>" +
-                                                "</tr>");
-                                } else {
-                                    var mod = ("<tr class='warning'>" +
-                                              "<td> " + o.account_idpk + " </td>" +
-                                              "<td> " + o.given_name + "  " + o.middle_name + " " + o.family_name + " </td>" +
-                                              "<td> " + o.collegeDes + " </td>" +
-                                              "<td> " + o.courseDes + " </td>" +
-                                              "<td></td>" +
-                                              "<td> <a class='btn btn-primary btn-sm viewAccountInfo' data-account-id='" + o.account_idpk + "' data-toggle='modal' data-target='.bs-example-modal-lg'> View info </a> </td>" +
-                                               "</tr>");
-                                }
-                               
-                                $(".resultContainer").addClass("animateOnDisplay");
+                        $(".display").html("<span> <b> " + displayMessage + " </b> </span>")
 
-                                $(".searchableTable tbody").append(
-                                   mod
-                               );
 
-                            
-                            
-                           
+                    }
+
+                    $(".uid").click(function () {
+                        $(".appBtn").html("");
+                        $("#messages").html("");
+                        $("#myModalLabel").text("");
+                        var fn = $(this).data("name");
+                        $("#myModalLabel").text($(this).data("name"));
+                        $(".modal-body").css("display", "none");
+                        name = "";
+                        $(".appBtn").append(
+                                '<button type="button" class="btn btn-success btn-sm send" id="btnSend" style="float:left;">Send</button>' +
+                                '<button type="button" class="btn btn-primary btn-sm" data-dismiss="modal" style="float:right;margin-right:50px;">Close</button>')
+                        var sess_id = $("#account_idpk").val();
+                        account_idfk = $(this).data("id");
+                        sendTo = $(this).data("id");
+
+                        $.ajax({
+                            type: "post",
+                            url: "./messaging-ui-alumni.aspx/pullConversation",
+                            data: "{'account_id':'" + sess_id + "','account_idfk':'" + account_idfk + "'}",
+                            dataType: "json",
+                            contentType: "application/json; charset=utf-8",
+                            async: true,
+                            success: function (r) {
+                                data = r.d
+                                data = jQuery.parseJSON(data)
+                                $.each(data, function (i, o) {
+                                    var name;
+
+                                    if (sess_id == o.sender_idfk) {
+                                        name = "Me";
+                                    }
+                                    else {
+                                        name = fn;
+                                    }
+
+                                    $("#messages").append(
+                                            "<li class='messaging'><b> " + name + "</b> </li>" +
+                                            "<li class='messaging'>" + o.actor_message + " </li>" +
+                                            "<li style=font-size:10px;color:#333;> " + "  - " + o.formatedB + " </li>" +
+                                            "<br>"
+                                    );
+                                });
+
+                            }
                         });
-
-                        $(".viewAccountInfo").click(function () {
-
-                            accId = $(this).data("account-id");
-                            $("#accountInfoPlaceholder tbody ").html("");
+                        $("#btnSend").click(function (e) {
+                            e.preventDefault();
+                            var sess_id = $("#account_idpk").val();
+                            var message = $("#replyMessage").val();
+                            var sendTo = account_idfk;
                             $.ajax({
                                 type: "post",
-                                url: "pending-reg-ui.aspx/fetchAccountInfo",
-                                data: "{'accId':'" + accId + "'}",
+                                url: "./messaging-ui-alumni.aspx/pushMessages",
+                                data: "{'message':'" + message + "','actor_id':'" + sess_id + "','send_to':'" + sendTo + "'}",
                                 dataType: "json",
-                                processData: false,
-                                traditional: true,
                                 contentType: "application/json; charset=utf-8",
-                                success: function (approvalResponse) {
-                                    response = approvalResponse.d;
-                                    response = jQuery.parseJSON(response);
-                                    $.each(response, function (i, o) {
-                                        console.log(o.student_id);
-
-
-                                        $("#myModalLabel").text(o.given_name + "  " + o.middle_name + " " + o.family_name);
-
-
-                                        $(".update-sudnumber").attr("data-id", o.account_idpk);
-                                        if (o.student_id == "") {
-                                            $("#studNumberPlacer").removeAttr("disabled");
-                                            $(".update-sudnumber").removeAttr("disabled");
-                                        } else {
-                                            $(".update-sudnumber").attr("disabled", "disabled");
-                                            $("#studNumberPlacer").attr("disabled", "disabled");
-                                            $("#studNumberPlacer").val(o.student_id);
-                                        }
-                                        $("#accountInfoPlaceholder tbody").append(
-
-                                                "<tr>" +
-
-                                                    "<td> " + o.account_idpk + " </td>" +
-                                                    "<td> " + o.student_id + " </td>" +
-                                                    "<td> " + o.address + " </td>" +
-                                                    "<td> " + o.telephone_number + " </td>" +
-                                                    "<td> " + o.email_address + " </td>" +
-                                                    "<td> " + o.formatedB + " </td>" +
-                                                    "<td> " + o.citizenship + " </td>" +
-                                                    "<td> " + o.religion + " </td>" +
-                                                    "<td> " + o.marital_status + " </td>" +
-                                                    "<td> " + o.gender + " </td>" +
-                                                "</tr>"
-
-
-                                            );
-                                    });
+                                async: true,
+                                success: function (r) {
+                                    $("#actor-message").val("");
+                                    $("#searching").val("");
+                                    alert("Message sent.");
                                 }
                             });
                         });
+                        console.log(account_idfk);
+                    });
+
+                   
+
+                    if (data.length == 0) {
+                        $(".resWrapper").html("");
+
+                        $(".resWrapper").append(
+                            "<div class='clickable'>" +
+                                "<span> <b> No results found </b> </span>" +
+                            "</div>");
+                        $(".display").html("");
+                        $(".display").css("visibility", "hidden");
+                    }
+
                     
+                }, error: function () {
+                    $(".resWrapper").html("");
 
-
+                    $(".resWrapper").append(
+                        "<div class='clickable'>" +
+                            "<span> <b> No results found </b> </span>" +
+                        "</div>");
+                    $(".display").html("");
+                    $(".display").css("visibility", "hidden");
                 }
-
             });
-        } if (input == "") {
-            $(".searchableTable tbody").loadDef();
-            $(".resultContainer").removeClass("animateOnDisplay");
-            $(".resultContainer").html("");
-           
-
-        }
 
 
-    }
 
 
-    //Load Default
-    $.fn.loadDef = function (event) {
 
-         sortBy = $("#sortBy option:selected").val();
-        var legend;
-        if (sortBy == "alumni") {
-            legend = "success";
-            $("#filterCollege").val($("#filterCollege option:first").val());
-        } else if (sortBy == "graduating") {
-            legend = "warning"
-            $("#filterCollege").val($("#filterCollege option:first").val());
-        }
-        $("#searchableTable tbody").html("");
-        console.log(sortBy);
-        $.ajax({
-            type: "post",
-            url: "alumni-list-ui.aspx/pullAll",
-            data: "{'sortBy':'" + sortBy + "'}",
-            dataType: "json",
-            processData: false,
-            traditional: true,
-            contentType: "application/json; charset=utf-8",
-            success: function (response) {
-                data = response.d;
-                data = jQuery.parseJSON(data);
-                var p = data.length - 2;
-                $.each(data, function (i, o) {
-                 
-                    if (o.userlevel_idfk == 1) {
-                        var mod = ("<tr class='success'>" +
-                                        "<td> " + o.account_idpk + " </td>" +
-                                        "<td> " + o.given_name + "  " + o.middle_name + " " + o.family_name + " </td>" +
-                                        "<td> " + o.collegeDes + " </td>" +
-                                        "<td>" + o.courseDes + "</td>" +
-
-                                        "<td></td>" +
-                                        "<td> <a class='btn btn-primary btn-sm viewAccountInfo' data-account-id='" + o.account_idpk + "' data-toggle='modal' data-target='.bs-example-modal-lg' > View info </a> </td>" +
-                                    "</tr>");
-
-                    } else {
-                        var mod = ("<tr class='warning'>" +
-                                    "<td> " + o.account_idpk + " </td>" +
-                                    "<td> " + o.given_name + "  " + o.middle_name + " " + o.family_name + " </td>" +
-                                    "<td> " + o.collegeDes + " </td>" +
-                                    "<td>" + o.courseDes + "</td>" +
-
-                                    "<td></td>" +
-                                    "<td> <a class='btn btn-primary btn-sm viewAccountInfo' data-account-id='" + o.account_idpk + "' data-toggle='modal' data-target='.bs-example-modal-lg' > View info </a> </td>" +
-                                "</tr>");
-                    }
-                   
-                    $(".searchableTable tbody").append(
-                            mod
-                        );
-                });
-                $(".viewAccountInfo").click(function () {
-
-                    accId = $(this).data("account-id");
-                    $("#accountInfoPlaceholder tbody ").html("");
-                    $.ajax({
-                        type: "post",
-                        url: "alumni-list-ui.aspx/fetchAccountInfo",
-                        data: "{'accId':'" + accId + "'}",
-                        dataType: "json",
-                        processData: false,
-                        traditional: true,
-                        contentType: "application/json; charset=utf-8",
-                        success: function (approvalResponse) {
-                            response = approvalResponse.d;
-                            response = jQuery.parseJSON(response);
-                            $.each(response, function (i, o) {
-                                console.log(o.student_id);
-
-                                $("#myModalLabel").text(o.given_name + "  " + o.middle_name + " " + o.family_name);
-
-                                $(".update-sudnumber").attr("data-id", o.account_idpk);
-                                if (o.student_id == "") {
-                                    $("#studNumberPlacer").removeAttr("disabled");
-                                    $(".update-sudnumber").removeAttr("disabled");
-                                } else {
-                                    $(".update-sudnumber").attr("disabled", "disabled");
-                                    $("#studNumberPlacer").attr("disabled", "disabled");
-                                    $("#studNumberPlacer").val(o.student_id);
-                                }
-                                $("#accountInfoPlaceholder tbody").append(
-
-                                        "<tr>" +
-
-                                            "<td> " + o.account_idpk + " </td>" +
-                                            "<td> " + o.student_id + " </td>" +
-                                            "<td> " + o.address + " </td>" +
-                                            "<td> " + o.telephone_number + " </td>" +
-                                            "<td> " + o.email_address + " </td>" +
-                                            "<td> " + o.formatedB + " </td>" +
-                                            "<td> " + o.citizenship + " </td>" +
-                                            "<td> " + o.religion + " </td>" +
-                                            "<td> " + o.marital_status + " </td>" +
-                                            "<td> " + o.gender + " </td>" +
-                                        "</tr>"
-
-
-                                    );
-                            });
-                        }
-                    });
-                });
-                console.log(response.d);
+            if (input == "") {
+                $(".resWrapper").html("");
+                $(".resWrapper").removeClass("revealWrap");
+                $(".display").html("");
+                $(".display").css("visibility", "hidden");
             }
-        });
+        }
     }
-
-
-
-
-    //Filter by college
-    $("#filterCollege").change(function () {
-        var sortColleges = $("#filterCollege option:selected").attr("data-id");
-        sortBy = $("#sortBy option:selected").val();
-        
-        $(".searchableTable tbody").html("");
-        
-
-        $.ajax({
-            type: "post",
-            url: "alumni-list-ui.aspx/filterView",
-            data: "{'sortBy':'" + sortBy + "','college_id':'" + sortColleges + "'}",
-            dataType: "json",
-            processData: false,
-            traditional: true,
-            contentType: "application/json; charset=utf-8",
-            success: function (response) {
-                if (response.d == "[]") { $(".searchableTable tbody").html("No result."); }
-                data = response.d;
-                data = jQuery.parseJSON(data);
-                $.each(data, function (i, o) {
-                    
-                    if (o.userlevel_idfk == 1) {
-                        var mod = ("<tr class='success'>" +
-                                        "<td> " + o.account_idpk + " </td>" +
-                                        "<td> " + o.given_name + "  " + o.middle_name + " " + o.family_name + " </td>" +
-                                        "<td> " + o.collegeDes + " </td>" +
-                                        "<td>" + o.courseDes + "</td>" +
-
-                                        "<td>" + o.year_graduated + "</td>" +
-                                        "<td> <a class='btn btn-primary btn-sm viewAccountInfo' data-account-id='" + o.account_idpk + "' data-toggle='modal' data-target='.bs-example-modal-lg' > View info </a> </td>" +
-                                    "</tr>");
-
-                    } else {
-                        var mod = ("<tr class='warning'>" +
-                                    "<td> " + o.account_idpk + " </td>" +
-                                    "<td> " + o.given_name + "  " + o.middle_name + " " + o.family_name + " </td>" +
-                                    "<td> " + o.collegeDes + " </td>" +
-                                    "<td>" + o.courseDes + "</td>" +
-
-                                    "<td>" + o.year_graduated + "</td>" +
-                                    "<td> <a class='btn btn-primary btn-sm viewAccountInfo' data-account-id='" + o.account_idpk + "' data-toggle='modal' data-target='.bs-example-modal-lg' > View info </a> </td>" +
-                                "</tr>");
-                    }
-                       
-                    $(".searchableTable tbody").append(
-                                    mod
-                                );
-
-                });
-
-                //Theatre
-                $(".viewAccountInfo").click(function () {
-                   
-                    accId = $(this).data("account-id");
-                    $("#accountInfoPlaceholder tbody ").html("");
-                    $.ajax({
-                        type: "post",
-                        url: "alumni-list-ui.aspx/fetchAccountInfo",
-                        data: "{'accId':'" + accId + "'}",
-                        dataType: "json",
-                        processData: false,
-                        traditional: true,
-                        contentType: "application/json; charset=utf-8",
-                        success: function (approvalResponse) {
-                            response = approvalResponse.d;
-                            response = jQuery.parseJSON(response);
-                            $.each(response, function (i, o) {
-                                console.log(o.student_id);
-
-
-                                $("#myModalLabel").text(o.given_name + "  " + o.middle_name + " " + o.family_name);
-
-
-                                $(".update-sudnumber").attr("data-id", o.account_idpk);
-                                if (o.student_id == "") {
-                                    $("#studNumberPlacer").removeAttr("disabled");
-                                    $(".update-sudnumber").removeAttr("disabled");
-                                } else {
-                                    $(".update-sudnumber").attr("disabled", "disabled");
-                                    $("#studNumberPlacer").attr("disabled", "disabled");
-                                    $("#studNumberPlacer").val(o.student_id);
-                                }
-                                $("#accountInfoPlaceholder tbody").append(
-
-                                        "<tr>" +
-
-                                            "<td> " + o.account_idpk + " </td>" +
-                                            "<td> " + o.student_id + " </td>" +
-                                            "<td> " + o.address + " </td>" +
-                                            "<td> " + o.telephone_number + " </td>" +
-                                            "<td> " + o.email_address + " </td>" +
-                                            "<td> " + o.formatedB + " </td>" +
-                                            "<td> " + o.citizenship + " </td>" +
-                                            "<td> " + o.religion + " </td>" +
-                                            "<td> " + o.marital_status + " </td>" +
-                                            "<td> " + o.gender + " </td>" +
-                                            "<td> " + o.year_graduated + " </td>" +
-                                        "</tr>"
-
-
-                                    );
-                            });
-                        }, error: function (response) {
-                            console.log("Opps something went wrong.");
-                        }
-                    });
-
-                });
-            }
-        });
-    });
-
-
 });

@@ -10,12 +10,13 @@ Partial Class rev_messaging_ui_alumni
     Inherits System.Web.UI.Page
 
 
-    Public Shared Property constr As String = "Data Source=SQL5012.Smarterasp.net;Initial Catalog=DB_9BB7E6_tsuat;User Id=DB_9BB7E6_tsuat_admin;Password=masterfile;"
+    Public Shared Property constr As String = "Data Source=SQL5012.Smarterasp.net;Initial Catalog=DB_9BB7E6_tsuat;User Id=DB_9BB7E6_tsuat_admin;Password=masterfile;MultipleActiveResultSets=True;"
     Public Shared Property sqlCon As SqlConnection
     Public Shared Property cmd As SqlCommand
     Public Shared Property dr As SqlDataReader
 
     Public Shared Property sqlStr As String
+    Public Shared Property sqlStr2 As String
     Public Shared Property getLast As String
 
     Protected Sub Page_Load(sender As Object, e As EventArgs) Handles Me.Load
@@ -45,8 +46,7 @@ Partial Class rev_messaging_ui_alumni
         Response.Redirect("default.aspx")
     End Sub
 
-    'JSON Serializer
-    Public Shared Function GetJson(ByVal dt As DataTable) As String
+        Public Shared Function GetJson(ByVal dt As DataTable) As String
         Dim serializer As New System.Web.Script.Serialization.JavaScriptSerializer()
         serializer.MaxJsonLength = Integer.MaxValue
 
@@ -83,24 +83,49 @@ Partial Class rev_messaging_ui_alumni
         End Using
     End Function
 
-    'Fetch messages
     <System.Web.Services.WebMethod()> _
-    <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
+  <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
     Public Shared Function pullMessages(ByVal account_id As String) As String
+
         Using sqlCon As New SqlConnection(constr)
             sqlCon.Open()
-            Using da = New SqlDataAdapter("SELECT DISTINCT given_name,family_name,account_idpk FROM tblAccounts,tblMessages WHERE account_idpk=sender_idfk AND recipient_idfk='" & account_id & "' ", sqlCon)
-                Dim table = New DataTable()
-                da.Fill(table)
+            sqlStr = " SELECT DISTINCT given_name+ ' ' +family_name as u,account_idpk as uid FROM tblAccounts,tblMessages WHERE account_idpk=sender_idfk AND recipient_idfk='" & account_id & "' "
+            cmd = New SqlCommand(sqlStr, sqlCon)
+            dr = cmd.ExecuteReader
+            If dr.HasRows Then
 
-                Dim jsndata As String = GetJson(table)
-                Return jsndata
-            End Using
+                Using dat = New SqlDataAdapter(sqlStr, sqlCon)
+                    Dim table2 = New DataTable()
+                    dat.Fill(table2)
 
+                    Dim pollOptionsJsonData As String = GetJson(table2)
+                    Return pollOptionsJsonData
+                End Using
+
+
+
+            End If
+
+            sqlStr2 = " SELECT DISTINCT username as u,coordinator_idpk as uid FROM tblCoordinators,tblMessages WHERE coordinator_idpk=sender_idfk AND recipient_idfk='" & account_id & "' "
+            cmd = New SqlCommand(sqlStr2, sqlCon)
+            dr = cmd.ExecuteReader
+            If dr.HasRows Then
+                Using dat = New SqlDataAdapter(sqlStr2, sqlCon)
+                    Dim table2 = New DataTable()
+                    dat.Fill(table2)
+
+                    Dim pollOptionsJsonData As String = GetJson(table2)
+                    Return pollOptionsJsonData
+                End Using
+
+
+
+            End If
             sqlCon.Close()
-            'Returning Message : Fail or Successful
         End Using
     End Function
+
+
 
     'Push user messages
     <System.Web.Services.WebMethod()> _
@@ -123,4 +148,51 @@ Partial Class rev_messaging_ui_alumni
 
 
     End Function
+
+
+    'PULL ALUMNI SEARCH
+    <System.Web.Services.WebMethod()> _
+    <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
+    Public Shared Function search(ByVal q As String) As String
+
+        Using sqlCon As New SqlConnection(constr)
+            sqlCon.Open()
+            sqlStr = "SELECT given_name+ ' ' +middle_name+ ' ' +family_name as u,account_idpk as uid  FROM tblAccounts WHERE given_name+ ' ' +middle_name+ ' ' +family_name LIKE '%" & q & "%' AND userlevel_idfk <> 3 "
+            cmd = New SqlCommand(sqlStr, sqlCon)
+            dr = cmd.ExecuteReader
+            If dr.HasRows Then
+
+                Using dat = New SqlDataAdapter(sqlStr, sqlCon)
+                    Dim table2 = New DataTable()
+                    dat.Fill(table2)
+
+                    Dim pollOptionsJsonData As String = GetJson(table2)
+                    Return pollOptionsJsonData
+                End Using
+            Else
+
+
+            End If
+
+            sqlStr2 = "SELECT username as u, coordinator_idpk as uid FROM tblCoordinators WHERE username LIKE '%" & q & "%' "
+            cmd = New SqlCommand(sqlStr2, sqlCon)
+            dr = cmd.ExecuteReader
+            If dr.HasRows Then
+                Using dat = New SqlDataAdapter(sqlStr2, sqlCon)
+                    Dim table2 = New DataTable()
+                    dat.Fill(table2)
+
+                    Dim pollOptionsJsonData As String = GetJson(table2)
+                    Return pollOptionsJsonData
+                End Using
+            Else
+
+
+            End If
+            sqlCon.Close()
+        End Using
+
+
+    End Function
+
 End Class

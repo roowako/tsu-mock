@@ -10,11 +10,11 @@ Partial Class messaging_ui
     Inherits System.Web.UI.Page
 
 
-    Public Shared Property constr As String = "Data Source=SQL5012.Smarterasp.net;Initial Catalog=DB_9BB7E6_tsuat;User Id=DB_9BB7E6_tsuat_admin;Password=masterfile;"
+    Public Shared Property constr As String = "Data Source=SQL5012.Smarterasp.net;Initial Catalog=DB_9BB7E6_tsuat;User Id=DB_9BB7E6_tsuat_admin;Password=masterfile;MultipleActiveResultSets=True;"
     Public Shared Property sqlCon As SqlConnection
     Public Shared Property cmd As SqlCommand
     Public Shared Property dr As SqlDataReader
-
+    Public Shared Property sqlStr2 As String
     Public Shared Property sqlStr As String
     Public Shared Property getLast As String
     Protected Sub Page_Load(sender As Object, e As EventArgs) Handles Me.Load
@@ -62,41 +62,48 @@ Partial Class messaging_ui
         Return serializer.Serialize(rows)
     End Function
 
-    'Fetch conversation
-    <System.Web.Services.WebMethod()> _
-    <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
-    Public Shared Function pullConversation(ByVal account_id As String, ByVal account_idfk As String) As String
-        Using sqlCon As New SqlConnection(constr)
-            sqlCon.Open()
 
-            Using da = New SqlDataAdapter("SELECT DISTINCT given_name,family_name,account_idpk FROM tblAccounts,tblMessages WHERE account_idpk=sender_idfk AND recipient_idfk='" & account_id & "' ORDER BY date_sent ", sqlCon)
-                Dim table = New DataTable()
-                da.Fill(table)
-
-                Dim jsndata As String = GetJson(table)
-                Return jsndata
-            End Using
-
-            sqlCon.Close()
-        End Using
-    End Function
 
     'Fetch messages
     <System.Web.Services.WebMethod()> _
     <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
     Public Shared Function pullMessages(ByVal account_id As String) As String
+
         Using sqlCon As New SqlConnection(constr)
             sqlCon.Open()
-            Using da = New SqlDataAdapter("SELECT DISTINCT given_name,family_name,account_idpk FROM tblAccounts,tblMessages WHERE account_idpk=sender_idfk AND recipient_idfk='" & account_id & "' ", sqlCon)
-                Dim table = New DataTable()
-                da.Fill(table)
+            sqlStr = " SELECT DISTINCT given_name+ ' ' +family_name as u,account_idpk as uid FROM tblAccounts,tblMessages WHERE account_idpk=sender_idfk AND recipient_idfk='" & account_id & "' "
+            cmd = New SqlCommand(sqlStr, sqlCon)
+            dr = cmd.ExecuteReader
+            If dr.HasRows Then
 
-                Dim jsndata As String = GetJson(table)
-                Return jsndata
-            End Using
+                Using dat = New SqlDataAdapter(sqlStr, sqlCon)
+                    Dim table2 = New DataTable()
+                    dat.Fill(table2)
 
+                    Dim pollOptionsJsonData As String = GetJson(table2)
+                    Return pollOptionsJsonData
+                End Using
+
+
+
+            End If
+
+            sqlStr2 = " SELECT DISTINCT username as u,coordinator_idpk as uid FROM tblCoordinators,tblMessages WHERE coordinator_idpk=sender_idfk AND recipient_idfk='" & account_id & "' "
+            cmd = New SqlCommand(sqlStr2, sqlCon)
+            dr = cmd.ExecuteReader
+            If dr.HasRows Then
+                Using dat = New SqlDataAdapter(sqlStr2, sqlCon)
+                    Dim table2 = New DataTable()
+                    dat.Fill(table2)
+
+                    Dim pollOptionsJsonData As String = GetJson(table2)
+                    Return pollOptionsJsonData
+                End Using
+
+
+
+            End If
             sqlCon.Close()
-            'Returning Message : Fail or Successful
         End Using
     End Function
 
