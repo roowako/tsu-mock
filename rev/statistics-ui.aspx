@@ -584,26 +584,123 @@
                                 "</li>" +
 
                                 //Q1
-                              
-                            
                                 "<li>How long did it take to find your First employment? </li>" +
                                 "<li class='current' title='1 to 3 months' >" +
-                                    "<span class='bar' data-number=" + o.opt1 + "></span>" +
-                                    "<span class='number'>" + o.opt1 + "</span>" +
+                                    "<span class='bar' data-number=" + o.Q1A + "></span>" +
+                                    "<span class='number'>" + o.Q1A + "</span>" +
                                 "</li>" +
                                 "<li class='current' title='4 to 6 months' >" +
-                                    "<span class='bar' data-number=" + o.opt2 + "></span>" +
-                                    "<span class='number'>" + o.opt2 + "</span>" +
+                                    "<span class='bar' data-number=" + o.Q1B + "></span>" +
+                                    "<span class='number'>" + o.Q1B + "</span>" +
                                 "</li>" +
                                 "<li class='current' title='7 months to 1 year' >" +
-                                    "<span class='bar' data-number=" + o.opt3 + "></span>" +
-                                    "<span class='number'>" + o.opt3 + "</span>" +
+                                    "<span class='bar' data-number=" + o.Q1C + "></span>" +
+                                    "<span class='number'>" + o.Q1C + "</span>" +
                                 "</li>" +
                                 "<li class='current' title='other' >" +
-                                    "<span class='bar' data-number=" + o.opt4 + "></span>" +
-                                    "<span class='number'>" + o.opt4 + "</span>" +
-                                "</li>"
+                                    "<span class='bar' data-number=" + o.Q1D + "></span>" +
+                                    "<span class='number'>" + o.Q1D + "</span>" +
+                                "</li>" +
+
+                                //Q2
+                                "<li>Is your current work/job is aligned to your field of education? </li>" +
+                                "<li class='current' title='Yes' >" +
+                                    "<span class='bar' data-number=" + o.Q2A + "></span>" +
+                                    "<span class='number'>" + o.Q2A + "</span>" +
+                                "</li>" +
+                                "<li class='current' title='No' >" +
+                                    "<span class='bar' data-number=" + o.Q2B + "></span>" +
+                                    "<span class='number'>" + o.Q2B + "</span>" +
+                                "</li>" +
+
+                                //Q3
+                                "<li>Location of employment? </li>" +
+                                "<li class='current' title='Abroad' >" +
+                                    "<span class='bar' data-number=" + o.Q3A + "></span>" +
+                                    "<span class='number'>" + o.Q3A + "</span>" +
+                                "</li>" +
+                                "<li class='current' title='Local' >" +
+                                    "<span class='bar' data-number=" + o.Q3B + "></span>" +
+                                    "<span class='number'>" + o.Q3B + "</span>" +
+                                "</li>" +
+
+                                //Q4
+                                "<li>The classification of your company or institution? </li>" +
+                                "<li class='current' title='Private' >" +
+                                    "<span class='bar' data-number=" + o.Q4A + "></span>" +
+                                    "<span class='number'>" + o.Q4A + "</span>" +
+                                "</li>" +
+                                "<li class='current' title='Public' >" +
+                                    "<span class='bar' data-number=" + o.Q4B + "></span>" +
+                                    "<span class='number'>" + o.Q4B + "</span>" +
+                                "</li>" +
+
+                                //Q5
+                                "<li>Nature of appointment? </li>" +
+                                "<li class='current' title='Regular' >" +
+                                    "<span class='bar' data-number=" + o.Q5A + "></span>" +
+                                    "<span class='number'>" + o.Q5A + "</span>" +
+                                "</li>" +
+                                "<li class='current' title='Probation' >" +
+                                    "<span class='bar' data-number=" + o.Q5B + "></span>" +
+                                    "<span class='number'>" + o.Q5B + "</span>" +
+                                "</li>" +
+                                "<li class='current' title='Self-employed' >" +
+                                    "<span class='bar' data-number=" + o.Q5C + "></span>" +
+                                    "<span class='number'>" + o.Q5C + "</span>" +
+                                "</li>" +
+
+                                //Q6
+                                "<li>What is your present position?  </li>" +
+                                "<li class='current' title='Rank and File' >" +
+                                    "<span class='bar' data-number=" + o.Q6A + "></span>" +
+                                    "<span class='number'>" + o.Q6A + "</span>" +
+                                "</li>" +
+                                "<li class='current' title='Supervisory Level' >" +
+                                    "<span class='bar' data-number=" + o.Q6B + "></span>" +
+                                    "<span class='number'>" + o.Q6B + "</span>" +
+                                "</li>" +
+                                "<li class='current' title='Managerial Level' >" +
+                                    "<span class='bar' data-number=" + o.Q6C + "></span>" +
+                                    "<span class='number'>" + o.Q6C + "</span>" +
+                                "</li>" +
+                                "<li class='current' title='Others' >" +
+                                    "<span class='bar' data-number=" + o.Q6D + "></span>" +
+                                    "<span class='number'>" + o.Q6D + "</span>" +
+                                "</li>" +
+
+                                //Q7
+                                "<li>How long have you been working in your current company? </li>" +
+                                "<li class='current' title='1 to 6 months' >" +
+                                    "<span class='bar' data-number=" + o.Q7A + "></span>" +
+                                    "<span class='number'>" + o.Q7A + "</span>" +
+                                "</li>" +
+                                "<li class='current' title='7 months to 1 year' >" +
+                                    "<span class='bar' data-number=" + o.Q7B + "></span>" +
+                                    "<span class='number'>" + o.Q7B + "</span>" +
+                                "</li>" +
+                                "<li class='current' title='1 year to 3 years' >" +
+                                    "<span class='bar' data-number=" + o.Q7C + "></span>" +
+                                    "<span class='number'>" + o.Q7C + "</span>" +
+                                "</li>" +
+                                "<li class='current' title='Others' >" +
+                                    "<span class='bar' data-number=" + o.Q7D + "></span>" +
+                                    "<span class='number'>" + o.Q7D + "</span>" +
+                                "</li>" +
+
+                                //FURTHER STUDY
+                                "<li>Did you pursue a higher level of Education?</li>" +
+                                "<li class='current' title='Yes' >" +
+                                    "<span class='bar' data-number=" + o.FSA + "></span>" +
+                                    "<span class='number'>" + o.FSA + "</span>" +
+                                "</li>" +
+                                "<li class='current' title='No' >" +
+                                    "<span class='bar' data-number=" + o.FSB + "></span>" +
+                                    "<span class='number'>" + o.FSB + "</span>" +
+                                "</li>" 
                                 );
+
+                            
 
                             $('.chart').horizBarChart({
                                 selector: '.bar',
