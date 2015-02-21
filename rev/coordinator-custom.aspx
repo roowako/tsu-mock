@@ -138,6 +138,7 @@
             var college_id = $("#college_idfk").val();
             var name;
             var actor_name = $("#alumni_name").text();
+
             $.ajax({
                 type: "post",
                 url: "coordinator-custom.aspx/pullAnnouncement",

@@ -16,6 +16,7 @@ Partial Class statistics_ui
 
     Public Shared Property sqlStr As String
     Public Shared Property getLast As String
+
     Public Shared Function GetJson(ByVal dt As DataTable) As String
         Dim serializer As New System.Web.Script.Serialization.JavaScriptSerializer()
         serializer.MaxJsonLength = Integer.MaxValue
@@ -35,14 +36,8 @@ Partial Class statistics_ui
     End Function
 
     <System.Web.Services.WebMethod()> _
-  <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
+    <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
     Public Shared Function pullQ(ByVal filterView As String) As String
-        'Function named PushToDatabase 
-        'Includes delimitation of user input
-        'Opening and Closing Connection to the database
-        'Adding datas to database
-
-
         Using sqlCon As New SqlConnection(constr)
             sqlCon.Open()
             If filterView = "poll" Then
@@ -66,21 +61,14 @@ Partial Class statistics_ui
             End If
 
             sqlCon.Close()
-            'Returning Message : Fail or Successful
-
-
         End Using
 
     End Function
 
     'Delete poll
     <System.Web.Services.WebMethod()> _
- <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
+    <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
     Public Shared Function deletePoll(ByVal poll_id As String) As String
-        'Function named PushToDatabase 
-        'Includes delimitation of user input
-        'Opening and Closing Connection to the database
-        'Adding datas to database
 
         Using sqlcon As New SqlConnection(constr)
             sqlcon.Open()
@@ -96,12 +84,60 @@ Partial Class statistics_ui
     'Employment Status
     <System.Web.Services.WebMethod()> _
     <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
-    Public Shared Function empstat() As String
+    Public Shared Function empstat(ByVal college_desc As String, ByVal course_desc As String) As String
+        Dim college_id As Integer
+        Dim course_id As Integer
+        Dim sqlstr As String = ""
 
+        'FETCH COLLEGE ID
         Using sqlCon As New SqlConnection(constr)
             sqlCon.Open()
 
-            Using da = New SqlDataAdapter("SELECT COUNT(CASE when employment_status = 'employed_no' then 1 else NULL end) Unmployed,COUNT(CASE when employment_status = 'employed_yes' then 1 else NULL end) Employed from tblEmployment  ", sqlCon)
+            cmd = New SqlCommand("SELECT college_idpk FROM tblColleges WHERE description = '" & college_desc & "' ", sqlCon)
+            dr = cmd.ExecuteReader
+
+            If dr.HasRows Then
+                dr.Read()
+                college_id = dr.GetValue(0)
+                dr.Close()
+            End If
+
+            sqlCon.Close()
+        End Using
+
+        'FETCH COURSE ID
+        Using sqlCon As New SqlConnection(constr)
+            sqlCon.Open()
+
+            cmd = New SqlCommand("SELECT course_idpk FROM tblCourses WHERE description = '" & course_desc & "' ", sqlCon)
+            dr = cmd.ExecuteReader
+
+            If dr.HasRows Then
+                dr.Read()
+                course_id = dr.GetValue(0)
+                dr.Close()
+            End If
+
+            sqlCon.Close()
+        End Using
+
+        'FETCH STATS DATA
+        Using sqlCon As New SqlConnection(constr)
+
+            If college_desc = "ALL COLLEGES" And course_desc = "ALL COURSES" Then
+                sqlstr = "SELECT " +
+                    "COUNT(CASE when employment_status = 'employed_no' then 1 else NULL end) Unmployed, COUNT(CASE when employment_status = 'employed_yes' then 1 else NULL end) Employed, " +
+                    "COUNT(CASE when q1 = '1 to 3 months' then 1 else NULL end) opt1, COUNT(CASE when q1 = '4 to 6 months' then 1 else NULL end) opt2, COUNT(CASE when q1 = '7 months to 1 year' then 1 else NULL end) opt3, COUNT(CASE when q1 = 'other' then 1 else NULL end) opt4 " +
+                    "FROM tblEmployment"
+            ElseIf college_desc <> "ALL COLLEGES" And course_desc = "ALL COURSES" Then
+                sqlstr = "SELECT COUNT(CASE when employment_status = 'employed_no' then 1 else NULL end) Unmployed, COUNT(CASE when employment_status = 'employed_yes' then 1 else NULL end) Employed FROM tblEmployment WHERE college_idfk = '" & college_id & "' "
+            ElseIf college_desc <> "ALL COLLEGES" And course_desc <> "ALL COURSES" Then
+                sqlstr = "SELECT COUNT(CASE when employment_status = 'employed_no' then 1 else NULL end) Unmployed, COUNT(CASE when employment_status = 'employed_yes' then 1 else NULL end) Employed FROM tblEmployment WHERE college_idfk = '" & college_id & "' AND course_idfk = '" & course_id & "' "
+            End If
+
+            sqlCon.Open()
+
+            Using da = New SqlDataAdapter(sqlstr, sqlCon)
                 Dim table = New DataTable()
                 da.Fill(table)
 
@@ -261,6 +297,7 @@ Partial Class statistics_ui
 
     End Function
 
+    'PAGE LOAD
     Protected Sub Page_Load(sender As Object, e As EventArgs) Handles Me.Load
         If Session.Item("id") Is Nothing Then
             Console.Write("sd")
@@ -280,12 +317,15 @@ Partial Class statistics_ui
 
                 sqlCon.Close()
             End Using
+
+            fetch_college()
         End If
     End Sub
 
+    'FETCH COLLEGES
     Sub fetch_college()
         cboCollege.Items.Clear()
-        cboCollege.Items.Add("All colleges")
+        cboCollege.Items.Add("ALL COLLEGES")
 
         Using sqlcon As New SqlConnection(constr)
             sqlcon.Open()
@@ -302,7 +342,7 @@ Partial Class statistics_ui
     End Sub
 
     <System.Web.Services.WebMethod()> _
-   <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
+    <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
     Public Shared Function pullPollOptions(ByVal optFk As String) As String
 
         Using sqlCon As New SqlConnection(constr)

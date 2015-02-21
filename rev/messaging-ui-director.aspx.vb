@@ -9,7 +9,6 @@ Imports System.Collections.Generic
 Partial Class rev_messaging_ui_director
     Inherits System.Web.UI.Page
 
-
     Public Shared Property constr As String = "Data Source=SQL5012.Smarterasp.net;Initial Catalog=DB_9BB7E6_tsuat;User Id=DB_9BB7E6_tsuat_admin;Password=masterfile;"
     Public Shared Property sqlCon As SqlConnection
     Public Shared Property cmd As SqlCommand
@@ -123,7 +122,6 @@ Partial Class rev_messaging_ui_director
 
 
     End Function
-
 
     'PULL ALUMNI / COORDINATOR SEARCH
     <System.Web.Services.WebMethod()> _

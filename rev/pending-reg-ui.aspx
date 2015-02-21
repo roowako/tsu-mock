@@ -200,7 +200,7 @@
           <div class="container">
               <div class="row">
                   <div class="col-xs-3">
-                      <input type="text" name="name" value=" " class="form-control numberPlacer" id="studNumberPlacer" placeholder="Please provide student number."/>
+                      <input type="text" name="name"  class="form-control numberPlacer" id="studNumberPlacer" placeholder="Please provide student number."/>
                      
                   </div>
                   <div class="col-xs-2">
@@ -212,9 +212,6 @@
                   </div>
               </div>
           </div>
-        
-        
-        
       </div>
     </div>
   </div>

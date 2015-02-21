@@ -111,9 +111,14 @@
 
                                      <div class="col-xs-3">
                                           <asp:DropDownList ID="cboCollege" runat="server" CssClass="form-control">
-                                                 <asp:ListItem Text="All Colleges" />
-                                                 <asp:ListItem Text="College 1" />
-                                             </asp:DropDownList>
+                                             
+                                          </asp:DropDownList>
+                                     </div>
+
+                                     <div class="col-xs-3">
+                                          <asp:DropDownList ID="cboCourse" runat="server" CssClass="form-control">
+                                             <asp:ListItem>ALL COURSES</asp:ListItem>
+                                          </asp:DropDownList>
                                      </div>
                                  </div>
                                  <div class="row">
@@ -304,7 +309,6 @@
                                 "<td> " + o.question + "</td>" +
                                 "<td> </td>"+
                                 "<td> <a class='btn btn-primary btn-sm theatre' data-poll-id='" + o.polls_idpk + "' data-toggle='modal' data-target='#myModal'>View Statistics </a>&nbsp; <a class='btn btn-warning btn-sm deletePoll' data-poll-id='" + o.polls_idpk + "'>Delete Poll </a></td>" +
-
                             "</tr>"
                             );
                         console.log(o.polls_idpk);
@@ -465,8 +469,8 @@
                         }
 
                     });
+
                 } else if (filterView == "survey") {
-                   
                     //Fetch General Survey
                     $(".tableDetailsView tbody").html("");
                     $(".table-responsive").css("display", "none");
@@ -481,10 +485,7 @@
                             data = serverData.d;
                             data = jQuery.parseJSON(data);
                             $.each(data, function (i, o) {
-                                
-                                $(".table-responsive").append(
-                                        
-                                    );
+                                $(".table-responsive").append();
                             });
 
                             $(".theatre").click(function () {
@@ -504,7 +505,6 @@
                                     traditional: true,
                                     contentType: "application/json; charset=utf-8",
                                     success: function (dataOpt) {
-
 
                                         optionsArr = dataOpt.d;
                                         optionsArr = jQuery.parseJSON(optionsArr);
@@ -551,11 +551,16 @@
 
         //Stats
             $("#employed_stat").click(function () {
-                $("#myModalLabel").text("Employment Status");
+                $("#myModalLabel").text("Employment survey statistics.");
                 $(".chart").html("");
+
+                var college_desc = $("#cboCollege").val();
+                var course_desc = $("#cboCourse").val();
+
                 $.ajax({
                     type: "post",
                     url: "./statistics-ui.aspx/empstat",
+                    data: "{'college_desc':'" + college_desc + "','course_desc':'" + course_desc + "'}",
                     dataType: "json",
                     processData: false,
                     traditional: true,
@@ -563,9 +568,8 @@
                     success: function (dataOpt) {
                         data = dataOpt.d
                         data = jQuery.parseJSON(data)
+
                         $.each(data, function (i,o) {
-                            console.log(o.Employed);
-                            console.log(o.Unmployed);
                             $(".chart").append(
                                 "<li class='current' title='Employed' >" +
                                     "<span class='bar' data-number=" + o.Employed + "></span>" +
@@ -574,8 +578,28 @@
                                 "<li class='current' title='Unemployed' >" +
                                     "<span class='bar' data-number=" + o.Unmployed + "></span>" +
                                     "<span class='number'>" + o.Unmployed + "</span>" +
+                                "</li>" +
+
+                                //Q1
+                                "<ul>qwe</ul>" +
+                                "<li class='current' title='1 to 3 months' >" +
+                                    "<span class='bar' data-number=" + o.opt1 + "></span>" +
+                                    "<span class='number'>" + o.opt1 + "</span>" +
+                                "</li>" +
+                                "<li class='current' title='4 to 6 months' >" +
+                                    "<span class='bar' data-number=" + o.opt2 + "></span>" +
+                                    "<span class='number'>" + o.opt2 + "</span>" +
+                                "</li>" +
+                                "<li class='current' title='7 months to 1 year' >" +
+                                    "<span class='bar' data-number=" + o.opt3 + "></span>" +
+                                    "<span class='number'>" + o.opt3 + "</span>" +
+                                "</li>" +
+                                "<li class='current' title='other' >" +
+                                    "<span class='bar' data-number=" + o.opt4 + "></span>" +
+                                    "<span class='number'>" + o.opt4 + "</span>" +
                                 "</li>"
                                 );
+
                             $('.chart').horizBarChart({
                                 selector: '.bar',
                                 speed: 3000
@@ -869,7 +893,37 @@
                 $('.chart').horizBarChart({
                     selector: '.bar',
                     speed: 3000
-                }); 
+                });
+
+                $("#cboCollege").change(function () {
+                    $("#cboCourse").empty();
+                    var fk = $("#cboCollege option:selected").val();
+                    console.log(fk);
+
+                    $.ajax({
+                        type: "post",
+                        url: "loginpage.aspx/fetchCourseByIdfk",
+                        data: "{'collegeFk':'" + fk + "'}",
+                        dataType: "json",
+                        processData: false,
+                        traditional: true,
+                        contentType: "application/json; charset=utf-8",
+                        success: function (response) {
+                            data = response.d;
+                            data = jQuery.parseJSON(data);
+                            $("#cboCourse").append("<option>" + "ALL COURSES" + " </option>");
+
+                            $.each(data, function (i, o) {
+                                $("#cboCourse").append(
+                                    "<option>" + o.description + " </option>"
+                                    );
+                            });
+                            console.log(response.d);
+                        }
+
+                    });
+
+                });
             });
     </script>
 </body>

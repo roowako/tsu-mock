@@ -381,7 +381,7 @@ Partial Class _Default
             Using sqlCon As New SqlConnection(constr) 'add survey for the account
                 sqlCon.Open()
 
-                cmd = New SqlCommand("INSERT INTO tblEmployment(account_idfk,employment_status,q1,q2,q3,q4,q5,q6,q7,unemployed_status,further_study,highest_educ_attainment) VALUES(@p1,@p2,@p3,@p4,@p5,@p6,@p7,@p8,@p9,@p10,@p12,@p13)", sqlCon)
+                cmd = New SqlCommand("INSERT INTO tblEmployment(account_idfk,employment_status,q1,q2,q3,q4,q5,q6,q7,unemployed_status,further_study,highest_educ_attainment,college_idfk,course_idfk) VALUES(@p1,@p2,@p3,@p4,@p5,@p6,@p7,@p8,@p9,@p10,@p12,@p13,@p14,@p15)", sqlCon)
                 cmd.Parameters.AddWithValue("@p1", account_id)
                 cmd.Parameters.AddWithValue("@p2", employment_status)
                 cmd.Parameters.AddWithValue("@p3", q1)
@@ -394,6 +394,9 @@ Partial Class _Default
                 cmd.Parameters.AddWithValue("@p10", unemployed_status)
                 cmd.Parameters.AddWithValue("@p12", higher_education)
                 cmd.Parameters.AddWithValue("@p13", highest_education)
+                cmd.Parameters.AddWithValue("@p14", college_id)
+                cmd.Parameters.AddWithValue("@p15", course_id)
+
                 cmd.ExecuteNonQuery()
                 sqlCon.Close()
             End Using
