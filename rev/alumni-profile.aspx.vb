@@ -138,23 +138,21 @@ Partial Class rev_alumni_profile
         Return "Password updated"
     End Function
 
-
     Protected Sub alumni_logout_Click(sender As Object, e As EventArgs) Handles alumni_logout.ServerClick
         Session.Abandon()
         Response.Redirect("default.aspx")
     End Sub
 
-
     Protected Sub Upload(sender As Object, e As EventArgs)
         If uploader.HasFile Then
 
-            Dim fileName As String = path.GetFileName(uploader.PostedFile.FileName)
-
+            Dim fileName As String = Path.GetFileName(uploader.PostedFile.FileName)
             uploader.PostedFile.SaveAs(Server.MapPath("./assets/uploads/") + fileName)
             Dim filepath As String = "./assets/uploads/" + fileName + ""
 
             Using sqlCon As New SqlConnection(constr)
                 sqlCon.Open()
+
 
                 cmd = New SqlCommand("UPDATE tblAccounts set img_path  = @p2 WHERE account_idpk = @p1 ", sqlCon)
                 cmd.Parameters.AddWithValue("@p1", account_idpk.Text.ToString)

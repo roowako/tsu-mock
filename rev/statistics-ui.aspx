@@ -133,6 +133,7 @@
                                                             <td><b>Question</b></td>                                   
                                                             <td><b>College</b></td>
                                                             <td></td>
+                                                            <td></td>
                                                         </tr>
                                                         </thead>
                                                         <tbody>
@@ -206,7 +207,7 @@
               
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-warning" data-dismiss="modal" id="close">Close</button>
+            <button type="button" class="btn btn-warning btn-sm" data-dismiss="modal" id="close">Close</button>
             
           </div>
         </div>
@@ -284,13 +285,15 @@
                                 $.each(optionsArr, function (i, pollOpt) {
                                     if (pollOpt.stats_data == 0) {
                                         s = "Zero respondents";
+                                        
                                     } else {
                                         s = pollOpt.stats_data;
+                                        
                                     }
 
                                     console.log(pollOpt.stats_data);
                                     $(".chart").append(
-                                        "<li class='current' title='" + pollOpt.option_description + "' >" +
+                                        "<li class='bar' title='" + pollOpt.option_description + "' >" +
                                             "<span class='bar' data-number=" + s + "></span>" +
                                             "<span class='number'>" + s + "</span>" +
                                         "</li>"
