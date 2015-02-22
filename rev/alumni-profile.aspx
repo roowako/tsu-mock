@@ -83,11 +83,14 @@
                              <div class="col-xs-3">
                                  <h3 class="page-header">Profile</h3>
                              </div>
-                             <div class="col-xs-5"></div>
+                             <div class="col-xs-1"></div>
 
-                             <div class="col-xs-4" style="text-align:right">
-                                
-                                 &nbsp; <span><input type="button"  value="Update profile picture" class="btn btn-primary btn-sm" style="width:150px;"/></span>
+                             <div class="col-xs-3" style="text-align:right">
+                                 <asp:FileUpload ID="uploader" runat="server" CssClass="btn btn-primary btn-sm "/>
+                             </div>
+
+                             <div class="col-xs-2">
+                                 <asp:Button ID="btnUpload" runat="server" Text="Upload Image" CssClass="btn btn-default btn-sm" OnClick="Upload"/>
                              </div>
                          </div>
                         <div class="row placeholders " >

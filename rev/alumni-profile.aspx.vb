@@ -6,6 +6,7 @@ Imports System.Web.Script.Serialization
 Imports System.Linq
 Imports System.Web
 Imports System.Collections.Generic
+Imports System.IO
 
 Partial Class rev_alumni_profile
     Inherits System.Web.UI.Page
@@ -32,12 +33,14 @@ Partial Class rev_alumni_profile
                 While dr.Read
                     alumni_name.Text = dr.GetString(6)
                     account_idpk.Text = Session("id")
-
+                    Image2.ImageUrl = dr.GetString(20)
                 End While
 
                 sqlCon.Close()
             End Using
         End If
+
+        
     End Sub
 
     'SERIALIZER
@@ -140,4 +143,28 @@ Partial Class rev_alumni_profile
         Session.Abandon()
         Response.Redirect("default.aspx")
     End Sub
+
+
+    Protected Sub Upload(sender As Object, e As EventArgs)
+        If uploader.HasFile Then
+
+            Dim fileName As String = path.GetFileName(uploader.PostedFile.FileName)
+
+            uploader.PostedFile.SaveAs(Server.MapPath("./assets/uploads/") + fileName)
+            Dim filepath As String = "./assets/uploads/" + fileName + ""
+
+            Using sqlCon As New SqlConnection(constr)
+                sqlCon.Open()
+
+                cmd = New SqlCommand("UPDATE tblAccounts set img_path  = @p2 WHERE account_idpk = @p1 ", sqlCon)
+                cmd.Parameters.AddWithValue("@p1", account_idpk.Text.ToString)
+                cmd.Parameters.AddWithValue("@p2", filepath)
+                cmd.ExecuteNonQuery()
+                Image2.ImageUrl = filepath
+                Response.Write(<script>alert("Upadated"); </script>)
+                sqlCon.Close()
+            End Using
+        End If
+    End Sub
+
 End Class

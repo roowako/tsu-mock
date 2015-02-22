@@ -35,6 +35,7 @@ Partial Class rev_messaging_ui_alumni
                 While dr.Read
                     alumni_name.Text = dr.GetString(6)
                     account_idpk.Text = Session("id")
+                    Image2.ImageUrl = dr.GetString(20)
                 End While
 
                 sqlCon.Close()

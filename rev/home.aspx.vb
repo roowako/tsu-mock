@@ -27,17 +27,21 @@ Partial Class home
             Using sqlCon As New SqlConnection(constr)
                 sqlCon.Open()
 
-                cmd = New SqlCommand("SELECT given_name,college_idfk,tblColleges.description FROM tblAccounts,tblColleges WHERE account_idpk=@p1 AND college_idfk = college_idpk", sqlCon)
+                cmd = New SqlCommand("SELECT given_name,college_idfk,tblColleges.description,tblAccounts.img_path FROM tblAccounts,tblColleges WHERE account_idpk=@p1 AND college_idfk = college_idpk", sqlCon)
                 cmd.Parameters.AddWithValue("@p1", Session.Item("id"))
                 dr = cmd.ExecuteReader
-
-                While dr.Read
-                    alumni_name.Text = dr.GetString(0)
-                    account_idpk.Text = Session.Item("id")
-                    college_idpk.Text = dr.GetValue(1)
-                    college_desc.Text = dr.GetString(2)
-                End While
-
+                If dr.HasRows Then
+                    While dr.Read
+                        alumni_name.Text = dr.GetString(0)
+                        account_idpk.Text = Session.Item("id")
+                        college_idpk.Text = dr.GetValue(1)
+                        college_desc.Text = dr.GetString(2)
+                        Image2.ImageUrl = dr.GetString(3)
+                    End While
+                Else
+                    Image2.ImageUrl = "./assets/images/default-dp.jpg"
+                End If
+               
                 sqlCon.Close()
             End Using
         End If

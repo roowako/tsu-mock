@@ -96,7 +96,7 @@
 
                              <div class="col-xs-3">
                                  <br />
-                                 &nbsp; <span><input type="button"  value="Message" class="btn btn-warning btn-sm" style="width:150px;"/></span>
+                                 &nbsp; <span><input type="button" data-toggle='modal' data-target='#myModal'  value="Message" class="btn btn-warning btn-sm viewMessaging" style="width:150px;"/></span>
                              </div>
 
                          </div>
@@ -142,7 +142,40 @@
 
         </div>
     </form>
-
+         //Modal form
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel" style="text-transform:capitalize;">Modal title</h4>
+          </div>
+          <div class="modal-body">
+             
+              
+             
+          </div>
+          <div class="modal-footer">
+              <div class="container">
+                  <div class="row">
+                      <div class="col-xs-6">
+                          <textarea class="form-control" rows="1" id="mailer"></textarea> &nbsp;
+                          
+                      </div>
+                      
+                  </div>
+                  <div class="row ">
+                      <div class="col-xs-2 appBtn">
+                           <button type="button" class="btn btn-success btn-sm send" style="float:left;">Send</button>
+                           <button type="button" class="btn btn-primary btn-sm" data-dismiss="modal" style="float:right;margin-right:50px;">Close</button>
+                     
+                      </div>
+                  </div>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
      <script type="text/javascript" src="./js/jquery.js"></script>
     <script type="text/javascript" src="./js/bootstrap.min.js"></script>
     <script type="text/javascript" src="./js/custom.js"></script>
@@ -154,11 +187,8 @@
         $(document).ready(function () {
             var fullname = $("#sname").text();
             var id = $("#acc_id").val();
-            var email;
-            var contact;
-            var password;
-            var newmail;
-            var retype;
+            var globalName;
+            var aid = $("#account_idpk").val();
             $(document).attr('title',$(document).attr('title').toUpperCase());        
        
         
@@ -178,7 +208,7 @@
                     data = jQuery.parseJSON(data)
                     $.each(data, function (i, o) {
                        
-                     
+                        globalName = o.u;
                         $(".page-header").text(o.u);
                      
                         $("title").text( $(".page-header").text());
@@ -235,11 +265,33 @@
                 }
             });
 
+            //Message 
+            $(".viewMessaging").click(function (e) {
+                e.preventDefault();
+                $("#myModalLabel").text(globalName);
+                console.log(globalName);
+                
+            });
 
+            $(".send").click(function () {
+                var m = $("#mailer").val();
+                $.ajax({
+                    type: "post",
+                    url: "./messaging-ui-alumni.aspx/pushMessages",
+                    data: "{'message':'" + m + "','actor_id':'" + aid + "','send_to':'" + id + "'}",
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+                    async: true,
+                    success: function (r) {
+                        $("#actor-message").val("");
+                        alert("Message sent.");
+                        window.location.reload(true);
+                    }
+                });
+            });
         });
 
-        //Email validate
-
+        
     </script>
 </body>
 </html>
