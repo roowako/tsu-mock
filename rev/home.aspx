@@ -44,8 +44,6 @@
                                 <input type="text" placeholder="Search for alumni" name=""  class="form-control input-sm" id="searching" autocomplete="off"/>
                                 <div class="resWrapper">
 
-
-                                     
                                 </div>
                             <div class="display"></div>
                             </div>

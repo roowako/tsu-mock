@@ -18,6 +18,7 @@ Partial Class director_ui
     Public Shared Property sqlStr As String
     Public Shared Property getLast As String
 
+    'SERIALIZER
     Public Shared Function GetJson(ByVal dt As DataTable) As String
         Dim serializer As New System.Web.Script.Serialization.JavaScriptSerializer()
         serializer.MaxJsonLength = Integer.MaxValue
@@ -36,7 +37,7 @@ Partial Class director_ui
         Return serializer.Serialize(rows)
     End Function
 
-
+    'FETCH ANNOUNCEMENTS
     <System.Web.Services.WebMethod()> _
     <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
     Public Shared Function pullAnnouncement(ByVal fk As String) As String
@@ -44,11 +45,10 @@ Partial Class director_ui
         Using sqlCon As New SqlConnection(constr)
 
             sqlCon.Open()
-            Using dat = New SqlDataAdapter("SELECT account_idfk,description,CONVERT(VARCHAR, datetime_posted,0) as formatedB,username FROM tblAnnouncements,tblCoordinators WHERE tblAnnouncements.account_idfk = tblCoordinators.coordinator_idpk OR tblAnnouncements.account_idfk = 41 OR target_id = 0 ORDER BY announcement_idpk DESC  ", sqlCon)
+            Using dat = New SqlDataAdapter("SELECT given_name,description,CONVERT(VARCHAR, datetime_posted,0) AS formatedB FROM tblAnnouncements,tblAccounts WHERE tblAnnouncements.account_idfk = tblAccounts.account_idpk ORDER BY announcement_idpk DESC", sqlCon)
 
                 Dim table2 = New DataTable()
                 dat.Fill(table2)
-
 
                 Dim pollOptionsJsonData As String = GetJson(table2)
                 Return pollOptionsJsonData

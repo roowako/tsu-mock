@@ -17,6 +17,7 @@ Partial Class coordinator_custom
     Public Shared Property sqlStr As String
     Public Shared Property getLast As String
 
+    'SERIALIZER
     Public Shared Function GetJson(ByVal dt As DataTable) As String
         Dim serializer As New System.Web.Script.Serialization.JavaScriptSerializer()
         serializer.MaxJsonLength = Integer.MaxValue
@@ -35,32 +36,30 @@ Partial Class coordinator_custom
         Return serializer.Serialize(rows)
     End Function
 
-
-    'Fetch Announcements
+    'FETCH ANNOUNCEMENTS
     <System.Web.Services.WebMethod()> _
     <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
     Public Shared Function pullAnnouncement(ByVal fk As String) As String
         Using sqlCon As New SqlConnection(constr)
 
             sqlCon.Open()
-            Using dat = New SqlDataAdapter("SELECT account_idfk,description,CONVERT(VARCHAR, datetime_posted,0) as formatedB FROM tblAnnouncements WHERE tblAnnouncements.account_idfk = '" & fk & "' OR tblAnnouncements.account_idfk = 41 OR target_id = 0 ORDER BY announcement_idpk DESC", sqlCon)
+
+            Using dat = New SqlDataAdapter("SELECT given_name,description,CONVERT(VARCHAR, datetime_posted,0) AS formatedB FROM tblAnnouncements,tblAccounts WHERE tblAnnouncements.account_idfk = tblAccounts.account_idpk ORDER BY announcement_idpk DESC", sqlCon)
 
                 Dim table2 = New DataTable()
                 dat.Fill(table2)
 
-
                 Dim pollOptionsJsonData As String = GetJson(table2)
                 Return pollOptionsJsonData
             End Using
-            sqlCon.Close()
 
-            'Returning Message : Fail or Successful
+            sqlCon.Close()
 
         End Using
 
     End Function
 
-    'Push announcements to database
+    'PUSH ANNOUNCEMENTS TO DATABASE
     <System.Web.Services.WebMethod()> _
     <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
     Public Shared Function pushAnnouncement(ByVal myAnnouncement As String, ByVal fk As Integer, ByVal college_id As Integer) As String
@@ -79,7 +78,7 @@ Partial Class coordinator_custom
         End Using
     End Function
 
-    'Initialize Session
+    'PAGE LOAD
     Protected Sub Page_Load(sender As Object, e As EventArgs) Handles Me.Load
         If Session.Item("id") Is Nothing Then
             Console.Write("sd")
@@ -88,14 +87,14 @@ Partial Class coordinator_custom
             Using sqlCon As New SqlConnection(constr)
                 sqlCon.Open()
 
-                cmd = New SqlCommand("SELECT * FROM tblCoordinators WHERE coordinator_idpk=@p1", sqlCon)
+                cmd = New SqlCommand("SELECT account_idpk,student_id,college_idfk FROM tblAccounts WHERE account_idpk = @p1", sqlCon)
                 cmd.Parameters.AddWithValue("@p1", Session.Item("id"))
                 dr = cmd.ExecuteReader
 
                 While dr.Read
+                    account_idpk.Text = Session(0)
                     alumni_name.Text = dr.GetString(1)
-                    account_idpk.Text = Session("id")
-                    college_idfk.Text = dr.GetValue(4)
+                    college_idfk.Text = dr.GetValue(2)
                 End While
 
                 sqlCon.Close()
@@ -103,6 +102,7 @@ Partial Class coordinator_custom
         End If
     End Sub
 
+    'LOGOUT
     Protected Sub alumni_logout_Click(sender As Object, e As EventArgs) Handles alumni_logout.ServerClick
         Session.Abandon()
         Response.Redirect("default.aspx")

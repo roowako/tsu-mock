@@ -102,14 +102,6 @@
                              <div class="col-xs-3">
                                  
                              </div>
-                              <div class="col-xs-3">
-                                 <ul class="right-action-buttons">
-                                   
-                                   <li><a href="#"><span class="glyphicon glyphicon-cog"></span> </a></li>
-                                   <li><a href="#"><span class="glyphicon glyphicon-home"></span> </a></li>
-                                    <li><a href="#">Log out</a></li>
-                                  </ul>
-                             </div>
                         </div>
                         <div class="row placeholders " >
                             <br />

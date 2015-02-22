@@ -47,6 +47,7 @@ Partial Class home
         Response.Redirect("default.aspx")
     End Sub
 
+    'SERIALIZER
     Public Shared Function GetJsonOpt(ByVal dt As DataTable) As String
         Dim serializer As New System.Web.Script.Serialization.JavaScriptSerializer()
         serializer.MaxJsonLength = Integer.MaxValue
@@ -65,6 +66,7 @@ Partial Class home
         Return serializer.Serialize(rows)
     End Function
 
+    'SERIALIZER
     Public Shared Function GetJson(ByVal dt As DataTable) As String
         Dim serializer As New System.Web.Script.Serialization.JavaScriptSerializer()
         serializer.MaxJsonLength = Integer.MaxValue

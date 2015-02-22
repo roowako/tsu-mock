@@ -8,6 +8,7 @@ Imports System.Linq
 Imports System.Web
 Imports System.Collections.Generic
 Imports System.Web.Services
+
 Partial Class loginpage
     Inherits System.Web.UI.Page
 
@@ -26,7 +27,7 @@ Partial Class loginpage
 
         Using sqlCon As New SqlConnection(constr)
             sqlCon.Open()
-            cmd = New SqlCommand("SELECT account_idpk,userlevel_idfk FROM tblAccounts WHERE student_id=@p1 AND password=@p2 AND account_status=1", sqlCon)
+            cmd = New SqlCommand("SELECT account_idpk,userlevel_idfk,college_idfk FROM tblAccounts WHERE student_id=@p1 AND password=@p2 AND account_status=1", sqlCon)
             cmd.Parameters.AddWithValue("@p1", txtLog_Username.Text)
             cmd.Parameters.AddWithValue("@p2", txtLog_Password.Text)
 
@@ -36,28 +37,29 @@ Partial Class loginpage
                 dr.Read()
                 user_id = dr.GetValue(0)
                 user_level = dr.GetValue(1)
+                college_id = dr.GetValue(2)
             End If
 
             sqlCon.Close()
         End Using
 
-        Using sqlCon As New SqlConnection(constr)
-            sqlCon.Open()
-            cmd = New SqlCommand("SELECT coordinator_idpk,college_idfk FROM tblCoordinators WHERE username = @p1 AND password = @p2 ", sqlCon)
-            cmd.Parameters.AddWithValue("@p1", txtLog_Username.Text)
-            cmd.Parameters.AddWithValue("@p2", txtLog_Password.Text)
+        'Using sqlCon As New SqlConnection(constr)
+        'sqlCon.Open()
+        'cmd = New SqlCommand("SELECT coordinator_idpk,college_idfk FROM tblCoordinators WHERE username = @p1 AND password = @p2 ", sqlCon)
+        'cmd.Parameters.AddWithValue("@p1", txtLog_Username.Text)
+        'cmd.Parameters.AddWithValue("@p2", txtLog_Password.Text)
 
-            dr = cmd.ExecuteReader
+        'dr = cmd.ExecuteReader
 
-            If dr.HasRows Then
-                dr.Read()
-                user_id = dr.GetValue(0)
-                user_level = 2
-                college_id = dr.GetValue(1)
-            End If
+        'If dr.HasRows Then
+        'dr.Read()
+        ' user_id = dr.GetValue(0)
+        '  user_level = 2
+        '   college_id = dr.GetValue(1)
+        'End If
 
-            sqlCon.Close()
-        End Using
+        'sqlCon.Close()
+        'End Using
 
         'page redirection.
         If user_level = 0 Then

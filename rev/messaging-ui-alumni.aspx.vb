@@ -19,6 +19,7 @@ Partial Class rev_messaging_ui_alumni
     Public Shared Property sqlStr2 As String
     Public Shared Property getLast As String
 
+    'PAGE LOAD
     Protected Sub Page_Load(sender As Object, e As EventArgs) Handles Me.Load
         If Session.Item("id") Is Nothing Then
             Console.Write("sd")
@@ -41,12 +42,14 @@ Partial Class rev_messaging_ui_alumni
         End If
     End Sub
 
+    'LOGOUT
     Protected Sub alumni_logout_Click(sender As Object, e As EventArgs) Handles alumni_logout.ServerClick
         Session.Abandon()
         Response.Redirect("default.aspx")
     End Sub
 
-        Public Shared Function GetJson(ByVal dt As DataTable) As String
+    'SERIALIZER
+    Public Shared Function GetJson(ByVal dt As DataTable) As String
         Dim serializer As New System.Web.Script.Serialization.JavaScriptSerializer()
         serializer.MaxJsonLength = Integer.MaxValue
 

@@ -150,7 +150,7 @@
 
         $(document).ready(function () {
             var fk = $("#account_idpk").val();
-            var name;
+
             $.ajax({
                 type: "post",
                 url: "director-ui.aspx/pullAnnouncement",
@@ -162,26 +162,20 @@
                 success: function (announceReturn) {
                     if (announceReturn.d == "[]") {
                         $(".announcementHolder").append("<p> No available announcement as of the moment. </p>");
-                    }else{
+                    } else {
+
                     data = announceReturn.d
                     data = jQuery.parseJSON(data)
                     $.each(data, function (i, object) {
-                        if (object.account_idfk == 41) {
-                            name = "Director"
-                        } else {
-                            name = object.username;
-                        }
-                        $(".announcementHolder").append(
-                            
+
+                        $(".announcementHolder").append(                            
                             "<div class='row'>" +
                                 "<div class='col-xs-12 border-enabled'>" +
-                                    "<h4 class='header-padded'>" + name +" </h4>" +
+                                    "<h4 class='header-padded'>" + object.given_name +" </h4>" +
                                     "<div class='row'>" +
                                         "<div class='theme-color col-xs-3 highlighted-div'>" +
-                                            "<p> " + object.description + "   </p>" +
-                                          
-                                        "</div>" +
-                                   
+                                            "<p> " + object.description + "   </p>" +                                         
+                                        "</div>" +                                
                                     "</div> " +
                                 "</div>" +
                             "</div>" +
@@ -191,7 +185,6 @@
                     });
                     }
                 }
-
             });
 
             $("#btnPostAnnouncementCoor").click(function (e) {

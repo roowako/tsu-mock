@@ -87,25 +87,24 @@
                     <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
                          <h3 class="page-header"><span class="glyphicon glyphicon-list-alt">&nbsp;</span>List of College Coordinators</h3>
                          <div class="row placeholders">
+                             
                              <br />
-                            <!-- start main-content -->
-                             <div class="col-xs-8 col-sm-8 placeholder  ">
+
+                             <!-- start main-content -->
+                             <div class="col-xs-12 col-sm-12 placeholder  ">
                                  <div class="row">
                                      <div class="col-xs-12 ">
                                          <h4 class="header-padded "></h4>
                                         
-                                        
-
                                          <div class="row">
                                              <div class="col-xs-12">
                                                  <div class="table-responsive">
                                                      <table class="table table-hover" id="accountTable">
                                                          <thead>
                                                          <tr>
-                                                             <td><span class="glyphicon glyphicon-th-list"></span></td>
                                                              <td>College</td>
                                                              <td>Coordinator's Userame</td>
-                                                             <td>Status</td>
+                                                             <td>Password</td>
                                                              <td></td>
                                                          </tr>
                                                          </thead>
@@ -121,9 +120,7 @@
                                 </div>
                              </div>
                               
-                             
-
-                             <div class="col-xs-4">
+                            <!-- <div class="col-xs-4">
                                  <h5>Create Coordinator account</h5>
                                  
                                  <div class="row">
@@ -142,13 +139,15 @@
                                      </div>
                                  </div>
                              </div>
-                         </div>
-                     </div>
+                         </div> -->
 
+
+                     </div>
                 </div>
             </div>
         </div>
     </form>
+
     <script type="text/javascript" src="./js/jquery.js"></script>
     <script type="text/javascript" src="./js/bootstrap.min.js"></script>
     <script type="text/javascript" src="./js/custom.js"></script>
@@ -185,81 +184,98 @@
                     traditional: true,
                     contentType: "application/json; charset=utf-8",
                     success: function (serverResponse) {
-
                         data = serverResponse.d;
                         data = jQuery.parseJSON(data);
-                        $.each(data, function (i, object) {
-                            var accStatus = object.status;
 
-                            if (accStatus == 0) {
-                                var mod = "Default";
+                        $.each(data, function (i, object) {
+                            var accStatus = object.account_status;
+                            var mod = object.password;
+
+                            if (accStatus == "0") {
                                 var ext = ("<tr class='success'>" +
-                                            "<td> " + object.coordinator_idpk + "  </td>" +
-                                            "<td> " + object.username + "  </td>" +
-                                            "<td> " + object.username + "  </td>" +
+                                            "<td> " + object.student_id + "  </td>" +
+                                            "<td> " + object.student_id + "  </td>" +
                                             "<td> " + mod + "  </td>" +
-                                            "<td> " + "<input type=button id='delete_coordinator' class='btn btn-success btn-sm' value='Delete'>" + " </td>" +
+                                            "<td> " + "<input type=button class='btn btn-success btn-sm activate_coordinator' value='Activate Account' data-id='" + object.account_idpk + "'>" + " </td>" +
+                                            "<td> " + "<input type=button class='btn btn-primary btn-sm default_coordinator' value='Restore Default' data-id='" + object.account_idpk + "'>" + " </td>" +
                                             "</tr>");
                             }
                             else {
-                                mod = "Modified";
-                               
                                 var ext = ("<tr class='warning'>" +
-                                            "<td> " + object.coordinator_idpk + "  </td>" +
-                                            "<td> " + object.username + "  </td>" +
-                                            "<td> " + object.password + "  </td>" +
+                                            "<td> " + object.student_id + "  </td>" +
+                                            "<td> " + object.student_id + "  </td>" +
                                             "<td > " + mod + "  </td>" +
-                                            "<td> " + "<a class='btn btn-warning btn-sm'> Restore Default </a>" + "  </td>" +
+                                            "<td> " + "<input type=button class='btn btn-warning btn-sm deactivate_coordinator' value='Deactivate Account ' data-id='" + object.account_idpk + "'>" + " </td>" +
+                                            "<td> " + "<input type=button class='btn btn-primary btn-sm default_coordinator' value='Restore Default' data-id='" + object.account_idpk + "'>" + " </td>" +
                                             "</tr>");        
-                                }
+                            }
 
                             $("#accountTable tbody").append(
-                               
-                                
                                   ext +
-                                
                                 "</tbody>"
                              );
-                            console.log(object);
                         });
 
+                        //functions
+                        $(".activate_coordinator").click(function (e) {
+                            e.preventDefault();
+                            id = $(this).data("id");
+                            console.log(id);
+                            $.ajax({
+                                type: "post",
+                                url: "director-list-ui.aspx/activate_coordinator",
+                                data: "{'id':'" + id + "'}",
+                                dataType: "json",
+                                processData: false,
+                                traditional: true,
+                                contentType: "application/json; charset=utf-8",
+                                success: function (serverResponse) {
+                                    alert(serverResponse.d);
+                                    window.location.reload(true);
+                                }
+                            });
+                        });
+
+                        $(".deactivate_coordinator").click(function (e) {
+                            e.preventDefault();
+                            id = $(this).data("id");
+                            console.log(id);
+                            $.ajax({
+                                type: "post",
+                                url: "director-list-ui.aspx/deactivate_coordinator",
+                                data: "{'id':'" + id + "'}",
+                                dataType: "json",
+                                processData: false,
+                                traditional: true,
+                                contentType: "application/json; charset=utf-8",
+                                success: function (serverResponse) {
+                                    alert(serverResponse.d);
+                                    window.location.reload(true);
+                                }
+                            });
+                        });
+
+                        $(".default_coordinator").click(function (e) {
+                            e.preventDefault();
+                            id = $(this).data("id");
+
+                            $.ajax({
+                                type: "post",
+                                url: "director-list-ui.aspx/default_coordinator",
+                                data: "{'id':'" + id + "'}",
+                                dataType: "json",
+                                processData: false,
+                                traditional: true,
+                                contentType: "application/json; charset=utf-8",
+                                success: function (serverResponse) {
+                                    alert(serverResponse.d);
+                                    window.location.reload(true);
+                                }
+                            });
+                        });
 
                     }
-                });
-
-                $("#defaultUsername").change(function () {
-                     id = $("#defaultUsername option:selected").attr("data-id");
-                });
-           
-            $("#btnCreateDefault").click(function (e) {
-                e.preventDefault();
-                var defaultCoordinatorUsername = $("#defaultUsername option:selected").val();
-                var defaultCoordinatorPassword = $("#txtDefaultPassword").val();
-                
-                if(defaultCoordinatorUsername == "" || defaultCoordinatorPassword == ""){
-                    alert("All fields are required.");
-                } else{
-                    $.ajax({
-                        type: "post",
-                        url: "director-list-ui.aspx/PushToDatabase",
-                        data: "{'defUsername':  '" + defaultCoordinatorUsername + "','defPass': '" + defaultCoordinatorPassword + "','id':'"+ id +"'}",
-                        dataType: "json",
-                        processData: false,
-                        traditional: true,
-                        contentType: "application/json; charset=utf-8",
-                        success: function (serverResponse) {
-                            alert(serverResponse.d);
-                            window.location.reload(true);
-
-                        }
-               
-                    });
-                }
-
-            });
-
-           
-           
+                });            
         });
     </script>
 </body>

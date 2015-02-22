@@ -149,34 +149,26 @@
                 contentType: "application/json; charset=utf-8",
                 success: function (announceReturn) {
                     $("#loaderImage").hide();
+
                     if (announceReturn.d == "[]") {
                         $(".announcementHolder").append("<p> No available announcement as of the moment. </p>");
                     } else {
                         data = announceReturn.d
                         data = jQuery.parseJSON(data)
                         $.each(data, function (i, object) {
-                            if(object.account_idfk == fk){
-                                name = actor_name;
-                            } else {
-                                name = "Director";
-                            }
                             $(".announcementHolder").append(
 
                                 "<div class='row'>" +
                                     "<div class='col-xs-12 border-enabled'>" +
-                                        "<h4 class='header-padded'><span class='glyphicon glyphicon-bookmark'>&nbsp;</span>" + name + "<br>  </h4>" +
+                                        "<h4 class='header-padded'><span class='glyphicon glyphicon-bookmark'>&nbsp;</span>" + object.given_name + "<br>  </h4>" +
                                         "<span class='dateIndicator'>&nbsp;&nbsp;" + object.formatedB + "</span>" +
                                         
                                         "<div class='row'>" +
                                             "<br>"+
                                             "<div class='theme-color col-xs-3 highlighted-div'>" +
                                                 "<p> " + object.description + "   </p>" +
-                                                
-
-                                            "</div>" +
-                                          
+                                            "</div>" +                                       
                                         "</div> " +
-
                                     "</div>" +
                                 "</div>" +
 
@@ -185,7 +177,6 @@
                         });
                     }
                 }
-
             });
 
             $("#btnPostAnnouncementCoor").click(function (e) {
