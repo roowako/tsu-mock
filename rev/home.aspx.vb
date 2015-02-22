@@ -41,7 +41,7 @@ Partial Class home
                 Else
                     Image2.ImageUrl = "./assets/images/default-dp.jpg"
                 End If
-               
+
                 sqlCon.Close()
             End Using
         End If
