@@ -17,6 +17,8 @@ Partial Class UI_poll_generator_ui
 
     Public Shared Property sqlStr As String
     Public Shared Property getLast As String
+
+    'SERIALIZER
     Public Shared Function GetJsonOpt(ByVal dt As DataTable) As String
         Dim serializer As New System.Web.Script.Serialization.JavaScriptSerializer()
         serializer.MaxJsonLength = Integer.MaxValue
@@ -34,6 +36,8 @@ Partial Class UI_poll_generator_ui
         Next
         Return serializer.Serialize(rows)
     End Function
+
+    'SERIALIZER
     Public Shared Function GetJson(ByVal dt As DataTable) As String
         Dim serializer As New System.Web.Script.Serialization.JavaScriptSerializer()
         serializer.MaxJsonLength = Integer.MaxValue
@@ -51,18 +55,14 @@ Partial Class UI_poll_generator_ui
         Next
         Return serializer.Serialize(rows)
     End Function
+
     <System.Web.Services.WebMethod()> _
-   <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
+    <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
     Public Shared Function pullFromServer() As String
-        'Function named PushToDatabase 
-        'Includes delimitation of user input
-        'Opening and Closing Connection to the database
-        'Adding datas to database
-
-
         Using sqlCon As New SqlConnection(constr)
 
             sqlCon.Open()
+
             Using da = New SqlDataAdapter(" SELECT * FROM tblPolls", sqlCon)
                 Dim table = New DataTable()
                 da.Fill(table)
@@ -72,25 +72,14 @@ Partial Class UI_poll_generator_ui
                 Return jsndata
             End Using
 
-
-
-
             sqlCon.Close()
-
-            'Returning Message : Fail or Successful
-
-
         End Using
 
     End Function
-    <System.Web.Services.WebMethod()> _
-   <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
-    Public Shared Function pullPollOptions(ByVal optFk As String) As String
-        'Function named PushToDatabase 
-        'Includes delimitation of user input
-        'Opening and Closing Connection to the database
-        'Adding datas to database
 
+    <System.Web.Services.WebMethod()> _
+    <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
+    Public Shared Function pullPollOptions(ByVal optFk As String) As String
 
         Using sqlCon As New SqlConnection(constr)
 
@@ -105,35 +94,26 @@ Partial Class UI_poll_generator_ui
                 Return pollOptionsJsonData
             End Using
 
-
-
-
             sqlCon.Close()
-
-            'Returning Message : Fail or Successful
-
 
         End Using
 
     End Function
+
+    'PUSH POLLS
     <System.Web.Services.WebMethod()> _
     <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
-    Public Shared Function PushToDatabase(ByVal pollOptArr As String, ByVal pollTitle As String, ByVal pollQ As String) As String
-        'Function named PushToDatabase 
-        'Includes delimitation of user input
-        'Opening and Closing Connection to the database
-        'Adding datas to database
-
+    Public Shared Function PushToDatabase(ByVal pollOptArr As String, ByVal pollTitle As String, ByVal pollQ As String, ByVal college_id As Integer) As String
 
         Using sqlCon As New SqlConnection(constr)
 
             sqlCon.Open()
 
-            sqlStr = "INSERT INTO tblPolls(description,question,status) VALUES(@pollTitle,@pollQ,0)"
-
+            sqlStr = "INSERT INTO tblPolls(description,question,status,target_id) VALUES(@pollTitle,@pollQ,0,@college_id)"
             cmd = New SqlCommand(sqlStr, sqlCon)
             cmd.Parameters.AddWithValue("@pollTitle", pollTitle)
             cmd.Parameters.AddWithValue("@pollQ", pollQ)
+            cmd.Parameters.AddWithValue("@college_id", college_id)
             cmd.ExecuteNonQuery()
 
             getLast = "SELECT MAX(polls_idpk) as pollsPk FROM tblPolls"
@@ -143,28 +123,20 @@ Partial Class UI_poll_generator_ui
 
             'Delimiter
             Dim stringSep() As String = {","}
-
-
             Dim result() As String
 
             'Splitting each value for database insertion, removing(,)
             result = pollOptArr.Split(stringSep, StringSplitOptions.None)
-
             Dim i As String
-
-
-
 
             'Iterate each element in array with (,) eliminated
             For Each i In result
-
                 'Insertion query
                 sqlStr = "INSERT INTO tblPollsoption(polls_idfk,option_description) VALUES(@pollFk,@poll)"
                 cmd = New SqlCommand(sqlStr, sqlCon)
                 cmd.Parameters.AddWithValue("@poll", i)
                 cmd.Parameters.AddWithValue("@pollFk", lastId)
                 cmd.ExecuteNonQuery()
-
             Next
 
             sqlCon.Close()
@@ -176,6 +148,7 @@ Partial Class UI_poll_generator_ui
 
     End Function
 
+    'PAGE LOAD
     Protected Sub Page_Load(sender As Object, e As EventArgs) Handles Me.Load
         If Session.Item("id") Is Nothing Then
             Console.Write("sd")
@@ -184,19 +157,22 @@ Partial Class UI_poll_generator_ui
             Using sqlCon As New SqlConnection(constr)
                 sqlCon.Open()
 
-                cmd = New SqlCommand("SELECT * FROM tblCoordinators WHERE coordinator_idpk=@p1", sqlCon)
+                cmd = New SqlCommand("SELECT given_name,account_idpk,college_idfk FROM tblAccounts WHERE account_idpk = @p1", sqlCon)
                 cmd.Parameters.AddWithValue("@p1", Session("id"))
                 dr = cmd.ExecuteReader
 
                 While dr.Read
-                    alumni_name.Text = dr.GetString(1)
-                    account_idpk.Text = Session("id")
+                    alumni_name.Text = dr.GetString(0)
+                    account_idpk.Text = dr.GetValue(1)
+                    college_idpk.Text = dr.GetValue(2)
                 End While
 
                 sqlCon.Close()
             End Using
         End If
     End Sub
+
+    'LOG OUT
     Protected Sub alumni_logout_Click(sender As Object, e As EventArgs) Handles alumni_logout.ServerClick
         Session.Abandon()
         Response.Redirect("default.aspx")

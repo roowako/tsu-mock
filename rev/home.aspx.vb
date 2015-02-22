@@ -17,6 +17,7 @@ Partial Class home
     Public Shared Property sqlStr As String
     Public Shared Property getLast As String
 
+    'PAGE LOAD
     Protected Sub Page_Load(sender As Object, e As EventArgs) Handles Me.Load
         If Session.Item("id") Is Nothing Then
             Console.Write("sd")
@@ -42,6 +43,7 @@ Partial Class home
         End If
     End Sub
 
+    'LOG OUT
     Protected Sub alumni_logout_Click(sender As Object, e As EventArgs) Handles alumni_logout.ServerClick
         Session.Abandon()
         Response.Redirect("default.aspx")
@@ -91,7 +93,7 @@ Partial Class home
     Public Shared Function pullAnnouncement(ByVal college_id As Integer) As String
         Using sqlCon As New SqlConnection(constr)
             sqlCon.Open()
-            Using dat = New SqlDataAdapter("SELECT description,account_idfk,target_id,CONVERT(VARCHAR, datetime_posted,0) as formatedB FROM tblAnnouncements WHERE target_id = '" & college_id & "' OR target_id = 0 ORDER BY announcement_idpk DESC", sqlCon)
+            Using dat = New SqlDataAdapter("SELECT description,target_id,CONVERT(VARCHAR, datetime_posted,0) as formatedB FROM tblAnnouncements WHERE target_id = '" & college_id & "' OR target_id = 0 ORDER BY announcement_idpk DESC", sqlCon)
                 Dim table2 = New DataTable()
                 dat.Fill(table2)
 
@@ -103,13 +105,14 @@ Partial Class home
         End Using
     End Function
 
-    'PULL POLLS
+    'PULL POLLS AVAILABLE
     <System.Web.Services.WebMethod()> _
     <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
-    Public Shared Function pullFromServer(ByVal filter As String) As String
+    Public Shared Function pullFromServer(ByVal filter As String, ByVal college_id As Integer) As String
         Using sqlCon As New SqlConnection(constr)
             sqlCon.Open()
-            Using da = New SqlDataAdapter("SELECT *,tblAccounts.userlevel_idfk FROM tblPolls,tblAccounts WHERE status=1 AND tblAccounts.account_idpk = '" & filter & "' AND tblAccounts.userlevel_idfk = 1", sqlCon)
+
+            Using da = New SqlDataAdapter("SELECT polls_idpk,description,question FROM tblPolls WHERE status = 1 AND target_id = '" & college_id & "' OR target_id = 0", sqlCon)
                 Dim table = New DataTable()
                 da.Fill(table)
                 Dim jsndata As String = GetJson(table)
@@ -117,9 +120,28 @@ Partial Class home
             End Using
 
             sqlCon.Close()
-            'Returning Message : Fail or Successful
         End Using
 
+    End Function
+
+    'PULL ANSWERED POLLS
+    <System.Web.Services.WebMethod()> _
+    <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
+    Public Shared Function pullAnsweredpolls(ByVal poll_id As Integer) As String
+        Using sqlCon As New SqlConnection(constr)
+
+            sqlCon.Open()
+
+            cmd = New SqlCommand("SELECT polls_idfk FROM tblPollsdata WHERE polls_idfk = '" & poll_id & "' ", sqlCon)
+            dr = cmd.ExecuteReader
+
+            If dr.HasRows Then
+                Return "1"
+            End If
+
+            sqlCon.Close()
+
+        End Using
     End Function
 
     'PULL POLL OPTIONS

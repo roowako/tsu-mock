@@ -70,15 +70,10 @@
 		  		                <li><a href="./home.aspx" ><span class="glyphicon glyphicon-home"></span>&nbsp;&nbsp;Timeline</a></li>
 		                        <li><a href="./messaging-ui-alumni.aspx" ><span class="glyphicon glyphicon-comment"></span>&nbsp;&nbsp;Messages</a></li>
 		                        <li><a href="#" id="alumni_logout" runat="server"><span class="glyphicon glyphicon-off" ></span>&nbsp;&nbsp;Log out</a></li>
-                                <li>
-                                    <asp:TextBox ID="account_idpk" runat="server"></asp:TextBox>
-                                </li>
-                                <li>
-                                    <asp:TextBox ID="college_idpk" runat="server"></asp:TextBox>
-                                </li>
-                                <li>
-                                    <asp:TextBox ID="college_desc" runat="server"></asp:TextBox>
-                                </li>
+                                
+                                <li> <asp:TextBox ID="account_idpk" runat="server"></asp:TextBox> </li>
+                                <li> <asp:TextBox ID="college_idpk" runat="server"></asp:TextBox> </li>
+                                <li> <asp:TextBox ID="college_desc" runat="server"></asp:TextBox> </li>
                             </ul>
                     </div>
 
@@ -159,12 +154,13 @@
         </div>
       </div>
     </div>
+
     <script type="text/javascript" src="./js/jquery.js"></script>
     <script type="text/javascript" src="./js/bootstrap.min.js"></script>
     <script type="text/javascript" src="./js/custom.js"></script>
     <script type="text/javascript" src="./js/dom-control.js"></script>
-     <script type="text/javascript" src="./js/home-search.js"></script>
-     <script type="text/javascript" src="./js/bindDelay.js"></script>
+    <script type="text/javascript" src="./js/home-search.js"></script>
+    <script type="text/javascript" src="./js/bindDelay.js"></script>
     <script type="text/javascript" src="http://ajax.cdnjs.com/ajax/libs/json2/20110223/json2.js"></script>
     <script>
         var college_id = $("#college_idpk").val();
@@ -178,90 +174,104 @@
                 $.ajax({
                     type: "post",
                     url: "./home.aspx/pullFromServer",
-                    data:"{'filter':'"+ filterPoll +"'}",
+                    data: "{'filter':'" + filterPoll + "','college_id':'" + college_id + "'}",
                     dataType: "json",
                     contentType: "application/json; charset=utf-8",
 
                     success: function (r) {
-                        //Response from server side 
                         data = r.d
-                        console.log(r)
                         data = jQuery.parseJSON(data);
-                        console.log(data.length);
-                        if (data.length == 0) {
-                            $("#noPoll").append(
 
-                                  "<span> <b> No available survey for graduating students. </b> </span>"
-                                );
-                        } else{
+                        if (data.length == 0)
+                        {
+                            $("#noPoll").append("<span> <b> No available survey for graduating students. </b> </span>");
+                        }
+                        else
+                        {
+                            $.each(data, function (i, object) {
+                                object.status = "active";
 
-                        $.each(data, function (i, object) {
+                                //CHECK IF PARTICIPATED
+                                $.ajax({
+                                    type: "post",
+                                    url: "home.aspx/pullAnsweredpolls",
+                                    data: "{'poll_id' :'" + object.polls_idpk + "' }",
+                                    dataType: "json",
+                                    processData: false,
+                                    traditional: true,
+                                    contentType: "application/json; charset=utf-8",
 
-                            object.status = "active";
-                            $(".table").append(
-                                "<tr>" +
-                                "<td>  " + object.polls_idpk + " </td>" +
-                                "<td>  " + object.description + " </td>" +
-                               
-                                "<td>   " + "<a class='btn btn-success btn-sm theatre' id='" + object.polls_idpk + "' data-poll-title='" + object.description + "' data-poll-question='" + object.question + "' data-poll-id='" + object.polls_idpk + "' data-toggle='modal' data-target='#myModal'>View Details and participate </a>" + " </td>" +
-                                "</tr>"
-                                );
-                        });
+                                    success: function (s) {
+                                        if (s.d == null) {
+                                            //APPEND POLLS AVAILABLE
+                                            $(".table").append(
+                                                "<tr>" +
+                                                "<td>  " + object.polls_idpk + " </td>" +
+                                                "<td>  " + object.description + " </td>" +
+                                                "<td>  " + "<a class='btn btn-success btn-sm theatre' id='" + object.polls_idpk + "' data-poll-title='" + object.description + "' data-poll-question='" + object.question + "' data-poll-id='" + object.polls_idpk + "' data-toggle='modal' data-target='#myModal'>View Details and participate </a>" + " </td>" +
+                                                "</tr>"
+                                                );
 
-                        $(".theatre").click(function () {
-                            $("#placeholderOptions").html("");
-                            $("#questionPlaceholder").text($(this).data("poll-question"));
-                            $("#myModalLabel").text($(this).data("poll-title"));
-                            $(".btnPollAns").attr("data-poll-idpk", $(this).data('poll-id'));
-                            pollsPK = $(this).data("poll-id");
+                                            //ITERATE POLL OPTIONS
+                                            $(".theatre").click(function () {
+                                                $("#placeholderOptions").html("");
+                                                $("#questionPlaceholder").text($(this).data("poll-question"));
+                                                $("#myModalLabel").text($(this).data("poll-title"));
+                                                $(".btnPollAns").attr("data-poll-idpk", $(this).data('poll-id'));
+                                                pollsPK = $(this).data("poll-id");
 
-                            $.ajax({
-                                type: "post",
-                                url: "./home.aspx/pullPollOptions",
-                                data: "{'optFk' :'" + pollsPK + "' }",
-                                dataType: "json",
-                                processData: false,
-                                traditional: true,
-                                contentType: "application/json; charset=utf-8",
-                                success: function (dataOpt) {
+                                                $.ajax({
+                                                    type: "post",
+                                                    url: "./home.aspx/pullPollOptions",
+                                                    data: "{'optFk' :'" + pollsPK + "' }",
+                                                    dataType: "json",
+                                                    processData: false,
+                                                    traditional: true,
+                                                    contentType: "application/json; charset=utf-8",
+                                                    success: function (dataOpt) {
 
-                                    optionsArr = dataOpt.d;
-                                    optionsArr = jQuery.parseJSON(optionsArr);
+                                                        optionsArr = dataOpt.d;
+                                                        optionsArr = jQuery.parseJSON(optionsArr);
 
-                                    $.each(optionsArr, function (i, pollOpt) {
-                                        var replaced = pollOpt.option_description.replace("-", ",");
-                                        $("#placeholderOptions").append(
-                                         "<li><input type='radio' name='polloptions' value=" + pollOpt.pollsoption_idpk + "> &nbsp; " + replaced + "  </li>"
-                                         ); 
-                                    });
+                                                        $.each(optionsArr, function (i, pollOpt) {
+                                                            var replaced = pollOpt.option_description.replace("-", ",");
+                                                            $("#placeholderOptions").append(
+                                                             "<li><input type='radio' name='polloptions' value=" + pollOpt.pollsoption_idpk + "> &nbsp; " + replaced + "  </li>"
+                                                             );
+                                                        });
+                                                    }
+                                                });
 
-                                    console.log(dataOpt.d);
-                                }
+                                            });
+                                        }
+                                    }
+                                });
+                                
                             });
 
-                        });
-
-                        $(".btnPollAns").click(function (e) {
-                            e.preventDefault();
-                            var pollAns = $("input[name='polloptions']:checked").val();
-                            var pollFk = $(this).data("poll-idpk");
-                            var account_id = $("#account_idpk").val();
+                            //ANSWER POLL
+                            $(".btnPollAns").click(function (e) {
+                                e.preventDefault();
+                                var pollAns = $("input[name='polloptions']:checked").val();
+                                var pollFk = $(this).data("poll-idpk");
+                                var account_id = $("#account_idpk").val();
                           
-                            $.ajax({
-                                type: "post",
-                                url: "./home.aspx/pushToPollDataStats",
-                                data: "{'poll_idpk' :'" + pollsPK + "','poll_option_idfk':'" + pollAns + "','account_idfk':'" +account_id +"' }",
-                                dataType: "json",
-                                processData: false,
-                                traditional: true,
-                                contentType: "application/json; charset=utf-8",
-                                success: function (dataOpt) {
-                                    console.log(dataOpt.d);
-                                }
+                                $.ajax({
+                                    type: "post",
+                                    url: "./home.aspx/pushToPollDataStats",
+                                    data: "{'poll_idpk' :'" + pollsPK + "','poll_option_idfk':'" + pollAns + "','account_idfk':'" +account_id +"' }",
+                                    dataType: "json",
+                                    processData: false,
+                                    traditional: true,
+                                    contentType: "application/json; charset=utf-8",
+                                    success: function (dataOpt) {
+                                        alert("Thank you for participating.");
+                                        window.location.reload(true);
+                                    }
 
-                            });
+                                });
                             
-                        });
+                            });
                         }
                     }
                 });
@@ -276,6 +286,7 @@
                 processData: false,
                 traditional: true,
                 contentType: "application/json; charset=utf-8",
+
                 success: function (announceReturn) {
                     if (announceReturn.d == "[]") {
                         $(".announcementHolder").append("<p> No available announcement as of the moment. </p>");
@@ -283,6 +294,7 @@
                         data = announceReturn.d
                         data = jQuery.parseJSON(data)
                         $.each(data, function (i, object) {
+
                             if (object.target_id == 0) {
                                 $(".announcementHolder").append(
                                 "<div class='row'>" +
@@ -303,6 +315,7 @@
                                 "<br />"
                                 );
                             }
+
                             else {
                                 $(".announcementHolder").append(
                                 "<div class='row'>" +
@@ -326,7 +339,6 @@
                         });
                     }
                 }
-
             });
 
             $.ajax({

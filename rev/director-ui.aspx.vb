@@ -59,6 +59,7 @@ Partial Class director_ui
 
     End Function
 
+    'PUSH ANNOUNCEMENTS TO DATABASE
     <System.Web.Services.WebMethod()> _
     <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
     Public Shared Function pushAnnouncement(ByVal myAnnouncement As String, ByVal id As String) As String
@@ -68,25 +69,19 @@ Partial Class director_ui
             sqlCon.Open()
 
             sqlStr = "INSERT INTO tblAnnouncements(description,datetime_posted,account_idfk,target_id) VALUES(@announcement,'" & DateTime.Now() & "','" & id & "',0)"
-
             cmd = New SqlCommand(sqlStr, sqlCon)
             cmd.Parameters.AddWithValue("@announcement", myAnnouncement)
-
             cmd.ExecuteNonQuery()
-
-
-
 
             sqlCon.Close()
 
-            'Returning Message : Fail or Successful
             Return myAnnouncement
 
         End Using
 
     End Function
 
-    'Check Session
+    'PAGE LOAD
     Protected Sub Page_Load(sender As Object, e As EventArgs) Handles Me.Load
         If Session.Item("id") Is Nothing Then
             Console.Write("sd")
@@ -109,7 +104,7 @@ Partial Class director_ui
         End If
     End Sub
 
-    'Log out
+    'LOG OUT
     Protected Sub alumni_logout_Click(sender As Object, e As EventArgs) Handles alumni_logout.ServerClick
         Session.Abandon()
         Response.Redirect("default.aspx")

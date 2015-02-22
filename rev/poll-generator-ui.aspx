@@ -49,9 +49,7 @@
 	                       <ul class="nav nav-sidebar">
 		                        <li>
 			                        <a href="#" >
-
 				                        <asp:Image ID="Image2" runat="server" ImageUrl="./assets/images/default-dp.jpg" Height="75" Width="75" BorderColor="White" BorderStyle="Solid" BorderWidth="3" />          
-
 			                        </a>
 
 		                        </li>
@@ -66,9 +64,9 @@
 		                        <li><a href="./token-generator-ui.aspx"><span class="glyphicon glyphicon-star"></span>&nbsp;&nbsp;Tokens</a></li>
 		  
 		                        <li><a href="#" id="alumni_logout" runat="server"><span class="glyphicon glyphicon-off"></span>&nbsp;&nbsp;Log out</a></li>
-                                <li>
-                                    <asp:TextBox ID="account_idpk" runat="server" ></asp:TextBox>
-                                </li>
+                                
+                                <li> <asp:TextBox ID="account_idpk" runat="server" ></asp:TextBox> </li>
+                                <li> <asp:TextBox ID="college_idpk" runat="server"></asp:TextBox> </li>
 	                        </ul>
                     </div>
 
@@ -296,21 +294,20 @@
                 //Check all fields for empty value
                 alert("All fields are required.");
 
-            } else {
-                
+            }
+            else {
+                var collegeid = $("#college_idpk").val();
+
                 //Push to server using jquery Ajax
                 $.ajax({
                     type: "POST",
                     url: "./poll-generator-ui.aspx/PushToDatabase",
-                    data: "{'pollOptArr':  '" + pollOptArr + "','pollTitle': '" + pollTitle + "','pollQ': '" + pollQ + "' }",
+                    data: "{'pollOptArr':  '" + pollOptArr + "','pollTitle': '" + pollTitle + "','pollQ': '" + pollQ + "','college_id': '" + collegeid + "' }",
 
                     processData: false,
                     traditional: true,
                     contentType: "application/json; charset=utf-8",
                     success: function (response) {
-                        //Response from server side weather fail or successful
-                    
-
                         $("#txtPollTitle").val("");
                         $("#txtPollQuestionArea").val("");
                         pollTarget == "none";
