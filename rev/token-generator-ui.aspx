@@ -247,7 +247,12 @@
                         dataType: "json",
                         contentType: "application/json; charset=utf-8",
                         success: function (r) {
-                            console.log(r.d);
+                            if (r.d < printnumber) {
+                                alert("Insufficient tokens to print.")
+                            }
+                            else {
+                                window.open("./token-print.aspx?college_fk="+college_fk+"&number_of_tokens="+printnumber);
+                            }
                         }
                     });
                 }
