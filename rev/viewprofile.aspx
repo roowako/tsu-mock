@@ -15,7 +15,7 @@
 <body>
      
     <form id="form1" runat="server">
-    <d<div class="container-fluid">
+        <div class="container-fluid">
              <nav class="navbar navbar-inverse navbar-fixed-top default-theme shadowed"> 
                 <div class="container-fluid">
                 <div class="navbar-header ">
@@ -25,14 +25,15 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand extended-brand " href="./home.aspx">
+                    <asp:HyperLink ID="dynamic_link" runat="server" CssClass="navbar-brand extended-brand ">
+                  
                         <span class="">
                             <asp:Image ID="Image1" runat="server" ImageUrl="./assets/images/TSULOGO.png" Height="55" Width="55" CssClass="img-float-nav" />
                             <h3>&nbsp;&nbsp;&nbsp;Dashboard</h3>
                              <span class="clearfix"></span>
                         </span>
                        
-                    </a>
+                   </asp:HyperLink>
 
                
                 </div>
@@ -207,9 +208,15 @@
                     data = r.d
                     data = jQuery.parseJSON(data)
                     $.each(data, function (i, o) {
+                        if(o.u == null){
+                            globalName = o.u1;
+                            $(".page-header").text(o.u1);
+                        }else{
+                            globalName = o.u;
+                            $(".page-header").text(o.u1);
+                        }
+                        
                        
-                        globalName = o.u;
-                        $(".page-header").text(o.u);
                      
                         $("title").text( $(".page-header").text());
                        

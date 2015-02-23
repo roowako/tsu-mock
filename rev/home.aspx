@@ -25,7 +25,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand extended-brand " href="./home.aspx">
+                    <a class="navbar-brand extended-brand " href="./#">
                         <span class="">
                             <asp:Image ID="Image1" runat="server" ImageUrl="./assets/images/TSULOGO.png" Height="55" Width="55" CssClass="img-float-nav" />
                             <h3>&nbsp;&nbsp;&nbsp;Dashboard</h3>

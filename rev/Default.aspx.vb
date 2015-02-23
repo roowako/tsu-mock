@@ -43,25 +43,26 @@ Partial Class loginpage
 
             sqlCon.Close()
         End Using
-
-
-
-
        
             If user_level = 0 Then
-                Session("id") = user_id
+            Session("id") = user_id
+            Session("dynamic_link") = "./home.aspx"
+
             Response.Redirect("home.aspx")
 
             ElseIf user_level = 1 Then
                 Session("id") = user_id
-                Response.Redirect("home.aspx")
+            Response.Redirect("home.aspx")
+            Session("dynamic_link") = "./home.aspx"
             ElseIf user_level = 2 Then
                 Session("id") = user_id
                 Session("college_id") = college_id
-                Response.Redirect("coordinator-custom.aspx")
+            Response.Redirect("coordinator-custom.aspx")
+            Session("dynamic_link") = "./coordinator-custom..aspx"
             ElseIf user_level = 3 Then
                 Session("id") = user_id
-                Response.Redirect("director-ui.aspx")
+            Response.Redirect("director-ui.aspx")
+            Session("dynamic_link") = "./director-ui.aspx"
             Else
                 Response.Write(<script>alert("Login Failed.")</script>)
             End If

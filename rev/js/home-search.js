@@ -56,13 +56,22 @@
                         $(".resWrapper").html("");
                         $(".display").css("visibility", "visible");
                         $.each(data, function (i,o) {
-                           
-                            $(".resWrapper").append(
-                                "<a class='uid' href='./viewprofile.aspx?id="+ o.uid +"' >"+
+                            if( o.u == null ){
+                                $(".resWrapper").append(
+                                "<a class='uid' href='./viewprofile.aspx?id=" + o.uid + "' >" +
                                 "<div class='clickable'>" +
-                                    "<span> <b> "+ o.u +" </b> </span>" +
-                                "</div>"+
+                                    "<span> <b> " + o.u1 + " </b> </span>" +
+                                "</div>" +
                                 "</a>");
+                            } else{
+                                $(".resWrapper").append(
+                                "<a class='uid' href='./viewprofile.aspx?id=" + o.uid + "' >" +
+                                "<div class='clickable'>" +
+                                    "<span> <b> " + o.u + " </b> </span>" +
+                                "</div>" +
+                                "</a>");
+                            }
+                            
                         })
                         
                         $(".display").html("<span> <b> "+ displayMessage +" </b> </span>")

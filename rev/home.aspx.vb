@@ -218,7 +218,7 @@ Partial Class home
 
         Using sqlCon As New SqlConnection(constr)
             sqlCon.Open()
-            Using dat = New SqlDataAdapter("SELECT given_name+ ' ' +family_name+ ' ' +middle_name  as u,account_idpk as uid FROM tblAccounts WHERE given_name+ ' ' +family_name+ '' +middle_name LIKE '%" & q & "%'  AND  account_status = 1 AND  userlevel_idfk  < 2  ", sqlCon)
+            Using dat = New SqlDataAdapter("SELECT given_name+ ' ' +middle_name+ ' ' +family_name as u,given_name+ ' ' +family_name as u, account_idpk as uid  FROM tblAccounts WHERE given_name LIKE '%" & q & "%' OR middle_name LIKE '%" & q & "%' OR family_name LIKE '%" & q & "%'  ", sqlCon)
 
                 Dim table2 = New DataTable()
                 dat.Fill(table2)
