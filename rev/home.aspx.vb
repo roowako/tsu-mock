@@ -40,14 +40,22 @@ Partial Class home
                 dr = cmd.ExecuteReader
                 If dr.HasRows Then
                     While dr.Read
-                        alumni_name.Text = dr.GetString(0)
-                        account_idpk.Text = Session.Item("id")
-                        college_idpk.Text = dr.GetValue(1)
-                        college_desc.Text = dr.GetString(2)
-                        Image2.ImageUrl = dr.GetString(3)
+                        If IsDBNull(dr(3)) OrElse String.IsNullOrEmpty(dr.GetString(3)) Then
+                            alumni_name.Text = dr.GetString(0)
+                            account_idpk.Text = Session.Item("id")
+                            college_idpk.Text = dr.GetValue(1)
+                            college_desc.Text = dr.GetString(2)
+                            Image2.ImageUrl = "./assets/images/default-dp.jpg"
+                        Else
+                            alumni_name.Text = dr.GetString(0)
+                            account_idpk.Text = Session.Item("id")
+                            college_idpk.Text = dr.GetValue(1)
+                            college_desc.Text = dr.GetString(2)
+                            Image2.ImageUrl = dr.GetString(3)
+                        End If
+                        
                     End While
-                Else
-                    Image2.ImageUrl = "./assets/images/default-dp.jpg"
+               
                 End If
 
                 sqlCon.Close()

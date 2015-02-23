@@ -31,13 +31,34 @@ Partial Class rev_alumni_profile
                 dr = cmd.ExecuteReader
 
                 While dr.Read
-                    alumni_name.Text = dr.GetString(6)
-                    account_idpk.Text = Session("id")
-                    Image2.ImageUrl = dr.GetString(20)
+                    If IsDBNull(dr(20)) OrElse String.IsNullOrEmpty(dr.GetString(20)) Then
+                        alumni_name.Text = dr.GetString(6)
+                        account_idpk.Text = Session("id")
+                        Image2.ImageUrl = "./assets/images/default-dp.jpg"
+                    Else
+                        alumni_name.Text = dr.GetString(6)
+                        account_idpk.Text = Session("id")
+                        Image2.ImageUrl = dr.GetString(20)
+                    End If
+                    
                 End While
 
                 sqlCon.Close()
             End Using
+
+            If Session("ul") = 3 Then
+                dyna.HRef = Session("dynamic_link3")
+                pointer.HRef = Session("dynamic_link3")
+            ElseIf Session("ul") = 2 Then
+                dyna.HRef = Session("dynamic_link2")
+                pointer.HRef = Session("dynamic_link2")
+            ElseIf Session("ul") = 1 Then
+                dyna.HRef = Session("dynamic_link1")
+                pointer.HRef = Session("dynamic_link1")
+            ElseIf Session("ul") = 0 Then
+                dyna.HRef = Session("dynamic_link1")
+                pointer.HRef = Session("dynamic_link1")
+            End If
         End If
 
         

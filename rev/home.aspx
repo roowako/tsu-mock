@@ -75,7 +75,7 @@
                                 <li> <asp:TextBox ID="college_idpk" runat="server"></asp:TextBox> </li>
                                 <li> <asp:TextBox ID="college_desc" runat="server"></asp:TextBox> </li>
 
-                                <asp:Label ID="Label1" runat="server" Text="Label"></asp:Label>
+                               
                             </ul>
                     </div>
 

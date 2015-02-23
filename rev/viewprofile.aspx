@@ -25,15 +25,14 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     </button>
-                    <asp:HyperLink ID="dynamic_link"  runat="server" CssClass="navbar-brand extended-brand ">
-                  
+                    <a class="navbar-brand extended-brand"  runat="server" id="dyna">
                         <span class="">
                             <asp:Image ID="Image1" runat="server" ImageUrl="./assets/images/TSULOGO.png" Height="55" Width="55" CssClass="img-float-nav" />
                             <h3>&nbsp;&nbsp;&nbsp;Dashboard</h3>
                              <span class="clearfix"></span>
                         </span>
-                       
-                   </asp:HyperLink>
+                   </a>    
+               
 
                
                 </div>
@@ -64,20 +63,19 @@
                     <div class="col-sm-3 col-md-2 sidebar">  <!--side-bar -->
 	                        <ul class="nav nav-sidebar">
 		                        <li>
-			                        <a href="#" >
+			                        <a>
 				                        <asp:Image ID="Image2" runat="server" ImageUrl="./assets/images/default-dp.jpg" Height="75" Width="75" BorderColor="White" BorderStyle="Solid" BorderWidth="3" />          
 			                        </a>
 		                        </li>
                             <li>    
-                                <a href="./alumni-profile.aspx"><span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;<asp:Label id="alumni_name" runat="server"></asp:Label></a>
+                                <a  href="#" ><span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;<asp:Label id="alumni_name" runat="server"></asp:Label></a>
                             </li>
-		  		                <li><a href="./home.aspx" ><span class="glyphicon glyphicon-home"></span>&nbsp;&nbsp;Timeline</a></li>
-		                        <li><a href="./messaging-ui-alumni.aspx" ><span class="glyphicon glyphicon-comment"></span>&nbsp;&nbsp;Messages</a></li>
-		                        <li><a href="#" id="alumni_logout" runat="server"><span class="glyphicon glyphicon-off" ></span>&nbsp;&nbsp;Log out</a></li>
+		  		                <li> <a runat="server" id="pointer"> <span class="glyphicon glyphicon-home"></span>&nbsp;&nbsp;Timeline </a> </li>
                                 <li>
                                     <asp:TextBox ID="acc_id" runat="server" style="display:none;"></asp:TextBox>
                                     <asp:TextBox ID="account_idpk" runat="server" ></asp:TextBox>
                                     <asp:Label ID="sName" runat="server" Text=""></asp:Label>
+                                    
                                 </li>
                             </ul>
                     </div>
@@ -216,57 +214,62 @@
                             $(".page-header").text(o.u1);
                         }
                         
-                       
-                     
-                        $("title").text( $(".page-header").text());
-                       
-                        email = o.m;
-                        contact = o.c;
-                       
-                        $(".basic-info tbody").append(
-                            "<tr>" +
-                                "<td><span class='glyphicon glyphicon-map-marker dim'></span> &nbsp;" + o.a + "  </td>" +
-                                "<td> </td>" +
-                                "<td> </td>" +
-                            "</tr>" +
-                             "<tr>" +
-                                "<td> <span class='glyphicon glyphicon-gift dim'></span> &nbsp;" + o.formatedB + " </td>" +
-                                "<td> </td>" +
-                                "<td> </td>" +
-                            "</tr>" +
-                            "<tr>" +
-                                "<td> <span class='glyphicon glyphicon-flag dim'></span> &nbsp;" + o.ct + "  </td>" +
-                                "<td> </td>" +
-                                "<td> </td>" +
-                            "</tr>" +
-                             "<tr>" +
-                                "<td><span class='glyphicon glyphicon-certificate dim'></span> &nbsp;" + o.r + "  </td>" +
-                                "<td></td>" +
-                                "<td> </td>" +
-                            "</tr>" +
-                            "<tr>" +
-                                "<td><span class='glyphicon glyphicon-heart dim'></span> &nbsp;" + o.ms + "  </td>" +
-                                "<td></td>" +
-                                "<td> </td>" +
-                            "</tr>" +
-                              
-                            "<tr>" +
-                                "<td><span class='glyphicon glyphicon-book dim'></span> &nbsp;" + o.cd + "    </td>" +
-                                "<td></td>" +
-                                "<td> </td>" +
-                            "</tr>" +"<tr>" +
-                                "<td><span class='glyphicon glyphicon-book dim'></span> &nbsp;" + o.ccd + "   </td>" +
-                                "<td></td>" +
-                                "<td> </td>" +
-                            "</tr>" +
-                            "</tr>" +
-                            "<tr>" +
-                                "<td><span class='glyphicon glyphicon-calendar dim'></span> &nbsp;" + o.yg + " </td>" +
-                                "<td> </td>" +
-                                "<td> </td>" +
-                            "</tr>"
+                        if( o.ul == 3){
+                            $(".basic-info tbody").html("Confidential.");
+                            $(".page-header").text(o.u);
+                        } else {
+                            $("title").text($(".page-header").text());
 
-                            );
+                            email = o.m;
+                            contact = o.c;
+
+                            $(".basic-info tbody").append(
+                                "<tr>" +
+                                    "<td><span class='glyphicon glyphicon-map-marker dim'></span> &nbsp;" + o.a + "  </td>" +
+                                    "<td> </td>" +
+                                    "<td> </td>" +
+                                "</tr>" +
+                                 "<tr>" +
+                                    "<td> <span class='glyphicon glyphicon-gift dim'></span> &nbsp;" + o.formatedB + " </td>" +
+                                    "<td> </td>" +
+                                    "<td> </td>" +
+                                "</tr>" +
+                                "<tr>" +
+                                    "<td> <span class='glyphicon glyphicon-flag dim'></span> &nbsp;" + o.ct + "  </td>" +
+                                    "<td> </td>" +
+                                    "<td> </td>" +
+                                "</tr>" +
+                                 "<tr>" +
+                                    "<td><span class='glyphicon glyphicon-certificate dim'></span> &nbsp;" + o.r + "  </td>" +
+                                    "<td></td>" +
+                                    "<td> </td>" +
+                                "</tr>" +
+                                "<tr>" +
+                                    "<td><span class='glyphicon glyphicon-heart dim'></span> &nbsp;" + o.ms + "  </td>" +
+                                    "<td></td>" +
+                                    "<td> </td>" +
+                                "</tr>" +
+
+                                "<tr>" +
+                                    "<td><span class='glyphicon glyphicon-book dim'></span> &nbsp;" + o.cd + "    </td>" +
+                                    "<td></td>" +
+                                    "<td> </td>" +
+                                "</tr>" + "<tr>" +
+                                    "<td><span class='glyphicon glyphicon-book dim'></span> &nbsp;" + o.ccd + "   </td>" +
+                                    "<td></td>" +
+                                    "<td> </td>" +
+                                "</tr>" +
+                                "</tr>" +
+                                "<tr>" +
+                                    "<td><span class='glyphicon glyphicon-calendar dim'></span> &nbsp;" + o.yg + " </td>" +
+                                    "<td> </td>" +
+                                    "<td> </td>" +
+                                "</tr>"
+
+                                );
+                        }
+                     
+                        
                     });
 
                 }

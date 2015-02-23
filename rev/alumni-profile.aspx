@@ -24,7 +24,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand extended-brand " href="./home.aspx">
+                    <a class="navbar-brand extended-brand "  runat="server" id="dyna">
                         <span class="">
                             <asp:Image ID="Image1" runat="server" ImageUrl="./assets/images/TSULOGO.png" Height="55" Width="55" CssClass="img-float-nav" />
                             <h3>&nbsp;&nbsp;&nbsp;Dashboard</h3>
@@ -61,16 +61,15 @@
                     <div class="col-sm-3 col-md-2 sidebar">  <!--side-bar -->
 	                        <ul class="nav nav-sidebar">
 		                        <li>
-			                        <a href="#" >
-				                        <asp:Image ID="Image2" runat="server" ImageUrl="./assets/images/default-dp.jpg" Height="75" Width="75" BorderColor="White" BorderStyle="Solid" BorderWidth="3" />          
+			                        <a href="#">
+				                        <asp:Image ID="Image2" runat="server" ImageUrl="./assets/images/default-dp.jpg" Height="85" Width="85" BorderColor="White" BorderStyle="Solid" BorderWidth="3" />          
 			                        </a>
 		                        </li>
                             <li>    
-                                <a href="./alumni-profile.aspx"><span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;<asp:Label id="alumni_name" runat="server"></asp:Label></a>
+                                <a href="#"><span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;<asp:Label id="alumni_name" runat="server"></asp:Label></a>
                             </li>
-		  		                <li><a href="./home.aspx" ><span class="glyphicon glyphicon-home"></span>&nbsp;&nbsp;Timeline</a></li>
-		                        <li><a href="./messaging-ui-alumni.aspx" ><span class="glyphicon glyphicon-comment"></span>&nbsp;&nbsp;Messages</a></li>
-		                        <li><a href="#" id="alumni_logout" runat="server"><span class="glyphicon glyphicon-off" ></span>&nbsp;&nbsp;Log out</a></li>
+		  		                <li><a  runat="server" id="pointer"><span class="glyphicon glyphicon-home"></span>&nbsp;&nbsp;Timeline </a></li>
+                                <li><a href="#" id="alumni_logout" runat="server"><span class="glyphicon glyphicon-off" ></span>&nbsp;&nbsp;Log out</a></li>
                                 <li>
 
                                     <asp:TextBox ID="account_idpk" runat="server" ></asp:TextBox>
@@ -86,7 +85,7 @@
                              <div class="col-xs-1"></div>
 
                              <div class="col-xs-3" style="text-align:right">
-                                 <asp:FileUpload ID="uploader" runat="server" CssClass="btn btn-primary btn-sm "/>
+                                 <asp:FileUpload ID="uploader" runat="server" CssClass="btn btn-primary btn-sm " style="max-width:250px;"/>
                              </div>
 
                              <div class="col-xs-2">
