@@ -224,7 +224,7 @@
         </div>
         </div>
     </form>
-
+//Modal form account info
    
 <div class="modal fade bs-example-modal-lg  fullNamePlaceholder" tabindex="-1" role="dialog" aria-labelledby="ddd" aria-hidden="true">
   <div class="modal-dialog modal-lg">

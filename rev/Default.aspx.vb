@@ -46,22 +46,29 @@ Partial Class loginpage
 
         If user_level = 0 Then
             Session("id") = user_id
-            Session("dynamic_link") = "./home.aspx"
-
+            Session("ul") = 0
+            Session("dynamic_link1") = "./home.aspx"
             Response.Redirect("home.aspx")
         ElseIf user_level = 1 Then
             Session("id") = user_id
+            Session("ul") = 1
+            Session("dynamic_link1") = "./home.aspx"
             Response.Redirect("home.aspx")
-            Session("dynamic_link") = "./home.aspx"
+
         ElseIf user_level = 2 Then
             Session("id") = user_id
+            Session("ul") = 2
             Session("college_id") = college_id
+            Session("dynamic_link2") = "./coordinator-custom.aspx"
+
             Response.Redirect("coordinator-custom.aspx")
-            Session("dynamic_link") = "./coordinator-custom..aspx"
+
         ElseIf user_level = 3 Then
             Session("id") = user_id
+            Session("ul") = 3
+            Session("dynamic_link3") = "./director-ui.aspx"
             Response.Redirect("director-ui.aspx")
-            Session("dynamic_link") = "./director-ui.aspx"
+
         Else
             Response.Write(<script>alert("Login Failed.")</script>)
         End If
