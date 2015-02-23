@@ -38,7 +38,18 @@
                 </div>
                 <div id="navbar" class="navbar-collapse collapse" > <!---collapse collapse -->
                   
-                    
+                    <br />
+                    <ul class="nav navbar-nav navbar-right extended" style="margin-top:8px;margin-right:100px;">
+                        <li>
+                            <div class="form-group" style="position:absolute;z-index:40000;">
+                                <input type="text" placeholder="Search for alumni" name=""  class="form-control input-sm" id="searching" autocomplete="off"/>
+                                <div class="resWrapper">
+
+                                </div>
+                            <div class="display"></div>
+                            </div>
+                        </li>
+                    </ul>
                     
                 </div><!--/.navbar-collapse -->
                 </div>
@@ -56,7 +67,7 @@
 			    </a>
 
 		    </li>
-		    <li><a href="#" class="bolder"><span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;<asp:Label id="alumni_name" runat="server"></asp:Label></a></li>
+		    <li><a href="#" class="bolder"><span class="glyphicon glyphicon-paperclip"></span>&nbsp;&nbsp;<asp:Label id="alumni_name" runat="server"></asp:Label></a></li>
 		  
 		    <li><a href="./director-ui.aspx" ><span class="glyphicon glyphicon-home"></span>&nbsp;&nbsp;Timeline</a></li>
 		    <li><a href="./messaging-ui-director.aspx" ><span class="glyphicon glyphicon-comment"></span>&nbsp;&nbsp;Messages</a></li>
@@ -213,8 +224,9 @@
     <script type="text/javascript" src="./js/custom.js"></script>
     <script type="text/javascript" src="./js/dom-control.js"></script>
     <script type="text/javascript" src="./js/ajax-loader.js"></script>
-    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
-    <script type="text/javascript" src="http://ajax.cdnjs.com/ajax/libs/json2/20110223/json2.js"></script>
+   <script type="text/javascript" src="./js/bindDelay.js"></script>
+    <script type="text/javascript" src="./js/home-search.js"></script>
+    <script type="text/javascript" src="./js/json2.js"></script>
    
 
     <script type="text/javascript">

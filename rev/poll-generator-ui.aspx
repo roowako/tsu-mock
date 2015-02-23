@@ -36,8 +36,20 @@
                
                 </div>
                 <div id="navbar" class="navbar-collapse collapse" > <!---collapse collapse -->
-                  
-                     
+                    <br />
+                     <ul class="nav navbar-nav navbar-right extended" style="margin-top:8px;margin-right:100px;">
+                        
+                        <li>
+                            <div class="form-group" style="position:absolute;z-index:40000;">
+                                <input type="text" placeholder="Search for alumni" name=""  class="form-control input-sm" id="searching" autocomplete="off"/>
+                                <div class="resWrapper">
+
+                                </div>
+                            <div class="display"></div>
+                            </div>
+                        </li>
+                        
+                    </ul>
                 </div><!--/.navbar-collapse -->
                 </div>
             </nav>-->
@@ -191,8 +203,9 @@
     <script type="text/javascript" src="./js/bootstrap.min.js"></script>
     <script type="text/javascript" src="./js/custom.js"></script>
     <script type="text/javascript" src="./js/dom-control.js"></script>
-    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
-    <script type="text/javascript" src="http://ajax.cdnjs.com/ajax/libs/json2/20110223/json2.js"></script>
+    <script type="text/javascript" src="./js/home-search.js"></script>
+     <script type="text/javascript" src="./js/bindDelay.js"></script>
+    <script type="text/javascript" src="./js/json2.js"></script>
     <script type="text/javascript">
 
        
@@ -227,6 +240,8 @@
                             "<td>  " + object.description + " </td>" +
                             "<td>  " + stat + " </td>" +
                             "<td>   " + "<a class='btn btn-success btn-sm theatre' id='" + object.polls_idpk + "' data-poll-title='" + object.description + "' data-poll-question='" + object.question + "' data-poll-id='" + object.polls_idpk + "' data-toggle='modal' data-target='#myModal'>View Details </a>" + " </td>" +
+                            "<td>   " + "<a class='btn btn-warning btn-sm theatre' id='" + object.polls_idpk + "' data-poll-title='" + object.description + "' data-poll-question='" + object.question + "' data-poll-id='" + object.polls_idpk + "' data-toggle='modal' data-target='#myModal'>Delete </a>" + " </td>" +
+
                             "</tr>"
                             );
                         

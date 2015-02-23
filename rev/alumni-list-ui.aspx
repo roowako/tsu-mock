@@ -37,7 +37,18 @@
                
                 </div>
                 <div id="navbar" class="navbar-collapse collapse" > <!---collapse collapse -->
-                  
+                    <br />
+                    <ul class="nav navbar-nav navbar-right extended" style="margin-top:8px;margin-right:100px;">
+                        <li>
+                            <div class="form-group" style="position:absolute;z-index:40000;">
+                                <input type="text" placeholder="Search for alumni" name=""  class="form-control input-sm" id="searching" autocomplete="off"/>
+                                <div class="resWrapper">
+
+                                </div>
+                            <div class="display"></div>
+                            </div>
+                        </li>
+                    </ul>
                 </div><!--/.navbar-collapse -->
                 </div>
             </nav>-->
@@ -94,16 +105,7 @@
                             </div>
                             <div class="col-sm-5">
                                 
-                                <div class="input-group">
-                                    <div class="input-group-addon">Search</div>
-                                    <input type="text" name="name" value=" " class="form-control" id="q" autocomplete="off"/>
-                                </div>
-                                <div class="row" >
-                                  
-                                    <div class="col-xs-2"></div>
-                                    <div class="col-xs-10 resultContainer "></div>
-
-                                </div>
+                              
                             </div>
                             <div class="col-xs-1">
                                  
@@ -279,6 +281,7 @@
     <script type="text/javascript" src="./js/ajax-loader.js"></script>
     <script type="text/javascript" src="./js/paginate.js"></script>
     <script type="text/javascript" src="./js/bindDelay.js"></script>
+    <script type="text/javascript" src="./js/home-search.js"></script>
     <script>
         $(document).ready(function () {
 
@@ -571,6 +574,118 @@
         });
 
 
+    </script>
+    <script>
+        //Filter by college
+        $("#filterCollege").change(function () {
+            var sortColleges = $("#filterCollege option:selected").attr("data-id");
+            sortBy = $("#sortBy option:selected").val();
+
+            $(".searchableTable tbody").html("");
+
+
+            $.ajax({
+                type: "post",
+                url: "alumni-list-ui.aspx/filterView",
+                data: "{'sortBy':'" + sortBy + "','college_id':'" + sortColleges + "'}",
+                dataType: "json",
+                processData: false,
+                traditional: true,
+                contentType: "application/json; charset=utf-8",
+                success: function (response) {
+                    if (response.d == "[]") { $(".searchableTable tbody").html("No result."); }
+                    data = response.d;
+                    data = jQuery.parseJSON(data);
+                    $.each(data, function (i, o) {
+
+                        if (o.userlevel_idfk == 1) {
+                            var mod = ("<tr class='success'>" +
+                                            "<td> " + o.account_idpk + " </td>" +
+                                            "<td> " + o.given_name + "  " + o.middle_name + " " + o.family_name + " </td>" +
+                                            "<td> " + o.collegeDes + " </td>" +
+                                            "<td>" + o.courseDes + "</td>" +
+
+                                            "<td></td>" +
+                                            "<td> <a class='btn btn-primary btn-sm viewAccountInfo' data-account-id='" + o.account_idpk + "' data-toggle='modal' data-target='.bs-example-modal-lg' > View info </a> </td>" +
+                                        "</tr>");
+
+                        } else {
+                            var mod = ("<tr class='warning'>" +
+                                        "<td> " + o.account_idpk + " </td>" +
+                                        "<td> " + o.given_name + "  " + o.middle_name + " " + o.family_name + " </td>" +
+                                        "<td> " + o.collegeDes + " </td>" +
+                                        "<td>" + o.courseDes + "</td>" +
+
+                                        "<td></td>" +
+                                        "<td> <a class='btn btn-primary btn-sm viewAccountInfo' data-account-id='" + o.account_idpk + "' data-toggle='modal' data-target='.bs-example-modal-lg' > View info </a> </td>" +
+                                    "</tr>");
+                        }
+
+                        $(".searchableTable tbody").append(
+                                        mod
+                                    );
+
+                    });
+
+                    //Theatre
+                    $(".viewAccountInfo").click(function () {
+
+                        accId = $(this).data("account-id");
+                        $("#accountInfoPlaceholder tbody ").html("");
+                        $.ajax({
+                            type: "post",
+                            url: "alumni-list-ui.aspx/fetchAccountInfo",
+                            data: "{'accId':'" + accId + "'}",
+                            dataType: "json",
+                            processData: false,
+                            traditional: true,
+                            contentType: "application/json; charset=utf-8",
+                            success: function (approvalResponse) {
+                                response = approvalResponse.d;
+                                response = jQuery.parseJSON(response);
+                                $.each(response, function (i, o) {
+                                    console.log(o.student_id);
+
+
+                                    $("#myModalLabel").text(o.given_name + "  " + o.middle_name + " " + o.family_name);
+
+
+                                    $(".update-sudnumber").attr("data-id", o.account_idpk);
+                                    if (o.student_id == "") {
+                                        $("#studNumberPlacer").removeAttr("disabled");
+                                        $(".update-sudnumber").removeAttr("disabled");
+                                    } else {
+                                        $(".update-sudnumber").attr("disabled", "disabled");
+                                        $("#studNumberPlacer").attr("disabled", "disabled");
+                                        $("#studNumberPlacer").val(o.student_id);
+                                    }
+                                    $("#accountInfoPlaceholder tbody").append(
+
+                                            "<tr>" +
+
+                                                "<td> " + o.account_idpk + " </td>" +
+                                                "<td> " + o.address + " </td>" +
+                                                "<td> " + o.telephone_number + " </td>" +
+                                                "<td> " + o.email_address + " </td>" +
+                                                "<td> " + o.formatedB + " </td>" +
+                                                "<td> " + o.citizenship + " </td>" +
+                                                "<td> " + o.religion + " </td>" +
+                                                "<td> " + o.marital_status + " </td>" +
+                                                "<td> " + o.gender + " </td>" +
+                                            "</tr>"
+
+
+                                        );
+                                });
+                            }, error: function (response) {
+                                console.log("Opps something went wrong.");
+                            }
+                        });
+
+                    });
+                }
+            });
+        });
     </script>
 </body>
 </html>

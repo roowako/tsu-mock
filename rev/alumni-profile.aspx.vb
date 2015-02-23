@@ -23,6 +23,7 @@ Partial Class rev_alumni_profile
             Console.Write("sd")
             Response.Redirect("Default.aspx")
         Else
+
             Using sqlCon As New SqlConnection(constr)
                 sqlCon.Open()
 
@@ -40,7 +41,7 @@ Partial Class rev_alumni_profile
                         account_idpk.Text = Session("id")
                         Image2.ImageUrl = dr.GetString(20)
                     End If
-                    
+
                 End While
 
                 sqlCon.Close()
@@ -53,6 +54,7 @@ Partial Class rev_alumni_profile
             ElseIf Session("ul") = 2 Then
                 dyna.HRef = Session("dynamic_link2")
                 pointer.HRef = Session("dynamic_link2")
+                Image2.ID = "non"
             ElseIf Session("ul") = 1 Then
                 dyna.HRef = Session("dynamic_link1")
                 pointer.HRef = Session("dynamic_link1")
@@ -157,7 +159,9 @@ Partial Class rev_alumni_profile
             sqlCon.Close()
         End Using
 
+
         Return "Password updated"
+
     End Function
 
     'LOG OUT
@@ -166,6 +170,7 @@ Partial Class rev_alumni_profile
         Response.Redirect("default.aspx")
     End Sub
 
+   
 
     Protected Sub Upload(sender As Object, e As EventArgs)
         If uploader.HasFile Then

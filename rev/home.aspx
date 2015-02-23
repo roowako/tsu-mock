@@ -38,7 +38,7 @@
                 </div>
                 <div id="navbar" class="navbar-collapse collapse" > <!---collapse collapse -->
                     <br />
-                    <ul class="nav navbar-nav navbar-left extended" style="margin-top:8px;">
+                    <ul class="nav navbar-nav navbar-right extended" style="margin-top:8px;margin-right:100px;">
                         <li>
                             <div class="form-group" style="position:absolute;z-index:40000;">
                                 <input type="text" placeholder="Search for alumni" name=""  class="form-control input-sm" id="searching" autocomplete="off"/>

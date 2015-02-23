@@ -63,7 +63,7 @@ Partial Class UI_poll_generator_ui
 
             sqlCon.Open()
 
-            Using da = New SqlDataAdapter(" SELECT * FROM tblPolls", sqlCon)
+            Using da = New SqlDataAdapter(" SELECT * FROM tblPolls ORDER BY polls_idpk DESC", sqlCon)
                 Dim table = New DataTable()
                 da.Fill(table)
                 table.Columns(0).ColumnName = "polls_idpk"
@@ -154,6 +154,7 @@ Partial Class UI_poll_generator_ui
             Console.Write("sd")
             Response.Redirect("Default.aspx")
         Else
+            Image2.ID = "non"
             Using sqlCon As New SqlConnection(constr)
                 sqlCon.Open()
 
