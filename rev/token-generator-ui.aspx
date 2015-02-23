@@ -232,9 +232,7 @@
                         dataType: "json",
                         contentType: "application/json; charset=utf-8",
                         success: function (r) {
-                            if (printnumber > r.d) {
-                                alert("limit");
-                            }
+                            console.log(r.count);
                         }
                     });
                 }
