@@ -4,7 +4,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
-     <title>Tokens</title>
+    <title>Tokens</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="./css/bootstrap.min.css" rel="stylesheet" />
     <link href="./css/bootstrap.theme.min.css" rel="stylesheet" />
@@ -215,6 +215,7 @@
                 }
             });
 
+            //PRINT TOKENS
             $("#btn_print_tokens").click(function () {
                 var printnumber = $("#print_number_of_tokens").val();
                 
@@ -232,7 +233,7 @@
                         dataType: "json",
                         contentType: "application/json; charset=utf-8",
                         success: function (r) {
-                            console.log(r.count);
+                            console.log(r.d);
                         }
                     });
                 }
