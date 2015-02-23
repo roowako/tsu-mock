@@ -62,14 +62,14 @@
                        <!-- side bar -->
 	                <ul class="nav nav-sidebar">
 		                <li>
-			                <a href="#" >
+			                <a href="" >
 
 				                <asp:Image ID="Image2" runat="server" ImageUrl="./assets/images/default-dp.jpg" Height="75" Width="75" BorderColor="White" BorderStyle="Solid" BorderWidth="3" />          
 
 			                </a>
 
 		                </li>
-		                <li><a href="#" class="bolder"><span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;<asp:Label id="alumni_name" runat="server"></asp:Label></a></li>
+		                <li><a href="./alumni-profile.aspx" class="bolder"><span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;<asp:Label id="alumni_name" runat="server"></asp:Label></a></li>
 		                <li>
 			                <br />
 		                </li>
