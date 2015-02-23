@@ -7,6 +7,8 @@ Imports System.Linq
 Imports System.Web
 Imports System.Collections.Generic
 Partial Class viewprofile
+
+
     Inherits System.Web.UI.Page
     Public Shared Property constr As String = "Data Source=SQL5012.Smarterasp.net;Initial Catalog=DB_9BB7E6_tsuat;User Id=DB_9BB7E6_tsuat_admin;Password=masterfile;MultipleActiveResultSets=True;"
     Public Shared Property sqlCon As SqlConnection
@@ -72,7 +74,7 @@ Partial Class viewprofile
             End If
 
             If acc_id.Text.ToString = Session("id") Then
-               
+
                 Response.Redirect("alumni-profile.aspx")
             End If
 
@@ -83,10 +85,9 @@ Partial Class viewprofile
             ElseIf Session("ul") = 2 Then
                 dyna.HRef = Session("dynamic_link2")
                 pointer.HRef = Session("dynamic_link2")
-<<<<<<< HEAD
+
                 Image2.ID = "non"
-=======
->>>>>>> origin/master
+
             ElseIf Session("ul") = 1 Then
                 dyna.HRef = Session("dynamic_link1")
                 pointer.HRef = Session("dynamic_link1")
@@ -99,7 +100,7 @@ Partial Class viewprofile
         End If
     End Sub
 
-   
+
     'SERIALIZER
     Public Shared Function GetJson(ByVal dt As DataTable) As String
         Dim serializer As New System.Web.Script.Serialization.JavaScriptSerializer()
@@ -152,7 +153,7 @@ Partial Class viewprofile
                 End Using
 
             End If
-             
+
 
 
 
