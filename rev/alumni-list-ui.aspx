@@ -224,7 +224,7 @@
         </div>
         </div>
     </form>
-          //Modal form
+
    
 <div class="modal fade bs-example-modal-lg  fullNamePlaceholder" tabindex="-1" role="dialog" aria-labelledby="ddd" aria-hidden="true">
   <div class="modal-dialog modal-lg">
@@ -262,7 +262,7 @@
               <div class="row">
                   
                   <div class="col-xs-9">
-                      <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                      <button type="button" class="btn btn-primary btn-sm" data-dismiss="modal">Close</button>
                   </div>
               </div>
           </div>
@@ -273,6 +273,44 @@
     </div>
   </div>
 </div>
+
+
+
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel2" style="text-transform:capitalize;">Modal title</h4>
+          </div>
+          <div class="modal-body">
+             
+              
+              <ul id="messages">
+                 
+              </ul>
+          </div>
+          <div class="modal-footer">
+              <div class="container">
+                  <div class="row">
+                      <div class="col-xs-6">
+                          <textarea class="form-control" rows="1" id="replyMessage"></textarea> &nbsp;
+                          
+                      </div>
+                      
+                  </div>
+                  <div class="row ">
+                      <div class="col-xs-2 appBtn">
+                           
+                     
+                      </div>
+                  </div>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
 
     <script type="text/javascript" src="./js/jquery.js"></script>
     <script type="text/javascript" src="./js/bootstrap.min.js"></script>
@@ -286,9 +324,9 @@
         $(document).ready(function () {
 
             sortBy = $("#sortBy option:selected").val();
+          
 
-
-
+            var sess_id = $("#account_idpk").val();
 
 
 
@@ -346,7 +384,7 @@
                         console.log(p);
 
                         $.each(data, function (i, o) {
-
+                          var fn =  o.given_name + "  " + o.middle_name + " " + o.family_name ;
                             if (o.userlevel_idfk == 1) {
                                 var mod = ("<tr class='success'>" +
                                                 "<td> " + o.account_idpk + " </td>" +
@@ -355,6 +393,7 @@
                                                 "<td>" + o.courseDes + " </td>" +
                                                 "<td>"+ o.year_graduated +"</td>" +
                                                 "<td> <a class='btn btn-primary btn-sm viewAccountInfo' data-account-id='" + o.account_idpk + "' data-toggle='modal' data-target='.bs-example-modal-lg'> View info </a> </td>" +
+                                                "<td> <a class='btn btn-primary btn-sm uid' data-toggle='modal' data-id='" + o.account_idpk + "' data-target='#myModal' data-name='" + fn + "' > Message </a> </td>" +
                                             "</tr>");
                             } else {
                                 var mod = ("<tr class='warning'>" +
@@ -364,6 +403,7 @@
                                                 "<td>" + o.courseDes + " </td>" +
                                                 "<td>" + o.year_graduated + "</td>" +
                                                 "<td> <a class='btn btn-primary btn-sm viewAccountInfo' data-account-id='" + o.account_idpk + "' data-toggle='modal' data-target='.bs-example-modal-lg'> View info </a> </td>" +
+                                                "<td> <a class='btn btn-primary btn-sm uid' data-toggle='modal' data-id='" + o.account_idpk + "' data-target='#myModal' data-name='" + fn + "' > Message </a> </td>" +
                                             "</tr>");
                             }
                             
@@ -373,7 +413,7 @@
                                 );
                         });
                         $(".viewAccountInfo").click(function () {
-
+                            $(".modal-body").css("display", "block");
                             accId = $(this).data("account-id");
                             $("#accountInfoPlaceholder tbody ").html("");
                             $.ajax({
@@ -426,6 +466,50 @@
                                 }
                             });
                         });
+
+                        $(".uid").click(function () {
+                           
+                           
+                            $(".resWrapper").html("");
+                            $(".resWrapper").removeClass("revealWrap");
+                            $(".display").css("visibility", "hidden");
+                           
+                            $(".appBtn").html("");
+                            $("#messages").html("");
+                            $("#myModalLabel2").text("");
+                            $("#myModalLabel2").text($(this).data("name"));
+                            $(".modal-body").css("display", "none");
+                            name = "";
+                            $(".appBtn").append(
+                                    '<button type="button" class="btn btn-success btn-sm send" id="btnSend" style="float:left;">Send</button>' +
+                                    '<button type="button" class="btn btn-primary btn-sm" data-dismiss="modal" style="float:right;margin-right:50px;">Close</button>')
+                            var sess_id = $("#account_idpk").val();
+                            account_idfk = $(this).data("id");
+
+
+                          
+                            $("#btnSend").click(function (e) {
+                                e.preventDefault();
+                                var sess_id = $("#account_idpk").val();
+                                var message = $("#replyMessage").val();
+                                var sendTo = account_idfk;
+                                $.ajax({
+                                    type: "post",
+                                    url: "./messaging-ui-alumni.aspx/pushMessages",
+                                    data: "{'message':'" + message + "','actor_id':'" + sess_id + "','send_to':'" + sendTo + "'}",
+                                    dataType: "json",
+                                    contentType: "application/json; charset=utf-8",
+                                    async: true,
+                                    success: function (r) {
+                                        $("#actor-message").val("");
+                                        $("#searching").val("");
+                                        alert("Message sent.");
+                                        window.location.reload(true);
+                                    }
+                                });
+                            });
+                            console.log(account_idfk);
+                        });
                         console.log(response.d);
                     }
                 });
@@ -476,16 +560,17 @@
 
 
                         $.each(data, function (i, o) {
-
+                            var fn = o.given_name + "  " + o.middle_name + " " + o.family_name;
                             if (o.userlevel_idfk == 1) {
                                 var mod = ("<tr class='success'>" +
                                                 "<td> " + o.account_idpk + " </td>" +
-                                                "<td> " + o.given_name + "  " + o.middle_name + " " + o.family_name + " </td>" +
+                                                "<td> " + fn + " </td>" +
                                                 "<td> " + o.collegeDes + " </td>" +
                                                 "<td>" + o.courseDes + "</td>" +
-
                                                 "<td>"+ o.year_graduated+"</td>" +
                                                 "<td> <a class='btn btn-primary btn-sm viewAccountInfo' data-account-id='" + o.account_idpk + "' data-toggle='modal' data-target='.bs-example-modal-lg' > View info </a> </td>" +
+                                                "<td> <a class='btn btn-primary btn-sm uid' data-toggle='modal' data-id='" + o.account_idpk + "' data-target='#myModal' data-name='" + fn + "' > Message </a> </td>" +
+
                                             "</tr>");
 
                             } else {
@@ -497,6 +582,7 @@
 
                                             "<td>" + o.year_graduated + "</td>" +
                                             "<td> <a class='btn btn-primary btn-sm viewAccountInfo' data-account-id='" + o.account_idpk + "' data-toggle='modal' data-target='.bs-example-modal-lg' > View info </a> </td>" +
+                                             "<td> <a class='btn btn-primary btn-sm uid' data-toggle='modal' data-id='" + o.account_idpk + "' data-target='#myModal' data-name='" + fn + "' > Message </a> </td>" +
                                         "</tr>");
                             }
                             
@@ -506,7 +592,7 @@
                                 );
                         });
                         $(".viewAccountInfo").click(function () {
-
+                            $(".modal-body").css("display", "block");
                             accId = $(this).data("account-id");
                             $("#accountInfoPlaceholder tbody ").html("");
                             $.ajax({
@@ -559,7 +645,49 @@
                                 }
                             });
                         });
+                        $(".uid").click(function () {
 
+
+                            $(".resWrapper").html("");
+                            $(".resWrapper").removeClass("revealWrap");
+                            $(".display").css("visibility", "hidden");
+
+                            $(".appBtn").html("");
+                            $("#messages").html("");
+                            $("#myModalLabel2").text("");
+                            $("#myModalLabel2").text($(this).data("name"));
+                            $(".modal-body").css("display", "none");
+                            name = "";
+                            $(".appBtn").append(
+                                    '<button type="button" class="btn btn-success btn-sm send" id="btnSend" style="float:left;">Send</button>' +
+                                    '<button type="button" class="btn btn-primary btn-sm" data-dismiss="modal" style="float:right;margin-right:50px;">Close</button>')
+                            var sess_id = $("#account_idpk").val();
+                            account_idfk = $(this).data("id");
+
+
+
+                            $("#btnSend").click(function (e) {
+                                e.preventDefault();
+                                var sess_id = $("#account_idpk").val();
+                                var message = $("#replyMessage").val();
+                                var sendTo = account_idfk;
+                                $.ajax({
+                                    type: "post",
+                                    url: "./messaging-ui-alumni.aspx/pushMessages",
+                                    data: "{'message':'" + message + "','actor_id':'" + sess_id + "','send_to':'" + sendTo + "'}",
+                                    dataType: "json",
+                                    contentType: "application/json; charset=utf-8",
+                                    async: true,
+                                    success: function (r) {
+                                        $("#actor-message").val("");
+                                        $("#searching").val("");
+                                        alert("Message sent.");
+                                        window.location.reload(true);
+                                    }
+                                });
+                            });
+                            console.log(account_idfk);
+                        });
                         console.log(response.d);
                     }
                 });
@@ -597,7 +725,7 @@
                     data = response.d;
                     data = jQuery.parseJSON(data);
                     $.each(data, function (i, o) {
-
+                        var fn = o.given_name + "  " + o.middle_name + " " + o.family_name;
                         if (o.userlevel_idfk == 1) {
                             var mod = ("<tr class='success'>" +
                                             "<td> " + o.account_idpk + " </td>" +
@@ -607,7 +735,9 @@
 
                                             "<td></td>" +
                                             "<td> <a class='btn btn-primary btn-sm viewAccountInfo' data-account-id='" + o.account_idpk + "' data-toggle='modal' data-target='.bs-example-modal-lg' > View info </a> </td>" +
-                                        "</tr>");
+                                            "<td> <a class='btn btn-primary btn-sm uid' data-toggle='modal' data-id='" + o.account_idpk + "' data-target='#myModal' data-name='" + fn + "' > Message </a> </td>" +
+
+                                       "</tr>");
 
                         } else {
                             var mod = ("<tr class='warning'>" +
@@ -618,6 +748,8 @@
 
                                         "<td></td>" +
                                         "<td> <a class='btn btn-primary btn-sm viewAccountInfo' data-account-id='" + o.account_idpk + "' data-toggle='modal' data-target='.bs-example-modal-lg' > View info </a> </td>" +
+                                         "<td> <a class='btn btn-primary btn-sm uid' data-toggle='modal' data-id='" + o.account_idpk + "' data-target='#myModal' data-name='" + fn + "' > Message </a> </td>" +
+
                                     "</tr>");
                         }
 
@@ -629,7 +761,7 @@
 
                     //Theatre
                     $(".viewAccountInfo").click(function () {
-
+                        $(".modal-body").css("display", "block");
                         accId = $(this).data("account-id");
                         $("#accountInfoPlaceholder tbody ").html("");
                         $.ajax({
@@ -682,6 +814,49 @@
                             }
                         });
 
+                    });
+                    $(".uid").click(function () {
+
+
+                        $(".resWrapper").html("");
+                        $(".resWrapper").removeClass("revealWrap");
+                        $(".display").css("visibility", "hidden");
+
+                        $(".appBtn").html("");
+                        $("#messages").html("");
+                        $("#myModalLabel2").text("");
+                        $("#myModalLabel2").text($(this).data("name"));
+                        $(".modal-body").css("display", "none");
+                        name = "";
+                        $(".appBtn").append(
+                                '<button type="button" class="btn btn-success btn-sm send" id="btnSend" style="float:left;">Send</button>' +
+                                '<button type="button" class="btn btn-primary btn-sm" data-dismiss="modal" style="float:right;margin-right:50px;">Close</button>')
+                        var sess_id = $("#account_idpk").val();
+                        account_idfk = $(this).data("id");
+
+
+
+                        $("#btnSend").click(function (e) {
+                            e.preventDefault();
+                            var sess_id = $("#account_idpk").val();
+                            var message = $("#replyMessage").val();
+                            var sendTo = account_idfk;
+                            $.ajax({
+                                type: "post",
+                                url: "./messaging-ui-alumni.aspx/pushMessages",
+                                data: "{'message':'" + message + "','actor_id':'" + sess_id + "','send_to':'" + sendTo + "'}",
+                                dataType: "json",
+                                contentType: "application/json; charset=utf-8",
+                                async: true,
+                                success: function (r) {
+                                    $("#actor-message").val("");
+                                    $("#searching").val("");
+                                    alert("Message sent.");
+                                    window.location.reload(true);
+                                }
+                            });
+                        });
+                        console.log(account_idfk);
                     });
                 }
             });
