@@ -26,14 +26,7 @@
     End Sub
 
     Sub Session_End(ByVal sender As Object, ByVal e As EventArgs)
-        ' Code that runs when a session ends. 
-        ' Note: The Session_End event is raised only when the sessionstate mode
-        ' is set to InProc in the Web.config file. If session mode is set to StateServer 
-        ' or SQLServer, the event is not raised.
-        
-        
-        Response.Redirect("Default.aspx")
-       
+        Response.Redirect("Default.aspx")       
     End Sub
     
     Protected Sub Page_Init(sender As Object, e As EventArgs)

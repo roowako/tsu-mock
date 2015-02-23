@@ -25,7 +25,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     </button>
-                    <asp:HyperLink ID="dynamic_link" runat="server" CssClass="navbar-brand extended-brand ">
+                    <asp:HyperLink ID="dynamic_link"  runat="server" CssClass="navbar-brand extended-brand ">
                   
                         <span class="">
                             <asp:Image ID="Image1" runat="server" ImageUrl="./assets/images/TSULOGO.png" Height="55" Width="55" CssClass="img-float-nav" />
