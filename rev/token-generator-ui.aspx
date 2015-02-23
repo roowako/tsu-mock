@@ -216,27 +216,26 @@
             });
 
             $("#btn_print_tokens").click(function () {
-                var printnumber = $("#print_number_of_tokens").val()
-                var college_fk = $("#college_idfk").val();
-
-                $.ajax({
-                    type: "post",
-                    url: "./token-generator-ui.aspx/printTokens",
-                    data: "{'college':'" + college_fk + "'}",
-                    dataType: "json",
-                    contentType: "application/json; charset=utf-8",
-                    success: function (r) {
-                        try {
-                            parseInt(printnumber)
+                var printnumber = $("#print_number_of_tokens").val();
+                
+                try {
+                    parseInt(printnumber)
+                }
+                catch (err) {
+                    alert(err.message)
+                }
+                finally {
+                    $.ajax({
+                        type: "post",
+                        url: "./token-generator-ui.aspx/printTokens",
+                        data: "{'college':'" + college_fk + "'}",
+                        dataType: "json",
+                        contentType: "application/json; charset=utf-8",
+                        success: function (r) {
+                            alert(r.d)
                         }
-                        catch (err) {
-                            alert(err.message)
-                        }
-                        finally {
-
-                        }
-                    }
-                });
+                    });
+                }
             });
         });
     </script> 
