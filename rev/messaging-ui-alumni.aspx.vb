@@ -8,8 +8,6 @@ Imports System.Web
 Imports System.Collections.Generic
 Partial Class rev_messaging_ui_alumni
     Inherits System.Web.UI.Page
-
-
     Public Shared Property constr As String = "Data Source=SQL5012.Smarterasp.net;Initial Catalog=DB_9BB7E6_tsuat;User Id=DB_9BB7E6_tsuat_admin;Password=masterfile;MultipleActiveResultSets=True;"
     Public Shared Property sqlCon As SqlConnection
     Public Shared Property cmd As SqlCommand
@@ -87,17 +85,18 @@ Partial Class rev_messaging_ui_alumni
         End Using
     End Function
 
+    'PULL MESSAGES
     <System.Web.Services.WebMethod()> _
-  <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
+    <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
     Public Shared Function pullMessages(ByVal account_id As String) As String
 
         Using sqlCon As New SqlConnection(constr)
             sqlCon.Open()
-            sqlStr = " SELECT DISTINCT given_name+ ' ' +family_name as u,account_idpk as uid FROM tblAccounts,tblMessages WHERE account_idpk=sender_idfk AND recipient_idfk='" & account_id & "' "
+            sqlStr = "SELECT DISTINCT given_name+ ' ' + family_name as u,account_idpk as uid FROM tblAccounts,tblMessages WHERE account_idpk=sender_idfk AND recipient_idfk='" & account_id & "' "
             cmd = New SqlCommand(sqlStr, sqlCon)
             dr = cmd.ExecuteReader
-            If dr.HasRows Then
 
+            If dr.HasRows Then
                 Using dat = New SqlDataAdapter(sqlStr, sqlCon)
                     Dim table2 = New DataTable()
                     dat.Fill(table2)
@@ -105,35 +104,31 @@ Partial Class rev_messaging_ui_alumni
                     Dim pollOptionsJsonData As String = GetJson(table2)
                     Return pollOptionsJsonData
                 End Using
-
-
-
             End If
 
-            sqlStr2 = " SELECT DISTINCT username as u,coordinator_idpk as uid FROM tblCoordinators,tblMessages WHERE coordinator_idpk=sender_idfk AND recipient_idfk='" & account_id & "' "
-            cmd = New SqlCommand(sqlStr2, sqlCon)
-            dr = cmd.ExecuteReader
-            If dr.HasRows Then
-                Using dat = New SqlDataAdapter(sqlStr2, sqlCon)
-                    Dim table2 = New DataTable()
-                    dat.Fill(table2)
-
-                    Dim pollOptionsJsonData As String = GetJson(table2)
-                    Return pollOptionsJsonData
-                End Using
-
-
-
-            End If
             sqlCon.Close()
         End Using
     End Function
 
+    'DELETE MESSAGES
+    <System.Web.Services.WebMethod()> _
+    <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
+    Public Shared Function deleteMessages(ByVal actor_id As Integer, ByVal account_id As Integer) As String
 
+        Using sqlCon As New SqlConnection(constr)
+            sqlCon.Open()
+
+            cmd = New SqlCommand("DELETE FROM tblMessages WHERE recipient_idfk =  '" & actor_id & "' AND sender_idfk = '" & account_id & "' OR recipient_idfk =  '" & account_id & "' AND sender_idfk = '" & actor_id & "' ", sqlCon)
+            cmd.ExecuteNonQuery()
+
+            sqlCon.Close()
+        End Using
+
+    End Function
 
     'Push user messages
     <System.Web.Services.WebMethod()> _
-<ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
+    <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
     Public Shared Function pushMessages(ByVal message As String, actor_id As String, ByVal send_to As String) As String
         Using sqlCon As New SqlConnection(constr)
             sqlCon.Open()
@@ -152,7 +147,6 @@ Partial Class rev_messaging_ui_alumni
 
 
     End Function
-
 
     'PULL ALUMNI SEARCH
     <System.Web.Services.WebMethod()> _

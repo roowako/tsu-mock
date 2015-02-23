@@ -241,7 +241,6 @@
                                                         });
                                                     }
                                                 });
-
                                             });
                                         }
                                     }
@@ -268,16 +267,13 @@
                                         alert("Thank you for participating.");
                                         window.location.reload(true);
                                     }
-
                                 });
-                            
                             });
                         }
                     }
                 });
             }
 
-            
             $.ajax({
                 type: "post",
                 url: "home.aspx/pullAnnouncement",
@@ -305,9 +301,7 @@
                                             "<br>" +
                                             "<div class='theme-color col-xs-3 highlighted-div'>" +
                                                 "<p> " + object.description + "   </p>" +
-                                               
                                             "</div>" +
-
                                         "</div> " +
                                     "</div>" +
                                 "</div>" +
@@ -326,7 +320,6 @@
                                             "<br>"+
                                             "<div class='theme-color col-xs-3 highlighted-div'>" +
                                                 "<p> " + object.description + "   </p>" +
-                                                
                                             "</div>" +
 
                                         "</div> " +

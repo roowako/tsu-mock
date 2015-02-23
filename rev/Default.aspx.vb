@@ -20,6 +20,7 @@ Partial Class loginpage
     Public Shared Property sqlStr As String
     Public Shared Property getLast As String
 
+    'LOGIN
     Protected Sub btnLogin_Click(sender As Object, e As EventArgs) Handles btnLogin.Click
         Dim user_level As Integer = 10
         Dim user_id As Integer
@@ -43,25 +44,6 @@ Partial Class loginpage
             sqlCon.Close()
         End Using
 
-        'Using sqlCon As New SqlConnection(constr)
-        'sqlCon.Open()
-        'cmd = New SqlCommand("SELECT coordinator_idpk,college_idfk FROM tblCoordinators WHERE username = @p1 AND password = @p2 ", sqlCon)
-        'cmd.Parameters.AddWithValue("@p1", txtLog_Username.Text)
-        'cmd.Parameters.AddWithValue("@p2", txtLog_Password.Text)
-
-        'dr = cmd.ExecuteReader
-
-        'If dr.HasRows Then
-        'dr.Read()
-        ' user_id = dr.GetValue(0)
-        '  user_level = 2
-        '   college_id = dr.GetValue(1)
-        'End If
-
-        'sqlCon.Close()
-        'End Using
-
-        'page redirection.
         If user_level = 0 Then
             Session("id") = user_id
             Response.Redirect("home.aspx")
@@ -80,4 +62,29 @@ Partial Class loginpage
         End If
     End Sub
 
+    'PAGE LOAD
+    Protected Sub Page_Load(sender As Object, e As EventArgs) Handles Me.Load
+        If Session.Item("id") <> Nothing Then
+            Using sqlCon As New SqlConnection(constr)
+                sqlCon.Open()
+
+                cmd = New SqlCommand("SELECT * FROM tblAccounts WHERE account_idpk=@p1", sqlCon)
+                cmd.Parameters.AddWithValue("@p1", Session("id"))
+                dr = cmd.ExecuteReader
+
+                While dr.Read
+                    If dr("userlevel_idfk") = 0 Or dr("userlevel_idfk") = 1 Then
+                        Response.Redirect("home.aspx")
+                    ElseIf dr("userlevel_idfk") = 2 Then
+                        Session("college_id") = dr("college_idfk")
+                        Response.Redirect("coordinator-custom.aspx")
+                    ElseIf dr("userlevel_idfk") = 3 Then
+                        Response.Redirect("director-ui.aspx")
+                    End If
+                End While
+
+                sqlCon.Close()
+            End Using
+        End If
+    End Sub
 End Class

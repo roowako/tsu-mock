@@ -99,16 +99,11 @@
                                         <div class=" row">
                                             <div class="theme-color col-xs-12 highlighted-div">
                                                 <div class="form-group">
-                                                    <asp:TextBox ID="txtPollTitle" runat="server" placeholder="Poll Title" CssClass="form-control" ClientIDMode="Static"></asp:TextBox>
+                                                    <asp:TextBox ID="txtPollTitle" runat="server" placeholder="Survey Title" CssClass="form-control" ClientIDMode="Static"></asp:TextBox>
                                                     <br />
-                                                    <asp:TextBox ID="txtPollQuestionArea" runat="server" TextMode="MultiLine" CssClass="form-control" ClientIDMode="Static"></asp:TextBox>
-                                                   
-                                                  
-                                                </div>
-                                                
-                                            </div>
-
-                                           
+                                                    <asp:TextBox ID="txtPollQuestionArea" runat="server" placeholder="Survey Details" TextMode="MultiLine" CssClass="form-control" ClientIDMode="Static"></asp:TextBox>  
+                                                </div>   
+                                            </div>                                          
                                         </div>
 
                                         <div class="row">
@@ -117,8 +112,7 @@
                                                 <h4 class="header-padded">Populate Survey Options</h4>
                                                 <div class="row">
                                                     <div class="col-xs-12 enable-populate form-group">
-                                                        <asp:HiddenField ID="counterPart" runat="server" />
-                                                                                                               
+                                                        <asp:HiddenField ID="counterPart" runat="server" />                                                     
                                                     </div>
                                                 </div>
                                                  <br /><br />
@@ -134,32 +128,26 @@
                                                    
                                                     <br /><br />
                                                 </div>
-                                            </div>
-                                           
-                                           
-                                        </div>
-                                       
+                                            </div>                                      
+                                        </div>                                     
                                     </div>
                                 </div>
-                                <br />
-                                
-                              
+                                <br />                                
                             </div>
-
 
                               <!-- star spacer -->
                               <div class="col-xs-6 col-sm-1 placeholder"> </div>
 
                               <!-- start right-side -->
                                <div class="col-xs-6 col-sm-5 placeholder border-enabled">
-                                  <h5 >&nbsp; Active Polls</h5>
+                                  <h5 >&nbsp; Active Surveys</h5>
                                   <div class="row">
                                       <div class="col-xs-12 highlighted-div ">
                                           <div class="table-responsive">
                                                 <table class="table table-hover">
                                                     <tr>
                                                        <td><span class="glyphicon glyphicon-th-list"></span></td>  
-                                                        <td>Poll Title</td>
+                                                        <td>Survey Title</td>
                                                         <td>Status</td>
                                                         <td></td>
                                                     </tr>
@@ -167,7 +155,6 @@
                                                 </table>
                                             </div>
                                       </div>
-                                  
                                   </div>
                                 </div>
                           </div>
@@ -184,13 +171,11 @@
     <script type="text/javascript">
         
         function pullFromServer() {
-
             $.ajax({
                 type: "post",
                 url: "./survey-gen-director.aspx/pullFromServer",
                 dataType: "json",
                 contentType: "application/json; charset=utf-8",
-
 
                 success: function (r) {
                     //Response from server side 
@@ -223,7 +208,6 @@
                         $("#questionPlaceholder").text($(this).data("poll-question"));
                         $("#myModalLabel").text($(this).data("poll-title"));
                         pollsPK = $(this).data("poll-id");
-
 
                         $.ajax({
                             type: "post",
@@ -415,8 +399,5 @@
         </div>
       </div>
     </div>
-   
-
-    
 </body>
 </html>

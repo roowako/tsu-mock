@@ -19,6 +19,7 @@ Partial Class rev_notification_center_ui
 
     Public Shared Property sqlStr As String
     Public Shared Property getMail As String
+
     Public Shared Function GetJson(ByVal dt As DataTable) As String
         Dim serializer As New System.Web.Script.Serialization.JavaScriptSerializer()
         serializer.MaxJsonLength = Integer.MaxValue
@@ -39,14 +40,8 @@ Partial Class rev_notification_center_ui
 
 
     <System.Web.Services.WebMethod()> _
- <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
+    <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
     Public Shared Function pushNotification(ByVal notificationSMS As String, ByVal email As String) As String
-        'Function named PushToDatabase 
-        'Includes delimitation of user input
-        'Opening and Closing Connection to the database
-        'Adding datas to database
-
-
         Using sqlCon As New SqlConnection(constr)
 
             sqlCon.Open()
@@ -63,8 +58,6 @@ Partial Class rev_notification_center_ui
             cmd.ExecuteNonQuery()
 
             sqlCon.Close()
-
-
 
             Dim mm As New MailMessage()
             mm.From = New MailAddress("tsualumnitracer@gmail.com")
@@ -86,27 +79,19 @@ Partial Class rev_notification_center_ui
             smtp.Port = 587
             smtp.Send(mm)
 
-
-            'Returning Message : Fail or Successful
-
             Return "Notification sent!"
         End Using
 
     End Function
 
     <System.Web.Services.WebMethod()> _
- <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
+    <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
     Public Shared Function pullEmail() As String
-        'Function named PushToDatabase 
-        'Includes delimitation of user input
-        'Opening and Closing Connection to the database
-        'Adding datas to database
-
         Using sqlCon As New SqlConnection(constr)
             sqlCon.Open()
 
 
-            Using da = New SqlDataAdapter(" SELECT email_address FROM tblAccounts ", sqlCon)
+            Using da = New SqlDataAdapter(" SELECT email_address FROM tblAccounts WHERE userlevel_idfk = 1 ", sqlCon)
                 Dim table = New DataTable()
                 da.Fill(table)
 
@@ -114,13 +99,13 @@ Partial Class rev_notification_center_ui
                 Return jsndata
             End Using
 
-
-
             sqlCon.Close()
-            'Returning Message : Fail or Successful
-
-
         End Using
 
     End Function
+
+    Protected Sub alumni_logout_Click(sender As Object, e As EventArgs) Handles alumni_logout.ServerClick
+        Session.Abandon()
+        Response.Redirect("default.aspx")
+    End Sub
 End Class

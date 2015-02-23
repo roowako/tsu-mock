@@ -32,14 +32,10 @@
                         </span>
                        
                     </a>
-
-               
                 </div>
-                <div id="navbar" class="navbar-collapse collapse" > <!---collapse collapse -->
-                  
-                     
-                    
-                </div><!--/.navbar-collapse -->
+                    <div id="navbar" class="navbar-collapse collapse" > <!---collapse collapse -->
+
+                    </div><!--/.navbar-collapse -->
                 </div>
             </nav>-->
 
@@ -50,9 +46,7 @@
 	                       <ul class="nav nav-sidebar">
 		                        <li>
 			                        <a href="#" >
-
 				                        <asp:Image ID="Image2" runat="server" ImageUrl="./assets/images/default-dp.jpg" Height="75" Width="75" BorderColor="White" BorderStyle="Solid" BorderWidth="3" />          
-
 			                        </a>
 
 		                        </li>
@@ -85,17 +79,19 @@
                                          <div class="row">
                                              <div class="col-xs-4 ">
                                                  <div class="form-group">
-                                                    
                                                      <asp:TextBox ID="generate_number_of_tokens" runat="server" CssClass="form-control" placeholder="Input number"></asp:TextBox>
                                                  </div>
-                                            </div>
-
+                                             </div>
                                              <div class="col-xs-4">
                                                  <div class="form-group">
-                                                     <asp:Button ID="btn_generate_tokens" runat="server" Text="Generate Tokens" CssClass="form-control btn btn-success" />
+                                                     <asp:Button ID="btn_generate_tokens" runat="server" Text="Generate Tokens" CssClass="form-control btn btn-success" />                           
                                                  </div>
                                              </div>
-
+                                             <div class="col-xs-3">
+                                                 <div class="form-group">
+                                                     <asp:Button ID="btn_print_tokens" runat="server" Text="Print Tokens" CssClass="form-control btn btn-primary" />                           
+                                                 </div>
+                                             </div>
                                         </div>
 
                                         <div class="row">
@@ -163,17 +159,22 @@
                     alert(err.message)
                 }
                 finally {
-                    $.ajax({
-                        type: "post",
-                        url: "./token-generator-ui.aspx/generateTokens",
-                        data: "{'keyNumber':'" + keyNumber + "','college_idfk':'" + college_fk + "'}",
-                        dataType: "json",
-                        contentType: "application/json; charset=utf-8",
-                        success: function (r) {
-                            alert(r.d);
-                            window.location.reload(true);
-                        }
-                    });
+                    if (keyNumber > 100) {
+                        alert("Maximum tokens to generate at a time is 100.");
+                    }
+                    else {
+                        $.ajax({
+                            type: "post",
+                            url: "./token-generator-ui.aspx/generateTokens",
+                            data: "{'keyNumber':'" + keyNumber + "','college_idfk':'" + college_fk + "'}",
+                            dataType: "json",
+                            contentType: "application/json; charset=utf-8",
+                            success: function (r) {
+                                alert(r.d);
+                                window.location.reload(true);
+                            }
+                        });
+                    }
                 }                 
             });
 

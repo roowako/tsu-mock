@@ -37,20 +37,8 @@
                 </div>
                 <div id="navbar" class="navbar-collapse collapse" > <!---collapse collapse -->
                   
-                     <br />
-                    <ul class="nav navbar-nav navbar-left extended" style="margin-top:8px;">
-                        <li>
-                            <div class="form-group" style="position:absolute;z-index:40000;">
-                                <input type="text" placeholder="Search for alumni" name=""  class="form-control input-sm" id="searching" autocomplete="off"/>
-                                <div class="resWrapper">
 
 
-                                     
-                                </div>
-                            <div class="display"></div>
-                            </div>
-                        </li>
-                    </ul>
                     
                 </div><!--/.navbar-collapse -->
                 </div>
@@ -87,13 +75,19 @@
                                  
                              </div>
                              <div class="col-xs-3">
-                                 
+                                 <div class="form-group">
+                                    <input type="text" placeholder="Search for alumni" name=""  class="form-control input-sm" id="searching" autocomplete="off"/>
+                                    <div class="resWrapper">
+
+                                    </div>
+                                    <div class="display"></div>
+                                  </div>
                              </div>
                          </div>
                         <div class="row placeholders " >
                             <br />
                             <!-- start main-content -->
-                            <div class="col-xs-6 col-sm-6 placeholder" >
+                            <div class="col-xs-10 col-sm-10 placeholder" >
                                 <div class="table-responsive">
                                     <table class="table table-condensed" id="messagePlaceholder">
                                         <tbody>
@@ -160,23 +154,19 @@
     </div>
     </form>
 
-    
-  
     <script type="text/javascript" src="./js/jquery.js"></script>
     <script type="text/javascript" src="./js/bootstrap.min.js"></script>
     <script type="text/javascript" src="./js/custom.js"></script>
     <script type="text/javascript" src="./js/dom-control.js"></script>
     <script type="text/javascript" src="./js/search.js"></script>
-     <script type="text/javascript" src="./js/bindDelay.js"></script>
-
+    <script type="text/javascript" src="./js/bindDelay.js"></script>
     <script type="text/javascript" src="./js/json2.js"></script>
     <script>
         $(document).ready(function () {
-        
             var sess_id = $("#account_idpk").val();
             var fullname;
             var account_idfk;
-          
+            var name;
             console.log(sess_id);
 
             $.ajax({
@@ -193,10 +183,8 @@
 
                     if (r.d == "[]") {
                         $("#messagePlaceholder").append("No available messages.");
-                        console.log("a");
                     } else{
                         $.each(data, function (i, o) {
-                            
                                 $("#messagePlaceholder tbody").append(
                                 "<tr class='warning'> " +
                                     "<td> " +
@@ -205,10 +193,28 @@
                                     "</td>" +
                                     "<td>" +
                                         "<input type='button' value='View conversation' data-name='"+ o.u +"' class='btn btn-success btn-sm theatre' data-toggle='modal' data-target='#myModal' data-id='" + o.uid + "'/>&nbsp;" +
-                                       
-                                        "<input type='button' value='Delete conversation' class='btn btn-warning btn-sm theatre' data-toggle='modal' data-target='#myModal' data-id='"+ o.uid +"'/>" +
+                                        "<input type='button' value='Delete conversation' class='btn btn-warning btn-sm delete' data-id='" + o.uid + "'/>" +
                                     "</td>"+
                                 "</tr>" + "<br>");
+                        });
+
+                        $(".delete").click(function () {
+                            account_idfk = $(this).data("id");
+                            sess_id = $("#account_idpk").val();
+
+                            $.ajax({
+                                type: "post",
+                                url: "./messaging-ui-alumni.aspx/deleteMessages",
+                                data: "{'actor_id':'" + sess_id + "','account_id':'" + account_idfk + "'}",
+                                dataType: "json",
+                                contentType: "application/json; charset=utf-8",
+                                async: true,
+                                success: function (r) {
+                                    console.log(r.d);
+                                    alert("Conversation deleted.");
+                                    window.location.reload(true);
+                                }
+                            });
                         });
 
                         $(".theatre").click(function () {
@@ -255,6 +261,7 @@
 
                                 }
                             });
+
                             console.log(account_idfk);
                             $(".reply").click(function () {
                                 var message = $("#replyMessage").val();
@@ -268,28 +275,22 @@
                                     async: true,
                                     success: function (r) {
                                         $("#replyMessage").val("");
-                                        alert("Reply Sent.");
+                                        alert("Message Sent.");
+                                        window.location.reload(true);
                                     }
                                 });
                             });
                         });
-            }
+                    }
                 }
 
             });
-
-            
-
-          
 
             $('#modal').on('shown', function () {
                 $('#modal-body').stop().animate({
                     scrollTop: $("#modal-body")[0].scrollHeight
                 }, 2000);
-            });
-
-            
-           
+            });     
      });
     </script>
 </body>

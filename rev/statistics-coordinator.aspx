@@ -97,9 +97,14 @@
 
                                      <div class="col-xs-3">
                                           <asp:DropDownList ID="cboCollege" runat="server" CssClass="form-control">
-                                                 <asp:ListItem Text="All Colleges" />
-                                                 <asp:ListItem Text="College 1" />
-                                             </asp:DropDownList>
+                                             
+                                          </asp:DropDownList>
+                                     </div>
+
+                                     <div class="col-xs-3">
+                                          <asp:DropDownList ID="cboCourse" runat="server" CssClass="form-control">
+                                             <asp:ListItem>ALL COURSES</asp:ListItem>
+                                          </asp:DropDownList>
                                      </div>
                                  </div>
                                  <div class="row">
@@ -141,60 +146,10 @@
                                                              <tr>
                                                                 <td><span>1</span></td>
                                                                
-                                                                 <td>Employment Status</td>
+                                                                 <td>General Employment Survey Statistics</td>
                                                                  <td><input type="button" class="btn btn-primary btn-sm" value="View statistics" id="employed_stat" data-toggle='modal' data-target='#myModal' /></td>                               
 
-                                                             </tr>
-                                                            <tr>
-                                                                <td><span>2</span></td>
-                                                               
-                                                                <td> How long did it take to find your First employment? </td>
-                                                                <td><input type="button" class="btn btn-primary btn-sm" value="View statistics" id="q1" data-toggle='modal' data-target='#myModal'/></td>                               
-
-                                                            </tr>
-                                                                <tr>
-                                                                <td><span>3</span></td>
-                                                               
-                                                                    <td> Is your current work/job is aligned to your field of education?  </td>
-                                                                    <td><input type="button" class="btn btn-primary btn-sm" value="View statistics" id="q2" data-toggle='modal' data-target='#myModal'/></td>                               
-
-                                                                </tr>
-                                                                <tr>
-                                                                <td><span>4</span></td>
-                                                               
-                                                                    <td>Location of employment:  </td>
-                                                                    <td><input type="button" class="btn btn-primary btn-sm" value="View statistics" id="q3" data-toggle='modal' data-target='#myModal'/></td>                               
-
-                                                                </tr>
-                                                                <tr>
-                                                                <td><span>5</span></td>
-                                                               
-                                                                    <td>The classification of your company or institution:  </td>
-                                                                    <td><input type="button" class="btn btn-primary btn-sm" value="View statistics" id="q4" data-toggle='modal' data-target='#myModal'/></td>                               
-
-                                                                </tr>
-                                                                <tr>
-                                                                <td><span>6</span></td>
-                                                               
-                                                                    <td> Nature of Appointment:  </td>
-                                                                    <td><input type="button" class="btn btn-primary btn-sm" value="View statistics" id="q5" data-toggle='modal' data-target='#myModal'/></td>                               
-
-                                                                </tr>
-                                                                 <tr>
-                                                                <td><span>7</span></td>
-                                                               
-                                                                    <td> What is your Present Position?   </td>
-                                                                    <td><input type="button" class="btn btn-primary btn-sm" value="View statistics" id="q6" data-toggle='modal' data-target='#myModal' /></td>                               
-
-                                                                </tr>
-                                                                <tr>
-                                                                <td><span>8</span></td>
-                                                               
-                                                                    <td> How long have you been working in your current company?  </td>
-                                                                    <td><input type="button" class="btn btn-primary btn-sm" value="View statistics" id="q7" data-toggle='modal' data-target='#myModal'/></td>                               
-
-                                                                </tr>
-                                                                                    
+                                                             </tr>                 
                                                             </tbody>          
                                                         </table>
                                                          </div>
@@ -269,8 +224,7 @@
         });
         var object =[];
         var param1 =[];
-
-            
+    
             var filterView = "poll";
             var collegeView;
             $.ajax({
@@ -337,7 +291,6 @@
                                     selector: '.bar',
                                     speed: 3000
                                 });
-
 
                                 console.log(object);
                             }
@@ -543,10 +496,14 @@
             $("#employed_stat").click(function () {
                 $("#myModalLabel").text("Employment Status");
                 $(".chart").html("");
+
+                var college_desc = $("#cboCollege").val();
+                var course_desc = $("#cboCourse").val();
+
                 $.ajax({
                     type: "post",
                     url: "./statistics-ui.aspx/empstat",
-                   
+                    data: "{'college_desc':'" + college_desc + "','course_desc':'" + course_desc + "'}",
                     dataType: "json",
                     processData: false,
                     traditional: true,
@@ -555,18 +512,200 @@
                         data = dataOpt.d
                         data = jQuery.parseJSON(data)
                         $.each(data, function (i,o) {
-                            console.log(o.Employed);
-                            console.log(o.Unmployed);
+                            //Emp Status
+                            if (o.Employed == 0) { empstat_yes = "Zero Respondents"; } else { empstat_yes = o.Employed; }
+                            if (o.Unmployed == 0) { empstat_no = "Zero Respondents"; } else { empstat_no = o.Unmployed; }
+
+                            //Q1
+                            if (o.Q1A == 0) { q1a = "Zero Respondents"; } else { q1a = o.Q1A; }
+                            if (o.Q1B == 0) { q1b = "Zero Respondents"; } else { q1b = o.Q1B; }
+                            if (o.Q1C == 0) { q1c = "Zero Respondents"; } else { q1c = o.Q1C; }
+                            if (o.Q1D == 0) { q1d = "Zero Respondents"; } else { q1d = o.Q1D; }
+
+                            //Q2
+                            if (o.Q2A == 0) { q2a = "Zero Respondents" } else { q2a = o.Q2A }
+                            if (o.Q2B == 0) { q2b = "Zero Respondents" } else { q2b = o.Q2B }
+
+                            //Q3
+                            if (o.Q3A == 0) { q3a = "Zero Respondents" } else { q3a = o.Q3A }
+                            if (o.Q3B == 0) { q3b = "Zero Respondents" } else { q3b = o.Q3B }
+
+                            //Q4
+                            if (o.Q4A == 0) { q4a = "Zero Respondents" } else { q4a = o.Q4A }
+                            if (o.Q4B == 0) { q4b = "Zero Respondents" } else { q4b = o.Q4B }
+
+                            //Q5
+                            if (o.Q5A == 0) { q5a = "Zero Respondents" } else { q5a = o.Q5A }
+                            if (o.Q5B == 0) { q5b = "Zero Respondents" } else { q5b = o.Q5B }
+                            if (o.Q5C == 0) { q5c = "Zero Respondents" } else { q5c = o.Q5C }
+
+                            //Q6
+                            if (o.Q6A == 0) { q6a = "Zero Respondents"; } else { q6a = o.Q6A; }
+                            if (o.Q6B == 0) { q6b = "Zero Respondents"; } else { q6b = o.Q6B; }
+                            if (o.Q6C == 0) { q6c = "Zero Respondents"; } else { q6c = o.Q6C; }
+                            if (o.Q6D == 0) { q6d = "Zero Respondents"; } else { q6d = o.Q6D; }
+
+                            //Q7
+                            if (o.Q7A == 0) { q7a = "Zero Respondents"; } else { q7a = o.Q7A; }
+                            if (o.Q7B == 0) { q7b = "Zero Respondents"; } else { q7b = o.Q7B; }
+                            if (o.Q7C == 0) { q7c = "Zero Respondents"; } else { q7c = o.Q7C; }
+                            if (o.Q7D == 0) { q7d = "Zero Respondents"; } else { q7d = o.Q7D; }
+
+                            //FS
+                            //Q3
+                            if (o.FSA == 0) { fsa = "Zero Respondents" } else { fsa = o.FSA }
+                            if (o.FSB == 0) { fsb = "Zero Respondents" } else { fsb = o.FSB }
+
+                            //HEA
+                            //Q5
+                            if (o.HEA1 == 0) { hea1 = "Zero Respondents" } else { hea1 = o.HEA1 }
+                            if (o.HEA2 == 0) { hea2 = "Zero Respondents" } else { hea2 = o.HEA2 }
+                            if (o.HEA3 == 0) { hea3 = "Zero Respondents" } else { hea3 = o.HEA3 }
+
                             $(".chart").append(
+
+                                "<li> Are you currently employed?</li>" +
                                 "<li class='current' title='Employed' >" +
-                                    "<span class='bar' data-number=" + o.Employed + "></span>" +
-                                    "<span class='number'>" + o.Employed + "</span>" +
-                                "</li>"+
+                                    "<span class='bar' data-number=" + empstat_yes + "></span>" +
+                                    "<span class='number'>" + empstat_yes + "</span>" +
+                                "</li>" +
                                 "<li class='current' title='Unemployed' >" +
-                                    "<span class='bar' data-number=" + o.Unmployed + "></span>" +
-                                    "<span class='number'>" + o.Unmployed + "</span>" +
+                                    "<span class='bar' data-number=" + empstat_no + "></span>" +
+                                    "<span class='number'>" + empstat_no + "</span>" +
+                                "</li>" +
+
+                                //Q1
+                                "<li>How long did it take to find your First employment? </li>" +
+                                "<li class='current' title='1 to 3 months' >" +
+                                    "<span class='bar' data-number=" + q1a + "></span>" +
+                                    "<span class='number'>" + q1a + "</span>" +
+                                "</li>" +
+                                "<li class='current' title='4 to 6 months' >" +
+                                    "<span class='bar' data-number=" + q1b + "></span>" +
+                                    "<span class='number'>" + q1b + "</span>" +
+                                "</li>" +
+                                "<li class='current' title='7 months to 1 year' >" +
+                                    "<span class='bar' data-number=" + q1c + "></span>" +
+                                    "<span class='number'>" + q1c + "</span>" +
+                                "</li>" +
+                                "<li class='current' title='other' >" +
+                                    "<span class='bar' data-number=" + q1d + "></span>" +
+                                    "<span class='number'>" + q1d + "</span>" +
+                                "</li>" +
+
+                                //Q2
+                                "<li>Is your current work/job is aligned to your field of education? </li>" +
+                                "<li class='current' title='Yes' >" +
+                                    "<span class='bar' data-number=" + q2a + "></span>" +
+                                    "<span class='number'>" + q2a + "</span>" +
+                                "</li>" +
+                                "<li class='current' title='No' >" +
+                                    "<span class='bar' data-number=" + q2b + "></span>" +
+                                    "<span class='number'>" + q2b + "</span>" +
+                                "</li>" +
+
+                                //Q3
+                                "<li>Location of employment? </li>" +
+                                "<li class='current' title='Abroad' >" +
+                                    "<span class='bar' data-number=" + q3a + "></span>" +
+                                    "<span class='number'>" + q3a + "</span>" +
+                                "</li>" +
+                                "<li class='current' title='Local' >" +
+                                    "<span class='bar' data-number=" + q3b + "></span>" +
+                                    "<span class='number'>" + q3b + "</span>" +
+                                "</li>" +
+
+                                //Q4
+                                "<li>The classification of your company or institution? </li>" +
+                                "<li class='current' title='Private' >" +
+                                    "<span class='bar' data-number=" + q4a + "></span>" +
+                                    "<span class='number'>" + q4a + "</span>" +
+                                "</li>" +
+                                "<li class='current' title='Public' >" +
+                                    "<span class='bar' data-number=" + q4b + "></span>" +
+                                    "<span class='number'>" + q4b + "</span>" +
+                                "</li>" +
+
+                                //Q5
+                                "<li>Nature of appointment? </li>" +
+                                "<li class='current' title='Regular' >" +
+                                    "<span class='bar' data-number=" + q5a + "></span>" +
+                                    "<span class='number'>" + q5a + "</span>" +
+                                "</li>" +
+                                "<li class='current' title='Probation' >" +
+                                    "<span class='bar' data-number=" + q5b + "></span>" +
+                                    "<span class='number'>" + q5b + "</span>" +
+                                "</li>" +
+                                "<li class='current' title='Self-employed' >" +
+                                    "<span class='bar' data-number=" + q5c + "></span>" +
+                                    "<span class='number'>" + q5c + "</span>" +
+                                "</li>" +
+
+                                //Q6
+                                "<li>What is your present position?  </li>" +
+                                "<li class='current' title='Rank and File' >" +
+                                    "<span class='bar' data-number=" + q6a + "></span>" +
+                                    "<span class='number'>" + q6a + "</span>" +
+                                "</li>" +
+                                "<li class='current' title='Supervisory Level' >" +
+                                    "<span class='bar' data-number=" + q6b + "></span>" +
+                                    "<span class='number'>" + q6b + "</span>" +
+                                "</li>" +
+                                "<li class='current' title='Managerial Level' >" +
+                                    "<span class='bar' data-number=" + q6c + "></span>" +
+                                    "<span class='number'>" + q6c + "</span>" +
+                                "</li>" +
+                                "<li class='current' title='Others' >" +
+                                    "<span class='bar' data-number=" + q6d + "></span>" +
+                                    "<span class='number'>" + q6d + "</span>" +
+                                "</li>" +
+
+                                //Q7
+                                "<li>How long have you been working in your current company? </li>" +
+                                "<li class='current' title='1 to 6 months' >" +
+                                    "<span class='bar' data-number=" + q7a + "></span>" +
+                                    "<span class='number'>" + q7a + "</span>" +
+                                "</li>" +
+                                "<li class='current' title='7 months to 1 year' >" +
+                                    "<span class='bar' data-number=" + q7b + "></span>" +
+                                    "<span class='number'>" + q7b + "</span>" +
+                                "</li>" +
+                                "<li class='current' title='1 year to 3 years' >" +
+                                    "<span class='bar' data-number=" + q7c + "></span>" +
+                                    "<span class='number'>" + q7c + "</span>" +
+                                "</li>" +
+                                "<li class='current' title='Others' >" +
+                                    "<span class='bar' data-number=" + q7d + "></span>" +
+                                    "<span class='number'>" + q7d + "</span>" +
+                                "</li>" +
+
+                                //FURTHER STUDY
+                                "<li>Did you pursue a higher level of Education?</li>" +
+                                "<li class='current' title='Yes' >" +
+                                    "<span class='bar' data-number=" + fsa + "></span>" +
+                                    "<span class='number'>" + fsa + "</span>" +
+                                "</li>" +
+                                "<li class='current' title='No' >" +
+                                    "<span class='bar' data-number=" + fsb + "></span>" +
+                                    "<span class='number'>" + fsb + "</span>" +
+                                "</li>" +
+
+                                //HIGHEST EDUCATIONAL ATTAINMENT
+                                "<li>Highest educational attainment.</li>" +
+                                "<li class='current' title='Doctoral' >" +
+                                    "<span class='bar' data-number=" + hea1 + "></span>" +
+                                    "<span class='number'>" + hea1 + "</span>" +
+                                "</li>" +
+                                "<li class='current' title='Masteral' >" +
+                                    "<span class='bar' data-number=" + hea2 + "></span>" +
+                                    "<span class='number'>" + hea2 + "</span>" +
+                                "</li>" +
+                                "<li class='current' title='Others' >" +
+                                    "<span class='bar' data-number=" + hea3 + "></span>" +
+                                    "<span class='number'>" + hea3 + "</span>" +
                                 "</li>"
                                 );
+
                             $('.chart').horizBarChart({
                                 selector: '.bar',
                                 speed: 3000
@@ -867,7 +1006,37 @@
                 $('.chart').horizBarChart({
                     selector: '.bar',
                     speed: 3000
-                }); 
+                });
+
+                $("#cboCollege").change(function () {
+                    $("#cboCourse").empty();
+                    var fk = $("#cboCollege option:selected").val();
+                    console.log(fk);
+
+                    $.ajax({
+                        type: "post",
+                        url: "loginpage.aspx/fetchCourseByIdfk",
+                        data: "{'collegeFk':'" + fk + "'}",
+                        dataType: "json",
+                        processData: false,
+                        traditional: true,
+                        contentType: "application/json; charset=utf-8",
+                        success: function (response) {
+                            data = response.d;
+                            data = jQuery.parseJSON(data);
+                            $("#cboCourse").append("<option>" + "ALL COURSES" + " </option>");
+
+                            $.each(data, function (i, o) {
+                                $("#cboCourse").append(
+                                    "<option>" + o.description + " </option>"
+                                    );
+                            });
+                            console.log(response.d);
+                        }
+
+                    });
+                });
+
             });
     </script>
 </body>

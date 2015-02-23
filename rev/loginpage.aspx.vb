@@ -9,9 +9,6 @@ Imports System.Web
 Imports System.Collections.Generic
 Imports System.Web.Services
 
-
-
-
 Partial Class _Default
     Inherits System.Web.UI.Page
 
@@ -178,7 +175,7 @@ Partial Class _Default
             Using sqlCon As New SqlConnection(constr)
                 sqlCon.Open()
 
-                cmd = New SqlCommand("INSERT INTO tblAccounts(userlevel_idfk,course_idfk,student_id,password,family_name,given_name,middle_name,maiden_name,address,telephone_number,email_address,birthday,citizenship,religion,marital_status,gender,account_status,college_idfk,year_graduated) VALUES(@p1,@p2,@p3,@p4,@p5,@p6,@p7,@p8,@p9,@p10,@p11,@p12,@p13,@p14,@p15,@p16,@p17,@p18,@p19)", sqlCon)
+                cmd = New SqlCommand("INSERT INTO tblAccounts(userlevel_idfk,course_idfk,student_id,password,family_name,given_name,middle_name,maiden_name,address,telephone_number,email_address,birthday,citizenship,religion,marital_status,gender,account_status,college_idfk,year_graduated,img_path) VALUES(@p1,@p2,@p3,@p4,@p5,@p6,@p7,@p8,@p9,@p10,@p11,@p12,@p13,@p14,@p15,@p16,@p17,@p18,@p19,@p20)", sqlCon)
                 cmd.Parameters.AddWithValue("@p1", 0)
                 cmd.Parameters.AddWithValue("@p2", course_id)
                 cmd.Parameters.AddWithValue("@p3", student_number)
@@ -198,6 +195,7 @@ Partial Class _Default
                 cmd.Parameters.AddWithValue("@p17", 1)
                 cmd.Parameters.AddWithValue("@p18", college_id)
                 cmd.Parameters.AddWithValue("@p19", Date.Now.Year.ToString)
+                cmd.Parameters.AddWithValue("@p20", "./assets/images/default-dp.jpg")
                 cmd.ExecuteNonQuery()
 
                 sqlCon.Close()
@@ -348,7 +346,7 @@ Partial Class _Default
             Return "No alumni/graduate records found. Please check your student number, birthday or year of graduation."
         Else
             Using sqlCon As New SqlConnection(constr) 'insert account and get identity
-                Using cmd As New SqlCommand("INSERT INTO tblAccounts(userlevel_idfk,course_idfk,student_id,password,family_name,given_name,middle_name,maiden_name,address,telephone_number,email_address,birthday,citizenship,religion,marital_status,gender,account_status,college_idfk,year_graduated) VALUES(@p1,@p2,@p3,@p4,@p5,@p6,@p7,@p8,@p9,@p10,@p11,@p12,@p13,@p14,@p15,@p16,@p17,@p18,@p19)", sqlCon)
+                Using cmd As New SqlCommand("INSERT INTO tblAccounts(userlevel_idfk,course_idfk,student_id,password,family_name,given_name,middle_name,maiden_name,address,telephone_number,email_address,birthday,citizenship,religion,marital_status,gender,account_status,college_idfk,year_graduated,img_path) VALUES(@p1,@p2,@p3,@p4,@p5,@p6,@p7,@p8,@p9,@p10,@p11,@p12,@p13,@p14,@p15,@p16,@p17,@p18,@p19,@p20)", sqlCon)
                     cmd.Parameters.AddWithValue("@p1", 1)
                     cmd.Parameters.AddWithValue("@p2", course_id)
                     cmd.Parameters.AddWithValue("@p3", student_number)
@@ -368,7 +366,7 @@ Partial Class _Default
                     cmd.Parameters.AddWithValue("@p17", status)
                     cmd.Parameters.AddWithValue("@p18", college_id)
                     cmd.Parameters.AddWithValue("@p19", year_graduated)
-
+                    cmd.Parameters.AddWithValue("@p20", "./assets/images/default-dp.jpg")
                     sqlCon.Open()
                     cmd.ExecuteNonQuery()
                     Dim identity_qry As String = "Select @@Identity"

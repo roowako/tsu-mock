@@ -150,9 +150,8 @@
                 success: function (dataOpt) {
                     alert(dataOpt.d);
                     $("#txtNotificationMessage").val("");
+
                 }
-
-
             });
 
         });

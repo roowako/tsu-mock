@@ -6,6 +6,7 @@ Imports System.Web.Script.Serialization
 Imports System.Linq
 Imports System.Web
 Imports System.Collections.Generic
+
 Partial Class statistics_coordinator
     Inherits System.Web.UI.Page
 
@@ -17,9 +18,7 @@ Partial Class statistics_coordinator
     Public Shared Property sqlStr As String
     Public Shared Property getLast As String
 
-
-
-    'Check Session
+    'PAGE LOAD
     Protected Sub Page_Load(sender As Object, e As EventArgs) Handles Me.Load
         If Session.Item("id") Is Nothing Then
             Console.Write("sd")
@@ -28,13 +27,13 @@ Partial Class statistics_coordinator
             Using sqlCon As New SqlConnection(constr)
                 sqlCon.Open()
 
-                cmd = New SqlCommand("SELECT * FROM tblCoordinators WHERE coordinator_idpk=@p1", sqlCon)
+                cmd = New SqlCommand("SELECT given_name,account_idpk FROM tblAccounts WHERE account_idpk=@p1", sqlCon)
                 cmd.Parameters.AddWithValue("@p1", Session("id"))
                 dr = cmd.ExecuteReader
 
                 While dr.Read
-                    alumni_name.Text = dr.GetString(1)
-                    account_idpk.Text = Session("id")
+                    alumni_name.Text = dr.GetString(0)
+                    account_idpk.Text = CStr(dr.GetValue(1))
                 End While
 
                 sqlCon.Close()
@@ -42,7 +41,7 @@ Partial Class statistics_coordinator
         End If
     End Sub
 
-    'Log out
+    'LOG OUT
     Protected Sub alumni_logout_Click(sender As Object, e As EventArgs) Handles alumni_logout.ServerClick
         Session.Abandon()
         Response.Redirect("default.aspx")

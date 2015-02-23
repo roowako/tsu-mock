@@ -30,10 +30,7 @@
                             <h3>&nbsp;&nbsp;&nbsp;Dashboard</h3>
                              <span class="clearfix"></span>
                         </span>
-                       
                     </a>
-
-               
                 </div>
                 <div id="navbar" class="navbar-collapse collapse" > <!---collapse collapse -->
                   
@@ -44,9 +41,7 @@
                             <div class="form-group" style="position:absolute;z-index:40000;">
                                 <input type="text" placeholder="Search for alumni" name=""  class="form-control input-sm" id="searching" autocomplete="off"/>
                                 <div class="resWrapper">
-
-
-                                     
+ 
                                 </div>
                             <div class="display"></div>
                             </div>
@@ -67,9 +62,7 @@
 	                       <ul class="nav nav-sidebar">
 		                        <li>
 			                        <a href="#" >
-
 				                        <asp:Image ID="Image2" runat="server" ImageUrl="./assets/images/default-dp.jpg" Height="75" Width="75" BorderColor="White" BorderStyle="Solid" BorderWidth="3" />          
-
 			                        </a>
 
 		                        </li>
@@ -133,11 +126,11 @@
                     </div>
                 </div>
             </div>
-                    
 
                 </div>
             </div>
         </div>
+
            //Modal form
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
       <div class="modal-dialog">
@@ -158,32 +151,27 @@
                   <div class="row">
                       <div class="col-xs-6">
                           <textarea class="form-control" rows="1" id="replyMessage"></textarea> &nbsp;
-                          
                       </div>
-                      
                   </div>
                   <div class="row ">
                       <div class="col-xs-2 appBtn">
                            <button type="button" class="btn btn-success btn-sm reply" style="float:left;">Reply</button>
                            <button type="button" class="btn btn-primary btn-sm" data-dismiss="modal" style="float:right;margin-right:50px;">Close</button>
-                     
                       </div>
                   </div>
               </div>
-            
-            
           </div>
         </div>
       </div>
     </div>
     </form>
-     <script type="text/javascript" src="./js/jquery.js"></script>
+
+    <script type="text/javascript" src="./js/jquery.js"></script>
     <script type="text/javascript" src="./js/bootstrap.min.js"></script>
     <script type="text/javascript" src="./js/custom.js"></script>
     <script type="text/javascript" src="./js/dom-control.js"></script>
     <script type="text/javascript" src="./js/search.js"></script>
-     <script type="text/javascript" src="./js/bindDelay.js"></script>
-    
+    <script type="text/javascript" src="./js/bindDelay.js"></script>
     <script type="text/javascript" src="./js/json2.js"></script>
     <script>
         $(document).ready(function () {
@@ -218,7 +206,6 @@
                                     "</td>" +
                                     "<td>" +
                                         "<input type='button' value='View conversation' data-name='" + o.u + "' class='btn btn-success btn-sm theatre' data-toggle='modal' data-target='#myModal' data-id='" + o.uid + "'/>&nbsp;" +
-                                       
                                         "<input type='button' value='Delete conversation' class='btn btn-warning btn-sm theatre' data-toggle='modal' data-target='#myModal' data-id='"+ o.uid +"'/>" +
                                     "</td>"+
                                 "</tr>" + "<br>");
@@ -268,6 +255,7 @@
 
                                 }
                             });
+
                             console.log(account_idfk);
                             $(".reply").click(function () {
                                 var message = $("#replyMessage").val();
@@ -291,18 +279,12 @@
 
             });
 
-
             $('#modal').on('shown', function () {
                 $('#modal-body').stop().animate({
                     scrollTop: $("#modal-body")[0].scrollHeight
                 }, 2000);
                
-            });
-
-            
-
-
-           
+            });  
      });
     </script>
 </body>

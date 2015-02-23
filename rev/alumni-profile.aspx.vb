@@ -62,9 +62,9 @@ Partial Class rev_alumni_profile
         Return serializer.Serialize(rows)
     End Function
 
-    'Fetch info
+    'FETCH INFO
     <System.Web.Services.WebMethod()> _
-   <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
+    <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
     Public Shared Function pullInfo(ByVal id As String) As String
 
         Using sqlCon As New SqlConnection(constr)
@@ -83,7 +83,7 @@ Partial Class rev_alumni_profile
 
     End Function
 
-    'Edit mail
+    'EDIT EMAIL
     <System.Web.Services.WebMethod()> _
    <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
     Public Shared Function editMail(ByVal id As String, ByVal newmail As String) As String
@@ -101,7 +101,7 @@ Partial Class rev_alumni_profile
         Return "Email successfully updated"
     End Function
 
-    'Edit contact number
+    'EDIT CONTACT NUMBER
     <System.Web.Services.WebMethod()> _
    <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
     Public Shared Function editContact(ByVal id As String, ByVal newContact As String) As String
@@ -120,9 +120,9 @@ Partial Class rev_alumni_profile
     End Function
 
 
-    'Edit password
+    'EDIT PASSWORD
     <System.Web.Services.WebMethod()> _
-   <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
+    <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
     Public Shared Function editPassword(ByVal id As String, ByVal newPassword As String) As String
         Using sqlCon As New SqlConnection(constr)
             sqlCon.Open()
@@ -138,10 +138,12 @@ Partial Class rev_alumni_profile
         Return "Password updated"
     End Function
 
+    'LOG OUT
     Protected Sub alumni_logout_Click(sender As Object, e As EventArgs) Handles alumni_logout.ServerClick
         Session.Abandon()
         Response.Redirect("default.aspx")
     End Sub
+
 
     Protected Sub Upload(sender As Object, e As EventArgs)
         If uploader.HasFile Then

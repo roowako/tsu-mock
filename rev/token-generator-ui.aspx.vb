@@ -28,14 +28,14 @@ Partial Class token_generator_ui
             Using sqlCon As New SqlConnection(constr)
                 sqlCon.Open()
 
-                cmd = New SqlCommand("SELECT * FROM tblCoordinators WHERE coordinator_idpk=@p1", sqlCon)
+                cmd = New SqlCommand("SELECT given_name,account_idpk,college_idfk FROM tblAccounts WHERE account_idpk=@p1", sqlCon)
                 cmd.Parameters.AddWithValue("@p1", Session("id"))
                 dr = cmd.ExecuteReader
 
                 While dr.Read
-                    alumni_name.Text = dr.GetString(1)
-                    account_idpk.Text = CStr(Session("id"))
-                    college_idfk.Text = CStr(dr.GetValue(4))
+                    alumni_name.Text = dr.GetString(0)
+                    account_idpk.Text = CStr(dr.GetValue(1))
+                    college_idfk.Text = CStr(dr.GetValue(2))
                 End While
 
                 sqlCon.Close()
@@ -49,6 +49,7 @@ Partial Class token_generator_ui
         Response.Redirect("default.aspx")
     End Sub
 
+    'SERIALIZER
     Public Shared Function GetJson(ByVal dt As DataTable) As String
         Dim serializer As New System.Web.Script.Serialization.JavaScriptSerializer()
         serializer.MaxJsonLength = Int32.MaxValue
@@ -72,9 +73,9 @@ Partial Class token_generator_ui
     <System.Web.Services.WebMethod()> _
     <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
     Public Shared Function generateTokens(ByVal keyNumber As Integer, ByVal college_idfk As Integer) As String
-            Dim KeyGen As RandomKeyGenerator
-            Dim i_keys As Integer
-            Dim randomKey As String = ""
+        Dim KeyGen As RandomKeyGenerator
+        Dim i_keys As Integer
+        Dim randomKey As String = ""
 
         For i_keys = 1 To keyNumber
             Using sqlCon As New SqlConnection(constr)
@@ -99,6 +100,7 @@ Partial Class token_generator_ui
         Return "Tokens generated successfully."
     End Function
 
+    'RANDOM GENERATOR
     Public Class RandomKeyGenerator
         Dim Key_Letters As String
         Dim Key_Numbers As String
@@ -175,7 +177,7 @@ Partial Class token_generator_ui
         Using sqlCon As New SqlConnection(constr)
 
             sqlCon.Open()
-            Using da = New SqlDataAdapter(" SELECT * FROM tblTokens WHERE college_idfk = '" & college & "' ", sqlCon)
+            Using da = New SqlDataAdapter(" SELECT * FROM tblTokens WHERE college_idfk = '" & college & "' AND status=0 ", sqlCon)
                 Dim table = New DataTable()
                 da.Fill(table)
 

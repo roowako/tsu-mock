@@ -35,6 +35,7 @@ Partial Class rev_survey_gen_director
         Next
         Return serializer.Serialize(rows)
     End Function
+
     Public Shared Function GetJson(ByVal dt As DataTable) As String
         Dim serializer As New System.Web.Script.Serialization.JavaScriptSerializer()
         serializer.MaxJsonLength = Integer.MaxValue
@@ -52,14 +53,10 @@ Partial Class rev_survey_gen_director
         Next
         Return serializer.Serialize(rows)
     End Function
-    <System.Web.Services.WebMethod()> _
-   <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
-    Public Shared Function pullFromServer() As String
-        'Function named PushToDatabase 
-        'Includes delimitation of user input
-        'Opening and Closing Connection to the database
-        'Adding datas to database
 
+    <System.Web.Services.WebMethod()> _
+    <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
+    Public Shared Function pullFromServer() As String
 
         Using sqlCon As New SqlConnection(constr)
 
@@ -67,30 +64,20 @@ Partial Class rev_survey_gen_director
             Using da = New SqlDataAdapter(" SELECT * FROM tblPolls", sqlCon)
                 Dim table = New DataTable()
                 da.Fill(table)
-             
+
                 Dim jsndata As String = GetJson(table)
                 Return jsndata
             End Using
 
-
-
-
             sqlCon.Close()
-
-            'Returning Message : Fail or Successful
-
 
         End Using
 
     End Function
-    <System.Web.Services.WebMethod()> _
-   <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
-    Public Shared Function pullPollOptions(ByVal optFk As String) As String
-        'Function named PushToDatabase 
-        'Includes delimitation of user input
-        'Opening and Closing Connection to the database
-        'Adding datas to database
 
+    <System.Web.Services.WebMethod()> _
+    <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
+    Public Shared Function pullPollOptions(ByVal optFk As String) As String
 
         Using sqlCon As New SqlConnection(constr)
 
@@ -100,36 +87,25 @@ Partial Class rev_survey_gen_director
                 Dim table2 = New DataTable()
                 dat.Fill(table2)
 
-
                 Dim pollOptionsJsonData As String = GetJsonOpt(table2)
                 Return pollOptionsJsonData
             End Using
 
-
-
-
             sqlCon.Close()
-
-            'Returning Message : Fail or Successful
-
 
         End Using
 
     End Function
+
     <System.Web.Services.WebMethod()> _
     <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
     Public Shared Function PushToDatabase(ByVal pollOptArr As String, ByVal pollTitle As String, ByVal pollQ As String) As String
-        'Function named PushToDatabase 
-        'Includes delimitation of user input
-        'Opening and Closing Connection to the database
-        'Adding datas to database
-
 
         Using sqlCon As New SqlConnection(constr)
 
             sqlCon.Open()
 
-            sqlStr = "INSERT INTO tblPolls(description,question,status) VALUES(@pollTitle,@pollQ,1)"
+            sqlStr = "INSERT INTO tblPolls(description,question,status,target_id) VALUES(@pollTitle,@pollQ,1,0)"
 
             cmd = New SqlCommand(sqlStr, sqlCon)
             cmd.Parameters.AddWithValue("@pollTitle", pollTitle)
@@ -197,6 +173,7 @@ Partial Class rev_survey_gen_director
             End Using
         End If
     End Sub
+
     Protected Sub alumni_logout_Click(sender As Object, e As EventArgs) Handles alumni_logout.ServerClick
         Session.Abandon()
         Response.Redirect("default.aspx")

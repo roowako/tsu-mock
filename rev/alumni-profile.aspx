@@ -242,7 +242,6 @@
                                 "<td>Update your password</td>" +
                                 "<td style='text-align:right;'><input type='button' value='Edit' id='editPassword' class='btn btn-primary btn-sm' data-toggle='modal' data-target='#myModal'/> </td>" +
                             "</tr>"
-
                             );
                     });
 

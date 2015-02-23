@@ -18,6 +18,7 @@ Partial Class statistics_ui
     Public Shared Property sqlStr As String
     Public Shared Property getLast As String
 
+    'SERIALIZER
     Public Shared Function GetJson(ByVal dt As DataTable) As String
         Dim serializer As New System.Web.Script.Serialization.JavaScriptSerializer()
         serializer.MaxJsonLength = Integer.MaxValue

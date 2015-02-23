@@ -83,11 +83,10 @@
                                         <div class=" row">
                                             <div class="theme-color col-xs-12 highlighted-div">
                                                 <div class="form-group">
-                                                    <asp:TextBox ID="txtPollTitle" runat="server" placeholder="Poll Title" CssClass="form-control" ClientIDMode="Static"></asp:TextBox>
+                                                    <asp:TextBox ID="txtPollTitle" runat="server" placeholder="Survey Title" CssClass="form-control" ClientIDMode="Static"></asp:TextBox>
                                                     <br />
-                                                    <asp:TextBox ID="txtPollQuestionArea" runat="server" TextMode="MultiLine" CssClass="form-control" ClientIDMode="Static"></asp:TextBox>
-                                                   
-                                                  
+                                                    <asp:TextBox ID="txtPollQuestionArea" runat="server" placeholder="Survey Details" TextMode="MultiLine" CssClass="form-control" ClientIDMode="Static"></asp:TextBox>
+                                                 
                                                 </div>
                                                 
                                             </div>
@@ -136,14 +135,14 @@
 
                               <!-- start right-side -->
                                <div class="col-xs-6 col-sm-5 placeholder border-enabled">
-                                  <h5 >&nbsp; Active Polls</h5>
+                                  <h5 >&nbsp; Active Surveys</h5>
                                   <div class="row">
                                       <div class="col-xs-12 highlighted-div ">
                                           <div class="table-responsive">
                                                 <table class="table table-hover">
                                                     <tr>
                                                        <td><span class="glyphicon glyphicon-th-list"></span></td>  
-                                                        <td>Poll Title</td>
+                                                        <td>Survey Title</td>
                                                         <td>Status</td>
                                                         <td></td>
                                                     </tr>

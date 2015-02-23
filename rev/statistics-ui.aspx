@@ -13,8 +13,8 @@
     <link href="./css/chart.css" rel="stylesheet" />
     <link href="./css/sidebar-theme.css" rel="stylesheet" />
     <link href="./css/normalize.css" rel="stylesheet" />
-   
 </head>
+
 <body>
     <form id="form1" runat="server">
         <div class="container-fluid">
@@ -35,14 +35,10 @@
                         </span>
                        
                     </a>
-
-               
                 </div>
-                <div id="navbar" class="navbar-collapse collapse" > <!---collapse collapse -->
-                  
-                    
-                    
-                </div><!--/.navbar-collapse -->
+                    <div id="navbar" class="navbar-collapse collapse" > <!---collapse collapse -->
+
+                    </div><!--/.navbar-collapse -->
                 </div>
             </nav>-->
 
@@ -79,11 +75,8 @@
                             <span class="glyphicon glyphicon-off"></span>&nbsp;&nbsp;Log out
                           </a>
                         </li>
-                        <li>
-                          <asp:TextBox ID="account_idpk" runat="server" ></asp:TextBox>
-                        </li>
+                            <li> <asp:TextBox ID="account_idpk" runat="server" ></asp:TextBox> </li>
 	                    </ul>
-
                     </div>
 
                     <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
@@ -193,32 +186,31 @@
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             <h4 class="modal-title" id="myModalLabel">Poll Statistics</h4>
+            <h6 class="modal-title" id="Modal-College-Info">Poll Statistics</h6>
+            <h6 class="modal-title" id="Modal-Course-Info">Poll Statistics</h6>
+            <h6 class="modal-title" id="Modal-Respondents-Info">Poll Statistics</h6>
           </div>
-          <div class="modal-body ">
-              
-           
-              
-              <div class="chart-horiz">
 
-                <ul class="chart">
-                 
-                  </ul>
+          <div class="modal-body ">          
+              <div class="chart-horiz">
+                <ul class="chart"> </ul>
               </div>
-              
           </div>
+
           <div class="modal-footer">
-            <button type="button" class="btn btn-warning btn-sm" data-dismiss="modal" id="close">Close</button>
-            
+              <button type="button" class="btn btn-success btn-sm" data-dismiss="modal" id="director_print">Print Statistics</button>
+              <button type="button" class="btn btn-warning btn-sm" data-dismiss="modal" id="close">Close</button>
           </div>
+
         </div>
       </div>
     </div>
-     <script type="text/javascript" src="./js/jquery.js"></script>
+
+    <script type="text/javascript" src="./js/jquery.js"></script>
     <script type="text/javascript" src="./js/bootstrap.min.js"></script>
     <script type="text/javascript" src="./js/custom.js"></script>
     <script type="text/javascript" src="./js/dom-control.js"></script>
     <script type="text/javascript" src="./js/horizBarChart.js"></script>
-   
     <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
     <script type="text/javascript" src="http://ajax.cdnjs.com/ajax/libs/json2/20110223/json2.js"></script>
 
@@ -227,15 +219,24 @@
             $(".modal-body .chart").html("");
         });
 
+        $("#director_print").click(function () {
+            var college_desc = $("#cboCollege").val();
+            var course_desc = $("#cboCourse").val();
+
+            window.open("./director-report.aspx?college_desc="+college_desc+"&course_desc="+course_desc);
+        });
+
         $('.chart').horizBarChart({
             selector: '.bar',
             speed: 3000
         });
+
         var object =[];
         var param1 =[];
 
             var filterView = "poll";
             var collegeView;
+
             $.ajax({
                 type: "post",
                 url: "statistics-ui.aspx/PullQ",
@@ -326,10 +327,8 @@
                         });
                     });
                 }
-
             });
             
-           
             $(".filterView").change(function () {
               filterView =  $(".filterView option:selected").val();
               if (filterView == "poll") {
@@ -338,6 +337,7 @@
                   $(".table-responsive").css("display", "block");
                   $(".genSurvey").css("display", "none");
                   $(".tableDetailsView tbody").html("");
+
                     //Fetch Survey
                     $.ajax({
                         type: "post",
@@ -363,7 +363,6 @@
                             });
 
                             $(".theatre").click(function () {
-
                                 $(".chart").html("");
                                 $("#questionPlaceholder").text($(this).data("poll-question"));
                                 $("#myModalLabel").text($(this).data("poll-title"));
@@ -486,9 +485,8 @@
                 
             });
 
-        //Stats
+            //Stats
             $("#employed_stat").click(function () {
-                $("#myModalLabel").text("Employment survey statistics.");
                 $(".chart").html("");
 
                 var college_desc = $("#cboCollege").val();
@@ -506,148 +504,206 @@
                         data = dataOpt.d
                         data = jQuery.parseJSON(data)
                         var g;
+
+                        $("#myModalLabel").text("Employment survey statistics.");
+                        $("#Modal-College-Info").text("   " + college_desc);
+                        $("#Modal-Course-Info").text("   " + course_desc);
+                        $("#Modal-Respondents-Info").text("   Total Number of Respondent(s): " + data.length);
+                        console.log(data.length);
+                        var empstat_yes;
+                        var empstat_no;
                         $.each(data, function (i, o) {
-                             
+                            //Emp Status
+                            if (o.Employed == 0) { empstat_yes = "Zero Respondents"; } else { empstat_yes = o.Employed; }
+                            if(o.Unmployed  == 0){empstat_no = "Zero Respondents";} else{empstat_no = o.Unmployed;}
+
+                            //Q1
+                            if (o.Q1A == 0) { q1a = "Zero Respondents"; } else { q1a = o.Q1A; }
+                            if (o.Q1B == 0) { q1b = "Zero Respondents"; } else { q1b = o.Q1B; }
+                            if (o.Q1C == 0) { q1c = "Zero Respondents"; } else { q1c = o.Q1C; }
+                            if (o.Q1D == 0) { q1d = "Zero Respondents"; } else { q1d = o.Q1D; }
+
+                            //Q2
+                            if (o.Q2A == 0) { q2a = "Zero Respondents" } else { q2a = o.Q2A }
+                            if (o.Q2B == 0) { q2b = "Zero Respondents" } else { q2b = o.Q2B }
+
+                            //Q3
+                            if (o.Q3A == 0) { q3a = "Zero Respondents" } else { q3a = o.Q3A }
+                            if (o.Q3B == 0) { q3b = "Zero Respondents" } else { q3b = o.Q3B }
+
+                            //Q4
+                            if (o.Q4A == 0) { q4a = "Zero Respondents" } else { q4a = o.Q4A }
+                            if (o.Q4B == 0) { q4b = "Zero Respondents" } else { q4b = o.Q4B }
+
+                            //Q5
+                            if (o.Q5A == 0) { q5a = "Zero Respondents" } else { q5a = o.Q5A }
+                            if (o.Q5B == 0) { q5b = "Zero Respondents" } else { q5b = o.Q5B }
+                            if (o.Q5C == 0) { q5c = "Zero Respondents" } else { q5c = o.Q5C }
+
+                            //Q6
+                            if (o.Q6A == 0) { q6a = "Zero Respondents"; } else { q6a = o.Q6A; }
+                            if (o.Q6B == 0) { q6b = "Zero Respondents"; } else { q6b = o.Q6B; }
+                            if (o.Q6C == 0) { q6c = "Zero Respondents"; } else { q6c = o.Q6C; }
+                            if (o.Q6D == 0) { q6d = "Zero Respondents"; } else { q6d = o.Q6D; }
+
+                            //Q7
+                            if (o.Q7A == 0) { q7a = "Zero Respondents"; } else { q7a = o.Q7A; }
+                            if (o.Q7B == 0) { q7b = "Zero Respondents"; } else { q7b = o.Q7B; }
+                            if (o.Q7C == 0) { q7c = "Zero Respondents"; } else { q7c = o.Q7C; }
+                            if (o.Q7D == 0) { q7d = "Zero Respondents"; } else { q7d = o.Q7D; }
+
+                            //FS
+                            //Q3
+                            if (o.FSA == 0) { fsa = "Zero Respondents" } else { fsa = o.FSA }
+                            if (o.FSB == 0) { fsb = "Zero Respondents" } else { fsb = o.FSB }
+
+                            //HEA
+                            //Q5
+                            if (o.HEA1 == 0) { hea1 = "Zero Respondents" } else { hea1 = o.HEA1 }
+                            if (o.HEA2 == 0) { hea2 = "Zero Respondents" } else { hea2 = o.HEA2 }
+                            if (o.HEA3 == 0) { hea3 = "Zero Respondents" } else { hea3 = o.HEA3 }
+
                             $(".chart").append(
+                                
                                 "<li> Are you currently employed?</li>" +
                                 "<li class='current' title='Employed' >" +
-                                    "<span class='bar' data-number=" + o.Employed + "></span>" +
-                                    "<span class='number'>" + o.Employed + "</span>" +
+                                    "<span class='bar' data-number=" + empstat_yes + "></span>" +
+                                    "<span class='number'>" + empstat_yes + "</span>" +
                                 "</li>"+
                                 "<li class='current' title='Unemployed' >" +
-                                    "<span class='bar' data-number=" + o.Unmployed + "></span>" +
-                                    "<span class='number'>" + o.Unmployed + "</span>" +
+                                    "<span class='bar' data-number=" + empstat_no + "></span>" +
+                                    "<span class='number'>" + empstat_no  + "</span>" +
                                 "</li>" +
 
                                 //Q1
                                 "<li>How long did it take to find your First employment? </li>" +
                                 "<li class='current' title='1 to 3 months' >" +
-                                    "<span class='bar' data-number=" + o.Q1A + "></span>" +
-                                    "<span class='number'>" + o.Q1A + "</span>" +
+                                    "<span class='bar' data-number=" + q1a + "></span>" +
+                                    "<span class='number'>" + q1a + "</span>" +
                                 "</li>" +
                                 "<li class='current' title='4 to 6 months' >" +
-                                    "<span class='bar' data-number=" + o.Q1B + "></span>" +
-                                    "<span class='number'>" + o.Q1B + "</span>" +
+                                    "<span class='bar' data-number=" + q1b + "></span>" +
+                                    "<span class='number'>" + q1b + "</span>" +
                                 "</li>" +
                                 "<li class='current' title='7 months to 1 year' >" +
-                                    "<span class='bar' data-number=" + o.Q1C + "></span>" +
-                                    "<span class='number'>" + o.Q1C + "</span>" +
+                                    "<span class='bar' data-number=" + q1c + "></span>" +
+                                    "<span class='number'>" + q1c + "</span>" +
                                 "</li>" +
                                 "<li class='current' title='other' >" +
-                                    "<span class='bar' data-number=" + o.Q1D + "></span>" +
-                                    "<span class='number'>" + o.Q1D + "</span>" +
+                                    "<span class='bar' data-number=" + q1d + "></span>" +
+                                    "<span class='number'>" + q1d + "</span>" +
                                 "</li>" +
 
                                 //Q2
                                 "<li>Is your current work/job is aligned to your field of education? </li>" +
                                 "<li class='current' title='Yes' >" +
-                                    "<span class='bar' data-number=" + o.Q2A + "></span>" +
-                                    "<span class='number'>" + o.Q2A + "</span>" +
+                                    "<span class='bar' data-number=" + q2a + "></span>" +
+                                    "<span class='number'>" + q2a + "</span>" +
                                 "</li>" +
                                 "<li class='current' title='No' >" +
-                                    "<span class='bar' data-number=" + o.Q2B + "></span>" +
-                                    "<span class='number'>" + o.Q2B + "</span>" +
+                                    "<span class='bar' data-number=" + q2b + "></span>" +
+                                    "<span class='number'>" + q2b + "</span>" +
                                 "</li>" +
 
                                 //Q3
                                 "<li>Location of employment? </li>" +
                                 "<li class='current' title='Abroad' >" +
-                                    "<span class='bar' data-number=" + o.Q3A + "></span>" +
-                                    "<span class='number'>" + o.Q3A + "</span>" +
+                                    "<span class='bar' data-number=" + q3a + "></span>" +
+                                    "<span class='number'>" + q3a + "</span>" +
                                 "</li>" +
                                 "<li class='current' title='Local' >" +
-                                    "<span class='bar' data-number=" + o.Q3B + "></span>" +
-                                    "<span class='number'>" + o.Q3B + "</span>" +
+                                    "<span class='bar' data-number=" + q3b + "></span>" +
+                                    "<span class='number'>" + q3b + "</span>" +
                                 "</li>" +
 
                                 //Q4
                                 "<li>The classification of your company or institution? </li>" +
                                 "<li class='current' title='Private' >" +
-                                    "<span class='bar' data-number=" + o.Q4A + "></span>" +
-                                    "<span class='number'>" + o.Q4A + "</span>" +
+                                    "<span class='bar' data-number=" + q4a + "></span>" +
+                                    "<span class='number'>" + q4a + "</span>" +
                                 "</li>" +
                                 "<li class='current' title='Public' >" +
-                                    "<span class='bar' data-number=" + o.Q4B + "></span>" +
-                                    "<span class='number'>" + o.Q4B + "</span>" +
+                                    "<span class='bar' data-number=" + q4b + "></span>" +
+                                    "<span class='number'>" + q4b + "</span>" +
                                 "</li>" +
 
                                 //Q5
                                 "<li>Nature of appointment? </li>" +
                                 "<li class='current' title='Regular' >" +
-                                    "<span class='bar' data-number=" + o.Q5A + "></span>" +
-                                    "<span class='number'>" + o.Q5A + "</span>" +
+                                    "<span class='bar' data-number=" + q5a + "></span>" +
+                                    "<span class='number'>" + q5a + "</span>" +
                                 "</li>" +
                                 "<li class='current' title='Probation' >" +
-                                    "<span class='bar' data-number=" + o.Q5B + "></span>" +
-                                    "<span class='number'>" + o.Q5B + "</span>" +
+                                    "<span class='bar' data-number=" + q5b + "></span>" +
+                                    "<span class='number'>" + q5b + "</span>" +
                                 "</li>" +
                                 "<li class='current' title='Self-employed' >" +
-                                    "<span class='bar' data-number=" + o.Q5C + "></span>" +
-                                    "<span class='number'>" + o.Q5C + "</span>" +
+                                    "<span class='bar' data-number=" + q5c + "></span>" +
+                                    "<span class='number'>" + q5c + "</span>" +
                                 "</li>" +
 
                                 //Q6
                                 "<li>What is your present position?  </li>" +
                                 "<li class='current' title='Rank and File' >" +
-                                    "<span class='bar' data-number=" + o.Q6A + "></span>" +
-                                    "<span class='number'>" + o.Q6A + "</span>" +
+                                    "<span class='bar' data-number=" + q6a + "></span>" +
+                                    "<span class='number'>" + q6a + "</span>" +
                                 "</li>" +
                                 "<li class='current' title='Supervisory Level' >" +
-                                    "<span class='bar' data-number=" + o.Q6B + "></span>" +
-                                    "<span class='number'>" + o.Q6B + "</span>" +
+                                    "<span class='bar' data-number=" + q6b + "></span>" +
+                                    "<span class='number'>" + q6b + "</span>" +
                                 "</li>" +
                                 "<li class='current' title='Managerial Level' >" +
-                                    "<span class='bar' data-number=" + o.Q6C + "></span>" +
-                                    "<span class='number'>" + o.Q6C + "</span>" +
+                                    "<span class='bar' data-number=" + q6c + "></span>" +
+                                    "<span class='number'>" + q6c + "</span>" +
                                 "</li>" +
                                 "<li class='current' title='Others' >" +
-                                    "<span class='bar' data-number=" + o.Q6D + "></span>" +
-                                    "<span class='number'>" + o.Q6D + "</span>" +
+                                    "<span class='bar' data-number=" + q6d + "></span>" +
+                                    "<span class='number'>" + q6d + "</span>" +
                                 "</li>" +
 
                                 //Q7
                                 "<li>How long have you been working in your current company? </li>" +
                                 "<li class='current' title='1 to 6 months' >" +
-                                    "<span class='bar' data-number=" + o.Q7A + "></span>" +
-                                    "<span class='number'>" + o.Q7A + "</span>" +
+                                    "<span class='bar' data-number=" + q7a + "></span>" +
+                                    "<span class='number'>" + q7a + "</span>" +
                                 "</li>" +
                                 "<li class='current' title='7 months to 1 year' >" +
-                                    "<span class='bar' data-number=" + o.Q7B + "></span>" +
-                                    "<span class='number'>" + o.Q7B + "</span>" +
+                                    "<span class='bar' data-number=" + q7b + "></span>" +
+                                    "<span class='number'>" + q7b + "</span>" +
                                 "</li>" +
                                 "<li class='current' title='1 year to 3 years' >" +
-                                    "<span class='bar' data-number=" + o.Q7C + "></span>" +
-                                    "<span class='number'>" + o.Q7C + "</span>" +
+                                    "<span class='bar' data-number=" + q7c + "></span>" +
+                                    "<span class='number'>" + q7c + "</span>" +
                                 "</li>" +
                                 "<li class='current' title='Others' >" +
-                                    "<span class='bar' data-number=" + o.Q7D + "></span>" +
-                                    "<span class='number'>" + o.Q7D + "</span>" +
+                                    "<span class='bar' data-number=" + q7d + "></span>" +
+                                    "<span class='number'>" + q7d + "</span>" +
                                 "</li>" +
 
                                 //FURTHER STUDY
                                 "<li>Did you pursue a higher level of Education?</li>" +
                                 "<li class='current' title='Yes' >" +
-                                    "<span class='bar' data-number=" + o.FSA + "></span>" +
-                                    "<span class='number'>" + o.FSA + "</span>" +
+                                    "<span class='bar' data-number=" + fsa + "></span>" +
+                                    "<span class='number'>" + fsa + "</span>" +
                                 "</li>" +
                                 "<li class='current' title='No' >" +
-                                    "<span class='bar' data-number=" + o.FSB + "></span>" +
-                                    "<span class='number'>" + o.FSB + "</span>" +
+                                    "<span class='bar' data-number=" + fsb + "></span>" +
+                                    "<span class='number'>" + fsb + "</span>" +
                                 "</li>" +
 
                                 //HIGHEST EDUCATIONAL ATTAINMENT
                                 "<li>Highest educational attainment.</li>" +
                                 "<li class='current' title='Doctoral' >" +
-                                    "<span class='bar' data-number=" + o.HEA1 + "></span>" +
-                                    "<span class='number'>" + o.HEA1 + "</span>" +
+                                    "<span class='bar' data-number=" + hea1 + "></span>" +
+                                    "<span class='number'>" + hea1 + "</span>" +
                                 "</li>" +
                                 "<li class='current' title='Masteral' >" +
-                                    "<span class='bar' data-number=" + o.HEA2 + "></span>" +
-                                    "<span class='number'>" + o.HEA2 + "</span>" +
+                                    "<span class='bar' data-number=" + hea2 + "></span>" +
+                                    "<span class='number'>" + hea2 + "</span>" +
                                 "</li>" +
                                 "<li class='current' title='Others' >" +
-                                    "<span class='bar' data-number=" + o.HEA3 + "></span>" +
-                                    "<span class='number'>" + o.HEA3 + "</span>" +
+                                    "<span class='bar' data-number=" + hea3 + "></span>" +
+                                    "<span class='number'>" + hea3 + "</span>" +
                                 "</li>"
                                 );
 
@@ -660,285 +716,6 @@
                 });
             });
 
-            $("#q1").click(function () {
-                $("#myModalLabel").text("How long did it take to find your First employment?");
-                $(".chart").html("");
-                $.ajax({
-                    type: "post",
-                    url: "./statistics-ui.aspx/q1",
-                    dataType: "json",
-                    processData: false,
-                    traditional: true,
-                    contentType: "application/json; charset=utf-8",
-                    success: function (dataOpt) {
-                        data = dataOpt.d
-                        data = jQuery.parseJSON(data)
-                        $.each(data, function (i, o) {
-                            console.log(o.opt1);
-                            console.log(o.opt2);
-                            console.log(o.opt3);
-                            console.log(o.opt4);
-                            $(".chart").append(
-                                "<li class='current' title='1 to 3 months' >" +
-                                    "<span class='bar' data-number=" + o.opt1 + "></span>" +
-                                    "<span class='number'>" + o.opt1 + "</span>" +
-                                "</li>" +
-                                "<li class='current' title='4 to 6 months' >" +
-                                    "<span class='bar' data-number=" + o.opt2 + "></span>" +
-                                    "<span class='number'>" + o.opt2 + "</span>" +
-                                "</li>" +
-                                "<li class='current' title='7 months to 1 year' >" +
-                                    "<span class='bar' data-number=" + o.opt3 + "></span>" +
-                                    "<span class='number'>" + o.opt3 + "</span>" +
-                                "</li>" +
-                                "<li class='current' title='other' >" +
-                                    "<span class='bar' data-number=" + o.opt4 + "></span>" +
-                                    "<span class='number'>" + o.opt4 + "</span>" +
-                                "</li>"
-                                );
-                            $('.chart').horizBarChart({
-                                selector: '.bar',
-                                speed: 3000
-                            });
-                        });
-                    }
-                });
-            });
-
-            $("#q2").click(function () {
-                $("#myModalLabel").text("Is your current work/job is aligned to your field of education? ");
-                $(".chart").html("");
-                $.ajax({
-                    type: "post",
-                    url: "./statistics-ui.aspx/q2",
-                    dataType: "json",
-                    processData: false,
-                    traditional: true,
-                    contentType: "application/json; charset=utf-8",
-                    success: function (dataOpt) {
-                        data = dataOpt.d
-                        data = jQuery.parseJSON(data)
-                        $.each(data, function (i, o) {
-                            console.log(o.opt1);
-                            console.log(o.opt2);
-                            $(".chart").append(
-                                "<li class='current' title='Yes' >" +
-                                    "<span class='bar' data-number=" + o.opt1 + "></span>" +
-                                    "<span class='number'>" + o.opt1 + "</span>" +
-                                "</li>" +
-                                "<li class='current' title='No' >" +
-                                    "<span class='bar' data-number=" + o.opt2 + "></span>" +
-                                    "<span class='number'>" + o.opt2 + "</span>" +
-                                "</li>" 
-                                );
-                            $('.chart').horizBarChart({
-                                selector: '.bar',
-                                speed: 3000
-                            });
-                        });
-                    }
-                });
-            });
-
-            $("#q3").click(function () {
-                $("#myModalLabel").text("Location of employment.");
-                $(".chart").html("");
-                $.ajax({
-                    type: "post",
-                    url: "./statistics-ui.aspx/q3",
-                    dataType: "json",
-                    processData: false,
-                    traditional: true,
-                    contentType: "application/json; charset=utf-8",
-                    success: function (dataOpt) {
-                        data = dataOpt.d
-                        data = jQuery.parseJSON(data)
-                        $.each(data, function (i, o) {
-                            console.log(o.opt1);
-                            console.log(o.opt2);
-                            $(".chart").append(
-                                "<li class='current' title='Abroad' >" +
-                                    "<span class='bar' data-number=" + o.opt1 + "></span>" +
-                                    "<span class='number'>" + o.opt1 + "</span>" +
-                                "</li>" +
-                                "<li class='current' title='Local' >" +
-                                    "<span class='bar' data-number=" + o.opt2 + "></span>" +
-                                    "<span class='number'>" + o.opt2 + "</span>" +
-                                "</li>"
-                                );
-                            $('.chart').horizBarChart({
-                                selector: '.bar',
-                                speed: 3000
-                            });
-                        });
-                    }
-                });
-            });
-
-            $("#q4").click(function () {
-                $("#myModalLabel").text("The classification of your company or institution.");
-                $(".chart").html("");
-                $.ajax({
-                    type: "post",
-                    url: "./statistics-ui.aspx/q4",
-                    dataType: "json",
-                    processData: false,
-                    traditional: true,
-                    contentType: "application/json; charset=utf-8",
-                    success: function (dataOpt) {
-                        data = dataOpt.d
-                        data = jQuery.parseJSON(data)
-                        $.each(data, function (i, o) {
-                            console.log(o.opt1);
-                            console.log(o.opt2);
-                            $(".chart").append(
-                                "<li class='current' title='Private' >" +
-                                    "<span class='bar' data-number=" + o.opt1 + "></span>" +
-                                    "<span class='number'>" + o.opt1 + "</span>" +
-                                "</li>" +
-                                "<li class='current' title='Public' >" +
-                                    "<span class='bar' data-number=" + o.opt2 + "></span>" +
-                                    "<span class='number'>" + o.opt2 + "</span>" +
-                                "</li>"
-                                );
-                            $('.chart').horizBarChart({
-                                selector: '.bar',
-                                speed: 3000
-                            });
-                        });
-                    }
-                });
-            });
-
-            $("#q5").click(function () {
-                $("#myModalLabel").text("Nature of appointment.");
-                $(".chart").html("");
-                $.ajax({
-                    type: "post",
-                    url: "./statistics-ui.aspx/q5",
-                    dataType: "json",
-                    processData: false,
-                    traditional: true,
-                    contentType: "application/json; charset=utf-8",
-                    success: function (dataOpt) {
-                        data = dataOpt.d
-                        data = jQuery.parseJSON(data)
-                        $.each(data, function (i, o) {
-                            console.log(o.opt1);
-                            console.log(o.opt2);
-                            console.log(o.opt3);
-                            $(".chart").append(
-                                "<li class='current' title='Regular' >" +
-                                    "<span class='bar' data-number=" + o.opt1 + "></span>" +
-                                    "<span class='number'>" + o.opt1 + "</span>" +
-                                "</li>" +
-                                "<li class='current' title='Probation' >" +
-                                    "<span class='bar' data-number=" + o.opt2 + "></span>" +
-                                    "<span class='number'>" + o.opt2 + "</span>" +
-                                "</li>" +
-                                "<li class='current' title='Self-employed' >" +
-                                    "<span class='bar' data-number=" + o.opt3 + "></span>" +
-                                    "<span class='number'>" + o.opt3 + "</span>" +
-                                "</li>"
-                                );
-                            $('.chart').horizBarChart({
-                                selector: '.bar',
-                                speed: 3000
-                            });
-                        });
-                    }
-                });
-            });
-
-            $("#q6").click(function () {
-                $("#myModalLabel").text("What is your present position.");
-                $(".chart").html("");
-                $.ajax({
-                    type: "post",
-                    url: "./statistics-ui.aspx/q6",
-                    dataType: "json",
-                    processData: false,
-                    traditional: true,
-                    contentType: "application/json; charset=utf-8",
-                    success: function (dataOpt) {
-                        data = dataOpt.d
-                        data = jQuery.parseJSON(data)
-                        $.each(data, function (i, o) {
-                            console.log(o.opt1);
-                            console.log(o.opt2);
-                            console.log(o.opt3);
-                            console.log(o.opt4);
-                            $(".chart").append(
-                                "<li class='current' title='Rank and File' >" +
-                                    "<span class='bar' data-number=" + o.opt1 + "></span>" +
-                                    "<span class='number'>" + o.opt1 + "</span>" +
-                                "</li>" +
-                                "<li class='current' title='Supervisory Level' >" +
-                                    "<span class='bar' data-number=" + o.opt2 + "></span>" +
-                                    "<span class='number'>" + o.opt2 + "</span>" +
-                                "</li>" +
-                                "<li class='current' title='Managerial Level' >" +
-                                    "<span class='bar' data-number=" + o.opt3 + "></span>" +
-                                    "<span class='number'>" + o.opt3 + "</span>" +
-                                "</li>" +
-                                "<li class='current' title='Others' >" +
-                                    "<span class='bar' data-number=" + o.opt4 + "></span>" +
-                                    "<span class='number'>" + o.opt4 + "</span>" +
-                                "</li>"
-                                );
-                            $('.chart').horizBarChart({
-                                selector: '.bar',
-                                speed: 3000
-                            });
-                        });
-                    }
-                });
-            });
-
-            $("#q7").click(function () {
-                $("#myModalLabel").text("How long have you been working in your current company?");
-                $(".chart").html("");
-                $.ajax({
-                    type: "post",
-                    url: "./statistics-ui.aspx/q7",
-                    dataType: "json",
-                    processData: false,
-                    traditional: true,
-                    contentType: "application/json; charset=utf-8",
-                    success: function (dataOpt) {
-                        data = dataOpt.d
-                        data = jQuery.parseJSON(data)
-                        $.each(data, function (i, o) {
-                            console.log(o.opt1);
-                            console.log(o.opt2);
-                            console.log(o.opt3);
-                            console.log(o.opt4);
-                            $(".chart").append(
-                                "<li class='current' title='1 to 6 months' >" +
-                                    "<span class='bar' data-number=" + o.opt1 + "></span>" +
-                                    "<span class='number'>" + o.opt1 + "</span>" +
-                                "</li>" +
-                                "<li class='current' title='7 months to 1 year' >" +
-                                    "<span class='bar' data-number=" + o.opt2 + "></span>" +
-                                    "<span class='number'>" + o.opt2 + "</span>" +
-                                "</li>" +
-                                "<li class='current' title='1 year to 3 years' >" +
-                                    "<span class='bar' data-number=" + o.opt3 + "></span>" +
-                                    "<span class='number'>" + o.opt3 + "</span>" +
-                                "</li>" +
-                                "<li class='current' title='Others' >" +
-                                    "<span class='bar' data-number=" + o.opt4 + "></span>" +
-                                    "<span class='number'>" + o.opt4 + "</span>" +
-                                "</li>"
-                                );
-                            $('.chart').horizBarChart({
-                                selector: '.bar',
-                                speed: 3000
-                            });
-                        });
-                    }
-                });
-            });
 
             $(document).ready(function () {
                 $('.chart').horizBarChart({
@@ -973,7 +750,6 @@
                         }
 
                     });
-
                 });
             });
     </script>
