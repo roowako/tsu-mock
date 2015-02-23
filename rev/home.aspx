@@ -150,8 +150,8 @@
               </ul>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-             <button type="button" class="btn btn-success btnPollAns" data-dismiss="modal">Submit</button>
+            <button type="button" class="btn btn-primary btn-sm" data-dismiss="modal">Close</button>
+             <button type="button" class="btn btn-success btn-sm btnPollAns" data-dismiss="modal">Submit</button>
           </div>
         </div>
       </div>
@@ -165,7 +165,7 @@
     <script type="text/javascript" src="./js/dom-control.js"></script>
     <script type="text/javascript" src="./js/home-search.js"></script>
     <script type="text/javascript" src="./js/bindDelay.js"></script>
-    <script type="text/javascript" src="http://ajax.cdnjs.com/ajax/libs/json2/20110223/json2.js"></script>
+    <script type="text/javascript" src="h./js/json2.js"></script>
     <script>
 
 

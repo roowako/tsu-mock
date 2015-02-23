@@ -37,7 +37,18 @@
                 </div>
                 <div id="navbar" class="navbar-collapse collapse" > <!---collapse collapse -->
                   
-                     
+                     <br />
+                    <ul class="nav navbar-nav navbar-left extended" style="margin-top:8px;">
+                        <li>
+                            <div class="form-group" style="position:absolute;z-index:40000;">
+                                <input type="text" placeholder="Search for alumni" name=""  class="form-control input-sm" id="searching" autocomplete="off"/>
+                                <div class="resWrapper">
+
+                                </div>
+                            <div class="display"></div>
+                            </div>
+                        </li>
+                    </ul>
                     
                 </div><!--/.navbar-collapse -->
                 </div>
@@ -145,7 +156,9 @@
     <script type="text/javascript" src="./js/bootstrap.min.js"></script>
     <script type="text/javascript" src="./js/custom.js"></script>
     <script type="text/javascript" src="./js/dom-control.js"></script>
-    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="./js/home-search.js"></script>
+    <script type="text/javascript" src="./js/bindDelay.js"></script>
+    <script type="text/javascript" src="h./js/json2.js"></script>
     <script>
 
         $(document).ready(function () {

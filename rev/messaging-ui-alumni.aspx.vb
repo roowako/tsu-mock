@@ -155,7 +155,7 @@ Partial Class rev_messaging_ui_alumni
 
         Using sqlCon As New SqlConnection(constr)
             sqlCon.Open()
-            sqlStr = "SELECT given_name+ ' ' +middle_name+ ' ' +family_name as u,account_idpk as uid  FROM tblAccounts WHERE given_name+ ' ' +middle_name+ ' ' +family_name LIKE '%" & q & "%' AND userlevel_idfk <> 3 "
+            sqlStr = "SELECT given_name+ ' ' +middle_name+ ' ' +family_name as u,given_name+ ' ' +family_name as u, account_idpk as uid  FROM tblAccounts WHERE given_name LIKE '%" & q & "%' OR middle_name LIKE '%" & q & "%' OR family_name LIKE '%" & q & "%'  "
             cmd = New SqlCommand(sqlStr, sqlCon)
             dr = cmd.ExecuteReader
             If dr.HasRows Then
@@ -172,21 +172,7 @@ Partial Class rev_messaging_ui_alumni
 
             End If
 
-            sqlStr2 = "SELECT username as u, coordinator_idpk as uid FROM tblCoordinators WHERE username LIKE '%" & q & "%' "
-            cmd = New SqlCommand(sqlStr2, sqlCon)
-            dr = cmd.ExecuteReader
-            If dr.HasRows Then
-                Using dat = New SqlDataAdapter(sqlStr2, sqlCon)
-                    Dim table2 = New DataTable()
-                    dat.Fill(table2)
-
-                    Dim pollOptionsJsonData As String = GetJson(table2)
-                    Return pollOptionsJsonData
-                End Using
-            Else
-
-
-            End If
+            
             sqlCon.Close()
         End Using
 

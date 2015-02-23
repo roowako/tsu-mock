@@ -71,23 +71,23 @@
                              <div class="col-xs-4">
                                  <h3 class="page-header"><span class="glyphicon glyphicon-comment">&nbsp;</span>Messages</h3>
                              </div>
-                             <div class="col-xs-2">
+                             <div class="col-xs-3">
                                  
                              </div>
                              <div class="col-xs-3">
                                  <div class="form-group">
                                     <input type="text" placeholder="Search for alumni" name=""  class="form-control input-sm" id="searching" autocomplete="off"/>
-                                    <div class="resWrapper">
+                                    <div class="resWrapper moded_res" style="width:300px;">
 
                                     </div>
-                                    <div class="display"></div>
+                                    <div class="display moded_dis" style="width:300px;"></div>
                                   </div>
                              </div>
                          </div>
                         <div class="row placeholders " >
                             <br />
                             <!-- start main-content -->
-                            <div class="col-xs-10 col-sm-10 placeholder" >
+                            <div class="col-xs-6 col-sm-12 placeholder" >
                                 <div class="table-responsive">
                                     <table class="table table-condensed" id="messagePlaceholder">
                                         <tbody>
@@ -101,15 +101,12 @@
                             <!-- end main-content -->
 
                             <!-- star spacer -->
-                            <div class="col-xs-6 col-sm-1 placeholder"> </div>
+                            
                              <!-- end spacer -->
                            
 
                             <!-- start right-side -->
-                            <div class="col-xs-6 col-sm-5 placeholder ">
-                             
-                                
-                            </div>
+                           
                             <!-- end right-side -->
 
                         </div>
@@ -117,7 +114,7 @@
                 </div>
             </div>
         </div>
-          //Modal form
+    //Modal form
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
@@ -191,10 +188,13 @@
                                         "<div class='sender-name'><b> "+ o.u +  " </b></div>" +
                                         "</div>" +
                                     "</td>" +
-                                    "<td>" +
+                                   "<td>&nbsp; </td>" +
+                                  "<td>&nbsp; </td>" +
+                                  "<td> &nbsp;</td>" +
+                                    "<td style='text-align:right;'>" +
                                         "<input type='button' value='View conversation' data-name='"+ o.u +"' class='btn btn-success btn-sm theatre' data-toggle='modal' data-target='#myModal' data-id='" + o.uid + "'/>&nbsp;" +
-                                        "<input type='button' value='Delete conversation' class='btn btn-warning btn-sm delete' data-id='" + o.uid + "'/>" +
-                                    "</td>"+
+                                    "</td>" +
+                                    "<td>                                         <input type='button' value='Delete conversation' class='btn btn-warning btn-sm delete' data-id='" + o.uid + "'/></td>"+
                                 "</tr>" + "<br>");
                         });
 

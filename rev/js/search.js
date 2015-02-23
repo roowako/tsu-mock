@@ -71,12 +71,22 @@
                         $(".display").css("visibility", "visible");
                         $.each(data, function (i, o) {
                             
-                            $(".resWrapper").append(
-                               "<a href='#' data-name='"+ o.u +"' data-toggle='modal' data-id='" + o.uid + "' data-target='#myModal' class='uid'>" +
+                            if( o.u == null){
+                                $(".resWrapper").append(
+                               "<a href='#' data-name='" + o.u1 + "' data-toggle='modal' data-id='" + o.uid + "' data-target='#myModal' class='uid'>" +
                                 "<div class='clickable' >" +
-                                    "<span> <b> " + o.u + " </b> </span>" +
+                                    "<span> <b> " + o.u1 + " </b> </span>" +
                                 "</div>" +
                                 "</a>");
+                            }else{
+                                $(".resWrapper").append(
+                              "<a href='#' data-name='" + o.u + "' data-toggle='modal' data-id='" + o.uid + "' data-target='#myModal' class='uid'>" +
+                               "<div class='clickable' >" +
+                                   "<span> <b> " + o.u + " </b> </span>" +
+                               "</div>" +
+                               "</a>");
+                            }   
+                           
                         })
 
                         $(".display").html("<span> <b> " + displayMessage + " </b> </span>")
@@ -85,6 +95,11 @@
                     }
 
                     $(".uid").click(function () {
+                        sendTo = $(this).data("id");
+                        $(".resWrapper").html("");
+                        $(".resWrapper").removeClass("revealWrap");
+                        $(".display").css("visibility", "hidden");
+
                         $(".appBtn").html("");
                         $("#messages").html("");
                         $("#myModalLabel").text("");
@@ -97,7 +112,7 @@
                                 '<button type="button" class="btn btn-primary btn-sm" data-dismiss="modal" style="float:right;margin-right:50px;">Close</button>')
                         var sess_id = $("#account_idpk").val();
                         account_idfk = $(this).data("id");
-                        sendTo = $(this).data("id");
+                        
 
                         $.ajax({
                             type: "post",
@@ -145,6 +160,7 @@
                                     $("#actor-message").val("");
                                     $("#searching").val("");
                                     alert("Message sent.");
+                                    window.location.reload(true);
                                 }
                             });
                         });
