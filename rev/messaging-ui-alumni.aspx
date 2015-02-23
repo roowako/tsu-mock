@@ -76,7 +76,7 @@
                              </div>
                              <div class="col-xs-3">
                                  <div class="form-group">
-                                    <input type="text" placeholder="Search for alumni" name=""  class="form-control input-sm" id="searching" autocomplete="off"/>
+                                    <input type="text" placeholder="Search and Send message" name=""  class="form-control input-sm" id="searching" autocomplete="off"/>
                                     <div class="resWrapper moded_res" style="width:300px;">
 
                                     </div>

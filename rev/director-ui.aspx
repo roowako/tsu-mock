@@ -61,7 +61,7 @@
 		                    <li>
 			                    <a href="#" >
 
-				                    <asp:Image ID="Image2" runat="server" ImageUrl="./assets/images/default-dp.jpg" Height="75" Width="75" BorderColor="White" BorderStyle="Solid" BorderWidth="3" />          
+				                    <asp:Image ID="undeditable" runat="server" ImageUrl="./assets/images/default-dp.jpg" Height="" Width="75" BorderColor="White" BorderStyle="Solid" BorderWidth="3"  CssClass="non-m" />          
 
 			                    </a>
 
