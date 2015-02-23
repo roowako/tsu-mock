@@ -24,6 +24,7 @@ Partial Class statistics_coordinator
             Console.Write("sd")
             Response.Redirect("Default.aspx")
         Else
+            Image2.ID = "non"
             Using sqlCon As New SqlConnection(constr)
                 sqlCon.Open()
 
