@@ -197,7 +197,7 @@ Partial Class token_generator_ui
         Using sqlCon As New SqlConnection(constr)
 
             sqlCon.Open()
-            Using da = New SqlDataAdapter("SELECT COUNT FROM tblTokens WHERE college_idfk = '" & college & "' AND status=0 ", sqlCon)
+            Using da = New SqlDataAdapter("SELECT COUNT(token_idpk) FROM tblTokens WHERE college_idfk = '" & college & "' AND status=0 ", sqlCon)
                 Dim table = New DataTable()
                 da.Fill(table)
 
