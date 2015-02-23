@@ -44,47 +44,75 @@ Partial Class loginpage
             sqlCon.Close()
         End Using
 
-        If user_level = 0 Then
-            Session("id") = user_id
+
+
+
+       
+            If user_level = 0 Then
+                Session("id") = user_id
             Response.Redirect("home.aspx")
-        ElseIf user_level = 1 Then
-            Session("id") = user_id
-            Response.Redirect("home.aspx")
-        ElseIf user_level = 2 Then
-            Session("id") = user_id
-            Session("college_id") = college_id
-            Response.Redirect("coordinator-custom.aspx")
-        ElseIf user_level = 3 Then
-            Session("id") = user_id
-            Response.Redirect("director-ui.aspx")
-        Else
-            Response.Write(<script>alert("Login Failed.")</script>)
-        End If
+
+            ElseIf user_level = 1 Then
+                Session("id") = user_id
+                Response.Redirect("home.aspx")
+            ElseIf user_level = 2 Then
+                Session("id") = user_id
+                Session("college_id") = college_id
+                Response.Redirect("coordinator-custom.aspx")
+            ElseIf user_level = 3 Then
+                Session("id") = user_id
+                Response.Redirect("director-ui.aspx")
+            Else
+                Response.Write(<script>alert("Login Failed.")</script>)
+            End If
+
+
+       
+
+
     End Sub
 
     'PAGE LOAD
     Protected Sub Page_Load(sender As Object, e As EventArgs) Handles Me.Load
-        If Session.Item("id") <> Nothing Then
-            Using sqlCon As New SqlConnection(constr)
-                sqlCon.Open()
 
-                cmd = New SqlCommand("SELECT * FROM tblAccounts WHERE account_idpk=@p1", sqlCon)
-                cmd.Parameters.AddWithValue("@p1", Session("id"))
-                dr = cmd.ExecuteReader
+        Label1.Text = Session.Count
 
-                While dr.Read
-                    If dr("userlevel_idfk") = 0 Or dr("userlevel_idfk") = 1 Then
-                        Response.Redirect("home.aspx")
-                    ElseIf dr("userlevel_idfk") = 2 Then
-                        Session("college_id") = dr("college_idfk")
-                        Response.Redirect("coordinator-custom.aspx")
-                    ElseIf dr("userlevel_idfk") = 3 Then
-                        Response.Redirect("director-ui.aspx")
-                    End If
-                End While
+        If Session.Count > 1 Then
+            Response.Write(<script>alert("A user is already logged in.");</script>)
+        Else
 
-                sqlCon.Close()
-            End Using
+            If Session.Item("id") <> Nothing Then
+
+
+                Using sqlCon As New SqlConnection(constr)
+                    sqlCon.Open()
+
+                    cmd = New SqlCommand("SELECT * FROM tblAccounts WHERE account_idpk=@p1", sqlCon)
+                    cmd.Parameters.AddWithValue("@p1", Session("id"))
+                    dr = cmd.ExecuteReader
+
+                    While dr.Read
+                        If dr("userlevel_idfk") = 0 Or dr("userlevel_idfk") = 1 Then
+                            Response.Redirect("home.aspx")
+                        ElseIf dr("userlevel_idfk") = 2 Then
+                            Session("college_id") = dr("college_idfk")
+                            Response.Redirect("coordinator-custom.aspx")
+                        ElseIf dr("userlevel_idfk") = 3 Then
+                            Response.Redirect("director-ui.aspx")
+                        End If
+
+                    End While
+
+                    sqlCon.Close()
+                End Using
+
+
+
+            End If
         End If
+
+
+
+
     End Sub
 End Class

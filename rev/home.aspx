@@ -74,6 +74,8 @@
                                 <li> <asp:TextBox ID="account_idpk" runat="server"></asp:TextBox> </li>
                                 <li> <asp:TextBox ID="college_idpk" runat="server"></asp:TextBox> </li>
                                 <li> <asp:TextBox ID="college_desc" runat="server"></asp:TextBox> </li>
+
+                                <asp:Label ID="Label1" runat="server" Text="Label"></asp:Label>
                             </ul>
                     </div>
 
@@ -154,6 +156,8 @@
         </div>
       </div>
     </div>
+    
+     <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
 
     <script type="text/javascript" src="./js/jquery.js"></script>
     <script type="text/javascript" src="./js/bootstrap.min.js"></script>
@@ -163,6 +167,8 @@
     <script type="text/javascript" src="./js/bindDelay.js"></script>
     <script type="text/javascript" src="http://ajax.cdnjs.com/ajax/libs/json2/20110223/json2.js"></script>
     <script>
+
+
         var college_id = $("#college_idpk").val();
         var college_desc = $("#college_desc").val();
         var filterPoll = $("#account_idpk").val();

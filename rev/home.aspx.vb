@@ -17,8 +17,16 @@ Partial Class home
     Public Shared Property sqlStr As String
     Public Shared Property getLast As String
 
+  
+
+
+
     'PAGE LOAD
     Protected Sub Page_Load(sender As Object, e As EventArgs) Handles Me.Load
+
+
+
+
         If Session.Item("id") Is Nothing Then
             Console.Write("sd")
             Response.Redirect("Default.aspx")
@@ -46,6 +54,9 @@ Partial Class home
             End Using
         End If
     End Sub
+
+
+
 
     'LOG OUT
     Protected Sub alumni_logout_Click(sender As Object, e As EventArgs) Handles alumni_logout.ServerClick
