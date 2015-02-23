@@ -116,31 +116,11 @@
 
                             <!-- start right-side -->
                             <div class="col-xs-6 col-sm-5 placeholder ">
-                              <h5 class="header-padded">
-                                  <select class="selectpicker" data-style="btn-warning" style="z-index:3000;">
-                                  <option value="all">Recipient :</option>
-                                  <option value="alm">Alumnis</option>
-                                      <option value="coo">Coordinators</option>
-                              </select>
-
-                              </h5>
+                              
                                 <div class="row">
                                     <div class="col-xs-12">
-                                        <div class="form-group">
-                                            <input type="text" id="qAlumni" name="name" value=" " placeholder="Search for alumni" class="form-control" autocomplete="off"/>
-                                            <input type="hidden" name="name" value=" " id="hidId" />
-                                            <div class="resWrapper">
-
-                                            </div>
-                                            <div class="display"></div>
-                                         </div>
-
-                                        <div class="form-group">
-                                             <textarea rows="5" class="form-control" id="actor-message"></textarea>
-                                        </div>
-                                        <div class="form-group">
-                                            <asp:Button Text="Send message" runat="server" class="btn btn-success btn-sm" ID="btnSend"/>
-                                        </div>
+                                       
+                                       
                                     </div>
                                 </div>
                                 

@@ -185,10 +185,10 @@
         <div class="modal-content">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title" id="myModalLabel">Poll Statistics</h4>
-            <h6 class="modal-title" id="Modal-College-Info">Poll Statistics</h6>
-            <h6 class="modal-title" id="Modal-Course-Info">Poll Statistics</h6>
-            <h6 class="modal-title" id="Modal-Respondents-Info">Poll Statistics</h6>
+            <h4 class="modal-title" id="myModalLabel">Survey Statistics</h4>
+            <h6 class="modal-title" id="Modal-College-Info">Survey Statistics</h6>
+            <h6 class="modal-title" id="Modal-Course-Info">Survey Statistics</h6>
+            <h6 class="modal-title" id="Modal-Respondents-Info">Survey Statistics</h6>
           </div>
 
           <div class="modal-body ">          
@@ -255,7 +255,7 @@
                                 "<td> " + o.question + "</td>" +
                                 "<td> </td>"+
                                 "<td> <a class='btn btn-primary btn-sm theatre' data-poll-id='" + o.polls_idpk + "' data-toggle='modal' data-target='#myModal'>View Statistics </a>&nbsp; </td>" +
-                                "<td> <a class='btn btn-warning btn-sm deletePoll' data-poll-id='" + o.polls_idpk + "'>Delete Poll </a></td>" +
+                                "<td> <a class='btn btn-warning btn-sm deletePoll' data-poll-id='" + o.polls_idpk + "'>Delete Survey </a></td>" +
                             "</tr>"
                             );
                         console.log(o.polls_idpk);

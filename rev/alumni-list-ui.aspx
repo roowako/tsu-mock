@@ -244,6 +244,7 @@
     <script type="text/javascript" src="./js/search.js"></script>
     <script type="text/javascript" src="./js/ajax-loader.js"></script>
     <script type="text/javascript" src="./js/paginate.js"></script>
+    <script type="text/javascript" src="./js/bindDelay.js"></script>
     <script>
         $(document).ready(function () {
 

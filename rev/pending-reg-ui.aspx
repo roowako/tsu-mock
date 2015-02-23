@@ -240,7 +240,8 @@
                                 "<td>" + o.collegeDes + "  </td>" +
                                 "<td>" + o.courseDes + "  </td>" +
                                 "<td> <a class='btn btn-primary btn-sm viewAccountInfo' id='viewAccountInfo' data-account-id='" + o.account_idpk + "' data-toggle='modal' data-target='.bs-example-modal-lg'>Vew info</a> </td>" +
-                                "<td>  <a class='btn btn-success btn-sm btnApproveAccount' id='btnApproveAccount' data-acc-id='"+ o.account_idpk +"' data-email='" + o.email_address + "' data-name='" + name + "' data-stud-id='" + o.student_id + "'>Approve</a> <a class='btn btn-warning btn-sm' id='btnRejectAccount' data-acc-id='"+ o.account_idpk +"'>Reject</a></td>" +
+                                "<td>  <a class='btn btn-success btn-sm btnApproveAccount' id='btnApproveAccount' data-acc-id='" + o.account_idpk + "' data-email='" + o.email_address + "' data-name='" + name + "' data-stud-id='" + o.student_id + "'>Approve</a> </td>" +
+                                "<td><a class='btn btn-warning btn-sm' id='btnRejectAccount' data-acc-id='" + o.account_idpk + "'>Reject</a> </td>" +
                             "</tr>"
                             );
                     });
@@ -340,7 +341,7 @@
                             success: function (approvalResponse) {
 
                                 alert("Account Rejected");
-
+                                window.location.reload(true);
                             }
                         });
                     });

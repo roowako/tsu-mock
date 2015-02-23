@@ -119,10 +119,10 @@
                                                  <div class="row">
                                                      <div class="col-xs-12">
                                                          
-                                                         <asp:Button ID="btnAddOption" runat="server" Text="Add Option" CssClass="btn btn-primary"/>
-                                                         <asp:Button ID="remove_poll_opt" runat="server" Text="Remove Option" CssClass="btn btn-warning"/>
-                                                         <asp:Button ID="remove_all_poll_opt" runat="server" Text="Remove all Option" CssClass="btn btn-warning"/>
-                                                         <input id="btnGetTime" type="button" class="btn btn-sm btn-success" value="Submit Poll" onclick = "pushToServer()" />
+                                                         <asp:Button ID="btnAddOption" runat="server" Text="Add Option" CssClass="btn btn-primary btn-sm"/>
+                                                         <asp:Button ID="remove_poll_opt" runat="server" Text="Remove Option" CssClass="btn btn-warning btn-sm"/>
+                                                         <asp:Button ID="remove_all_poll_opt" runat="server" Text="Remove all Option" CssClass="btn btn-warning btn-sm"/>
+                                                         <input id="btnGetTime" type="button" class="btn btn-sm btn-success" value="Submit Survey" onclick = "pushToServer()" />
                                                          <br /><br />
                                                      </div>
                                                    
@@ -198,7 +198,8 @@
                             "<td>  " + object.description + " </td>" +
                             "<td>  " + stat + " </td>" +
                             "<td>   " + "<a class='btn btn-success btn-sm theatre' id='" + object.polls_idpk + "' data-poll-title='" + object.description + "' data-poll-question='" + object.question + "' data-poll-id='" + object.polls_idpk + "' data-toggle='modal' data-target='#myModal'>View Details </a>" + " </td>" +
-                            "</tr>"
+                            "<td>   " + "<a class='btn btn-success btn-sm theatre' id='" + object.polls_idpk + "' data-poll-title='" + object.description + "' data-poll-question='" + object.question + "' data-poll-id='" + object.polls_idpk + "' data-toggle='modal' data-target='#myModal'>Delete</a>" + " </td>" +
+                           "</tr>"
                             );
 
                     });
