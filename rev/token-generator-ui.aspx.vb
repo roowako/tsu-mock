@@ -206,6 +206,7 @@ Partial Class token_generator_ui
             End Using
 
             sqlCon.Close()
+
         End Using
 
     End Function
