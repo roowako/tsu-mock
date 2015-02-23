@@ -178,7 +178,7 @@ Partial Class token_generator_ui
         Using sqlCon As New SqlConnection(constr)
 
             sqlCon.Open()
-            Using da = New SqlDataAdapter(" SELECT * FROM tblTokens WHERE college_idfk = '" & college & "' AND status=0 ", sqlCon)
+            Using da = New SqlDataAdapter("SELECT * FROM tblTokens WHERE college_idfk = '" & college & "' AND status=0 ", sqlCon)
                 Dim table = New DataTable()
                 da.Fill(table)
 
@@ -196,19 +196,19 @@ Partial Class token_generator_ui
     <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
     Public Shared Function printTokens(ByVal college As Integer) As String
         Using sqlCon As New SqlConnection(constr)
-
             sqlCon.Open()
-            Using da = New SqlDataAdapter("SELECT COUNT(token_idpk) FROM tblTokens WHERE college_idfk = '" & college & "' AND status=0 ", sqlCon)
+
+            Using da = New SqlDataAdapter("SELECT * FROM tblTokens WHERE college_idfk = '" & college & "' AND status=0 ", sqlCon)
                 Dim table = New DataTable()
                 da.Fill(table)
 
                 Dim jsndata As String = GetJson(table)
-                Return jsndata
+                'Return jsndata
+                Return table.Rows.Count.ToString
+                sqlCon.Close()
             End Using
 
             sqlCon.Close()
-
         End Using
-
     End Function
 End Class

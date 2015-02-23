@@ -83,7 +83,10 @@ Partial Class viewprofile
             ElseIf Session("ul") = 2 Then
                 dyna.HRef = Session("dynamic_link2")
                 pointer.HRef = Session("dynamic_link2")
+<<<<<<< HEAD
                 Image2.ID = "non"
+=======
+>>>>>>> origin/master
             ElseIf Session("ul") = 1 Then
                 dyna.HRef = Session("dynamic_link1")
                 pointer.HRef = Session("dynamic_link1")
