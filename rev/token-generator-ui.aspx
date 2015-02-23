@@ -87,9 +87,17 @@
                                                      <asp:Button ID="btn_generate_tokens" runat="server" Text="Generate Tokens" CssClass="form-control btn btn-success" />                           
                                                  </div>
                                              </div>
-                                             <div class="col-xs-3">
+                                        </div>
+
+                                        <div class="row">
+                                             <div class="col-xs-4 ">
                                                  <div class="form-group">
-                                                     <asp:Button ID="btn_print_tokens" runat="server" Text="Print Tokens" CssClass="form-control btn btn-primary" />                           
+                                                     <input type="text" id="print_number_of_tokens" runat="server" class="form-control" placeholder="Input number" />
+                                                 </div>
+                                             </div>
+                                             <div class="col-xs-4">
+                                                 <div class="form-group">
+                                                     <input type="button" id="btn_print_tokens" value="Print Tokens" class="form-control btn btn-success" />                           
                                                  </div>
                                              </div>
                                         </div>
@@ -205,6 +213,30 @@
                             );
                     });
                 }
+            });
+
+            $("#btn_print_tokens").click(function () {
+                var printnumber = $("#print_number_of_tokens").val()
+                var college_fk = $("#college_idfk").val();
+
+                $.ajax({
+                    type: "post",
+                    url: "./token-generator-ui.aspx/printTokens",
+                    data: "{'college':'" + college_fk + "'}",
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (r) {
+                        try {
+                            parseInt(printnumber)
+                        }
+                        catch (err) {
+                            alert(err.message)
+                        }
+                        finally {
+
+                        }
+                    }
+                });
             });
         });
     </script> 

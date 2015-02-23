@@ -38,8 +38,6 @@
                 </div>
                 <div id="navbar" class="navbar-collapse collapse" > <!---collapse collapse -->
                   
-                   
-                    
                 </div><!--/.navbar-collapse -->
                 </div>
             </nav>-->
@@ -52,11 +50,8 @@
 	                <ul class="nav nav-sidebar">
 		                <li>
 			                <a href="#" >
-
 				                <asp:Image ID="Image2" runat="server" ImageUrl="./assets/images/default-dp.jpg" Height="75" Width="75" BorderColor="White" BorderStyle="Solid" BorderWidth="3" />          
-
 			                </a>
-
 		                </li>
 		                <li><a href="#" class="bolder"><span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;<asp:Label id="alumni_name" runat="server"></asp:Label></a></li>
 		                <li>
@@ -73,9 +68,7 @@
                             <asp:TextBox ID="account_idpk" runat="server" ></asp:TextBox>
                         </li>
 	                </ul>
-
                 </div>
-
                     <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
                         <h3 class="page-header"><span class="glyphicon glyphicon-signal">&nbsp;</span>Statistics</h3>
                         <div class="row placeholders">
@@ -204,12 +197,11 @@
     </div>
 
 
-     <script type="text/javascript" src="./js/jquery.js"></script>
+    <script type="text/javascript" src="./js/jquery.js"></script>
     <script type="text/javascript" src="./js/bootstrap.min.js"></script>
     <script type="text/javascript" src="./js/custom.js"></script>
     <script type="text/javascript" src="./js/dom-control.js"></script>
     <script type="text/javascript" src="./js/horizBarChart.js"></script>
-   
     <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
     <script type="text/javascript" src="http://ajax.cdnjs.com/ajax/libs/json2/20110223/json2.js"></script>
 
@@ -222,6 +214,7 @@
             selector: '.bar',
             speed: 3000
         });
+
         var object =[];
         var param1 =[];
     
@@ -313,12 +306,12 @@
                         });
                     });
                 }
-
             });
             
            
             $(".filterView").change(function () {
-              filterView =  $(".filterView option:selected").val();
+                filterView = $(".filterView option:selected").val();
+
               if (filterView == "poll") {
                  
                   $(".modal-body .chart").html("");
@@ -408,12 +401,14 @@
                         }
 
                     });
-                } else if (filterView == "survey") {
-                   
+              }
+
+              else if (filterView == "survey") {
                     //Fetch General Survey
                     $(".tableDetailsView tbody").html("");
                     $(".table-responsive").css("display", "none");
                     $(".genSurvey").css("display", "block");
+
                     $.ajax({
                         type: "post",
                         url: "statistics-ui.aspx/PullQ",
@@ -486,10 +481,6 @@
                     });
                 }
                 
-            });
-
-            $("#cboCollege").click(function()  {
-               
             });
 
         //Stats
@@ -706,293 +697,6 @@
                                 "</li>"
                                 );
 
-                            $('.chart').horizBarChart({
-                                selector: '.bar',
-                                speed: 3000
-                            });
-                        });
-                    }
-                });
-            });
-
-            $("#q1").click(function () {
-                $("#myModalLabel").text("How long did it take to find your First employment?");
-                $(".chart").html("");
-                $.ajax({
-                    type: "post",
-                    url: "./statistics-ui.aspx/q1",
-
-                    dataType: "json",
-                    processData: false,
-                    traditional: true,
-                    contentType: "application/json; charset=utf-8",
-                    success: function (dataOpt) {
-                        data = dataOpt.d
-                        data = jQuery.parseJSON(data)
-                        $.each(data, function (i, o) {
-                            console.log(o.opt1);
-                            console.log(o.opt2);
-                            console.log(o.opt3);
-                            console.log(o.opt4);
-                            $(".chart").append(
-                                "<li class='current' title='1 to 3 months' >" +
-                                    "<span class='bar' data-number=" + o.opt1 + "></span>" +
-                                    "<span class='number'>" + o.opt1 + "</span>" +
-                                "</li>" +
-                                "<li class='current' title='4 to 6 months' >" +
-                                    "<span class='bar' data-number=" + o.opt2 + "></span>" +
-                                    "<span class='number'>" + o.opt2 + "</span>" +
-                                "</li>" +
-                                "<li class='current' title='7 months to 1 year' >" +
-                                    "<span class='bar' data-number=" + o.opt3 + "></span>" +
-                                    "<span class='number'>" + o.opt3 + "</span>" +
-                                "</li>" +
-                                "<li class='current' title='other' >" +
-                                    "<span class='bar' data-number=" + o.opt4 + "></span>" +
-                                    "<span class='number'>" + o.opt4 + "</span>" +
-                                "</li>"
-                                );
-                            $('.chart').horizBarChart({
-                                selector: '.bar',
-                                speed: 3000
-                            });
-                        });
-                    }
-                });
-            });
-
-            $("#q2").click(function () {
-                $("#myModalLabel").text("Is your current work/job is aligned to your field of education? ");
-                $(".chart").html("");
-                $.ajax({
-                    type: "post",
-                    url: "./statistics-ui.aspx/q2",
-
-                    dataType: "json",
-                    processData: false,
-                    traditional: true,
-                    contentType: "application/json; charset=utf-8",
-                    success: function (dataOpt) {
-                        data = dataOpt.d
-                        data = jQuery.parseJSON(data)
-                        $.each(data, function (i, o) {
-                            console.log(o.opt1);
-                            console.log(o.opt2);
-                            $(".chart").append(
-                                "<li class='current' title='Yes' >" +
-                                    "<span class='bar' data-number=" + o.opt1 + "></span>" +
-                                    "<span class='number'>" + o.opt1 + "</span>" +
-                                "</li>" +
-                                "<li class='current' title='No' >" +
-                                    "<span class='bar' data-number=" + o.opt2 + "></span>" +
-                                    "<span class='number'>" + o.opt2 + "</span>" +
-                                "</li>" 
-                                );
-                            $('.chart').horizBarChart({
-                                selector: '.bar',
-                                speed: 3000
-                            });
-                        });
-                    }
-                });
-            });
-
-            $("#q3").click(function () {
-                $("#myModalLabel").text("Location of employment.");
-                $(".chart").html("");
-                $.ajax({
-                    type: "post",
-                    url: "./statistics-ui.aspx/q3",
-
-                    dataType: "json",
-                    processData: false,
-                    traditional: true,
-                    contentType: "application/json; charset=utf-8",
-                    success: function (dataOpt) {
-                        data = dataOpt.d
-                        data = jQuery.parseJSON(data)
-                        $.each(data, function (i, o) {
-                            console.log(o.opt1);
-                            console.log(o.opt2);
-                            $(".chart").append(
-                                "<li class='current' title='Abroad' >" +
-                                    "<span class='bar' data-number=" + o.opt1 + "></span>" +
-                                    "<span class='number'>" + o.opt1 + "</span>" +
-                                "</li>" +
-                                "<li class='current' title='Local' >" +
-                                    "<span class='bar' data-number=" + o.opt2 + "></span>" +
-                                    "<span class='number'>" + o.opt2 + "</span>" +
-                                "</li>"
-                                );
-                            $('.chart').horizBarChart({
-                                selector: '.bar',
-                                speed: 3000
-                            });
-                        });
-                    }
-                });
-            });
-
-            $("#q4").click(function () {
-                $("#myModalLabel").text("The classification of your company or institution.");
-                $(".chart").html("");
-                $.ajax({
-                    type: "post",
-                    url: "./statistics-ui.aspx/q4",
-
-                    dataType: "json",
-                    processData: false,
-                    traditional: true,
-                    contentType: "application/json; charset=utf-8",
-                    success: function (dataOpt) {
-                        data = dataOpt.d
-                        data = jQuery.parseJSON(data)
-                        $.each(data, function (i, o) {
-                            console.log(o.opt1);
-                            console.log(o.opt2);
-                            $(".chart").append(
-                                "<li class='current' title='Private' >" +
-                                    "<span class='bar' data-number=" + o.opt1 + "></span>" +
-                                    "<span class='number'>" + o.opt1 + "</span>" +
-                                "</li>" +
-                                "<li class='current' title='Public' >" +
-                                    "<span class='bar' data-number=" + o.opt2 + "></span>" +
-                                    "<span class='number'>" + o.opt2 + "</span>" +
-                                "</li>"
-                                );
-                            $('.chart').horizBarChart({
-                                selector: '.bar',
-                                speed: 3000
-                            });
-                        });
-                    }
-                });
-            });
-
-            $("#q5").click(function () {
-                $("#myModalLabel").text("Nature of appointment.");
-                $(".chart").html("");
-                $.ajax({
-                    type: "post",
-                    url: "./statistics-ui.aspx/q5",
-
-                    dataType: "json",
-                    processData: false,
-                    traditional: true,
-                    contentType: "application/json; charset=utf-8",
-                    success: function (dataOpt) {
-                        data = dataOpt.d
-                        data = jQuery.parseJSON(data)
-                        $.each(data, function (i, o) {
-                            console.log(o.opt1);
-                            console.log(o.opt2);
-                            console.log(o.opt3);
-                            $(".chart").append(
-                                "<li class='current' title='Regular' >" +
-                                    "<span class='bar' data-number=" + o.opt1 + "></span>" +
-                                    "<span class='number'>" + o.opt1 + "</span>" +
-                                "</li>" +
-                                "<li class='current' title='Probation' >" +
-                                    "<span class='bar' data-number=" + o.opt2 + "></span>" +
-                                    "<span class='number'>" + o.opt2 + "</span>" +
-                                "</li>" +
-                                "<li class='current' title='Self-employed' >" +
-                                    "<span class='bar' data-number=" + o.opt3 + "></span>" +
-                                    "<span class='number'>" + o.opt3 + "</span>" +
-                                "</li>"
-                                );
-                            $('.chart').horizBarChart({
-                                selector: '.bar',
-                                speed: 3000
-                            });
-                        });
-                    }
-                });
-            });
-
-            $("#q6").click(function () {
-                $("#myModalLabel").text("What is your present position.");
-                $(".chart").html("");
-                $.ajax({
-                    type: "post",
-                    url: "./statistics-ui.aspx/q6",
-
-                    dataType: "json",
-                    processData: false,
-                    traditional: true,
-                    contentType: "application/json; charset=utf-8",
-                    success: function (dataOpt) {
-                        data = dataOpt.d
-                        data = jQuery.parseJSON(data)
-                        $.each(data, function (i, o) {
-                            console.log(o.opt1);
-                            console.log(o.opt2);
-                            console.log(o.opt3);
-                            console.log(o.opt4);
-                            $(".chart").append(
-                                "<li class='current' title='Rank and File' >" +
-                                    "<span class='bar' data-number=" + o.opt1 + "></span>" +
-                                    "<span class='number'>" + o.opt1 + "</span>" +
-                                "</li>" +
-                                "<li class='current' title='Supervisory Level' >" +
-                                    "<span class='bar' data-number=" + o.opt2 + "></span>" +
-                                    "<span class='number'>" + o.opt2 + "</span>" +
-                                "</li>" +
-                                "<li class='current' title='Managerial Level' >" +
-                                    "<span class='bar' data-number=" + o.opt3 + "></span>" +
-                                    "<span class='number'>" + o.opt3 + "</span>" +
-                                "</li>" +
-                                "<li class='current' title='Others' >" +
-                                    "<span class='bar' data-number=" + o.opt4 + "></span>" +
-                                    "<span class='number'>" + o.opt4 + "</span>" +
-                                "</li>"
-                                );
-                            $('.chart').horizBarChart({
-                                selector: '.bar',
-                                speed: 3000
-                            });
-                        });
-                    }
-                });
-            });
-
-            $("#q7").click(function () {
-                $("#myModalLabel").text("How long have you been working in your current company?");
-                $(".chart").html("");
-                $.ajax({
-                    type: "post",
-                    url: "./statistics-ui.aspx/q7",
-
-                    dataType: "json",
-                    processData: false,
-                    traditional: true,
-                    contentType: "application/json; charset=utf-8",
-                    success: function (dataOpt) {
-                        data = dataOpt.d
-                        data = jQuery.parseJSON(data)
-                        $.each(data, function (i, o) {
-                            console.log(o.opt1);
-                            console.log(o.opt2);
-                            console.log(o.opt3);
-                            console.log(o.opt4);
-                            $(".chart").append(
-                                "<li class='current' title='1 to 6 months' >" +
-                                    "<span class='bar' data-number=" + o.opt1 + "></span>" +
-                                    "<span class='number'>" + o.opt1 + "</span>" +
-                                "</li>" +
-                                "<li class='current' title='7 months to 1 year' >" +
-                                    "<span class='bar' data-number=" + o.opt2 + "></span>" +
-                                    "<span class='number'>" + o.opt2 + "</span>" +
-                                "</li>" +
-                                "<li class='current' title='1 year to 3 years' >" +
-                                    "<span class='bar' data-number=" + o.opt3 + "></span>" +
-                                    "<span class='number'>" + o.opt3 + "</span>" +
-                                "</li>" +
-                                "<li class='current' title='Others' >" +
-                                    "<span class='bar' data-number=" + o.opt4 + "></span>" +
-                                    "<span class='number'>" + o.opt4 + "</span>" +
-                                "</li>"
-                                );
                             $('.chart').horizBarChart({
                                 selector: '.bar',
                                 speed: 3000

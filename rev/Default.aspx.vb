@@ -44,14 +44,9 @@ Partial Class loginpage
             sqlCon.Close()
         End Using
 
-
-
-
-       
             If user_level = 0 Then
                 Session("id") = user_id
             Response.Redirect("home.aspx")
-
             ElseIf user_level = 1 Then
                 Session("id") = user_id
                 Response.Redirect("home.aspx")
@@ -65,11 +60,6 @@ Partial Class loginpage
             Else
                 Response.Write(<script>alert("Login Failed.")</script>)
             End If
-
-
-       
-
-
     End Sub
 
     'PAGE LOAD
