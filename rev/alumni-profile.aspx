@@ -62,7 +62,7 @@
 	                        <ul class="nav nav-sidebar">
 		                        <li>
 			                        <a href="#">
-				                        <asp:Image ID="Image2" runat="server" ImageUrl="./assets/images/default-dp.jpg" Height="85" Width="85" BorderColor="White" BorderStyle="Solid" BorderWidth="3" />          
+				                        <asp:Image ID="Image2" runat="server" ImageUrl="./assets/images/default-dp.jpg" Height="85" Width="85" BorderColor="White" BorderStyle="Solid" BorderWidth="3" CssClass="nonmod" />          
 			                        </a>
 		                        </li>
                             <li>    
@@ -89,7 +89,7 @@
                              </div>
 
                              <div class="col-xs-2">
-                                 <asp:Button ID="btnUpload" runat="server" Text="Upload Image" CssClass="btn btn-default btn-sm" OnClick="Upload"/>
+                                 <asp:Button ID="btnUpload" runat="server" Text="Update Profile Picture" CssClass="btn btn-default btn-sm" OnClick="Upload"/>
                              </div>
                          </div>
                         <div class="row placeholders " >

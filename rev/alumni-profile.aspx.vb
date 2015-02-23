@@ -49,6 +49,7 @@ Partial Class rev_alumni_profile
             If Session("ul") = 3 Then
                 dyna.HRef = Session("dynamic_link3")
                 pointer.HRef = Session("dynamic_link3")
+                Image2.ID = "non"
             ElseIf Session("ul") = 2 Then
                 dyna.HRef = Session("dynamic_link2")
                 pointer.HRef = Session("dynamic_link2")

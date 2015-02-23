@@ -208,6 +208,7 @@
                     success: function (announceReturn) {
                         $("#txtPostAnnouncementCoor").val("");
                         console.log(announceReturn);
+                        alert("Announcement Posted.");
                         window.location.reload(true);
                     }
                 });

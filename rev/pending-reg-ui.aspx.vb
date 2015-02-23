@@ -183,6 +183,7 @@ Partial Class rev_pending_reg_ui
             Console.Write("sd")
             Response.Redirect("Default.aspx")
         Else
+            Image2.ID = "mon"
             Using sqlCon As New SqlConnection(constr)
                 sqlCon.Open()
 

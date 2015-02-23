@@ -61,7 +61,7 @@ Partial Class rev_survey_gen_director
         Using sqlCon As New SqlConnection(constr)
 
             sqlCon.Open()
-            Using da = New SqlDataAdapter(" SELECT * FROM tblPolls", sqlCon)
+            Using da = New SqlDataAdapter(" SELECT * FROM tblPolls ORDER BY polls_idpk DESC", sqlCon)
                 Dim table = New DataTable()
                 da.Fill(table)
 
@@ -157,6 +157,7 @@ Partial Class rev_survey_gen_director
             Console.Write("sd")
             Response.Redirect("Default.aspx")
         Else
+            Image2.ID = "none"
             Using sqlCon As New SqlConnection(constr)
                 sqlCon.Open()
 

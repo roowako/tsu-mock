@@ -177,6 +177,7 @@ Partial Class rev_pending_ui
             Console.Write("sd")
             Response.Redirect("Default.aspx")
         Else
+            Image2.ID = "non"
             Using sqlCon As New SqlConnection(constr)
                 sqlCon.Open()
 

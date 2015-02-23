@@ -122,15 +122,17 @@ Partial Class rev_director_list_ui
             Console.Write("sd")
             Response.Redirect("Default.aspx")
         Else
+            Image2.ID = "non"
             Using sqlCon As New SqlConnection(constr)
                 sqlCon.Open()
 
-                cmd = New SqlCommand("SELECT given_name,college_idfk,tblColleges.description FROM tblAccounts,tblColleges WHERE account_idpk=@p1 AND college_idfk = college_idpk", sqlCon)
-                cmd.Parameters.AddWithValue("@p1", Session.Item("id"))
+                cmd = New SqlCommand("SELECT * FROM tblAccounts WHERE account_idpk=@p1", sqlCon)
+                cmd.Parameters.AddWithValue("@p1", Session("id"))
                 dr = cmd.ExecuteReader
 
                 While dr.Read
-                    account_idpk.Text = Session.Item("id")
+                    alumni_name.Text = dr.GetString(6)
+                    account_idpk.Text = Session("id")
                 End While
 
                 sqlCon.Close()

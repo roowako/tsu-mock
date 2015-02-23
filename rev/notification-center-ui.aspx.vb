@@ -103,6 +103,29 @@ Partial Class rev_notification_center_ui
         End Using
 
     End Function
+    Protected Sub Page_Load(sender As Object, e As EventArgs) Handles Me.Load
+        If Session.Item("id") Is Nothing Then
+            Console.Write("sd")
+            Response.Redirect("Default.aspx")
+        Else
+            Image2.ID = "non"
+            Using sqlCon As New SqlConnection(constr)
+                sqlCon.Open()
+
+                cmd = New SqlCommand("SELECT * FROM tblAccounts WHERE account_idpk=@p1", sqlCon)
+                cmd.Parameters.AddWithValue("@p1", Session("id"))
+                dr = cmd.ExecuteReader
+
+                While dr.Read
+                    alumni_name.Text = dr.GetString(6)
+                    account_idpk.Text = Session("id")
+                End While
+
+                sqlCon.Close()
+            End Using
+        End If
+    End Sub
+
 
     Protected Sub alumni_logout_Click(sender As Object, e As EventArgs) Handles alumni_logout.ServerClick
         Session.Abandon()

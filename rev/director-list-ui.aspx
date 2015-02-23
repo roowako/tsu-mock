@@ -54,7 +54,7 @@
 			                    </a>
 
 		                    </li>
-		                    <li><a href="#" class="bolder"><span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;Director</a></li>
+		                    <li><a href="#" class="bolder"><span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;<asp:Label id="alumni_name" runat="server"></asp:Label></a></li>
 		  
 		                    <li><a href="./director-ui.aspx" ><span class="glyphicon glyphicon-home"></span>&nbsp;&nbsp;Timeline</a></li>
 		                    <li><a href="./messaging-ui-director.aspx" ><span class="glyphicon glyphicon-comment"></span>&nbsp;&nbsp;Messages</a></li>
@@ -73,17 +73,12 @@
 		                    <li><a href="./statistics-ui.aspx"><span class="glyphicon glyphicon-signal"></span>&nbsp;&nbsp;Statistics</a></li>
 			                  <li><a href="./director-list-ui.aspx"><span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;List of Coordinators</a></li>
 			                  <li><a href="./alumni-list-ui.aspx"><span class="glyphicon glyphicon-list-alt"></span>&nbsp;&nbsp;List of Registered users</a></li>
-                        <li>
-                          <a href="#" id="alumni_logout" runat="server">
-                            <span class="glyphicon glyphicon-off"></span>&nbsp;&nbsp;Log out
-                          </a>
-                        </li>
-                        <li>
-                          <asp:TextBox ID="account_idpk" runat="server" ></asp:TextBox>
-                        </li>
+		                    <li><a href="#" id="alumni_logout" runat="server"><span class="glyphicon glyphicon-off"></span>&nbsp;&nbsp;Log out</a></li>
+                            <li>
+                                <asp:TextBox ID="account_idpk" runat="server" ></asp:TextBox>
+                            </li>
 	                    </ul>
-
-    </div>
+                    </div>
                     <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
                          <h3 class="page-header"><span class="glyphicon glyphicon-list-alt">&nbsp;</span>List of College Coordinators</h3>
                          <div class="row placeholders">
