@@ -56,14 +56,15 @@ Partial Class UI_poll_generator_ui
         Return serializer.Serialize(rows)
     End Function
 
+    'FETCH SURVEY FOR CERTAIN COORDINATOR
     <System.Web.Services.WebMethod()> _
     <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
-    Public Shared Function pullFromServer() As String
+    Public Shared Function pullFromServer(ByVal college_id As Integer) As String
         Using sqlCon As New SqlConnection(constr)
 
             sqlCon.Open()
 
-            Using da = New SqlDataAdapter(" SELECT * FROM tblPolls ORDER BY polls_idpk DESC", sqlCon)
+            Using da = New SqlDataAdapter("SELECT * FROM tblPolls WHERE target_id='" & college_id & "' ORDER BY polls_idpk DESC", sqlCon)
                 Dim table = New DataTable()
                 da.Fill(table)
                 table.Columns(0).ColumnName = "polls_idpk"
@@ -77,6 +78,7 @@ Partial Class UI_poll_generator_ui
 
     End Function
 
+    'FETCH SURVER OPTIONS
     <System.Web.Services.WebMethod()> _
     <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
     Public Shared Function pullPollOptions(ByVal optFk As String) As String
@@ -96,6 +98,30 @@ Partial Class UI_poll_generator_ui
 
             sqlCon.Close()
 
+        End Using
+
+    End Function
+
+    'DELETE SURVEY
+    <System.Web.Services.WebMethod()> _
+    <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
+    Public Shared Function delete_survey(ByVal pollsPK As Integer) As String
+
+        Using sqlCon As New SqlConnection(constr)
+            sqlCon.Open()
+
+            cmd = New SqlCommand("DELETE FROM tblPolls WHERE tblPolls.polls_idpk='" & pollsPK & "' ", sqlCon)
+            cmd.ExecuteNonQuery()
+
+            cmd = New SqlCommand("DELETE FROM tblPollsdata WHERE tblPollsdata.polls_idfk='" & pollsPK & "' ", sqlCon)
+            cmd.ExecuteNonQuery()
+
+            cmd = New SqlCommand("DELETE FROM tblPollsoption WHERE tblPollsoption.polls_idfk='" & pollsPK & "' ", sqlCon)
+            cmd.ExecuteNonQuery()
+
+            Return "Survey was removed."
+
+            sqlCon.Close()
         End Using
 
     End Function

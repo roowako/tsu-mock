@@ -213,10 +213,27 @@
                             "<td>  " + object.description + " </td>" +
                             "<td>  " + stat + " </td>" +
                             "<td>   " + "<a class='btn btn-success btn-sm theatre' id='" + object.polls_idpk + "' data-poll-title='" + object.description + "' data-poll-question='" + object.question + "' data-poll-id='" + object.polls_idpk + "' data-toggle='modal' data-target='#myModal'>View Details </a>" + " </td>" +
-                            "<td>   " + "<a class='btn btn-success btn-sm theatre' id='" + object.polls_idpk + "' data-poll-title='" + object.description + "' data-poll-question='" + object.question + "' data-poll-id='" + object.polls_idpk + "' data-toggle='modal' data-target='#myModal'>Delete</a>" + " </td>" +
+                            "<td>   " + "<a class='btn btn-success btn-sm delete-survey' id='" + object.polls_idpk + "' data-poll-title='" + object.description + "' data-poll-question='" + object.question + "' data-poll-id='" + object.polls_idpk + "'>Delete</a>" + " </td>" +
                            "</tr>"
                             );
+                    });
 
+                    $(".delete-survey").click(function () {
+                        var id = $(this).data("poll-id");
+                       
+                        $.ajax({
+                            type: "post",
+                            url: "./survey-gen-director.aspx/delete_survey",
+                            data: "{'id' :'" + id + "' }",
+                            dataType: "json",
+                            processData: false,
+                            traditional: true,
+                            contentType: "application/json; charset=utf-8",
+                            success: function (dataOpt) {
+                                alert(dataOpt.d);
+                                window.location.reload(true);
+                            }
+                        });
                     });
 
                     $(".theatre").click(function () {
@@ -246,9 +263,6 @@
                                      );
 
                                 });
-
-
-                                console.log(dataOpt.d);
                             }
                         });
 
@@ -258,10 +272,7 @@
             });
         }
 
-
         function pushToServer() {
-            //Function for passing Poll Generator inputs to the server
-
             var g = $("#counterPart").val();//Counter for textbox added
             var pollTitle = $("#txtPollTitle").val(); //Poll Title
             var pollTarget = $("#select_to_post_coor option:selected").val();// Dropdown List value
@@ -274,12 +285,12 @@
                 console.log(pollOptArr);
             });
 
-
             if (pollTitle == "" || pollQ == "" || pollOptArr == "") {
                 //Check all fields for empty value
                 alert("All fields are required.");
 
-            } else {
+            }
+            else {
 
                 //Push to server using jquery Ajax
                 $.ajax({
@@ -308,12 +319,7 @@
                     }
                 });
             }
-
-
         }
-
-
-
 
         var iCnt = 0;
 
@@ -390,6 +396,7 @@
             $('#btAdd').attr('class', 'bt');
         });
     </script>
+
     //Modal form
      <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
       <div class="modal-dialog">

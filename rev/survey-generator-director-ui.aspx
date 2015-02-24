@@ -88,13 +88,9 @@
                                                     <asp:TextBox ID="txtSurveyQuestionArea" runat="server" TextMode="MultiLine" CssClass="form-control" ClientIDMode="Static"></asp:TextBox>
                                                     <br />
                                                     <br />
-                                                    <label class="text-theme">Select where to post</label>
-                                                    
-                                                </div>
-                                                
-                                            </div>
-
-                                           
+                                                    <label class="text-theme">Select where to post</label>                                                   
+                                                </div>   
+                                            </div>    
                                         </div>
 
                                         <div class="row">
@@ -104,9 +100,6 @@
                                                 <div class="row">
                                                     <div class="col-xs-12 enable-populate form-group">
                                                         
-                                                       
-                                                       
-
                                                     </div>
                                                         
                                                 </div>

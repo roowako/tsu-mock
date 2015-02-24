@@ -204,21 +204,19 @@
     <script type="text/javascript" src="./js/custom.js"></script>
     <script type="text/javascript" src="./js/dom-control.js"></script>
     <script type="text/javascript" src="./js/home-search.js"></script>
-     <script type="text/javascript" src="./js/bindDelay.js"></script>
+    <script type="text/javascript" src="./js/bindDelay.js"></script>
     <script type="text/javascript" src="./js/json2.js"></script>
     <script type="text/javascript">
 
-       
-
         function pullFromServer() {
+            var college_id = $("#college_idpk").val();
 
             $.ajax({
                 type: "post",
                 url: "./poll-generator-ui.aspx/pullFromServer",
+                data: "{'college_id' :'" + college_id + "' }",
                 dataType:"json",
                 contentType: "application/json; charset=utf-8",
-              
-            
                 success: function (r) {
                     //Response from server side 
                     data = r.d
@@ -233,6 +231,7 @@
                         } else {
                             stat = "rejected";
                         }
+
                         object.status = "active";
                         $(".table").append(
                             "<tr>" +
@@ -240,11 +239,28 @@
                             "<td>  " + object.description + " </td>" +
                             "<td>  " + stat + " </td>" +
                             "<td>   " + "<a class='btn btn-success btn-sm theatre' id='" + object.polls_idpk + "' data-poll-title='" + object.description + "' data-poll-question='" + object.question + "' data-poll-id='" + object.polls_idpk + "' data-toggle='modal' data-target='#myModal'>View Details </a>" + " </td>" +
-                            "<td>   " + "<a class='btn btn-warning btn-sm theatre' id='" + object.polls_idpk + "' data-poll-title='" + object.description + "' data-poll-question='" + object.question + "' data-poll-id='" + object.polls_idpk + "' data-toggle='modal' data-target='#myModal'>Delete </a>" + " </td>" +
+                            "<td>   " + "<a class='btn btn-warning btn-sm delete_survey' id='" + object.polls_idpk + "' data-poll-title='" + object.description + "' data-poll-question='" + object.question + "' data-poll-id='" + object.polls_idpk + "'>Delete </a>" + " </td>" +
 
                             "</tr>"
                             );
-                        
+                    });
+
+                    $(".delete_survey").click(function () {
+                        pollsPK = $(this).data("poll-id");
+
+                        $.ajax({
+                            type: "post",
+                            url: "./poll-generator-ui.aspx/delete_survey",
+                            data: "{'pollsPK' :'" + pollsPK + "' }",
+                            dataType: "json",
+                            processData: false,
+                            traditional: true,
+                            contentType: "application/json; charset=utf-8",
+                            success: function (dataOpt) {
+                                alert(dataOpt.d);
+                                window.location.reload(true);
+                            }
+                        });
                     });
 
                     $(".theatre").click(function () {
@@ -252,7 +268,6 @@
                         $("#questionPlaceholder").text($(this).data("poll-question"));
                         $("#myModalLabel").text($(this).data("poll-title"));
                         pollsPK = $(this).data("poll-id");
-
 
                         $.ajax({
                             type: "post",
@@ -272,12 +287,8 @@
                                     var replaced = pollOpt.option_description.replace("-", ",");
                                        $("#placeholderOptions").append(
                                         "<li> " + replaced + " </li>"
-                                        );
-                                   
+                                        );                                   
                                 });
-                                
-                                
-                                console.log(dataOpt.d);
                             }
                         });
                         

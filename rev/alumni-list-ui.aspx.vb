@@ -23,6 +23,7 @@ Partial Class rev_alumni_list_ui
     Public Shared Property nature_appointment As String
     Dim isEmployed As Boolean
     Dim course_id As String
+
     Public Shared Function GetJson(ByVal dt As DataTable) As String
         Dim serializer As New System.Web.Script.Serialization.JavaScriptSerializer()
         serializer.MaxJsonLength = Integer.MaxValue
@@ -40,6 +41,7 @@ Partial Class rev_alumni_list_ui
         Next
         Return serializer.Serialize(rows)
     End Function
+
     Public Shared Function GetJson2(ByVal dt As DataTable) As String
         Dim serializer As New System.Web.Script.Serialization.JavaScriptSerializer()
         serializer.MaxJsonLength = Integer.MaxValue
@@ -95,9 +97,6 @@ Partial Class rev_alumni_list_ui
 
                 sqlCon.Close()
 
-                'Returning Message : Fail or Successful
-
-
             End Using
         ElseIf sortBy = "graduating" Then
             Using sqlCon As New SqlConnection(constr)
@@ -113,9 +112,6 @@ Partial Class rev_alumni_list_ui
 
                 sqlCon.Close()
 
-                'Returning Message : Fail or Successful
-
-
             End Using
         End If
 
@@ -126,7 +122,7 @@ Partial Class rev_alumni_list_ui
 
     'Textbox Search
     <System.Web.Services.WebMethod()> _
- <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
+    <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
     Public Shared Function searchQ(ByVal q As String) As String
         'Function named PushToDatabase 
         'Includes delimitation of user input
@@ -134,10 +130,10 @@ Partial Class rev_alumni_list_ui
         'Adding datas to database
         Dim jsndata As String
 
-       
-            Using sqlCon As New SqlConnection(constr)
 
-                sqlCon.Open()
+        Using sqlCon As New SqlConnection(constr)
+
+            sqlCon.Open()
             Using da = New SqlDataAdapter(" SELECT *,  given_name+ ' ' +family_name+ ' ' +middle_name ,CONVERT(VARCHAR, birthday,7) as formatedB,tblColleges.description as collegeDes,tblCourses.description as courseDes   FROM tblAccounts,tblCourses,tblColleges WHERE  given_name+ ' ' +family_name+ ' ' +middle_name LIKE '%" & q & "%' AND tblAccounts.course_idfk = tblCourses.course_idpk AND tblColleges.college_idpk = tblCourses.college_idfk AND account_status = 1 ", sqlCon)
                 Dim table = New DataTable()
                 da.Fill(table)
@@ -145,14 +141,14 @@ Partial Class rev_alumni_list_ui
                 jsndata = GetJson(table)
                 Return jsndata
             End Using
-                sqlCon.Close()
-                'Returning Message : Fail or Successful
-                sqlCon.Close()
-            End Using
+            sqlCon.Close()
+            'Returning Message : Fail or Successful
+            sqlCon.Close()
+        End Using
 
 
 
-       
+
 
         'Returning Message : Fail or Successful
     End Function
@@ -259,15 +255,7 @@ Partial Class rev_alumni_list_ui
 
                 End If
             End If
-
-
-
-
-            'Returning Message : Fail or Successful
     End Function
-
-
-
 
     Protected Sub Page_Load(sender As Object, e As EventArgs) Handles Me.Load
        If Session.Item("id") Is Nothing Then
@@ -292,7 +280,11 @@ Partial Class rev_alumni_list_ui
         End If
     End Sub
 
-   
+    'LOGOUT
+    Protected Sub alumni_logout_Click(sender As Object, e As EventArgs) Handles alumni_logout.ServerClick
+        Session.Abandon()
+        Response.Redirect("default.aspx")
+    End Sub
 
     <System.Web.Services.WebMethod()> _
    <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _

@@ -75,6 +75,30 @@ Partial Class rev_survey_gen_director
 
     End Function
 
+    'DELETE SURVEY
+    <System.Web.Services.WebMethod()> _
+    <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
+    Public Shared Function delete_survey(ByVal id As Integer) As String
+
+        Using sqlCon As New SqlConnection(constr)
+            sqlCon.Open()
+
+            cmd = New SqlCommand("DELETE FROM tblPolls WHERE tblPolls.polls_idpk='" & id & "' ", sqlCon)
+            cmd.ExecuteNonQuery()
+
+            cmd = New SqlCommand("DELETE FROM tblPollsdata WHERE tblPollsdata.polls_idfk='" & id & "' ", sqlCon)
+            cmd.ExecuteNonQuery()
+
+            cmd = New SqlCommand("DELETE FROM tblPollsoption WHERE tblPollsoption.polls_idfk='" & id & "' ", sqlCon)
+            cmd.ExecuteNonQuery()
+
+            Return "Survey was removed."
+
+            sqlCon.Close()
+        End Using
+
+    End Function
+
     <System.Web.Services.WebMethod()> _
     <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
     Public Shared Function pullPollOptions(ByVal optFk As String) As String
@@ -152,6 +176,7 @@ Partial Class rev_survey_gen_director
 
     End Function
 
+    'PAGE LOAD
     Protected Sub Page_Load(sender As Object, e As EventArgs) Handles Me.Load
         If Session.Item("id") Is Nothing Then
             Console.Write("sd")
@@ -175,6 +200,7 @@ Partial Class rev_survey_gen_director
         End If
     End Sub
 
+    'LOGOUT
     Protected Sub alumni_logout_Click(sender As Object, e As EventArgs) Handles alumni_logout.ServerClick
         Session.Abandon()
         Response.Redirect("default.aspx")
