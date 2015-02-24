@@ -49,12 +49,15 @@ Partial Class director_report
     'FETCH TOKENS
     <System.Web.Services.WebMethod()> _
     <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
-    Public Shared Function fetchtokens(ByVal college_fk As Integer, ByVal number_of_tokens As Integer) As String
+    Public Shared Function fetchtokens(ByVal college_fk As Integer, ByVal number_of_tokens As String) As String
+
+
+
         Using sqlCon As New SqlConnection(constr)
 
             sqlCon.Open()
 
-            Using da = New SqlDataAdapter("SELECT TOP '" + number_of_tokens + "' * FROM tblTokens WHERE college_idfk='" & college_fk & "'", sqlCon)
+            Using da = New SqlDataAdapter("SELECT TOP  " & number_of_tokens & " description, COUNT(token_idpk) OVER() AS rc  FROM tblTokens WHERE college_idfk='" & college_fk & "'", sqlCon)
                 Dim table = New DataTable()
                 da.Fill(table)
 
