@@ -203,8 +203,10 @@ Partial Class token_generator_ui
                 da.Fill(table)
 
                 Dim jsndata As String = GetJson(table)
+
                 'Return jsndata
                 Return table.Rows.Count.ToString
+
                 sqlCon.Close()
             End Using
 

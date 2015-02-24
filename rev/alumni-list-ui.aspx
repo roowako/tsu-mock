@@ -124,52 +124,49 @@
                                              <asp:ListItem Text="All" Value="all"/>
                                              <asp:ListItem Text="Alumni" Value="alumni"/>
                                              <asp:ListItem Text="Graduating" Value="graduating"/>
-                                        </asp:DropDownList>
+                                            </asp:DropDownList>
                                         </div>
-                                       
-                            
                                     </div>
 
                                     <div class="col-xs-5">
                                          <asp:DropDownList ID="filterCollege" runat="server" CssClass="form-control">
-                                            
                                              <asp:ListItem  Text="COLLEGE(ALL)" Value="allColleges" data-id="0"/>
                                         </asp:DropDownList>
-                            
                                     </div>
-
                                     <div class="col-xs-2">
                                          <asp:DropDownList ID="filterYear" runat="server" CssClass="form-control" ClientIDMode="Static">
                                              <asp:ListItem Text="YEAR(ALL)" Value="all" />
                                         </asp:DropDownList>
-                            
                                     </div>
                                 </div>
                                
+                                <div class="row">
+                                    <br />
+                                    <div class="col-xs-2">
+                                         <input id="btnPrintData" type="button" class="btn btn-sm btn-success" value="Print Data"/>
+                                    </div>                                
+                                </div>
+
                                 <br />
+                                    
                                     <div class="table-responsive">
-                                        <br />
-                                       
-                                        <br /><br />
                                         <table class="table table-hover searchableTable" id="searchableTable">
                                             <thead>
-
-                                           
-                                            <tr>
-                                                <td><span class="glyphicon glyphicon-th-list"></span></td>  
-                                                <td><b>Fullname</b></td>
-                                                
-                                                <td><b>College</b></td>
-                                                <td><b>Course</b></td>
-                                                <td><b>Graduated</b></td>
-                                                <td></td>
-                                            </tr>
+                                                <tr>
+                                                    <td><span class="glyphicon glyphicon-th-list"></span></td>  
+                                                    <td><b>Fullname</b></td>
+                                                    <td><b>College</b></td>
+                                                    <td><b>Course</b></td>
+                                                    <td><b>Graduated</b></td>
+                                                    <td></td>
+                                                </tr>
                                             </thead>
                                             <tbody>
                                                
                                             </tbody>
                                         </table>
                                     </div>
+
                                     <div class="row">
                                         <div class="col-md-12 text-center">
                                         <ul class="pagination  pagination-centered" id="myPager"></ul>
@@ -237,9 +234,6 @@
                   </div>
               </div>
           </div>
-        
-        
-        
       </div>
     </div>
   </div>
@@ -293,13 +287,21 @@
     <script type="text/javascript" src="./js/home-search.js"></script>
     <script>
         $(document).ready(function () {
+            $("#btnPrintData").click(function () {
+                var datatoprint = document.getElementById('searchableTable');
+                newWin = window.open("");
+                newWin.document.write(datatoprint.outerHTML);
+                newWin.print();
+                newWin.close();
+            });
+        });
+    </script>
+
+    <script>
+        $(document).ready(function () {
 
             sortBy = $("#sortBy option:selected").val();
-          
-
             var sess_id = $("#account_idpk").val();
-
-
 
             //Fetch colleges
             $.ajax({
@@ -406,9 +408,7 @@
                                             $("#studNumberPlacer").val(o.student_id);
                                         }
                                         $("#accountInfoPlaceholder tbody").append(
-
                                                 "<tr>" +
-
                                                     "<td> " + o.account_idpk + " </td>" +
                                                     "<td> " + o.student_id + " </td>" +
                                                     "<td> " + o.address + " </td>" +
@@ -421,40 +421,36 @@
                                                     "<td> " + o.gender + " </td>" +
                                                     "<td> " + o.year_graduated + " </td>" +
                                                 "</tr>"
-
-
                                             );
                                     });
                                 }
                             });
                         });
 
-                        $(".uid").click(function () {
-                           
-                           
+                        $(".uid").click(function () {                                                   
                             $(".resWrapper").html("");
                             $(".resWrapper").removeClass("revealWrap");
-                            $(".display").css("visibility", "hidden");
-                           
+                            $(".display").css("visibility", "hidden");                           
                             $(".appBtn").html("");
                             $("#messages").html("");
                             $("#myModalLabel2").text("");
                             $("#myModalLabel2").text($(this).data("name"));
                             $(".modal-body").css("display", "none");
+
                             name = "";
+
                             $(".appBtn").append(
                                     '<button type="button" class="btn btn-success btn-sm send" id="btnSend" style="float:left;">Send</button>' +
                                     '<button type="button" class="btn btn-primary btn-sm" data-dismiss="modal" style="float:right;margin-right:50px;">Close</button>')
                             var sess_id = $("#account_idpk").val();
                             account_idfk = $(this).data("id");
-
-
-                          
+                         
                             $("#btnSend").click(function (e) {
                                 e.preventDefault();
                                 var sess_id = $("#account_idpk").val();
                                 var message = $("#replyMessage").val();
                                 var sendTo = account_idfk;
+
                                 $.ajax({
                                     type: "post",
                                     url: "./messaging-ui-alumni.aspx/pushMessages",
@@ -476,9 +472,6 @@
                     }
                 });
             }
-
-
-
 
             $("#sortBy").change(function () {
                 sortBy = $("#sortBy option:selected").val();
@@ -522,7 +515,6 @@
                         data = jQuery.parseJSON(data);
 
                         p = data.length - 2;
-
 
                         $.each(data, function (i, o) {
                             var fn = o.given_name + "  " + o.middle_name + " " + o.family_name;
@@ -582,15 +574,16 @@
                                         if (o.student_id == "") {
                                             $("#studNumberPlacer").removeAttr("disabled");
                                             $(".update-sudnumber").removeAttr("disabled");
-                                        } else {
+                                        }
+                                        else {
                                             $(".update-sudnumber").attr("disabled", "disabled");
                                             $("#studNumberPlacer").attr("disabled", "disabled");
                                             $("#studNumberPlacer").val(o.student_id);
                                         }
+
                                         $("#accountInfoPlaceholder tbody").append(
 
                                                 "<tr>" +
-
                                                     "<td> " + o.account_idpk + " </td>" +
                                                     "<td> " + o.student_id + " </td>" +
                                                     "<td> " + o.address + " </td>" +
@@ -603,16 +596,13 @@
                                                     "<td> " + o.gender + " </td>" +
                                                     "<td> " + o.year_graduated + "</td>" +
                                                 "</tr>"
-
-
                                             );
                                     });
                                 }
                             });
                         });
+
                         $(".uid").click(function () {
-
-
                             $(".resWrapper").html("");
                             $(".resWrapper").removeClass("revealWrap");
                             $(".display").css("visibility", "hidden");
@@ -628,8 +618,6 @@
                                     '<button type="button" class="btn btn-primary btn-sm" data-dismiss="modal" style="float:right;margin-right:50px;">Close</button>')
                             var sess_id = $("#account_idpk").val();
                             account_idfk = $(this).data("id");
-
-
 
                             $("#btnSend").click(function (e) {
                                 e.preventDefault();
@@ -663,7 +651,6 @@
             $("#q").bind("keyup", function (event) {
                 $(this).search(event);
             });
-
         });
 
 
@@ -801,8 +788,6 @@
                         var sess_id = $("#account_idpk").val();
                         account_idfk = $(this).data("id");
 
-
-
                         $("#btnSend").click(function (e) {
                             e.preventDefault();
                             var sess_id = $("#account_idpk").val();
@@ -918,9 +903,7 @@
                                         $("#studNumberPlacer").val(o.student_id);
                                     }
                                     $("#accountInfoPlaceholder tbody").append(
-
                                             "<tr>" +
-
                                                 "<td> " + o.account_idpk + " </td>" +
                                                 "<td> " + o.student_id + " </td>" +
                                                 "<td> " + o.address + " </td>" +
@@ -933,8 +916,6 @@
                                                 "<td> " + o.gender + " </td>" +
                                                 "<td> " + o.year_graduated + " </td>" +
                                             "</tr>"
-
-
                                         );
                                 });
                             }, error: function (response) {
@@ -944,12 +925,9 @@
 
                     });
                     $(".uid").click(function () {
-
-
                         $(".resWrapper").html("");
                         $(".resWrapper").removeClass("revealWrap");
                         $(".display").css("visibility", "hidden");
-
                         $(".appBtn").html("");
                         $("#messages").html("");
                         $("#myModalLabel2").text("");
@@ -961,8 +939,6 @@
                                 '<button type="button" class="btn btn-primary btn-sm" data-dismiss="modal" style="float:right;margin-right:50px;">Close</button>')
                         var sess_id = $("#account_idpk").val();
                         account_idfk = $(this).data("id");
-
-
 
                         $("#btnSend").click(function (e) {
                             e.preventDefault();
@@ -988,8 +964,6 @@
                     });
                 }
             });
-
-
         });
     </script>
 </body>
