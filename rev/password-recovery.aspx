@@ -72,7 +72,7 @@
                                         
                                         
                                         <div class="col-sm-7 " style="text-align:right">
-                                            
+                                            <asp:Button ID="trigger" runat="server" Text="Button" ClientIDMode="Static" OnClick="sendResetTemplate" />
                                         </div>
                                     </div>
                                     
@@ -146,6 +146,7 @@
                             $("#resultMailer").addClass("btn-success");
                             $("#resultMailer").fadeIn('slow').delay(3500).fadeOut('slow');
                             $("#resultMailer").html("Please check your email for further instructions. Thank you.");
+                            $("#trigger").click();
                         }
                     }
                     });

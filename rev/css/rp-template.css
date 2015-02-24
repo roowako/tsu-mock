@@ -18,4 +18,6 @@
     margin-top:80px;
 }
 
-.minified-p{width:40px;height:40px;}
+.minified-p{width:55px;height:55px;}
+.pager{font-size:12px;text-align:left !important;line-height:5px;}
+.pager-cont{text-align:left !important;}
