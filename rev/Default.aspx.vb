@@ -1,6 +1,6 @@
 ﻿Imports System.Data.SqlClient
 Imports System.Data
-
+Imports System.Web.Configuration
 Imports System.Configuration
 Imports System.Web.Script.Services
 Imports System.Web.Script.Serialization
@@ -13,6 +13,7 @@ Partial Class loginpage
     Inherits System.Web.UI.Page
 
     Public Shared Property constr As String = "Data Source=SQL5012.Smarterasp.net;Initial Catalog=DB_9BB7E6_tsuat;User Id=DB_9BB7E6_tsuat_admin;Password=masterfile;"
+
     Public Shared Property sqlCon As SqlConnection
     Public Shared Property cmd As SqlCommand
     Public Shared Property dr As SqlDataReader
@@ -78,14 +79,14 @@ Partial Class loginpage
     Protected Sub Page_Load(sender As Object, e As EventArgs) Handles Me.Load
 
 
-
-
-        Label1.Text = Session.Count
-
+        If Session.Count = 0 Then
+            Label1.Text = Session.Count.ToString
+        End If
         If Session.Count > 1 Then
+            Label1.Text = Session.Count
             Response.Write(<script>alert("A user is already logged in.");</script>)
         Else
-
+            Label1.Text = Session.Count
             If Session.Item("id") <> Nothing Then
 
 

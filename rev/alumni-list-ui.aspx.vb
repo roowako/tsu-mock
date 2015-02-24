@@ -262,6 +262,12 @@ Partial Class rev_alumni_list_ui
             Console.Write("sd")
             Response.Redirect("Default.aspx")
         Else
+
+            For i As Integer = 1970 To CInt(Year(Now()))
+                filterYear.Items.Add(New ListItem(i.ToString(), i.ToString()))
+            Next
+
+
             Image2.ID = "non"
             Using sqlCon As New SqlConnection(constr)
                 sqlCon.Open()
@@ -350,6 +356,191 @@ Partial Class rev_alumni_list_ui
 
 
         End Using
+
+    End Function
+
+
+
+    'Filter Year
+    <System.Web.Services.WebMethod()> _
+    <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
+    Public Shared Function filterByYear(ByVal sortBy As String, ByVal college_id As String, ByVal year As String) As String
+
+        If sortBy = "alumni" Then
+            If college_id = "0" And year = "all" Then
+                Using sqlCon As New SqlConnection(constr)
+                    sqlCon.Open()
+                    Using dataAdapter = New SqlDataAdapter("SELECT *, tblColleges.description as collegeDes ,tblCourses.description as courseDes  FROM tblAccounts,tblCourses,tblColleges  WHERE  tblCourses.course_idpk = tblAccounts.course_idfk AND tblCourses.college_idfk =   tblColleges.college_idpk AND tblAccounts.userlevel_idfk = 1  AND tblAccounts.account_status = 1 ", sqlCon)
+                        Dim table = New DataTable()
+                        dataAdapter.Fill(table)
+
+                        Dim jsndata As String = GetJson(table)
+                        Return jsndata
+                    End Using
+                    sqlCon.Close()
+                    'Returning Message : Fail or Successful
+
+                End Using
+            ElseIf college_id > 0 And year = "all" Then
+                Using sqlCon As New SqlConnection(constr)
+                    sqlCon.Open()
+                    Using dataAdapter = New SqlDataAdapter("SELECT *, tblColleges.description as collegeDes,tblCourses.description as courseDes  FROM tblAccounts,tblCourses,tblColleges  WHERE  tblCourses.course_idpk = tblAccounts.course_idfk AND tblCourses.college_idfk = '" + college_id + "' AND  tblColleges.college_idpk = '" + college_id + "' AND tblAccounts.userlevel_idfk = 1 AND tblAccounts.account_status = 1", sqlCon)
+                        Dim table = New DataTable()
+                        dataAdapter.Fill(table)
+
+                        Dim jsndata As String = GetJson(table)
+                        Return jsndata
+                    End Using
+                    sqlCon.Close()
+                    'Returning Message : Fail or Successful
+
+                End Using
+
+            ElseIf college_id = "0" And year <> "all" Then
+                Using sqlCon As New SqlConnection(constr)
+                    sqlCon.Open()
+                    Using dataAdapter = New SqlDataAdapter("SELECT *, tblColleges.description as collegeDes,tblCourses.description as courseDes  FROM tblAccounts,tblCourses,tblColleges  WHERE  tblCourses.course_idpk = tblAccounts.course_idfk AND tblCourses.college_idfk = tblColleges.college_idpk AND   tblAccounts.userlevel_idfk = 1 AND tblAccounts.account_status = 1 AND year_graduated = '" & year & "' ", sqlCon)
+                        Dim table = New DataTable()
+                        dataAdapter.Fill(table)
+
+                        Dim jsndata As String = GetJson(table)
+                        Return jsndata
+                    End Using
+                    sqlCon.Close()
+                    'Returning Message : Fail or Successful
+
+                End Using
+
+            ElseIf college_id > 0 And year <> "all" Then
+                Using sqlCon As New SqlConnection(constr)
+                    sqlCon.Open()
+                    Using dataAdapter = New SqlDataAdapter("SELECT *, tblColleges.description as collegeDes,tblCourses.description as courseDes  FROM tblAccounts,tblCourses,tblColleges  WHERE  tblCourses.course_idpk = tblAccounts.course_idfk AND tblCourses.college_idfk = '" + college_id + "' AND  tblColleges.college_idpk = '" + college_id + "' AND tblAccounts.userlevel_idfk = 1 AND tblAccounts.account_status = 1 AND year_graduated = '" & year & "' ", sqlCon)
+                        Dim table = New DataTable()
+                        dataAdapter.Fill(table)
+
+                        Dim jsndata As String = GetJson(table)
+                        Return jsndata
+                    End Using
+                    sqlCon.Close()
+                    'Returning Message : Fail or Successful
+
+                End Using
+
+            End If
+
+        ElseIf sortBy = "all" Then
+            If college_id = "0" And year = "all" Then
+                Using sqlCon As New SqlConnection(constr)
+                    sqlCon.Open()
+                    Using dataAdapter = New SqlDataAdapter("SELECT *, tblColleges.description as collegeDes,tblCourses.description as courseDes  FROM tblAccounts,tblCourses,tblColleges  WHERE  tblCourses.course_idpk = tblAccounts.course_idfk AND tblCourses.college_idfk =   tblColleges.college_idpk AND tblAccounts.userlevel_idfk <> 2  AND tblAccounts.account_status = 1 ", sqlCon)
+                        Dim table = New DataTable()
+                        dataAdapter.Fill(table)
+
+                        Dim jsndata As String = GetJson(table)
+                        Return jsndata
+                    End Using
+                    sqlCon.Close()
+                    'Returning Message : Fail or Successful
+
+                End Using
+
+            ElseIf college_id = "0" And year <> "all" Then
+                Using sqlCon As New SqlConnection(constr)
+                    sqlCon.Open()
+                    Using dataAdapter = New SqlDataAdapter("SELECT *, tblColleges.description as collegeDes,tblCourses.description as courseDes  FROM tblAccounts,tblCourses,tblColleges  WHERE  tblCourses.course_idpk = tblAccounts.course_idfk AND tblCourses.college_idfk =   tblColleges.college_idpk AND tblAccounts.userlevel_idfk <> 2  AND tblAccounts.account_status = 1 AND year_graduated = '" & year & "' ", sqlCon)
+                        Dim table = New DataTable()
+                        dataAdapter.Fill(table)
+
+                        Dim jsndata As String = GetJson(table)
+                        Return jsndata
+                    End Using
+                    sqlCon.Close()
+                    'Returning Message : Fail or Successful
+
+                End Using
+            ElseIf college_id > 0 And year = "all" Then
+                Using sqlCon As New SqlConnection(constr)
+                    sqlCon.Open()
+                    Using dataAdapter = New SqlDataAdapter("SELECT *, tblColleges.description as collegeDes,tblCourses.description as courseDes  FROM tblAccounts,tblCourses,tblColleges  WHERE  tblCourses.course_idpk = tblAccounts.course_idfk AND tblCourses.college_idfk = '" + college_id + "' AND  tblColleges.college_idpk = '" + college_id + "' AND tblAccounts.userlevel_idfk <> 2 AND tblAccounts.account_status = 1   ", sqlCon)
+                        Dim table = New DataTable()
+                        dataAdapter.Fill(table)
+
+                        Dim jsndata As String = GetJson(table)
+                        Return jsndata
+                    End Using
+                    sqlCon.Close()
+                    'Returning Message : Fail or Successful
+
+                End Using
+            ElseIf college_id > 0 And sortBy = "all" Then
+                Using sqlCon As New SqlConnection(constr)
+                    sqlCon.Open()
+                    Using dataAdapter = New SqlDataAdapter("SELECT *, tblColleges.description as collegeDes,tblCourses.description as courseDes  FROM tblAccounts,tblCourses,tblColleges  WHERE  tblCourses.course_idpk = tblAccounts.course_idfk AND tblCourses.college_idfk = '" + college_id + "' AND  tblColleges.college_idpk = '" + college_id + "' AND tblAccounts.userlevel_idfk <> 2 AND tblAccounts.account_status = 1 AND year_graduated = '" & year & "'  ", sqlCon)
+                        Dim table = New DataTable()
+                        dataAdapter.Fill(table)
+
+                        Dim jsndata As String = GetJson(table)
+                        Return jsndata
+                    End Using
+                    sqlCon.Close()
+                    'Returning Message : Fail or Successful
+
+                End Using
+            End If
+
+        
+
+        ElseIf sortBy = "graduating" Then
+            If college_id = "0" And year = "all" Then
+                Using sqlCon As New SqlConnection(constr)
+                    sqlCon.Open()
+                    Using dataAdapter = New SqlDataAdapter("SELECT *, tblColleges.description as collegeDes,tblCourses.description as courseDes  FROM tblAccounts,tblCourses,tblColleges  WHERE  tblCourses.course_idpk = tblAccounts.course_idfk AND tblCourses.college_idfk =   tblColleges.college_idpk AND tblAccounts.userlevel_idfk = 0 AND   tblAccounts.account_status = 1", sqlCon)
+                        Dim table = New DataTable()
+                        dataAdapter.Fill(table)
+
+                        Dim jsndata As String = GetJson(table)
+                        Return jsndata
+                    End Using
+                    sqlCon.Close()
+                    'Returning Message : Fail or Successful
+
+                End Using
+
+            ElseIf college_id = "0" And year <> "all" Then
+                Using sqlCon As New SqlConnection(constr)
+                    sqlCon.Open()
+                    Using dataAdapter = New SqlDataAdapter("SELECT *, tblColleges.description as collegeDes,tblCourses.description as courseDes  FROM tblAccounts,tblCourses,tblColleges  WHERE  tblCourses.course_idpk = tblAccounts.course_idfk AND tblCourses.college_idfk = tblColleges.college_idpk  AND tblAccounts.userlevel_idfk = 0 AND tblAccounts.account_status = 1 AND year_graduated = '" & year & "' ", sqlCon)
+                        Dim table = New DataTable()
+                        dataAdapter.Fill(table)
+
+                        Dim jsndata As String = GetJson(table)
+                        Return jsndata
+                    End Using
+                    sqlCon.Close()
+                    'Returning Message : Fail or Successful
+
+                End Using
+
+            ElseIf college_id > 0 And year <> "all" Then
+                Using sqlCon As New SqlConnection(constr)
+                    sqlCon.Open()
+                    Using dataAdapter = New SqlDataAdapter("SELECT *, tblColleges.description as collegeDes,tblCourses.description as courseDes  FROM tblAccounts,tblCourses,tblColleges  WHERE  tblCourses.course_idpk = tblAccounts.course_idfk AND tblCourses.college_idfk = '" + college_id + "' AND  tblColleges.college_idpk = '" + college_id + "' AND tblAccounts.userlevel_idfk = 0 AND tblAccounts.account_status = 1 AND year_graduated = '" & year & "' ", sqlCon)
+                        Dim table = New DataTable()
+                        dataAdapter.Fill(table)
+
+                        Dim jsndata As String = GetJson(table)
+                        Return jsndata
+                    End Using
+                    sqlCon.Close()
+                    'Returning Message : Fail or Successful
+
+                End Using
+
+            End If
+
+       
+
+        End If
 
     End Function
 End Class

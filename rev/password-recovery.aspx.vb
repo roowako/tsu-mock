@@ -6,6 +6,9 @@ Imports System.Web.Script.Serialization
 Imports System.Linq
 Imports System.Web
 Imports System.Collections.Generic
+Imports System.Net
+Imports System.Net.Mail
+
 Partial Class rev_password_recovery
     Inherits System.Web.UI.Page
 
@@ -40,20 +43,68 @@ Partial Class rev_password_recovery
 
 
     <System.Web.Services.WebMethod()> _
-      <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
-    Public Shared Function pullMail(ByVal recoveryMail As String) As String
+    Public Shared Function pullMail(ByVal r As String) As String
+
+        Dim uid As Integer
+        Dim u As String
+        Dim um As String
         Using sqlCon As New SqlConnection(constr)
             sqlCon.Open()
 
-            Using da = New SqlDataAdapter("SELECT email_address FROM tblAccounts WHERE email_address = '" & recoveryMail & "' AND account_status = 1 ", sqlCon)
-                Dim table = New DataTable()
-                da.Fill(table)
+            cmd = New SqlCommand("SELECT account_idpk as aid,given_name+ ' ' +middle_name+ ' ' +family_name as u,email_address as um  FROM tblAccounts WHERE email_address = @p1 OR student_id = @p1 OR given_name+ ' ' +middle_name+ ' ' +family_name = @p1 OR telephone_number = @p1 AND account_status = 1 ", sqlCon)
+            cmd.Parameters.AddWithValue("@p1", r)
 
-                Dim jsndata As String = GetJson(table)
-                Return jsndata
-            End Using
+            dr = cmd.ExecuteReader
+
+            If dr.HasRows Then
+                dr.Read()
+
+                uid = dr.GetValue(0)
+                u = dr.GetString(1)
+                um = dr.GetString(2)
+
+                Try
+
+                    Dim m As New MailMessage()
+                    Dim MessageBody As String
+
+                    MessageBody = "Hello <span class='mailer'>" + u + "</span>, You've requested for a password reset."
+
+                    Dim header As String = "<html><head>"
+                    header = header & "<style>"
+                    header = header & "body{background: #fff;} .mailer{text-transform:uppercase;font-weight:bold;color:#333;}"
+                    header = header & "</style></head><body>"
+
+                    Dim footer As String = "</body></html>"
+                    MessageBody = header & MessageBody & footer
+
+                    m.From = New MailAddress("tsualumnitracer@gmail.com")
+                    m.To.Add(um.ToString)
+                    m.Subject = "Password Reset"
+                    m.Body = MessageBody
+                    m.IsBodyHtml = True
+                    Dim smtp As New SmtpClient()
+                    smtp.Host = "smtp.gmail.com"
+                    smtp.EnableSsl = True
+                    Dim credentials As New NetworkCredential
+                    credentials.UserName = "tsualumnitracer@gmail.com"
+                    credentials.Password = "Kjhjt8765"
+                    smtp.UseDefaultCredentials = True
+                    smtp.Credentials = credentials
+                    smtp.Port = 587
+                    smtp.Send(m)
+                    Return ""
+                Catch error_t As Exception
+                    Return error_t.ToString
+                End Try
+
+            Else
+                Return "None"
+            End If
+
 
             sqlCon.Close()
         End Using
+
     End Function
 End Class

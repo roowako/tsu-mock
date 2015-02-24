@@ -1,0 +1,21 @@
+﻿
+
+
+
+.themed{
+    background:maroon !important;
+    box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.5) !important;
+}
+
+.navbar-brand{
+    color:#fff !important;
+    font-weight:600;
+    letter-spacing:2px;
+    font-family:Arial !important;
+}
+
+.pulled-down{
+    margin-top:80px;
+}
+
+.minified-p{width:40px;height:40px;}

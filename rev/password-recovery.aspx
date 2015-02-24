@@ -41,8 +41,9 @@
                     <div id="navbar" class="navbar-collapse collapse" > <!---collapse collapse -->
                         <br />
                        <div class="navbar-form navbar-right">
-                           <a href="./loginpage.aspx" class="btn btn-warning btn-sm">Create account</a>
-                           <a href="./Default.aspx" class="btn btn-success btn-sm">Sign in</a>
+                         <a href="./Default.aspx" class="btn btn-success btn-sm">Sign in</a>
+                          <a href="./loginpage.aspx" class="btn btn-warning btn-sm">Create account</a>
+                          
                        </div> 
                        
                     </div><!--/.navbar-collapse -->
@@ -52,19 +53,36 @@
 
             <!-- Content -->
             <div class="container pulled-down">
+                <br /><br /><br /><br />
                 <div class="row ">
                     <div class="col-sm-8 ">
                         <div class="row">
-                            <div class="col-xs-8">
-                                <h5> Please provide your email address used in your registration to reset your password.</h5>
+                            <div class="col-xs-5"></div>
+                            <div class="col-xs-7">
+                                <h4> Find your account.</h4>
                                 <div class="form-group">
-                                    <input type="text" placeholder="Email Address" class="form-control" id="mail" />
+                                    <input type="text" placeholder="" class="form-control" id="mail" />
                                 </div>
                                 <div class="form-group">
-                                    <input type="button"  class="btn btn-success btn-sm"  value="Reset password" id="getMail"/>
+                                    <p>Email, Phone, Student ID or Fullname.</p>
+                                    <div class="row">
+                                        <div class="col-sm-5">
+                                            <input type="button"  class="btn btn-primary btn-sm"  value="Search account" id="getMail"/>
+                                        </div>
+                                        
+                                        
+                                        <div class="col-sm-7 " style="text-align:right">
+                                            
+                                        </div>
+                                    </div>
+                                    
+                                    
+                                  
+                                    
                                 </div>
                                 <div class="form-group">
-                                    <div id="resultMailer"></div>
+                                    <br />
+                                    <div id="resultMailer" class="form-control"></div>
                                 </div>
                             </div>
                         </div>                                
@@ -79,8 +97,26 @@
                
                 </div>
         </div>
+        <div class="container-fluid">
+                <div class="row">
+                     <div class="col-sm-12" style="background:#fff;position:absolute;bottom:0;padding:30px;border-top:thin solid #eee;">
+                         <div class="row">
+                             <div class="col-sm-4"></div>
+                             <div class="col-sm-4">
+                                 
+                                     <br />
+                                     <h5>Tarlac State University Alumni Tracer &copy; 2015.&nbsp; All rights reserved.</h5>
+                               
+                                
+                             </div>
+                             <div class="col-sm-4"></div>
+                         </div>
+
+                     </div>
+                 </div>
+            </div>
     </form>
-     <script type="text/javascript" src="./js/jquery.js"></script>
+    <script type="text/javascript" src="./js/jquery.js"></script>
     <script type="text/javascript" src="./js/bootstrap.min.js"></script>
     <script>
         $(document).ready(function () {
@@ -93,17 +129,23 @@
                     $.ajax({
                     type: "post",
                     url: "./password-recovery.aspx/pullMail",
-                    data: "{'recoveryMail':'" + mail + "'}",
+                    data: "{'r':'" + mail + "'}",
                     dataType: "json",
                     async:true,
                     contentType: "application/json; charset=utf-8",
 
                     success: function (r) {
                         console.log(r.d);
-                        if (r.d == "[]") {
-                            $("#resultMailer").html("Sorry we can't seem to find the email address you've provided.");
+                        if (r.d == "None") {
+                            $("#resultMailer").removeClass("btn-success");
+                            $("#resultMailer").addClass("btn-warning");
+                            $("#resultMailer").fadeIn('slow').delay(4000).fadeOut('slow');
+                            $("#resultMailer").html("Please try again with other information.");
                         } else {
-                            console.log("s");
+                            $("#resultMailer").removeClass("btn-warning");
+                            $("#resultMailer").addClass("btn-success");
+                            $("#resultMailer").fadeIn('slow').delay(3500).fadeOut('slow');
+                            $("#resultMailer").html("Please check your email for further instructions. Thank you.");
                         }
                     }
                     });

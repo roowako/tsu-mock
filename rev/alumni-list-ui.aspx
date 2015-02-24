@@ -139,37 +139,8 @@
                                     </div>
 
                                     <div class="col-xs-2">
-                                         <asp:DropDownList ID="filterYear" runat="server" CssClass="form-control">
-                                           <asp:ListItem Text="1970" />
-                                            <asp:ListItem Text="1971" />
-                                            <asp:ListItem Text="1972" />
-                                            <asp:ListItem Text="1973" />
-                                            <asp:ListItem Text="1974" />
-                                            <asp:ListItem Text="1975" />
-                                            <asp:ListItem Text="1976" />
-                                            <asp:ListItem Text="1977" />
-                                            <asp:ListItem Text="1978" />
-                                            <asp:ListItem Text="1979" />
-                                            <asp:ListItem Text="1980" />
-                                            <asp:ListItem Text="1981" />
-                                            <asp:ListItem Text="1982" />
-                                            <asp:ListItem Text="1983" />
-                                            <asp:ListItem Text="1984" />
-                                            <asp:ListItem Text="1985" />
-                                            <asp:ListItem Text="1986" />
-                                            <asp:ListItem Text="1987" />
-                                            <asp:ListItem Text="1988" />
-                                            <asp:ListItem Text="1989" />
-                                            <asp:ListItem Text="1990" />
-                                            <asp:ListItem Text="1991" />
-                                            <asp:ListItem Text="1992" />
-                                            <asp:ListItem Text="1993" />
-                                            <asp:ListItem Text="1994" />
-                                            <asp:ListItem Text="1995" />
-                                            <asp:ListItem Text="1997" />
-                                            <asp:ListItem Text="1998" />
-                                            <asp:ListItem Text="1999" />
-                                            <asp:ListItem Text="2000" />
+                                         <asp:DropDownList ID="filterYear" runat="server" CssClass="form-control" ClientIDMode="Static">
+                                             <asp:ListItem Text="YEAR(ALL)" Value="all" />
                                         </asp:DropDownList>
                             
                                     </div>
@@ -190,7 +161,7 @@
                                                 
                                                 <td><b>College</b></td>
                                                 <td><b>Course</b></td>
-                                                <td><b>Year Graduated</b></td>
+                                                <td><b>Graduated</b></td>
                                                 <td></td>
                                             </tr>
                                             </thead>
@@ -353,15 +324,6 @@
 
             var sortColleges;
 
-
-            //Fetch by college and student status
-
-
-
-
-
-
-
             //Fetch all dropdown list colleges on load
             if (sortBy == "all") {
                 $("#accountInfoPlaceholder tbody ").html("");
@@ -523,11 +485,13 @@
                 $("#accountInfoPlaceholder tbody ").html("");
                 $("#filterCollege").html();
                 $("#filterCollege").val($("#filterCollege option:first").val());
+                $("#filterYear").val($("#filterYear option:first").val());
                 var legend;
 
                 if (sortBy == "alumni") {
                     $("#filterCollege").html();
                     $("#filterCollege").val($("#filterCollege option:first").val());
+                    $("#filterYear").val($("#filterYear option:first").val());
                     console.log(sortColleges);
                     $("#accountInfoPlaceholder tbody ").html("");
 
@@ -535,6 +499,7 @@
                 } else if (sortBy == "graduating") {
                     $("#filterCollege").html();
                     $("#filterCollege").val($("#filterCollege option:first").val());
+                    $("#filterYear").val($("#filterYear option:first").val());
                     $("#accountInfoPlaceholder tbody ").html("");
                     legend = "warning";
                 } else {
@@ -708,7 +673,7 @@
         $("#filterCollege").change(function () {
             var sortColleges = $("#filterCollege option:selected").attr("data-id");
             sortBy = $("#sortBy option:selected").val();
-
+            $("#filterYear").val($("#filterYear option:first").val());
             $(".searchableTable tbody").html("");
 
 
@@ -732,7 +697,7 @@
                                             "<td> " + o.given_name + "  " + o.middle_name + " " + o.family_name + " </td>" +
                                             "<td> " + o.collegeDes + " </td>" +
                                             "<td>" + o.courseDes + "</td>" +
-
+                                            "<td>" + o.year_graduated + "</td>" +
                                             "<td></td>" +
                                             "<td> <a class='btn btn-primary btn-sm viewAccountInfo' data-account-id='" + o.account_idpk + "' data-toggle='modal' data-target='.bs-example-modal-lg' > View info </a> </td>" +
                                             "<td> <a class='btn btn-primary btn-sm uid' data-toggle='modal' data-id='" + o.account_idpk + "' data-target='#myModal' data-name='" + fn + "' > Message </a> </td>" +
@@ -745,7 +710,7 @@
                                         "<td> " + o.given_name + "  " + o.middle_name + " " + o.family_name + " </td>" +
                                         "<td> " + o.collegeDes + " </td>" +
                                         "<td>" + o.courseDes + "</td>" +
-
+                                        "<td>" + o.year_graduated + "</td>" +
                                         "<td></td>" +
                                         "<td> <a class='btn btn-primary btn-sm viewAccountInfo' data-account-id='" + o.account_idpk + "' data-toggle='modal' data-target='.bs-example-modal-lg' > View info </a> </td>" +
                                          "<td> <a class='btn btn-primary btn-sm uid' data-toggle='modal' data-id='" + o.account_idpk + "' data-target='#myModal' data-name='" + fn + "' > Message </a> </td>" +
@@ -796,6 +761,7 @@
                                             "<tr>" +
 
                                                 "<td> " + o.account_idpk + " </td>" +
+                                                "<td> " + o.student_id + " </td>" +
                                                 "<td> " + o.address + " </td>" +
                                                 "<td> " + o.telephone_number + " </td>" +
                                                 "<td> " + o.email_address + " </td>" +
@@ -804,6 +770,7 @@
                                                 "<td> " + o.religion + " </td>" +
                                                 "<td> " + o.marital_status + " </td>" +
                                                 "<td> " + o.gender + " </td>" +
+                                                "<td> " + o.year_graduated + " </td>" +
                                             "</tr>"
 
 
@@ -860,6 +827,169 @@
                     });
                 }
             });
+        });
+
+        //Filter by year
+
+        $("#filterYear").change(function () {
+            sortBy = $("#sortBy option:selected").val();
+            var sortColleges = $("#filterCollege option:selected").attr("data-id");
+            var y = $(this).val();
+            $(".searchableTable tbody").html("");
+
+            $.ajax({
+                type: "post",
+                url: "alumni-list-ui.aspx/filterByYear",
+                data: "{'sortBy':'" + sortBy + "','college_id':'" + sortColleges + "','year':'"+ y +"'}",
+                dataType: "json",
+                processData: false,
+                traditional: true,
+                contentType: "application/json; charset=utf-8",
+                success: function (response) {
+                    if (response.d == "[]") { $(".searchableTable tbody").html("No result."); }
+                    data = response.d;
+                    data = jQuery.parseJSON(data);
+                    $.each(data, function (i, o) {
+                        var fn = o.given_name + "  " + o.middle_name + " " + o.family_name;
+                        if (o.userlevel_idfk == 1) {
+                            var mod = ("<tr class='success'>" +
+                                            "<td> " + o.account_idpk + " </td>" +
+
+                                            "<td> " + o.given_name + "  " + o.middle_name + " " + o.family_name + " </td>" +
+                                            "<td> " + o.collegeDes + " </td>" +
+                                            "<td>" + o.courseDes + "</td>" +
+                                             "<td>" + o.year_graduated + "</td>" +
+                                          
+                                            "<td> <a class='btn btn-primary btn-sm viewAccountInfo' data-account-id='" + o.account_idpk + "' data-toggle='modal' data-target='.bs-example-modal-lg' > View info </a> </td>" +
+                                            "<td> <a class='btn btn-primary btn-sm uid' data-toggle='modal' data-id='" + o.account_idpk + "' data-target='#myModal' data-name='" + fn + "' > Message </a> </td>" +
+
+                                       "</tr>");
+
+                        } else {
+                            var mod = ("<tr class='warning'>" +
+                                        "<td> " + o.account_idpk + " </td>" +
+                                        "<td> " + o.given_name + "  " + o.middle_name + " " + o.family_name + " </td>" +
+                                        "<td> " + o.collegeDes + " </td>" +
+                                        "<td>" + o.courseDes + "</td>" +
+                                         "<td>" + o.year_graduated + "</td>" +
+                                     
+                                        "<td> <a class='btn btn-primary btn-sm viewAccountInfo' data-account-id='" + o.account_idpk + "' data-toggle='modal' data-target='.bs-example-modal-lg' > View info </a> </td>" +
+                                         "<td> <a class='btn btn-primary btn-sm uid' data-toggle='modal' data-id='" + o.account_idpk + "' data-target='#myModal' data-name='" + fn + "' > Message </a> </td>" +
+
+                                    "</tr>");
+                        }
+
+                        $(".searchableTable tbody").append(
+                                        mod
+                                    );
+
+                    });
+
+                    //Theatre
+                    $(".viewAccountInfo").click(function () {
+                        $(".modal-body").css("display", "block");
+                        accId = $(this).data("account-id");
+                        $("#accountInfoPlaceholder tbody ").html("");
+                        $.ajax({
+                            type: "post",
+                            url: "alumni-list-ui.aspx/fetchAccountInfo",
+                            data: "{'accId':'" + accId + "'}",
+                            dataType: "json",
+                            processData: false,
+                            traditional: true,
+                            contentType: "application/json; charset=utf-8",
+                            success: function (approvalResponse) {
+                                response = approvalResponse.d;
+                                response = jQuery.parseJSON(response);
+                                $.each(response, function (i, o) {
+                                    console.log(o.student_id);
+
+
+                                    $("#myModalLabel").text(o.given_name + "  " + o.middle_name + " " + o.family_name);
+
+
+                                    $(".update-sudnumber").attr("data-id", o.account_idpk);
+                                    if (o.student_id == "") {
+                                        $("#studNumberPlacer").removeAttr("disabled");
+                                        $(".update-sudnumber").removeAttr("disabled");
+                                    } else {
+                                        $(".update-sudnumber").attr("disabled", "disabled");
+                                        $("#studNumberPlacer").attr("disabled", "disabled");
+                                        $("#studNumberPlacer").val(o.student_id);
+                                    }
+                                    $("#accountInfoPlaceholder tbody").append(
+
+                                            "<tr>" +
+
+                                                "<td> " + o.account_idpk + " </td>" +
+                                                "<td> " + o.student_id + " </td>" +
+                                                "<td> " + o.address + " </td>" +
+                                                "<td> " + o.telephone_number + " </td>" +
+                                                "<td> " + o.email_address + " </td>" +
+                                                "<td> " + o.formatedB + " </td>" +
+                                                "<td> " + o.citizenship + " </td>" +
+                                                "<td> " + o.religion + " </td>" +
+                                                "<td> " + o.marital_status + " </td>" +
+                                                "<td> " + o.gender + " </td>" +
+                                                "<td> " + o.year_graduated + " </td>" +
+                                            "</tr>"
+
+
+                                        );
+                                });
+                            }, error: function (response) {
+                                console.log("Opps something went wrong.");
+                            }
+                        });
+
+                    });
+                    $(".uid").click(function () {
+
+
+                        $(".resWrapper").html("");
+                        $(".resWrapper").removeClass("revealWrap");
+                        $(".display").css("visibility", "hidden");
+
+                        $(".appBtn").html("");
+                        $("#messages").html("");
+                        $("#myModalLabel2").text("");
+                        $("#myModalLabel2").text($(this).data("name"));
+                        $(".modal-body").css("display", "none");
+                        name = "";
+                        $(".appBtn").append(
+                                '<button type="button" class="btn btn-success btn-sm send" id="btnSend" style="float:left;">Send</button>' +
+                                '<button type="button" class="btn btn-primary btn-sm" data-dismiss="modal" style="float:right;margin-right:50px;">Close</button>')
+                        var sess_id = $("#account_idpk").val();
+                        account_idfk = $(this).data("id");
+
+
+
+                        $("#btnSend").click(function (e) {
+                            e.preventDefault();
+                            var sess_id = $("#account_idpk").val();
+                            var message = $("#replyMessage").val();
+                            var sendTo = account_idfk;
+                            $.ajax({
+                                type: "post",
+                                url: "./messaging-ui-alumni.aspx/pushMessages",
+                                data: "{'message':'" + message + "','actor_id':'" + sess_id + "','send_to':'" + sendTo + "'}",
+                                dataType: "json",
+                                contentType: "application/json; charset=utf-8",
+                                async: true,
+                                success: function (r) {
+                                    $("#actor-message").val("");
+                                    $("#searching").val("");
+                                    alert("Message sent.");
+                                    window.location.reload(true);
+                                }
+                            });
+                        });
+                        console.log(account_idfk);
+                    });
+                }
+            });
+
+
         });
     </script>
 </body>

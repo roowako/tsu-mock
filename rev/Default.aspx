@@ -14,7 +14,7 @@
 </head>
 <body>
     <form id="form1" runat="server">
-        <div class="contain-fluid">
+        <div class="container-fluid">
             <nav class="navbar navbar-inverse navbar-fixed-top shadowed default-theme"> 
                     <div class="container pulled-height ">
                     <div class="navbar-header ">
@@ -52,7 +52,7 @@
 
              <div class="container pulled-down">
                 <div class="row ">
-                    <div class="col-sm-3">
+                    <div class="col-sm-4">
                         <div class="clearfix">
                             <asp:Label runat="server" ID="login_result"></asp:Label>
                         </div>                                  
@@ -70,33 +70,34 @@
                         <div class="form-group">
                             <asp:Button ID="btnLogin" runat="server" Text="Sign in"  CssClass="btn btn-success btn-sm"/>
                             &nbsp;<a href="./loginpage.aspx" class="btn btn-warning btn-sm">Create account</a>
-                            &nbsp; <a href="./password-recovery.aspx">Forgot your password?</a>
+                            &nbsp; <a href="./password-recovery.aspx" style="color:maroon;">Forgot your password?</a>
                         </div>
                            
                        
                     </div>
-                     <div class="col-sm-3">
+                     <div class="col-sm-4">
                         <div class="clearfix">
-                            <asp:Label runat="server" ID="Label1"></asp:Label>
+                            <asp:Label runat="server" ID="Label1" Text=""></asp:Label>
+                            
                         </div>                                  
                     </div>
             </div>
                  
         </div>
-            <div class="container-fluid">
+    </div>
+ <div class="container-fluid">
                 <div class="row">
                      <div class="col-sm-12" style="background:#fff;position:absolute;bottom:0;padding:30px;border-top:thin solid #eee;">
                          <div class="row">
-                             <div class="col-sm-3"></div>
-                             <div class="col-sm-6">
-                                 <div class="form-group">
+                             <div class="col-sm-4"></div>
+                             <div class="col-sm-4">
+                                 
                                      <br />
-                                     <h5 style="padding-left:10px;">&nbsp;&nbsp;&nbsp;Tarlac State University Alumni Tracer &copy; 2015.&nbsp; All rights reserved.</h5>
-                                    
-                                 </div>
+                                     <h5>Tarlac State University Alumni Tracer &copy; 2015.&nbsp; All rights reserved.</h5>
+                               
                                 
                              </div>
-                             <div class="col-sm-3"></div>
+                             <div class="col-sm-4"></div>
                          </div>
 
                      </div>

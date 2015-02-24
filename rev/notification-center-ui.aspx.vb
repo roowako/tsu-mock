@@ -57,29 +57,34 @@ Partial Class rev_notification_center_ui
             cmd = New SqlCommand(getMail, sqlCon)
             cmd.ExecuteNonQuery()
 
+
+            Try
+                Dim mm As New MailMessage()
+                mm.From = New MailAddress("tsualumnitracer@gmail.com")
+                For Each recipeients As String In email.Split(","c)
+                    mm.To.Add(recipeients)
+                Next
+
+                mm.Subject = "A friendly reminder"
+                mm.Body = notificationSMS
+                mm.IsBodyHtml = True
+                Dim smtp As New SmtpClient()
+                smtp.Host = "smtp.gmail.com"
+                smtp.EnableSsl = True
+                Dim NetworkCred As New NetworkCredential()
+                NetworkCred.UserName = "tsualumnitracer@gmail.com"
+                NetworkCred.Password = "Kjhjt8765"
+                smtp.UseDefaultCredentials = True
+                smtp.Credentials = NetworkCred
+                smtp.Port = 587
+                smtp.Send(mm)
+
+                Return "Notification sent!"
+            Catch error_t As Exception
+                Return error_t.ToString
+            End Try
             sqlCon.Close()
-
-            Dim mm As New MailMessage()
-            mm.From = New MailAddress("tsualumnitracer@gmail.com")
-            For Each recipeients As String In email.Split(","c)
-                mm.To.Add(recipeients)
-            Next
-
-            mm.Subject = "A friendly reminder"
-            mm.Body = notificationSMS
-            mm.IsBodyHtml = True
-            Dim smtp As New SmtpClient()
-            smtp.Host = "smtp.gmail.com"
-            smtp.EnableSsl = True
-            Dim NetworkCred As New NetworkCredential()
-            NetworkCred.UserName = "tsualumnitracer@gmail.com"
-            NetworkCred.Password = "Kjhjt8765"
-            smtp.UseDefaultCredentials = True
-            smtp.Credentials = NetworkCred
-            smtp.Port = 587
-            smtp.Send(mm)
-
-            Return "Notification sent!"
+            sqlCon.Dispose()
         End Using
 
     End Function
