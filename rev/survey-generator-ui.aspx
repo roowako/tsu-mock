@@ -63,14 +63,9 @@
                                                     <br />
                                                     <asp:TextBox ID="txtSurveyQuestionArea" runat="server" TextMode="MultiLine" CssClass="form-control" ClientIDMode="Static"></asp:TextBox>
                                                     <br />
-                                                    <br />
-                                                    
-                                                    
-                                                </div>
-                                                
-                                            </div>
-
-                                           
+                                                    <br />                                                                                                     
+                                                </div>                                                
+                                            </div>                                           
                                         </div>
 
                                         <div class="row">
@@ -79,12 +74,8 @@
                                                 <h4 class="header-padded">Populate Survey Options</h4>
                                                 <div class="row">
                                                     <div class="col-xs-12 enable-populate form-group">
-                                                        
-                                                       
-                                                       
 
-                                                    </div>
-                                                        
+                                                    </div>                                                        
                                                 </div>
                                                  <br /><br />
                                                 <div class="row">
@@ -100,11 +91,8 @@
                                                      <br />
                                                      <br />
                                                 </div>
-                                            </div>
-                                           
-                                           
-                                        </div>
-                                       
+                                            </div>                                                                                     
+                                        </div>                                       
                                     </div>
                                 </div>
                                 <br />

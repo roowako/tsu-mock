@@ -276,7 +276,6 @@
       </div>
     </div>
 
-
     <script type="text/javascript" src="./js/jquery.js"></script>
     <script type="text/javascript" src="./js/bootstrap.min.js"></script>
     <script type="text/javascript" src="./js/dom-control.js"></script>
@@ -288,12 +287,18 @@
     <script>
         $(document).ready(function () {
             $("#btnPrintData").click(function () {
+                $(".viewAccountInfo").css("display", "none");
+                $(".uid").css("display", "none");
+
                 var datatoprint = document.getElementById('searchableTable');
                 newWin = window.open("");
                 newWin.document.write(datatoprint.outerHTML);
                 newWin.print();
-                newWin.close();
-            });
+
+                $(".viewAccountInfo").css("display", "block");
+                $(".uid").css("display", "block");
+                newWin.close();     
+            });    
         });
     </script>
 
