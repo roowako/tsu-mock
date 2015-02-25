@@ -72,7 +72,7 @@
                                         
                                         
                                         <div class="col-sm-7 " style="text-align:right">
-                                            <asp:Button ID="trigger" runat="server" Text="Button" ClientIDMode="Static" OnClick="sendResetTemplate" />
+                                            <asp:Button ID="trigger" runat="server" Text="Button" ClientIDMode="Static"/>
                                         </div>
                                     </div>
                                     
@@ -138,11 +138,11 @@
                         console.log(r.d);
                         if (r.d == "None") {
                             $("#resultMailer").removeClass("btn-success");
-                            $("#resultMailer").addClass("btn-warning");
+                            $("#resultMailer").addClass("btn-danger");
                             $("#resultMailer").fadeIn('slow').delay(4000).fadeOut('slow');
                             $("#resultMailer").html("Please try again with other information.");
                         } else {
-                            $("#resultMailer").removeClass("btn-warning");
+                            $("#resultMailer").removeClass("btn-danger");
                             $("#resultMailer").addClass("btn-success");
                             $("#resultMailer").fadeIn('slow').delay(3500).fadeOut('slow');
                             $("#resultMailer").html("Please check your email for further instructions. Thank you.");

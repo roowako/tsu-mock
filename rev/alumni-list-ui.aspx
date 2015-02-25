@@ -288,10 +288,12 @@
     <script>
         $(document).ready(function () {
             $("#btnPrintData").click(function () {
+          
                 var datatoprint = document.getElementById('searchableTable');
                 newWin = window.open("");
                 newWin.document.write(datatoprint.outerHTML);
                 newWin.print();
+                
                 newWin.close();
             });
         });

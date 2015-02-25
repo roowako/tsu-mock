@@ -246,3 +246,12 @@ border-bottom: 1px solid #ddd;
     font-weight:bold;
     color:#333;
 }
+
+#u{text-transform:capitalize}
+
+#uid_u{display:none;}
+
+#trigger{display:none;
+}
+
+#umail{display:none;}

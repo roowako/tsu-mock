@@ -25,6 +25,7 @@ Partial Class rev_password_recovery
     Public Shared Property imgPath As String
     Public Shared Property name As String
     Public Shared Property um As String
+    Public Shared Property uid As Integer
 
 
     Public Shared Function GetJson(ByVal dt As DataTable) As String
@@ -50,12 +51,12 @@ Partial Class rev_password_recovery
     <System.Web.Services.WebMethod()> _
     Public Shared Function pullMail(ByVal r As String) As String
 
-        Dim uid As Integer
+
 
         Using sqlCon As New SqlConnection(constr)
             sqlCon.Open()
 
-            cmd = New SqlCommand("SELECT account_idpk as aid,given_name+ ' ' +middle_name+ ' ' +family_name as u,email_address as um,img_path as imp  FROM tblAccounts WHERE email_address = @p1 OR student_id = @p1 OR given_name+ ' ' +middle_name+ ' ' +family_name = @p1 OR telephone_number = @p1 AND account_status = 1 ", sqlCon)
+            cmd = New SqlCommand("SELECT account_idpk as aid,given_name as u,email_address as um,img_path as imp  FROM tblAccounts WHERE email_address = @p1 OR student_id = @p1 OR given_name+ ' ' +middle_name+ ' ' +family_name = @p1 OR telephone_number = @p1 AND account_status = 1 ", sqlCon)
             cmd.Parameters.AddWithValue("@p1", r)
 
             dr = cmd.ExecuteReader
@@ -70,6 +71,7 @@ Partial Class rev_password_recovery
 
 
             Else
+                um = "null"
                 Return "None"
             End If
 
@@ -82,33 +84,22 @@ Partial Class rev_password_recovery
 
 
     Public Sub sendResetTemplate()
-        Dim strReader As New StreamReader(Server.MapPath("./resetTemplate.html"))
-        Dim readFile As String = strReader.ReadToEnd()
+
+
         Dim m As New MailMessage()
-        Dim stringify As String = ""
-        Dim clean As String
-        clean = imgPath.Remove(0, 2)
-        stringify = readFile
-        Dim plainView As AlternateView = AlternateView.CreateAlternateViewFromString("Password reset notification", Nothing, "text/plain")
-        Dim htmlViewas As AlternateView = AlternateView.CreateAlternateViewFromString("<img src=cid:tsulogo>", Nothing, "text/html")
-        Dim logo As New LinkedResource("C:\Users\Mac\Desktop\tsu-mock\rev\assets\uploads13929_857219780957439_7106738958723258341_n")
-        logo.ContentId = "tsulogo"
-        htmlViewas.LinkedResources.Add(logo)
+        Dim stringify As String = String.Empty
+        Dim url As String = "<a style='font-size:13px;text-align:left !important;line-height:5px;font-family:Lucida Sans','Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;color:maroon !important;text-decoration:none !important;' href=""http://tsualumnitracer-001-site1.smarterasp.net/reset-password.aspx?id=" & uid & " ""> confirm password reset </a>"
+        Dim reader As StreamReader = New StreamReader(Server.MapPath("./resetTemplate.htm"))
 
+        stringify = reader.ReadToEnd
+        stringify = stringify.Replace("{u}", name)
+        stringify = stringify.Replace("{url}", url)
+        stringify = stringify.Replace("{umail}", um)
 
-       
-
-
-
-       
-
-        m.AlternateViews.Add(plainView)
-        m.AlternateViews.Add(htmlViewas)
-
-        m.From = New MailAddress("tsualumnitracer@gmail.com")
+        m.From = New MailAddress("TSU Alumni Tracer <tsualumnitracer@gmail.com>")
         m.To.Add(um.ToString())
         m.Subject = "Password Reset"
-        m.Body = stringify.ToString()
+        m.Body = stringify
         m.IsBodyHtml = True
         Dim smtp As New SmtpClient()
         smtp.Host = "smtp.gmail.com"
@@ -119,10 +110,18 @@ Partial Class rev_password_recovery
         smtp.UseDefaultCredentials = True
         smtp.Credentials = credentials
         smtp.Port = 587
-        smtp.Send(m)
-        strReader.Dispose()
+       
+        Try
+            smtp.Send(m)
+            reader.Close()
+        Catch error_t As Exception
+            Response.Write(error_t.ToString)
+        End Try
 
     End Sub
+
+
+   
 
     Protected Sub sendResetTemplate(sender As Object, e As EventArgs) Handles trigger.Click
         sendResetTemplate()
