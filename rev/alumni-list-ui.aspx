@@ -12,11 +12,11 @@
     <link href="./css/sidebar-theme.css" rel="stylesheet" />
     <link href="./css/normalize.css" rel="stylesheet" />
 </head>
+
 <body>
     <form id="form1" runat="server">
-        <div class="container-fluid">
-                
-                 <nav class="navbar navbar-inverse navbar-fixed-top default-theme shadowed"> 
+        <div class="container-fluid">               
+                <nav class="navbar navbar-inverse navbar-fixed-top default-theme shadowed"> 
                 <div class="container-fluid">
                 <div class="navbar-header ">
                     <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -31,11 +31,9 @@
                             <h3>&nbsp;&nbsp;&nbsp;Dashboard</h3>
                              <span class="clearfix"></span>
                         </span>
-                       
-                    </a>
-
-               
+                    </a>               
                 </div>
+
                 <div id="navbar" class="navbar-collapse collapse" > <!---collapse collapse -->
                     <br />
                     <ul class="nav navbar-nav navbar-right extended" style="margin-top:8px;margin-right:100px;">
@@ -60,28 +58,24 @@
 	                    <ul class="nav nav-sidebar">
 		                    <li>
 			                    <a href="#" >
-
 				                    <asp:Image ID="Image2" runat="server" ImageUrl="./assets/images/default-dp.jpg" Height="75" Width="75" BorderColor="White" BorderStyle="Solid" BorderWidth="3" />          
-
 			                    </a>
-
 		                    </li>
-		                    <li><a href="#" class="bolder"><span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;<asp:Label id="alumni_name" runat="server"></asp:Label></a></li>
-		  
+		                    <li><a href="#" class="bolder"><span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;<asp:Label id="alumni_name" runat="server"></asp:Label></a></li>		  
 		                    <li><a href="./director-ui.aspx" ><span class="glyphicon glyphicon-home"></span>&nbsp;&nbsp;Timeline</a></li>
 		                    <li><a href="./messaging-ui-director.aspx" ><span class="glyphicon glyphicon-comment"></span>&nbsp;&nbsp;Messages</a></li>
 		                    <li><a href="./notification-center-ui.aspx"><span class="glyphicon glyphicon-phone"></span>&nbsp;&nbsp;Notification Center</a></li>
-                        <li>
-                          <a href="./pending-reg-ui.aspx">
-                            <span class="glyphicon glyphicon-paperclip"></span>&nbsp;&nbsp;Pending Registration
-                          </a>
-                        </li>
-                        <li><a href="./pending-ui.aspx"><span class="glyphicon glyphicon-paperclip"></span>&nbsp;&nbsp;Pending Surveys</a></li>
-                        <li>
-                          <a href="./survey-gen-director.aspx">
-                            <span class="glyphicon glyphicon-list"></span>&nbsp;&nbsp;Surveys
-                          </a>
-                        </li>
+                            <li>
+                              <a href="./pending-reg-ui.aspx">
+                                <span class="glyphicon glyphicon-paperclip"></span>&nbsp;&nbsp;Pending Registration
+                              </a>
+                            </li>
+                            <li><a href="./pending-ui.aspx"><span class="glyphicon glyphicon-paperclip"></span>&nbsp;&nbsp;Pending Surveys</a></li>
+                            <li>
+                                <a href="./survey-gen-director.aspx">
+                                    <span class="glyphicon glyphicon-list"></span>&nbsp;&nbsp;Surveys
+                                </a>
+                            </li>
 		                    <li><a href="./statistics-ui.aspx"><span class="glyphicon glyphicon-signal"></span>&nbsp;&nbsp;Statistics</a></li>
 			                  <li><a href="./director-list-ui.aspx"><span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;List of Coordinators</a></li>
 			                  <li><a href="./alumni-list-ui.aspx"><span class="glyphicon glyphicon-list-alt"></span>&nbsp;&nbsp;List of Registered users</a></li>
@@ -92,32 +86,22 @@
 	                    </ul>
                     </div>
 
-
                     <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-                       
                         <div class="row">
                             <div class="col-sm-4"> <h3 class="page-header"><span class="glyphicon glyphicon-list-alt">&nbsp;</span>List of Alumni</h3>
-                                 <h5>Color Legend : <a href="#" class="btn btn-success btn-sm" style="height:18px;border-radius:0px;"> </a> &nbsp;Alumni &nbsp;<a href="#" class="btn btn-warning btn-sm" style="height:18px;border-radius:0px;"> </a> Graduating</h5> 
-                                <br /><br />
+                                <h5>Color Legend : <a href="#" class="btn btn-success btn-sm" style="height:18px;border-radius:0px;"> </a> &nbsp;Alumni &nbsp;<a href="#" class="btn btn-warning btn-sm" style="height:18px;border-radius:0px;"> </a> Graduating</h5> 
+                                <br />
                             </div>
                             <div class="col-sm-1">
                                 <div id="loaderImage"></div>
                             </div>
-                            <div class="col-sm-5">
-                                
-                              
-                            </div>
-                            <div class="col-xs-1">
-                                 
-                             </div>
                         </div>
+
                         <div class="row placeholders " >
-                            <br />
                             <!-- start main-content -->
-                            <div class="col-xs-6 col-sm-12 placeholder ">
-                             
+                            <div class="col-xs-6 col-sm-12 placeholder ">                            
                                 <div class="row">
-                                    <div class="col-xs-4">
+                                    <div class="col-xs-3">
                                         <div class="input-group">
                                             <div class="input-group-addon">Sort by:</div>
                                              <asp:DropDownList ID="sortBy" runat="server" CssClass="form-control" ClientIDMode="Static">
@@ -133,20 +117,17 @@
                                              <asp:ListItem  Text="COLLEGE(ALL)" Value="allColleges" data-id="0"/>
                                         </asp:DropDownList>
                                     </div>
+
                                     <div class="col-xs-2">
                                          <asp:DropDownList ID="filterYear" runat="server" CssClass="form-control" ClientIDMode="Static">
                                              <asp:ListItem Text="YEAR(ALL)" Value="all" />
                                         </asp:DropDownList>
                                     </div>
-                                </div>
-                               
-                                <div class="row">
-                                    <br />
+
                                     <div class="col-xs-2">
                                          <input id="btnPrintData" type="button" class="btn btn-sm btn-success" value="Print Data"/>
-                                    </div>                                
+                                    </div>   
                                 </div>
-
                                 <br />
                                     
                                     <div class="table-responsive">
@@ -169,9 +150,9 @@
 
                                     <div class="row">
                                         <div class="col-md-12 text-center">
-                                        <ul class="pagination  pagination-centered" id="myPager"></ul>
+                                            <ul class="pagination  pagination-centered" id="myPager"></ul>
+                                        </div>
                                     </div>
-                            </div>
                             <!-- end main-content -->
 
                             <!-- star spacer -->
@@ -248,26 +229,23 @@
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             <h4 class="modal-title" id="myModalLabel2" style="text-transform:capitalize;">Modal title</h4>
           </div>
-          <div class="modal-body">
-             
-              
+          <div class="modal-body">        
               <ul id="messages">
                  
               </ul>
           </div>
+
           <div class="modal-footer">
               <div class="container">
                   <div class="row">
                       <div class="col-xs-6">
-                          <textarea class="form-control" rows="1" id="replyMessage"></textarea> &nbsp;
-                          
+                          <textarea class="form-control" rows="1" id="replyMessage"></textarea> &nbsp;                       
                       </div>
                       
                   </div>
                   <div class="row ">
                       <div class="col-xs-2 appBtn">
                            
-                     
                       </div>
                   </div>
               </div>
@@ -287,26 +265,19 @@
     <script>
         $(document).ready(function () {
             $("#btnPrintData").click(function () {
-
                 $(".viewAccountInfo").css("display", "none");
                 $(".uid").css("display", "none");
-
 
                 var datatoprint = document.getElementById('searchableTable');
                 newWin = window.open("");
                 newWin.document.write(datatoprint.outerHTML);
                 newWin.print();
-
-                
                 newWin.close();
-            });
-
 
                 $(".viewAccountInfo").css("display", "block");
                 $(".uid").css("display", "block");
-                newWin.close();     
-            });    
-
+                newWin.close();
+            });
         });
     </script>
 
@@ -329,7 +300,6 @@
                     data = jQuery.parseJSON(data);
                     $.each(data, function (i, object) {
                         $("#filterCollege").append(
-
                             "<option value='" + object.description + "' data-id='" + object.college_idpk + "'> " + object.description + "</option>"
                             );
                         console.log(object.description);
@@ -372,7 +342,8 @@
                                                 "<td> <a class='btn btn-primary btn-sm viewAccountInfo' data-account-id='" + o.account_idpk + "' data-toggle='modal' data-target='.bs-example-modal-lg'> View info </a> </td>" +
                                                 "<td> <a class='btn btn-primary btn-sm uid' data-toggle='modal' data-id='" + o.account_idpk + "' data-target='#myModal' data-name='" + fn + "' > Message </a> </td>" +
                                             "</tr>");
-                            } else {
+                            }
+                            else {
                                 var mod = ("<tr class='warning'>" +
                                                 "<td> " + o.account_idpk + " </td>" +
                                                 "<td> " + o.given_name + "  " + o.middle_name + " " + o.family_name + " </td>" +
@@ -384,7 +355,6 @@
                                             "</tr>");
                             }
                             
-
                             $(".searchableTable tbody").append(
                                     mod
                                 );
@@ -407,9 +377,7 @@
                                     $.each(response, function (i, o) {
                                         console.log(o.student_id);
 
-
                                         $("#myModalLabel").text(o.given_name + "  " + o.middle_name + " " + o.family_name);
-
 
                                         $(".update-sudnumber").attr("data-id", o.account_idpk);
                                         if (o.student_id == "") {
@@ -540,7 +508,6 @@
                                                 "<td>"+ o.year_graduated+"</td>" +
                                                 "<td> <a class='btn btn-primary btn-sm viewAccountInfo' data-account-id='" + o.account_idpk + "' data-toggle='modal' data-target='.bs-example-modal-lg' > View info </a> </td>" +
                                                 "<td> <a class='btn btn-primary btn-sm uid' data-toggle='modal' data-id='" + o.account_idpk + "' data-target='#myModal' data-name='" + fn + "' > Message </a> </td>" +
-
                                             "</tr>");
 
                             } else {
@@ -556,7 +523,6 @@
                                         "</tr>");
                             }
                             
-
                             $(".searchableTable tbody").append(
                                     mod
                                 );
@@ -579,9 +545,7 @@
                                     $.each(response, function (i, o) {
                                         console.log(o.student_id);
 
-
                                         $("#myModalLabel").text(o.given_name + "  " + o.middle_name + " " + o.family_name);
-
 
                                         $(".update-sudnumber").attr("data-id", o.account_idpk);
                                         if (o.student_id == "") {
@@ -595,7 +559,6 @@
                                         }
 
                                         $("#accountInfoPlaceholder tbody").append(
-
                                                 "<tr>" +
                                                     "<td> " + o.account_idpk + " </td>" +
                                                     "<td> " + o.student_id + " </td>" +
@@ -619,7 +582,6 @@
                             $(".resWrapper").html("");
                             $(".resWrapper").removeClass("revealWrap");
                             $(".display").css("visibility", "hidden");
-
                             $(".appBtn").html("");
                             $("#messages").html("");
                             $("#myModalLabel2").text("");
@@ -659,15 +621,13 @@
                 });
             });
 
-
             //Bind search function on keyup
             $("#q").bind("keyup", function (event) {
                 $(this).search(event);
             });
         });
-
-
     </script>
+
     <script>
         //Filter by college
         $("#filterCollege").change(function () {
@@ -675,7 +635,6 @@
             sortBy = $("#sortBy option:selected").val();
             $("#filterYear").val($("#filterYear option:first").val());
             $(".searchableTable tbody").html("");
-
 
             $.ajax({
                 type: "post",
@@ -701,10 +660,10 @@
                                             "<td></td>" +
                                             "<td> <a class='btn btn-primary btn-sm viewAccountInfo' data-account-id='" + o.account_idpk + "' data-toggle='modal' data-target='.bs-example-modal-lg' > View info </a> </td>" +
                                             "<td> <a class='btn btn-primary btn-sm uid' data-toggle='modal' data-id='" + o.account_idpk + "' data-target='#myModal' data-name='" + fn + "' > Message </a> </td>" +
-
                                        "</tr>");
 
-                        } else {
+                        }
+                        else {
                             var mod = ("<tr class='warning'>" +
                                         "<td> " + o.account_idpk + " </td>" +
                                         "<td> " + o.given_name + "  " + o.middle_name + " " + o.family_name + " </td>" +
@@ -713,15 +672,13 @@
                                         "<td>" + o.year_graduated + "</td>" +
                                         "<td></td>" +
                                         "<td> <a class='btn btn-primary btn-sm viewAccountInfo' data-account-id='" + o.account_idpk + "' data-toggle='modal' data-target='.bs-example-modal-lg' > View info </a> </td>" +
-                                         "<td> <a class='btn btn-primary btn-sm uid' data-toggle='modal' data-id='" + o.account_idpk + "' data-target='#myModal' data-name='" + fn + "' > Message </a> </td>" +
-
+                                        "<td> <a class='btn btn-primary btn-sm uid' data-toggle='modal' data-id='" + o.account_idpk + "' data-target='#myModal' data-name='" + fn + "' > Message </a> </td>" +
                                     "</tr>");
                         }
 
                         $(".searchableTable tbody").append(
                                         mod
                                     );
-
                     });
 
                     //Theatre
@@ -743,9 +700,7 @@
                                 $.each(response, function (i, o) {
                                     console.log(o.student_id);
 
-
                                     $("#myModalLabel").text(o.given_name + "  " + o.middle_name + " " + o.family_name);
-
 
                                     $(".update-sudnumber").attr("data-id", o.account_idpk);
                                     if (o.student_id == "") {
@@ -757,9 +712,7 @@
                                         $("#studNumberPlacer").val(o.student_id);
                                     }
                                     $("#accountInfoPlaceholder tbody").append(
-
                                             "<tr>" +
-
                                                 "<td> " + o.account_idpk + " </td>" +
                                                 "<td> " + o.student_id + " </td>" +
                                                 "<td> " + o.address + " </td>" +
@@ -772,8 +725,6 @@
                                                 "<td> " + o.gender + " </td>" +
                                                 "<td> " + o.year_graduated + " </td>" +
                                             "</tr>"
-
-
                                         );
                                 });
                             }, error: function (response) {
@@ -788,7 +739,6 @@
                         $(".resWrapper").html("");
                         $(".resWrapper").removeClass("revealWrap");
                         $(".display").css("visibility", "hidden");
-
                         $(".appBtn").html("");
                         $("#messages").html("");
                         $("#myModalLabel2").text("");
@@ -828,7 +778,6 @@
         });
 
         //Filter by year
-
         $("#filterYear").change(function () {
             sortBy = $("#sortBy option:selected").val();
             var sortColleges = $("#filterCollege option:selected").attr("data-id");
@@ -852,15 +801,12 @@
                         if (o.userlevel_idfk == 1) {
                             var mod = ("<tr class='success'>" +
                                             "<td> " + o.account_idpk + " </td>" +
-
                                             "<td> " + o.given_name + "  " + o.middle_name + " " + o.family_name + " </td>" +
                                             "<td> " + o.collegeDes + " </td>" +
                                             "<td>" + o.courseDes + "</td>" +
-                                             "<td>" + o.year_graduated + "</td>" +
-                                          
+                                            "<td>" + o.year_graduated + "</td>" +
                                             "<td> <a class='btn btn-primary btn-sm viewAccountInfo' data-account-id='" + o.account_idpk + "' data-toggle='modal' data-target='.bs-example-modal-lg' > View info </a> </td>" +
                                             "<td> <a class='btn btn-primary btn-sm uid' data-toggle='modal' data-id='" + o.account_idpk + "' data-target='#myModal' data-name='" + fn + "' > Message </a> </td>" +
-
                                        "</tr>");
 
                         } else {
@@ -869,11 +815,9 @@
                                         "<td> " + o.given_name + "  " + o.middle_name + " " + o.family_name + " </td>" +
                                         "<td> " + o.collegeDes + " </td>" +
                                         "<td>" + o.courseDes + "</td>" +
-                                         "<td>" + o.year_graduated + "</td>" +
-                                     
+                                        "<td>" + o.year_graduated + "</td>" +                                     
                                         "<td> <a class='btn btn-primary btn-sm viewAccountInfo' data-account-id='" + o.account_idpk + "' data-toggle='modal' data-target='.bs-example-modal-lg' > View info </a> </td>" +
-                                         "<td> <a class='btn btn-primary btn-sm uid' data-toggle='modal' data-id='" + o.account_idpk + "' data-target='#myModal' data-name='" + fn + "' > Message </a> </td>" +
-
+                                        "<td> <a class='btn btn-primary btn-sm uid' data-toggle='modal' data-id='" + o.account_idpk + "' data-target='#myModal' data-name='" + fn + "' > Message </a> </td>" +
                                     "</tr>");
                         }
 
@@ -902,9 +846,7 @@
                                 $.each(response, function (i, o) {
                                     console.log(o.student_id);
 
-
                                     $("#myModalLabel").text(o.given_name + "  " + o.middle_name + " " + o.family_name);
-
 
                                     $(".update-sudnumber").attr("data-id", o.account_idpk);
                                     if (o.student_id == "") {
@@ -935,8 +877,8 @@
                                 console.log("Opps something went wrong.");
                             }
                         });
-
                     });
+
                     $(".uid").click(function () {
                         $(".resWrapper").html("");
                         $(".resWrapper").removeClass("revealWrap");

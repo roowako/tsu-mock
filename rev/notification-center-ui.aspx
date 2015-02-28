@@ -116,6 +116,7 @@
                                 <div class="row">
                                     <div class="col-xs-12 highlighted-div">
                                         <asp:Button ID="btnSendNotification" runat="server" Text="Send notification via SMS and Email" CssClass="btn btn-warning" type="button" />
+                                        &nbsp;&nbsp;&nbsp;<span id="notifier"></span>
                                     </div>
                                 </div>
                               
@@ -181,7 +182,11 @@
         $("#btnSendNotification").click(function (e) {
 
             e.preventDefault();
+            
             var noti = $("#txtNotificationMessage").val();
+            $(this).prop("disabled", "true");
+            $("#notifier").text("Sending...")
+            $("#txtNotificationMessage").prop("disabled", "true");
             $.ajax({
                 type: "post",
                 url: "notification-center-ui.aspx/pushNotification",
@@ -191,8 +196,15 @@
                 traditional: true,
                 contentType: "application/json; charset=utf-8",
                 success: function (dataOpt) {
+                  
+                    
+                    
                     alert(dataOpt.d);
+                    window.location.reload(true);
                     $("#txtNotificationMessage").val("");
+                    $("#txtNotificationMessage").prop("disabled", "false");
+                    $("#notifier").text("");
+                    $("#btnSendNotification").prop("disabled", "false");
 
                 }
             });

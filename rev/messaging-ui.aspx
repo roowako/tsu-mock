@@ -200,9 +200,27 @@
                                     "</td>" +
                                     "<td>" +
                                         "<input type='button' value='View conversation' data-name='" + o.u + "' class='btn btn-success btn-sm theatre' data-toggle='modal' data-target='#myModal' data-id='" + o.uid + "'/>&nbsp;" +
-                                        "<input type='button' value='Delete conversation' class='btn btn-warning btn-sm theatre' data-toggle='modal' data-target='#myModal' data-id='"+ o.uid +"'/>" +
+                                        "<input type='button' value='Delete conversation' class='btn btn-warning btn-sm delete'  data-id='"+ o.uid +"'/>" +
                                     "</td>"+
                                 "</tr>" + "<br>");
+                        });
+                        $(".delete").click(function () {
+                            account_idfk = $(this).data("id");
+                            sess_id = $("#account_idpk").val();
+
+                            $.ajax({
+                                type: "post",
+                                url: "./messaging-ui-alumni.aspx/deleteMessages",
+                                data: "{'actor_id':'" + sess_id + "','account_id':'" + account_idfk + "'}",
+                                dataType: "json",
+                                contentType: "application/json; charset=utf-8",
+                                async: true,
+                                success: function (r) {
+                                    console.log(r.d);
+                                    alert("Conversation deleted.");
+                                    window.location.reload(true);
+                                }
+                            });
                         });
 
                         $(".theatre").click(function () {

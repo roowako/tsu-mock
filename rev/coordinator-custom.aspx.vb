@@ -44,7 +44,7 @@ Partial Class coordinator_custom
 
             sqlCon.Open()
 
-            Using dat = New SqlDataAdapter("SELECT given_name,description,CONVERT(VARCHAR, datetime_posted,0) AS formatedB FROM tblAnnouncements,tblAccounts WHERE tblAnnouncements.account_idfk = tblAccounts.account_idpk ORDER BY announcement_idpk DESC", sqlCon)
+            Using dat = New SqlDataAdapter("SELECT given_name,description,CONVERT(VARCHAR, datetime_posted,0) AS formatedB,tblAccounts.account_idpk as uid FROM tblAnnouncements,tblAccounts WHERE tblAnnouncements.account_idfk = tblAccounts.account_idpk ORDER BY announcement_idpk DESC", sqlCon)
 
                 Dim table2 = New DataTable()
                 dat.Fill(table2)

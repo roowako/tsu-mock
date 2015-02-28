@@ -90,7 +90,7 @@ Partial Class rev_pending_reg_ui
             Dim Smtp_Server As New SmtpClient
             Dim e_mail As New MailMessage()
             Smtp_Server.UseDefaultCredentials = False
-            Smtp_Server.Credentials = New Net.NetworkCredential("tsualumnitracer@gmail.com", "Kjhjt8765")
+            Smtp_Server.Credentials = New Net.NetworkCredential("tsualumnitracer@gmail.com", "Kjhjt87651")
             Smtp_Server.Port = 587
             Smtp_Server.EnableSsl = True
             Smtp_Server.Host = "smtp.gmail.com"

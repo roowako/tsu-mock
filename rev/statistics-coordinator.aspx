@@ -349,7 +349,7 @@
                                         "<td> </td>" +
                                         "<td> " + o.description + " </td>" +
                                         "<td> " + o.question + "</td>" +
-                                        "<td> <a class='btn btn-primary btn-sm theatre' data-poll-id='" + o.polls_idpk + "' data-toggle='modal' data-target='#myModal'>View Statistics </a>&nbsp; <a class='btn btn-warning btn-sm'>Delete Poll </a></td>" +
+                                        "<td> <a class='btn btn-primary btn-sm theatre' data-poll-id='" + o.polls_idpk + "' data-toggle='modal' data-target='#myModal'>View Statistics </a>&nbsp; <a class='btn btn-warning btn-sm'>Delete Survey </a></td>" +
 
                                     "</tr>"
                                     );

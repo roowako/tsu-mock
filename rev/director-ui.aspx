@@ -13,6 +13,22 @@
     <link href="./css/normalize.css" rel="stylesheet" />
 </head>
 <body>
+    <div id="fb-root"></div>
+    <script>
+        window.fbAsyncInit = function () {
+            FB.init({
+                appId: '587353881401057', status: true, cookie: true,
+                xfbml: true
+            });
+        };
+        (function () {
+            var e = document.createElement('script'); e.async = true;
+            e.src = document.location.protocol +
+            '//connect.facebook.net/en_US/all.js';
+            document.getElementById('fb-root').appendChild(e);
+        }());
+    </script>
+
     <form id="form1" runat="server">
         <div class="container-fluid">
              <nav class="navbar navbar-inverse navbar-fixed-top default-theme shadowed"> 
@@ -163,7 +179,7 @@
 
         $(document).ready(function () {
             var fk = $("#account_idpk").val();
-
+            
             $.ajax({
                 type: "post",
                 url: "director-ui.aspx/pullAnnouncement",
@@ -193,17 +209,44 @@
                                                 "<p> " + object.description + "   </p>" +
                                             "</div>" +
                                         "</div> " +
+                                        "<div class='row'>" +
+                                            "<br>" +
+                                            "<div class='theme-color col-xs-3'>" +
+                                                "<a class='share btn btn-primary btn-sm' data-sharable='" + object.description + "' data-u='"+ object.given_name +"'>share on facebook</a>" +
+                                            "</div>" +
+
+                                        "</div> " +
+
+                                        "<br>" +
                                     "</div>" +
                                 "</div>" +
 
                                 "<br />"
                             );
+
+                       
+                    });
+                
+                    $('.share').click(function (e) {
+                        var context = $(this).data("sharable");
+                        var u = $(this).data("u");
+                        e.preventDefault();
+                        FB.ui(
+                        {
+                            method: 'feed',
+                            name: ' ' + context + ' ',
+                            link: 'http://tsualumnitracer-001-site1.smarterasp.net/Default.aspx',
+                            caption: '',
+                            description: ' Posted by : ' + u + ' ',
+                            message: 'aaa'
+                        });
                     });
                     }
                 }
             });
 
             $("#btnPostAnnouncementCoor").click(function (e) {
+
                 e.preventDefault();
                 var announcement = $("#txtPostAnnouncementCoor").val();
                 var id = $("#account_idpk").val();

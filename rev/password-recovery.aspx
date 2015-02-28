@@ -49,7 +49,7 @@
                     </div><!--/.navbar-collapse -->
                        
                     </div>
-            </nav>-->
+            </nav>
 
             <!-- Content -->
             <div class="container pulled-down">

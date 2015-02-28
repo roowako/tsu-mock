@@ -1,7 +1,6 @@
 ﻿<%@ Page Language="VB" AutoEventWireup="false" CodeFile="Default.aspx.vb" Inherits="loginpage" %>
 
 <!DOCTYPE html>
-
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <title>Log in Page</title>
@@ -13,6 +12,7 @@
     <link href="./css/normalize.css" rel="stylesheet" />
 </head>
 <body>
+    
     <form id="form1" runat="server">
         <div class="container-fluid">
             <nav class="navbar navbar-inverse navbar-fixed-top shadowed default-theme"> 
@@ -35,13 +35,13 @@
                             </div>
                         </a>
                     </div>
-                    <div id="navbar" class="navbar-collapse collapse" > <!---collapse collapse -->
-                        
-                         <br />
+
+                    <div id="navbar" class="navbar-collapse collapse" > <!---collapse collapse -->                        
+                        <br />
                         <div class="navbar-form navbar-right">
 
                            
-                       </div>
+                        </div>
                         
                         
                         

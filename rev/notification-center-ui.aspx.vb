@@ -60,12 +60,12 @@ Partial Class rev_notification_center_ui
 
             Try
                 Dim mm As New MailMessage()
-                mm.From = New MailAddress("tsualumnitracer@gmail.com")
+                mm.From = New MailAddress(" TSU Alumni Director <tsualumnitracer@gmail.com>")
                 For Each recipeients As String In email.Split(","c)
                     mm.To.Add(recipeients)
                 Next
 
-                mm.Subject = "A friendly reminder"
+                mm.Subject = "TSU Alumni Notification"
                 mm.Body = notificationSMS
                 mm.IsBodyHtml = True
                 Dim smtp As New SmtpClient()
@@ -73,7 +73,7 @@ Partial Class rev_notification_center_ui
                 smtp.EnableSsl = True
                 Dim NetworkCred As New NetworkCredential()
                 NetworkCred.UserName = "tsualumnitracer@gmail.com"
-                NetworkCred.Password = "Kjhjt8765"
+                NetworkCred.Password = "Kjhjt87651"
                 smtp.UseDefaultCredentials = True
                 smtp.Credentials = NetworkCred
                 smtp.Port = 587

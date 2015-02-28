@@ -194,7 +194,7 @@
                                     "<td style='text-align:right;'>" +
                                         "<input type='button' value='View conversation' data-name='"+ o.u +"' class='btn btn-success btn-sm theatre' data-toggle='modal' data-target='#myModal' data-id='" + o.uid + "'/>&nbsp;" +
                                     "</td>" +
-                                    "<td>                                         <input type='button' value='Delete conversation' class='btn btn-warning btn-sm delete' data-id='" + o.uid + "'/></td>"+
+                                    "<td> <input type='button' value='Delete conversation' class='btn btn-warning btn-sm delete' data-id='" + o.uid + "'/></td>"+
                                 "</tr>" + "<br>");
                         });
 

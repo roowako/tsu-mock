@@ -106,7 +106,7 @@ Partial Class rev_password_recovery
         smtp.EnableSsl = True
         Dim credentials As New NetworkCredential
         credentials.UserName = "tsualumnitracer@gmail.com"
-        credentials.Password = "Kjhjt8765"
+        credentials.Password = "Kjhjt87651"
         smtp.UseDefaultCredentials = True
         smtp.Credentials = credentials
         smtp.Port = 587

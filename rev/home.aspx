@@ -14,6 +14,22 @@
 </head>
 
 <body onload="pullFromServer()">
+
+<div id="fb-root"></div>
+<script>
+    window.fbAsyncInit = function () {
+        FB.init({
+            appId: '587353881401057', status: true, cookie: true,
+            xfbml: true
+        });
+    };
+    (function () {
+        var e = document.createElement('script'); e.async = true;
+        e.src = document.location.protocol +
+        '//connect.facebook.net/en_US/all.js';
+        document.getElementById('fb-root').appendChild(e);
+    }());
+</script>
     <form id="form1" runat="server">
             <div class="container-fluid">
              <nav class="navbar navbar-inverse navbar-fixed-top default-theme shadowed"> 
@@ -96,7 +112,8 @@
 
                             <!-- start main-content -->
                             <div class="col-xs-6 col-sm-6 placeholder announcementHolder">
-                              
+                             
+                             
                             </div>
                             <!-- end main-content -->
 
@@ -167,13 +184,13 @@
     <script type="text/javascript" src="./js/bindDelay.js"></script>
     <script type="text/javascript" src="h./js/json2.js"></script>
     <script>
-
+        
 
         var college_id = $("#college_idpk").val();
         var college_desc = $("#college_desc").val();
         var filterPoll = $("#account_idpk").val();
         var myParam = location.search.split('id=')[1];
-
+        var sharable;
         $("#alumni_name").text(myParam);
 
             function pullFromServer() {
@@ -296,19 +313,32 @@
                         data = announceReturn.d
                         data = jQuery.parseJSON(data)
                         $.each(data, function (i, object) {
-
+                           
                             if (object.target_id == 0) {
+                                
                                 $(".announcementHolder").append(
                                 "<div class='row'>" +
                                     "<div class='col-xs-12 border-enabled'>" +
-                                        "<h4 class='header-padded'><span class='glyphicon glyphicon-bookmark'>&nbsp;</span>DIRECTOR </h4>" +
+                                        "<h4 class='header-padded '><span class='glyphicon glyphicon-bookmark ' >&nbsp;</span>DIRECTOR </h4>" +
                                          "<span class='dateIndicator'>&nbsp;&nbsp;" + object.formatedB + "</span>" +
                                         "<div class='row'>" +
                                             "<br>" +
                                             "<div class='theme-color col-xs-3 highlighted-div'>" +
                                                 "<p> " + object.description + "   </p>" +
+                                                "<br>" +
+                                                "<br>" +
                                             "</div>" +
                                         "</div> " +
+                                        "<div class='row'>" +
+                                            "<br>" +
+                                            "<div class='theme-color col-xs-3'>" +
+                                                "<a class='share btn btn-primary btn-sm' data-sharable='" + object.description + "' data-u='TSU Alumni Director'>share on facebook</a>" +
+                                            "</div>" +
+                                           
+                                        "</div> " +
+                                    
+                                        "<br>" +
+
                                     "</div>" +
                                 "</div>" +
 
@@ -326,15 +356,41 @@
                                             "<br>"+
                                             "<div class='theme-color col-xs-3 highlighted-div'>" +
                                                 "<p> " + object.description + "   </p>" +
+                                                "<br>" +
+                                                "<br>" +
                                             "</div>" +
 
                                         "</div> " +
+                                        "<div class='row'>" +
+                                            "<br>" +
+                                            "<div class='theme-color col-xs-3'>" +
+                                                "<a class='share btn btn-primary btn-sm' data-sharable='" + object.description + "' data-u='" + college_desc + "'>share on facebook</a>" +
+                                            "</div>" +
+
+                                        "</div> " +
+
+                                        "<br>" +
                                     "</div>" +
                                 "</div>" +
 
                                 "<br />"
                                 );
                             }
+                        });
+
+                        $('.share').click(function (e) {
+                            var context = $(this).data("sharable");
+                            var u = $(this).data("u");
+                            e.preventDefault();
+                            FB.ui(
+                            {
+                                method: 'feed',
+                                name: ' '+ context +' ',
+                                link: 'http://tsualumnitracer-001-site1.smarterasp.net/Default.aspx',
+                                caption: '',
+                                description: ' Posted by : '+ u +' ',
+                                message: 'aaa'
+                            });
                         });
                     }
                 }

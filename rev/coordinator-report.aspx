@@ -1,4 +1,4 @@
-﻿<%@ Page Language="VB" AutoEventWireup="false" CodeFile="director-report.aspx.vb" Inherits="director_report" %>
+﻿<%@ Page Language="VB" AutoEventWireup="false" CodeFile="coordinator-report.aspx.vb" Inherits="coordinator_report" %>
 
 <!DOCTYPE html>
 
@@ -17,13 +17,28 @@
 
 <body>
     <form id="form1" runat="server">
-        <div>
             <div class="col-xs-12 col-sm-12"> 
-                <asp:Label ID="Label1" runat="server" Text="Label"></asp:Label> <br />
-                <asp:Label ID="Label2" runat="server" Text="Label"></asp:Label> 
+                <div class="row">
 
+                    
+                </div>
+            </div>
+
+            <div class="col-xs-12 col-sm-12">             
                 <div class="table-responsive">
-                    <table class="table table-hover statisticsTable" id="statisticsTable">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <td><h4><asp:Label ID="lblCollege" runat="server" Text="College"></asp:Label></h4></td>
+                                <td><h4><asp:Label ID="lblCourse" runat="server" Text="Course"></asp:Label></h4></td>
+                                <td><h4><asp:Label ID="lblSurveyType" runat="server" Text="Survey"></asp:Label> </h4></td>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+                    <table class="table table-hover statisticsTable" id="statisticsTable">                        
                         <thead>
                             <tr> 
                                 <td><b>Survey Details</b></td>
@@ -35,7 +50,7 @@
                         </tbody>
                     </table>
                 </div> 
-            </div>
+            </div>       
         </div>     
     </form>
 
@@ -231,8 +246,6 @@
                                 "<br />" +
                                 "<tr> <td> <input type='button' value='Print' id='print_report'/> </td> <td></td> </tr>" 
                                 );
-
-                        window.print();
 
                         $("#print_report").click(function () {
                             window.print();
