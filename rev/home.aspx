@@ -30,6 +30,7 @@
         document.getElementById('fb-root').appendChild(e);
     }());
 </script>
+
     <form id="form1" runat="server">
             <div class="container-fluid">
              <nav class="navbar navbar-inverse navbar-fixed-top default-theme shadowed"> 
@@ -46,11 +47,8 @@
                             <asp:Image ID="Image1" runat="server" ImageUrl="./assets/images/TSULOGO.png" Height="55" Width="55" CssClass="img-float-nav" />
                             <h3>&nbsp;&nbsp;&nbsp;Dashboard</h3>
                              <span class="clearfix"></span>
-                        </span>
-                       
-                    </a>
-
-               
+                        </span>                      
+                    </a>            
                 </div>
                 <div id="navbar" class="navbar-collapse collapse" > <!---collapse collapse -->
                     <br />
@@ -77,7 +75,7 @@
 	                        <ul class="nav nav-sidebar">
 		                        <li>
 			                        <a href="#" >
-				                        <asp:Image ID="Image2" runat="server" ImageUrl="./assets/images/default-dp.jpg" Height="75" Width="75" BorderColor="White" BorderStyle="Solid" BorderWidth="3" />          
+				                        <asp:Image ID="Image2" runat="server" ImageUrl="./assets/images/default-dp.jpg"  BorderColor="White" BorderStyle="Solid" BorderWidth="3" />          
 			                        </a>
 		                        </li>
                             <li>    
@@ -89,14 +87,13 @@
                                 
                                 <li> <asp:TextBox ID="account_idpk" runat="server"></asp:TextBox> </li>
                                 <li> <asp:TextBox ID="college_idpk" runat="server"></asp:TextBox> </li>
-                                <li> <asp:TextBox ID="college_desc" runat="server"></asp:TextBox> </li>
-
-                               
+                                <li> <asp:TextBox ID="course_idpk" runat="server"></asp:TextBox> </li>
+                                <li> <asp:TextBox ID="college_desc" runat="server"></asp:TextBox> </li>                              
                             </ul>
                     </div>
 
-                     <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-                         <div class="row">
+                     <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main ">
+                         <div class="row ">
                              <div class="col-xs-4">
                                  <h3 class="page-header"><span class="glyphicon glyphicon-home">&nbsp;</span>Timeline</h3>
                              </div>
@@ -121,7 +118,6 @@
                             <div class="col-xs-6 col-sm-1 placeholder"> </div>
                              <!-- end spacer -->
                            
-
                             <!-- start right-side -->
                             <div class="col-xs-6 col-sm-5 placeholder border-enabled">
                               <h4 class="header-padded"><span class="glyphicon glyphicon-th-alt-list minified"></span>&nbsp; Survey Questions</h4>
@@ -130,8 +126,7 @@
                                         <tr>
                                             <td></td>
                                             <td><span class="glyphicon glyphicon-th-list"></span></td>  
-                                            <td>Survey Title</td>
-                                           
+                                            <td>Survey Title</td>                                          
                                             <td></td>
                                         </tr>
                                                     
@@ -140,12 +135,10 @@
                               </div>
                             </div>
                             <!-- end right-side -->
-
                         </div>
                     </div>
                 </div>
             </div>
-
         </div>
 
      //Modal form
@@ -184,9 +177,8 @@
     <script type="text/javascript" src="./js/bindDelay.js"></script>
     <script type="text/javascript" src="h./js/json2.js"></script>
     <script>
-        
-
         var college_id = $("#college_idpk").val();
+        var course_id = $("#course_idpk").val();
         var college_desc = $("#college_desc").val();
         var filterPoll = $("#account_idpk").val();
         var myParam = location.search.split('id=')[1];
@@ -202,7 +194,7 @@
                     contentType: "application/json; charset=utf-8",
 
                     success: function (r) {
-                        data = r.d
+                        data = r.d;
                         data = jQuery.parseJSON(data);
 
                         if (data.length == 0)
@@ -214,61 +206,44 @@
                             $.each(data, function (i, object) {
                                 object.status = "active";
 
-                                //CHECK IF PARTICIPATED
+                                $(".table").append(
+                                    "<tr>" +
+                                    "<td>  " + object.polls_idpk + " </td>" +
+                                    "<td>  " + object.description + " </td>" +
+                                    "<td>  " + "<a class='btn btn-success btn-sm theatre' id='" + object.polls_idpk + "' data-poll-title='" + object.description + "' data-poll-question='" + object.question + "' data-poll-id='" + object.polls_idpk + "' data-toggle='modal' data-target='#myModal'>View Details and participate </a>" + " </td>" +
+                                    "</tr>"
+                                    );
+                            });
+                            
+                            //ITERATE POLL OPTIONS
+                            $(".theatre").click(function () {
+                                $("#placeholderOptions").html("");
+                                $("#questionPlaceholder").text($(this).data("poll-question"));
+                                $("#myModalLabel").text($(this).data("poll-title"));
+                                $(".btnPollAns").attr("data-poll-idpk", $(this).data('poll-id'));
+                                pollsPK = $(this).data("poll-id");
+
                                 $.ajax({
                                     type: "post",
-                                    url: "home.aspx/pullAnsweredpolls",
-                                    data: "{'poll_id' :'" + object.polls_idpk + "' }",
+                                    url: "./home.aspx/pullPollOptions",
+                                    data: "{'optFk' :'" + pollsPK + "' }",
                                     dataType: "json",
                                     processData: false,
                                     traditional: true,
                                     contentType: "application/json; charset=utf-8",
+                                    success: function (dataOpt) {
 
-                                    success: function (s) {
-                                        if (s.d == null) {
-                                            //APPEND POLLS AVAILABLE
-                                            $(".table").append(
-                                                "<tr>" +
-                                                "<td>  " + object.polls_idpk + " </td>" +
-                                                "<td>  " + object.description + " </td>" +
-                                                "<td>  " + "<a class='btn btn-success btn-sm theatre' id='" + object.polls_idpk + "' data-poll-title='" + object.description + "' data-poll-question='" + object.question + "' data-poll-id='" + object.polls_idpk + "' data-toggle='modal' data-target='#myModal'>View Details and participate </a>" + " </td>" +
-                                                "</tr>"
-                                                );
+                                        optionsArr = dataOpt.d;
+                                        optionsArr = jQuery.parseJSON(optionsArr);
 
-                                            //ITERATE POLL OPTIONS
-                                            $(".theatre").click(function () {
-                                                $("#placeholderOptions").html("");
-                                                $("#questionPlaceholder").text($(this).data("poll-question"));
-                                                $("#myModalLabel").text($(this).data("poll-title"));
-                                                $(".btnPollAns").attr("data-poll-idpk", $(this).data('poll-id'));
-                                                pollsPK = $(this).data("poll-id");
-
-                                                $.ajax({
-                                                    type: "post",
-                                                    url: "./home.aspx/pullPollOptions",
-                                                    data: "{'optFk' :'" + pollsPK + "' }",
-                                                    dataType: "json",
-                                                    processData: false,
-                                                    traditional: true,
-                                                    contentType: "application/json; charset=utf-8",
-                                                    success: function (dataOpt) {
-
-                                                        optionsArr = dataOpt.d;
-                                                        optionsArr = jQuery.parseJSON(optionsArr);
-
-                                                        $.each(optionsArr, function (i, pollOpt) {
-                                                            var replaced = pollOpt.option_description.replace("-", ",");
-                                                            $("#placeholderOptions").append(
-                                                             "<li><input type='radio' name='polloptions' value=" + pollOpt.pollsoption_idpk + "> &nbsp; " + replaced + "  </li>"
-                                                             );
-                                                        });
-                                                    }
-                                                });
-                                            });
-                                        }
+                                        $.each(optionsArr, function (i, pollOpt) {
+                                            var replaced = pollOpt.option_description.replace("-", ",");
+                                            $("#placeholderOptions").append(
+                                             "<li><input type='radio' name='polloptions' value=" + pollOpt.pollsoption_idpk + "> &nbsp; " + replaced + "  </li>"
+                                             );
+                                        });
                                     }
                                 });
-                                
                             });
 
                             //ANSWER POLL
@@ -277,11 +252,13 @@
                                 var pollAns = $("input[name='polloptions']:checked").val();
                                 var pollFk = $(this).data("poll-idpk");
                                 var account_id = $("#account_idpk").val();
-                          
+                                college_id = $("#college_idpk").val();
+                                course_id = $("#course_idpk").val();
+
                                 $.ajax({
                                     type: "post",
                                     url: "./home.aspx/pushToPollDataStats",
-                                    data: "{'poll_idpk' :'" + pollsPK + "','poll_option_idfk':'" + pollAns + "','account_idfk':'" +account_id +"' }",
+                                    data: "{'poll_idpk' :'" + pollsPK + "','poll_option_idfk':'" + pollAns + "','account_idfk':'" + account_id + "','course_idfk':'" + course_id + "','college_idfk':'" + college_id + "' }",
                                     dataType: "json",
                                     processData: false,
                                     traditional: true,
@@ -318,27 +295,27 @@
                                 
                                 $(".announcementHolder").append(
                                 "<div class='row'>" +
-                                    "<div class='col-xs-12 border-enabled'>" +
+                                    "<div class='col-xs-12 border-enabled highlighted-div'>" +
                                         "<h4 class='header-padded '><span class='glyphicon glyphicon-bookmark ' >&nbsp;</span>DIRECTOR </h4>" +
                                          "<span class='dateIndicator'>&nbsp;&nbsp;" + object.formatedB + "</span>" +
-                                        "<div class='row'>" +
+                                          "<br>" + "<br>" +
+                                        "<div class='row  top-border'>" +
                                             "<br>" +
-                                            "<div class='theme-color col-xs-3 highlighted-div'>" +
-                                                "<p> " + object.description + "   </p>" +
+                                            "<div class='col-xs-1'> </div>" +
+                                            "<div class='theme-color col-xs-11'>" +
+                                                "<p class='text-theme'> " + object.description + "   </p>" +
                                                 "<br>" +
-                                                "<br>" +
+                                               
                                             "</div>" +
                                         "</div> " +
-                                        "<div class='row'>" +
+                                        "<div class='row noPoll'>" +
                                             "<br>" +
-                                            "<div class='theme-color col-xs-3'>" +
+                                            "<div class='col-xs-1'> </div>" +
+                                            "<div class='theme-color col-xs-2 header-padded' style='text-align:left;'>" +
                                                 "<a class='share btn btn-primary btn-sm' data-sharable='" + object.description + "' data-u='TSU Alumni Director'>share on facebook</a>" +
                                             "</div>" +
                                            
                                         "</div> " +
-                                    
-                                        "<br>" +
-
                                     "</div>" +
                                 "</div>" +
 
@@ -349,27 +326,30 @@
                             else {
                                 $(".announcementHolder").append(
                                 "<div class='row'>" +
-                                    "<div class='col-xs-12 border-enabled'>" +
+                                    "<div class='col-xs-12 border-enabled highlighted-div'>" +
                                         "<h4 class='header-padded'><span class='glyphicon glyphicon-bookmark'>&nbsp;</span>" + college_desc + " </h4>" +
                                         "<span class='dateIndicator'>&nbsp;&nbsp;" + object.formatedB + "</span>" +
-                                        "<div class='row'>" +
-                                            "<br>"+
-                                            "<div class='theme-color col-xs-3 highlighted-div'>" +
-                                                "<p> " + object.description + "   </p>" +
+                                        "<br>" + "<br>" +
+                                        "<div class='row  top-border'>" +
+                                            "<br>" +
+                                            "<div class='col-xs-1'> </div>" +
+                                            "<div class='theme-color col-xs-11 '>" +
+                                                "<p class='text-theme'> " + object.description + "   </p>" +
                                                 "<br>" +
-                                                "<br>" +
+                                                
                                             "</div>" +
 
                                         "</div> " +
-                                        "<div class='row'>" +
+                                        "<div class='row noPoll'>" +
                                             "<br>" +
-                                            "<div class='theme-color col-xs-3'>" +
+                                           "<div class='col-xs-1'> </div>" +
+                                            "<div class='theme-color col-xs-2  header-padded '>" +
                                                 "<a class='share btn btn-primary btn-sm' data-sharable='" + object.description + "' data-u='" + college_desc + "'>share on facebook</a>" +
                                             "</div>" +
 
                                         "</div> " +
 
-                                        "<br>" +
+                                      
                                     "</div>" +
                                 "</div>" +
 
@@ -386,7 +366,7 @@
                             {
                                 method: 'feed',
                                 name: ' '+ context +' ',
-                                link: 'http://tsualumnitracer-001-site1.smarterasp.net/Default.aspx',
+                                link: 'http://alumni.tsu.edu.ph/default.aspx',
                                 caption: '',
                                 description: ' Posted by : '+ u +' ',
                                 message: 'aaa'
@@ -395,19 +375,10 @@
                     }
                 }
             });
-
-            $.ajax({
-                type: "post",
-                url: "home.aspx/pullPoll",
-                dataType: "json",
-                contentType: "application/json; charset=utf-8",
-                success: function (pollResponse) {
-                }
-            });
-
     </script>
             
     </form>
 
      </body>
 </html>
+

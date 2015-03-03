@@ -30,6 +30,8 @@
                 $(".display").html("");
                 $(".display").css("visibility", "hidden");
                 $("#hidId").val("");
+                $(".toFix").removeClass("forceFix");
+                $(".toFix").addClass("toFix");
             }
             $.ajax({
                 type: "post",
@@ -69,6 +71,9 @@
 
                         $(".resWrapper").html("");
                         $(".display").css("visibility", "visible");
+
+                        $(".toFix").addClass("forceFix");
+                        $(".toFix").removeClass("toFix");
                         $.each(data, function (i, o) {
                             
                             if( o.u == null){
@@ -108,8 +113,8 @@
                         $(".modal-body").css("display", "none");
                         name = "";
                         $(".appBtn").append(
-                                '<button type="button" class="btn btn-success btn-sm send" id="btnSend" style="float:left;">Send</button>' +
-                                '<button type="button" class="btn btn-primary btn-sm" data-dismiss="modal" style="float:right;margin-right:50px;">Close</button>')
+                                '<button type="button" class="btn btn-success btn-sm send" id="btnSend" style="float:left;"><span class="glyphicon glyphicon-send"></span>&nbsp;&nbsp;Send</button>' +
+                                '<button type="button" class="btn btn-primary btn-sm" data-dismiss="modal" style="float:right;margin-right:140px;">Close conversation</button>')
                         var sess_id = $("#account_idpk").val();
                         account_idfk = $(this).data("id");
                         

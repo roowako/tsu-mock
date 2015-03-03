@@ -7,6 +7,8 @@ Imports System.Linq
 Imports System.Web
 Imports System.Collections.Generic
 Imports System.IO
+Imports CloudinaryDotNet
+Imports CloudinaryDotNet.Actions
 
 Partial Class rev_alumni_profile
     Inherits System.Web.UI.Page
@@ -17,11 +19,14 @@ Partial Class rev_alumni_profile
 
     Public Shared Property sqlStr As String
     Public Shared Property getLast As String
+    Public Shared Property imgUrl As String
 
     Protected Sub Page_Load(sender As Object, e As EventArgs) Handles Me.Load
         If Session.Item("id") Is Nothing Then
             Console.Write("sd")
             Response.Redirect("Default.aspx")
+
+
         Else
 
             Using sqlCon As New SqlConnection(constr)
@@ -170,14 +175,55 @@ Partial Class rev_alumni_profile
         Response.Redirect("default.aspx")
     End Sub
 
-   
 
-    Protected Sub Upload(sender As Object, e As EventArgs)
+
+
+    
+
+    Protected Sub btnUpload_Click(sender As Object, e As EventArgs) Handles btnUpload.Click
+        Dim counter As Integer = 1
+
+        Dim s As String
+        s = counter.ToString
+        s = (++counter).ToString
+
         If uploader.HasFile Then
 
-            Dim fileName As String = Path.GetFileName(uploader.PostedFile.FileName)
-            uploader.PostedFile.SaveAs(Server.MapPath("./assets/uploads/") + fileName)
-            Dim filepath As String = "./assets/uploads/" + fileName + ""
+            Dim account = New Account(
+                      "roowako06",
+                      "198241248352399",
+                      "qZn-nl_4iMIrQQc_QdM_dvW88Gg")
+
+            Dim cloudinary = New Cloudinary(account)
+            Dim uploadParams = New ImageUploadParams
+
+
+
+
+
+            'Dim fileName = Path.GetFileName(uploader.PostedFile.FileName)
+
+            Dim serverPath = Server.MapPath("./assets/uploads")
+
+            Dim fullpath As String = Path.Combine(serverPath, Path.GetFileName(uploader.PostedFile.FileName))
+            uploader.PostedFile.SaveAs(fullpath)
+
+            uploadParams.File = New FileDescription("" & fullpath & "")
+
+
+
+            Dim result = cloudinary.Upload(uploadParams)
+
+
+            imgUrl = cloudinary.Api.UrlImgUp.Secure(True).Transform(New Transformation().Height(150).Crop("fit")).BuildUrl(result.PublicId + ".jpg")
+
+
+
+
+            'Dim fileAPath As String = Server.MapPath(uploader.FileName)
+            'Dim fileName = Path.GetFileName(uploader.PostedFile.FileName)
+
+
 
             Using sqlCon As New SqlConnection(constr)
                 sqlCon.Open()
@@ -185,13 +231,18 @@ Partial Class rev_alumni_profile
 
                 cmd = New SqlCommand("UPDATE tblAccounts set img_path  = @p2 WHERE account_idpk = @p1 ", sqlCon)
                 cmd.Parameters.AddWithValue("@p1", account_idpk.Text.ToString)
-                cmd.Parameters.AddWithValue("@p2", filepath)
+                cmd.Parameters.AddWithValue("@p2", imgUrl)
                 cmd.ExecuteNonQuery()
-                Image2.ImageUrl = filepath
-                Response.Write(<script>alert("Upadated"); </script>)
+
+                Response.Redirect("alumni-profile.aspx")
                 sqlCon.Close()
             End Using
+
+        Else
+
+
+
+
         End If
     End Sub
-
 End Class

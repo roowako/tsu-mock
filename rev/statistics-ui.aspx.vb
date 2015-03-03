@@ -83,7 +83,7 @@ Partial Class statistics_ui
         Return "Deleted."
     End Function
 
-    'General Employment Statistics
+    'PULL GENERAL SURVEY STATS
     <System.Web.Services.WebMethod()> _
     <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
     Public Shared Function empstat(ByVal college_desc As String, ByVal course_desc As String) As String
@@ -182,153 +182,6 @@ Partial Class statistics_ui
 
     End Function
 
-    'First employment duration stats
-    <System.Web.Services.WebMethod()> _
-    <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
-    Public Shared Function q1() As String
-
-        Using sqlCon As New SqlConnection(constr)
-            sqlCon.Open()
-
-            Using da = New SqlDataAdapter("SELECT COUNT(CASE when q1 = '1 to 3 months' then 1 else NULL end) opt1, COUNT(CASE when q1 = '4 to 6 months' then 1 else NULL end) opt2, COUNT(CASE when q1 = '7 months to 1 year' then 1 else NULL end) opt3, COUNT(CASE when q1 = 'other' then 1 else NULL end) opt4 from tblEmployment", sqlCon)
-                Dim table = New DataTable()
-                da.Fill(table)
-
-                Dim jsndata As String = GetJson(table)
-                Return jsndata
-            End Using
-
-            sqlCon.Close()
-        End Using
-
-    End Function
-
-    'Field of education and job relation
-    <System.Web.Services.WebMethod()> _
-    <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
-    Public Shared Function q2() As String
-
-        Using sqlCon As New SqlConnection(constr)
-            sqlCon.Open()
-
-            Using da = New SqlDataAdapter("SELECT COUNT(CASE when q2 = 'Yes' then 1 else NULL end) opt1, COUNT(CASE when q2 = 'No' then 1 else NULL end) opt2 from tblEmployment", sqlCon)
-                Dim table = New DataTable()
-                da.Fill(table)
-
-                Dim jsndata As String = GetJson(table)
-                Return jsndata
-            End Using
-
-            sqlCon.Close()
-        End Using
-
-    End Function
-
-    'Location of employment
-    <System.Web.Services.WebMethod()> _
-    <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
-    Public Shared Function q3() As String
-
-        Using sqlCon As New SqlConnection(constr)
-            sqlCon.Open()
-
-            Using da = New SqlDataAdapter("SELECT COUNT(CASE when q3 = 'Abroad' then 1 else NULL end) opt1, COUNT(CASE when q3 = 'Local' then 1 else NULL end) opt2 from tblEmployment", sqlCon)
-                Dim table = New DataTable()
-                da.Fill(table)
-
-                Dim jsndata As String = GetJson(table)
-                Return jsndata
-            End Using
-
-            sqlCon.Close()
-        End Using
-
-    End Function
-
-    'Classification of company/institution
-    <System.Web.Services.WebMethod()> _
-    <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
-    Public Shared Function q4() As String
-
-        Using sqlCon As New SqlConnection(constr)
-            sqlCon.Open()
-
-            Using da = New SqlDataAdapter("SELECT COUNT(CASE when q4 = 'Private' then 1 else NULL end) opt1, COUNT(CASE when q3 = 'Public' then 1 else NULL end) opt2 from tblEmployment", sqlCon)
-                Dim table = New DataTable()
-                da.Fill(table)
-
-                Dim jsndata As String = GetJson(table)
-                Return jsndata
-            End Using
-
-            sqlCon.Close()
-        End Using
-
-    End Function
-
-    'Nature of appointment
-    <System.Web.Services.WebMethod()> _
-    <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
-    Public Shared Function q5() As String
-
-        Using sqlCon As New SqlConnection(constr)
-            sqlCon.Open()
-
-            Using da = New SqlDataAdapter("SELECT COUNT(CASE when q5 = 'nat_app_reg' then 1 else NULL end) opt1, COUNT(CASE when q5 = 'nat_app_prob' then 1 else NULL end) opt2, COUNT(CASE when q5 = 'self_emp_opt' then 1 else NULL end) opt3 from tblEmployment", sqlCon)
-                Dim table = New DataTable()
-                da.Fill(table)
-
-                Dim jsndata As String = GetJson(table)
-                Return jsndata
-            End Using
-
-            sqlCon.Close()
-        End Using
-
-    End Function
-
-    'Present position
-    <System.Web.Services.WebMethod()> _
-    <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
-    Public Shared Function q6() As String
-
-        Using sqlCon As New SqlConnection(constr)
-            sqlCon.Open()
-
-            Using da = New SqlDataAdapter("SELECT COUNT(CASE when q6 = 'Rank and File' then 1 else NULL end) opt1, COUNT(CASE when q6 = 'Supervisory Level' then 1 else NULL end) opt2, COUNT(CASE when q6 = 'Managerial Level' then 1 else NULL end) opt3, COUNT(CASE when q6 = 'Others' then 1 else NULL end) opt4 from tblEmployment", sqlCon)
-                Dim table = New DataTable()
-                da.Fill(table)
-
-                Dim jsndata As String = GetJson(table)
-                Return jsndata
-            End Using
-
-            sqlCon.Close()
-        End Using
-
-    End Function
-
-    'How long have you been working in your current company?
-    <System.Web.Services.WebMethod()> _
-    <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
-    Public Shared Function q7() As String
-
-        Using sqlCon As New SqlConnection(constr)
-            sqlCon.Open()
-
-            Using da = New SqlDataAdapter("SELECT COUNT(CASE when q7 = '1 to 6 months' then 1 else NULL end) opt1, COUNT(CASE when q7 = '7 months to 1 year' then 1 else NULL end) opt2, COUNT(CASE when q7 = '1 year to 3 years' then 1 else NULL end) opt3, COUNT(CASE when q7 = 'Others' then 1 else NULL end) opt4 from tblEmployment", sqlCon)
-                Dim table = New DataTable()
-                da.Fill(table)
-
-                Dim jsndata As String = GetJson(table)
-                Return jsndata
-            End Using
-
-            sqlCon.Close()
-        End Using
-
-    End Function
-
     'PAGE LOAD
     Protected Sub Page_Load(sender As Object, e As EventArgs) Handles Me.Load
         If Session.Item("id") Is Nothing Then
@@ -374,14 +227,59 @@ Partial Class statistics_ui
         End Using
     End Sub
 
-    'Pull poll options and statistics
+    'PULL DYNAMIC SURVEY STATS
     <System.Web.Services.WebMethod()> _
     <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
-    Public Shared Function pullPollOptions(ByVal optFk As String) As String
+    Public Shared Function pullPollOptions(ByVal optFk As String, ByVal college_desc As String, ByVal course_desc As String) As String
+        Dim college_id As Integer
+        Dim course_id As Integer
+        Dim sqlstr As String = ""
 
+        'FETCH COLLEGE ID
         Using sqlCon As New SqlConnection(constr)
             sqlCon.Open()
-            Using dat = New SqlDataAdapter("SELECT option_description, COUNT(tblPollsdata.pollsoption_idfk) as stats_data FROM tblPollsoption LEFT JOIN tblPollsdata ON tblPollsoption.pollsoption_idpk=tblPollsdata.pollsoption_idfk WHERE tblPollsoption.polls_idfk='" & optFk & "' GROUP BY option_description ORDER BY stats_data DESC ", sqlCon)
+
+            cmd = New SqlCommand("SELECT college_idpk FROM tblColleges WHERE description = '" & college_desc & "' ", sqlCon)
+            dr = cmd.ExecuteReader
+
+            If dr.HasRows Then
+                dr.Read()
+                college_id = dr.GetValue(0)
+                dr.Close()
+            End If
+
+            sqlCon.Close()
+        End Using
+
+        'FETCH COURSE ID
+        Using sqlCon As New SqlConnection(constr)
+            sqlCon.Open()
+
+            cmd = New SqlCommand("SELECT course_idpk FROM tblCourses WHERE description = '" & course_desc & "' ", sqlCon)
+            dr = cmd.ExecuteReader
+
+            If dr.HasRows Then
+                dr.Read()
+                course_id = dr.GetValue(0)
+                dr.Close()
+            End If
+
+            sqlCon.Close()
+        End Using
+
+        'FETCH STATS DATA
+        Using sqlCon As New SqlConnection(constr)
+            If college_desc = "ALL COLLEGES" And course_desc = "ALL COURSES" Then
+                sqlstr = "SELECT option_description, COUNT(tblPollsdata.pollsoption_idfk) as stats_data FROM tblPollsoption LEFT JOIN tblPollsdata ON tblPollsoption.pollsoption_idpk=tblPollsdata.pollsoption_idfk WHERE tblPollsoption.polls_idfk='" & optFk & "' GROUP BY option_description ORDER BY stats_data DESC "
+            ElseIf college_desc <> "ALL COLLEGES" And course_desc = "ALL COURSES" Then
+                sqlstr = "SELECT option_description, COUNT(CASE WHEN college_idfk = '" & college_id & "' THEN 1 ELSE NULL END) as stats_data FROM tblPollsoption LEFT JOIN tblPollsdata ON tblPollsoption.pollsoption_idpk=tblPollsdata.pollsoption_idfk WHERE tblPollsoption.polls_idfk='" & optFk & "' GROUP BY option_description ORDER BY stats_data DESC "
+            ElseIf college_desc <> "ALL COLLEGES" And course_desc <> "ALL COURSES" Then
+                sqlstr = "SELECT option_description, COUNT(CASE WHEN college_idfk = '" & college_id & "' AND course_idfk = '" & course_id & "' THEN 1 ELSE NULL END) as stats_data FROM tblPollsoption LEFT JOIN tblPollsdata ON tblPollsoption.pollsoption_idpk=tblPollsdata.pollsoption_idfk WHERE tblPollsoption.polls_idfk='" & optFk & "' GROUP BY option_description ORDER BY stats_data DESC "
+            End If
+
+            sqlCon.Open()
+
+            Using dat = New SqlDataAdapter(sqlstr, sqlCon)
                 Dim table2 = New DataTable()
                 dat.Fill(table2)
 

@@ -9,11 +9,11 @@ Imports System.Collections.Generic
 
 Partial Class director_report
     Inherits System.Web.UI.Page
-
     Public Shared Property constr As String = "Data Source=SQL5012.Smarterasp.net;Initial Catalog=DB_9BB7E6_tsuat;User Id=DB_9BB7E6_tsuat_admin;Password=masterfile;"
     Public Shared Property sqlCon As SqlConnection
     Public Shared Property cmd As SqlCommand
     Public Shared Property dr As SqlDataReader
+
     'SERIALIZER
     Public Shared Function GetJson(ByVal dt As DataTable) As String
         Dim serializer As New System.Web.Script.Serialization.JavaScriptSerializer()
@@ -37,12 +37,18 @@ Partial Class director_report
     Protected Sub Page_Load(sender As Object, e As EventArgs) Handles Me.Load
         Dim s As String
         Dim t As String
+        Dim u As String
+        Dim v As String
 
         s = Request.QueryString("course_desc")
         t = Request.QueryString("college_desc")
+        u = Request.QueryString("report_desc")
+        v = Request.QueryString("poll_id")
 
         Label1.Text = s.ToString()
         Label2.Text = t.ToString()
+        Label3.Text = u.ToString()
+        Label4.Text = v.ToString()
     End Sub
 
     'GENERAL EMPLOYMENT STATISTICS
@@ -143,4 +149,7 @@ Partial Class director_report
         End Using
 
     End Function
+
+    'DYNAMIC SURVEY STATISTICS
+
 End Class

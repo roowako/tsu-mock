@@ -38,18 +38,7 @@
                 </div>
                 <div id="navbar" class="navbar-collapse collapse" > <!---collapse collapse -->
                   
-                    <br />
-                    <ul class="nav navbar-nav navbar-right extended" style="margin-top:8px;margin-right:100px;">
-                        <li>
-                            <div class="form-group" style="position:absolute;z-index:40000;">
-                                <input type="text" placeholder="Search for alumni" name=""  class="form-control input-sm" id="searching" autocomplete="off"/>
-                                <div class="resWrapper">
-
-                                </div>
-                            <div class="display"></div>
-                            </div>
-                        </li>
-                    </ul>
+                   
                     
                 </div><!--/.navbar-collapse -->
                 </div>
@@ -107,11 +96,17 @@
                                  <h3 class="page-header"><span class="glyphicon glyphicon-home">&nbsp;</span>Pending Registrations</h3>
                                  
                              </div>
-                             <div class="col-xs-1">
+                             <div class="col-xs-3">
                                 <div id="loaderImage"  class="ajax-loader"></div>
                              </div>
-                             <div class="col-xs-3">
-                                 
+                             <div class="col-xs-3 toFix">
+                                 <div class="form-group">
+                                    <input type="text" placeholder="Search for alumni" name=""  class="form-control input-sm" id="searching" autocomplete="off"/>
+                                    <div class="resWrapper moded_res" style="width:300px;">
+
+                                    </div>
+                                    <div class="display moded_dis" style="width:300px;"></div>
+                                  </div>
                              </div>
                         </div>
                         <div class="row placeholders " >
@@ -122,16 +117,15 @@
                                     <div class="col-xs-12 table-responsive">
                                         <div class="" style="border-top:0px !important;">
                                             
-                                            <table class="table table-hover pagination" style="border-top:0px !important;" id="pendingPlaceholder">
+                                            <table class="table table-hover borderless-table" style="border-top:0px !important;" id="pendingPlaceholder">
                                                 <thead>
                                                 <tr>
-                                                    <td><span class="glyphicon glyphicon-th-list"></span></td>
-                                                   
-                                                    <td>Fullname</td>
-                                                    <td>College</td>
-                                                    <td>Course</td>
-                                              
-
+                                                    <th>Fullname</th>
+                                                    <th>College</th>
+                                                    <th>Course</th>
+                                                    <th></th>
+                                                    <th></th>
+                                                    <th></th>
                                                 </tr>
                                                 </thead>
                                                 <tbody>
@@ -179,13 +173,13 @@
         <div class="modal-body">
             
          <div class="table-responsive">
-            <table class="table table-hover" id="accountInfoPlaceholder">
+            <table class="table table-hover borderless-table" id="accountInfoPlaceholder">
                 <thead>
                 <tr>
-                    <td><span class="glyphicon glyphicon-th-list"></span></td>  
+                   
                     <td>Adress</td>
-                    <td>Contact Number</td>
-                    <td>E-mail Address</td>
+                    <td>Contact No.</td>
+                    <td>E-mail</td>
                     <td>Birthday</td>
                     <td>Citizenship</td>
                     <td>Religion</td>
@@ -193,7 +187,7 @@
                     <td>Gender</td>
                 </tr>
                 </thead>       
-                <tbody>
+                <tbody style="border:0px !important;">
 
                 </tbody>                           
             </table>
@@ -208,10 +202,10 @@
                   </div>
                   <div class="col-xs-2">
                       
-                       <input type="button" name="name" value="Update Student Number" class="btn btn-success update-sudnumber"/>
+                       <input type="button" name="name" value="Update Student Number" class="btn btn-success update-sudnumber btn-sm"/>
                   </div>
                   <div class="col-xs-4">
-                      <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                      <button type="button" class="btn btn-primary btn-sm" data-dismiss="modal">Close</button>
                   </div>
               </div>
           </div>
@@ -246,8 +240,8 @@
                         var name = o.given_name +  " " + o.family_name;
                       
                         $("#pendingPlaceholder tbody").append(
-                            "<tr id='" + o.account_idpk +"' class='success'>" +
-                                "<td> " + o.account_idpk + "  </td>" +
+                            "<tr id='" + o.account_idpk +"' class='warning'>" +
+                               
                                 "<td> " + o.given_name + "  " + o.middle_name + " " + o.family_name + " </td>" +
                                 "<td>" + o.collegeDes + "  </td>" +
                                 "<td>" + o.courseDes + "  </td>" +
@@ -291,7 +285,7 @@
 
                                     $("#accountInfoPlaceholder tbody").append(
                                             "<tr>" +
-                                                "<td> " + o.account_idpk + " </td>" +
+                                                
                                                 "<td> " + o.address + " </td>" +
                                                 "<td> " + o.telephone_number + " </td>" +
                                                 "<td> " + o.email_address + " </td>" +

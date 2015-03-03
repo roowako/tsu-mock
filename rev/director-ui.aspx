@@ -70,7 +70,7 @@
                 </div>
             </nav>-->
              <!-- Start content here -->
-            <div class="container-fluid">
+            <div class="container-fluid" style="background:#F5F5F5">
                 <div class="row">
                     <div class="col-sm-3 col-md-2 sidebar">
 	                    <ul class="nav nav-sidebar">
@@ -110,7 +110,7 @@
                     </div>
 
 
-                    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+                    <div class="col-sm-10 col-sm-offset-4 col-md-9 col-md-offset-2 main">
                         <div class="row">
                              <div class="col-xs-4">
                                  <h3 class="page-header"><span class="glyphicon glyphicon-home">&nbsp;</span>Timeline</h3>
@@ -141,18 +141,22 @@
                            
 
                             <!-- start right-side -->
-                            <div class="col-xs-6 col-sm-5 placeholder border-enabled">
-                              <h4 class="header-padded"><span class="glyphicon glyphicon-pencil minified"></span>&nbsp; Post Announcement</h4>
+                            <div class="col-xs-6 col-sm-5 placeholder border-enabled " style="background:#fff;">
+                              <h4 class="header-padded"><span class="glyphicon glyphicon-edit minified"></span>&nbsp; Post Announcement</h4>
                               <div class="row">
-                                  <div class="col-xs-12 " style="border-top:thin solid #ccc;">
-                                      <br />
-                                      <div class="">
-                                          <asp:TextBox ID="txtPostAnnouncementCoor" runat="server" TextMode="MultiLine" placeholder="" CssClass="form-control"></asp:TextBox>
+                                  <div class="col-xs-12 " >
+                                      
+                                      <div class="" style="border-top:thin solid #ccc;">
+                                          <br />
+                                          <asp:TextBox ID="txtPostAnnouncementCoor" runat="server" TextMode="MultiLine" placeholder="" CssClass="form-control" style="resize:none;border-radius:0px"></asp:TextBox>
                                           <br />
                                           <div class="row">
-                                              <div class="col-xs-12 highlighted-div">
-                                                   <asp:Button ID="btnPostAnnouncementCoor" runat="server" Text="Post Announcement" CssClass="btn btn-warning" type="button" />
+                                              <div class="col-xs-12" style="background:#f5f5f5">
+                                                  <br />
+                                                   <asp:Button ID="btnPostAnnouncementCoor" runat="server" Text="Post" CssClass="btn btn-warning btn-sm clerical" type="button" />
+                                                  <br /><br />
                                               </div>
+                                              
                                           </div>
                                          
                                       </div>
@@ -174,7 +178,7 @@
     <script type="text/javascript" src="./js/dom-control.js"></script>
     <script type="text/javascript" src="./js/home-search.js"></script>
     <script type="text/javascript" src="./js/bindDelay.js"></script>
-    <script type="text/javascript" src="h./js/json2.js"></script>
+    <script type="text/javascript" src="./js/json2.js"></script>
     <script>
 
         $(document).ready(function () {
@@ -199,7 +203,7 @@
 
                         $(".announcementHolder").append(                            
                             "<div class='row'>" +
-                                    "<div class='col-xs-12 border-enabled'>" +
+                                    "<div class='col-xs-12 border-enabled highlighted-div'>" +
                                         "<h4 class='header-padded'><span class='glyphicon glyphicon-bookmark'>&nbsp;</span>" + object.given_name + "<br>  </h4>" +
                                         "<span class='dateIndicator'>&nbsp;&nbsp;" + object.formatedB + "</span>" +
 
@@ -209,15 +213,15 @@
                                                 "<p> " + object.description + "   </p>" +
                                             "</div>" +
                                         "</div> " +
-                                        "<div class='row'>" +
+                                        "<div class='row ' style='background:#f5f5f5;border-top:thin solid #eee;'>" +
                                             "<br>" +
                                             "<div class='theme-color col-xs-3'>" +
-                                                "<a class='share btn btn-primary btn-sm' data-sharable='" + object.description + "' data-u='"+ object.given_name +"'>share on facebook</a>" +
+                                                "<a class='share btn btn-primary btn-sm' data-sharable='" + object.description + "' data-u='" + object.given_name + "'><span class='glyphicon glyphicon-send'></span>&nbsp;&nbsp;Share on Facebook</a>" +
                                             "</div>" +
-
+                                             "<br>" + "<br>" +
                                         "</div> " +
 
-                                        "<br>" +
+                                       
                                     "</div>" +
                                 "</div>" +
 
@@ -235,7 +239,7 @@
                         {
                             method: 'feed',
                             name: ' ' + context + ' ',
-                            link: 'http://tsualumnitracer-001-site1.smarterasp.net/Default.aspx',
+                            link: 'http://alumni.tsu.edu.ph/',
                             caption: '',
                             description: ' Posted by : ' + u + ' ',
                             message: 'aaa'

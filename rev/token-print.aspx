@@ -1,4 +1,4 @@
-﻿<%@ Page Language="VB" AutoEventWireup="false" CodeFile="token-print.aspx.vb" Inherits="director_report" %>
+﻿<%@ Page Language="VB" AutoEventWireup="false" CodeFile="token-print.aspx.vb" Inherits="token_print" %>
 
 <!DOCTYPE html>
 
@@ -17,31 +17,22 @@
 
 <body>
     <form id="form1" runat="server">
-    <div class="printables">
-        <div class="col-xs-6 slicable">
-            <table class="chart table table-bordered aligned">
-                <thead class="aligned">
-                    <tr> <th class="aligned">Token Description</th> </tr>
-                </thead>
-                <tbody>
-
-                </tbody>
-            </table>
-        </div>
-        <div class="col-xs-6 slicable fied" style="display:none;">
-            <table class="chart2 table table-bordered aligned">
-                <thead class="aligned">
-                    <tr> <th class="aligned">Token Description</th> </tr>
-                </thead>
-                <tbody>
-
-                </tbody>
-            </table>
+        
+        <div class="printables">
+            <div class="col-xs-12 slicable">
+                <table class="chart table table-bordered aligned">
+                    <thead class="aligned">
+                        <tr> <th class="aligned">Token Description</th> </tr>
+                    </thead>
+                    <tbody>
+                        
+                    </tbody>
+                </table>
+            </div>      
         </div>
         
-    </div>
         <asp:Label ID="Label1" runat="server" Text="Label" ></asp:Label> <br />
-        <asp:Label ID="Label2" runat="server" Text="Label" ></asp:Label>
+        <asp:Label ID="Label2" runat="server" Text="Label" style="display:none"></asp:Label>
     </form>
 
     <script type="text/javascript" src="./js/jquery.js"></script>
@@ -68,37 +59,18 @@
                 success: function (dataOpt) {
                     data = dataOpt.d;
                     data = jQuery.parseJSON(data);
-                    var limit = 15;
-                    var sub;
-                  
-                       
-                   
-                    $.each(data, function (i, o) {
-                      
-                        sub = i - limit;
-                        console.log(sub);
-                        if(i <  limit ){
+                                   
+                    $.each(data, function (i, o) {                      
                             $(".chart").append(
                                "<tr>" +
                                    "<td>" + data[i].description + " </td>" +
                                "</tr>"
-                           );
-                        } else {
-                            $(".fied").css("display", "block");
-                            $(".chart2").append(
-                                "<tr>" +
-                                   "<td>" + data[sub].description + " </td>" +
-                               "</tr>"
-                                );
-                        }
-                           
-                       
-                            
-                        })
-                   
-                        
+                           );    
+                        })     
                     
-                }
+                    window.print();
+                    }
+               
             });
         });
     </script>

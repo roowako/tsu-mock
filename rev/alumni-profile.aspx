@@ -1,4 +1,4 @@
-﻿<%@ Page Language="VB" AutoEventWireup="false" CodeFile="alumni-profile.aspx.vb" Inherits="rev_alumni_profile" %>
+﻿<%@ Page Language="VB" AutoEventWireup="false" CodeFile="alumni-profile.aspx.vb" Inherits="rev_alumni_profile"  %>
 
 <!DOCTYPE html>
 
@@ -60,7 +60,7 @@
 	                        <ul class="nav nav-sidebar">
 		                        <li>
 			                        <a href="#">
-				                        <asp:Image ID="Image2" runat="server" ImageUrl="./assets/images/default-dp.jpg" Height="85" Width="85" BorderColor="White" BorderStyle="Solid" BorderWidth="3" CssClass="nonmod" />          
+				                        <asp:Image ID="Image2" runat="server" ImageUrl="./assets/images/default-dp.jpg"  BorderColor="White" BorderStyle="Solid" BorderWidth="3" CssClass="nonmod" />          
 			                        </a>
 		                        </li>
                             <li>    
@@ -87,7 +87,7 @@
                              </div>
 
                              <div class="col-xs-2">
-                                 <asp:Button ID="btnUpload" runat="server" Text="Update Profile Picture" CssClass="btn btn-default btn-sm" OnClick="Upload"/>
+                                 <asp:Button ID="btnUpload" runat="server" Text="Update Profile Picture" CssClass="btn btn-default btn-sm" />
                              </div>
                          </div>
                         <div class="row placeholders " >
@@ -164,11 +164,17 @@
     <script type="text/javascript" src="./js/bootstrap.min.js"></script>
     <script type="text/javascript" src="./js/custom.js"></script>
     <script type="text/javascript" src="./js/dom-control.js"></script>
-   <script type="text/javascript" src="./js/home-search.js"></script>
+    <script type="text/javascript" src="./js/home-search.js"></script>
      <script type="text/javascript" src="./js/bindDelay.js"></script>
-    <script type="text/javascript" src="./json2.js"></script>
+    <script type="text/javascript" src="./js/json2.js"></script>
+    
+
+
     <script>
         $(document).ready(function () {
+
+           
+
             var fullname = $("#alumni_name").text();
             var id = $("#account_idpk").val();
             var email;

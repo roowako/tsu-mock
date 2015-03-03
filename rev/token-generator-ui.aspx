@@ -247,7 +247,7 @@
                         dataType: "json",
                         contentType: "application/json; charset=utf-8",
                         success: function (r) {
-                            if (printnumber > r.d) {
+                            if (printnumber > parseInt(r.d)) {
                                 alert("Insufficient tokens to print.")
                             }
                             else {

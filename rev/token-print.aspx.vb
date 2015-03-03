@@ -7,7 +7,7 @@ Imports System.Linq
 Imports System.Web
 Imports System.Collections.Generic
 
-Partial Class director_report
+Partial Class token_print
     Inherits System.Web.UI.Page
 
     Public Shared Property constr As String = "Data Source=SQL5012.Smarterasp.net;Initial Catalog=DB_9BB7E6_tsuat;User Id=DB_9BB7E6_tsuat_admin;Password=masterfile;"
@@ -50,8 +50,6 @@ Partial Class director_report
     <System.Web.Services.WebMethod()> _
     <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
     Public Shared Function fetchtokens(ByVal college_fk As Integer, ByVal number_of_tokens As String) As String
-
-
 
         Using sqlCon As New SqlConnection(constr)
 

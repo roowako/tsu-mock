@@ -180,8 +180,6 @@
                             </div>
 
                              <!-- star spacer -->
-                           
-
                         </div>
                     </div>
                 </div>
@@ -212,7 +210,6 @@
               <button type="button" class="btn btn-success btn-sm" data-dismiss="modal" id="director_print">Print Statistics</button>
               <button type="button" class="btn btn-warning btn-sm" data-dismiss="modal" id="close">Close</button>
           </div>
-
         </div>
       </div>
     </div>
@@ -227,15 +224,21 @@
     <script type="text/javascript" src="./js/json2.js"></script>
 
     <script type="text/javascript">
+        var pollID;
+        var college_desc = $("#cboCollege").val();
+        var course_desc = $("#cboCourse").val();
+        var report_desc = $("#filterSurvey").val();
+
         $("#close").click(function () {
             $(".modal-body .chart").html("");
         });
 
         $("#director_print").click(function () {
-            var college_desc = $("#cboCollege").val();
-            var course_desc = $("#cboCourse").val();
+            college_desc = $("#cboCollege").val();
+            course_desc = $("#cboCourse").val();
+            report_desc = $("#filterSurvey").val();
 
-            window.open("./director-report.aspx?college_desc="+college_desc+"&course_desc="+course_desc);
+            window.open("./director-report.aspx?college_desc=" + college_desc + "&course_desc=" + course_desc + "&report_desc=" + report_desc + "&poll_id=" + pollID);
         });
 
         $('.chart').horizBarChart({
@@ -248,7 +251,7 @@
 
             var filterView = "poll";
             var collegeView;
-
+           
             $.ajax({
                 type: "post",
                 url: "statistics-ui.aspx/PullQ",
@@ -266,7 +269,7 @@
                                 "<td> " + o.description + " </td>" +
                                 "<td> " + o.question + "</td>" +
                                 "<td> </td>"+
-                                "<td> <a class='btn btn-primary btn-sm theatre' data-poll-id='" + o.polls_idpk + "' data-toggle='modal' data-target='#myModal'>View Statistics </a>&nbsp; </td>" +
+                                "<td> <a class='btn btn-primary btn-sm theatre' data-poll-id='" + o.polls_idpk + "' data-toggle='modal' data-target='#myModal'>View Statistics </a> </td>" +
                                 "<td> <a class='btn btn-warning btn-sm deletePoll' data-poll-id='" + o.polls_idpk + "'>Delete Survey </a></td>" +
                             "</tr>"
                             );
@@ -274,17 +277,20 @@
                     });
 
                     $(".theatre").click(function () {
-
                         $(".chart").html("");
                         $("#questionPlaceholder").text($(this).data("poll-question"));
                         $("#myModalLabel").text($(this).data("poll-title"));
+
                         pollsPK = $(this).data("poll-id");
-                        console.log(pollsPK);
+                        pollID = $(this).data("poll-id");
+                        college_desc = $("#cboCollege").val();
+                        course_desc = $("#cboCourse").val();
+                        report_desc = $("#filterSurvey").val();
 
                         $.ajax({
                             type: "post",
                             url: "./statistics-ui.aspx/pullPollOptions",
-                            data: "{'optFk' :'" + pollsPK + "' }",
+                            data: "{'optFk' :'" + pollsPK + "','college_desc' :'" + college_desc + "','course_desc' :'" + course_desc + "' }",
                             dataType: "json",
                             processData: false,
                             traditional: true,
@@ -299,9 +305,9 @@
                                     if (pollOpt.stats_data == 0) {
                                         s = "Zero respondents";
                                         
-                                    } else {
-                                        s = pollOpt.stats_data;
-                                        
+                                    }
+                                    else {
+                                        s = pollOpt.stats_data;                                      
                                     }
 
                                     console.log(pollOpt.stats_data);
@@ -312,6 +318,7 @@
                                         "</li>"
                                         );
                                 });
+
                                 $('.chart').horizBarChart({
                                     selector: '.bar',
                                     speed: 3000
@@ -368,7 +375,6 @@
                                         "<td> " + o.description + " </td>" +
                                         "<td> " + o.question + "</td>" +
                                         "<td> <a class='btn btn-primary btn-sm theatre' data-poll-id='" + o.polls_idpk + "' data-toggle='modal' data-target='#myModal'>View Statistics </a>&nbsp; <a class='btn btn-warning btn-sm'>Delete Poll </a></td>" +
-
                                     "</tr>"
                                     );
                                 console.log(o.polls_idpk);
@@ -378,19 +384,22 @@
                                 $(".chart").html("");
                                 $("#questionPlaceholder").text($(this).data("poll-question"));
                                 $("#myModalLabel").text($(this).data("poll-title"));
+                                
                                 pollsPK = $(this).data("poll-id");
-                                console.log(pollsPK);
+                                pollID = $(this).data("poll-id");
+                                college_desc = $("#cboCollege").val();
+                                course_desc = $("#cboCourse").val();
+                                report_desc = $("#filterSurvey").val();
 
                                 $.ajax({
                                     type: "post",
                                     url: "./statistics-ui.aspx/pullPollOptions",
-                                    data: "{'optFk' :'" + pollsPK + "' }",
+                                    data: "{'optFk' :'" + pollsPK + "','college_desc' :'" + college_desc + "','course_desc' :'" + course_desc + "'  }",
                                     dataType: "json",
                                     processData: false,
                                     traditional: true,
                                     contentType: "application/json; charset=utf-8",
                                     success: function (dataOpt) {
-
 
                                         optionsArr = dataOpt.d;
                                         optionsArr = jQuery.parseJSON(optionsArr);
@@ -427,6 +436,7 @@
                     $(".tableDetailsView tbody").html("");
                     $(".table-responsive").css("display", "none");
                     $(".genSurvey").css("display", "block");
+
                     $.ajax({
                         type: "post",
                         url: "statistics-ui.aspx/PullQ",
@@ -442,16 +452,19 @@
 
                             $(".theatre").click(function () {
                                 $(".modal-body > .chart").html("");
-                            
                                 $("#questionPlaceholder").text($(this).data("poll-question"));
                                 $("#myModalLabel").text($(this).data("poll-title"));
+                                
                                 pollsPK = $(this).data("poll-id");
-                                console.log(pollsPK);
+                                pollID = $(this).data("poll-id");
+                                college_desc = $("#cboCollege").val();
+                                course_desc = $("#cboCourse").val();
+                                report_desc = $("#filterSurvey").val();
 
                                 $.ajax({
                                     type: "post",
                                     url: "./statistics-ui.aspx/pullPollOptions",
-                                    data: "{'optFk' :'" + pollsPK + "' }",
+                                    data: "{'optFk' :'" + pollsPK + "','college_desc' :'" + college_desc + "','course_desc' :'" + course_desc + "' }",
                                     dataType: "json",
                                     processData: false,
                                     traditional: true,
@@ -520,14 +533,18 @@
                         $("#myModalLabel").text("Employment survey statistics.");
                         $("#Modal-College-Info").text("   " + college_desc);
                         $("#Modal-Course-Info").text("   " + course_desc);
-                        $("#Modal-Respondents-Info").text("   Total Number of Respondent(s): " + data.length);
-                        console.log(data.length);
+                        
                         var empstat_yes;
                         var empstat_no;
+
                         $.each(data, function (i, o) {
+                            var total_respondents;
+                            total_respondents = o.Employed + o.Unmployed;
+                            $("#Modal-Respondents-Info").text("   Total Number of Respondent(s): " + total_respondents);
+
                             //Emp Status
                             if (o.Employed == 0) { empstat_yes = "Zero Respondents"; } else { empstat_yes = o.Employed; }
-                            if(o.Unmployed  == 0){empstat_no = "Zero Respondents";} else{empstat_no = o.Unmployed;}
+                            if (o.Unmployed == 0) { empstat_no = "Zero Respondents"; } else { empstat_no = o.Unmployed; }
 
                             //Q1
                             if (o.Q1A == 0) { q1a = "Zero Respondents"; } else { q1a = o.Q1A; }

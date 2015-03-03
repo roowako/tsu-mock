@@ -30,6 +30,8 @@
                 $(".display").html("");
                 $(".display").css("visibility", "hidden");
                 $("#hidId").val("");
+                $(".toFix").removeClass("forceFix");
+                $(".toFix").addClass("toFix");
             }
             $.ajax({
                 type: "post",
@@ -55,6 +57,9 @@
                        
                         $(".resWrapper").html("");
                         $(".display").css("visibility", "visible");
+
+                        $(".toFix").addClass("forceFix");
+                        $(".toFix").removeClass("toFix");
                         $.each(data, function (i,o) {
                             if( o.u == null ){
                                 $(".resWrapper").append(

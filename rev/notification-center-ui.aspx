@@ -37,18 +37,7 @@
                 </div>
                 <div id="navbar" class="navbar-collapse collapse" > <!---collapse collapse -->
                   
-                     <br />
-                    <ul class="nav navbar-nav navbar-right extended" style="margin-top:8px;margin-right:100px;">
-                        <li>
-                            <div class="form-group" style="position:absolute;z-index:40000;">
-                                <input type="text" placeholder="Search for alumni" name=""  class="form-control input-sm" id="searching" autocomplete="off"/>
-                                <div class="resWrapper">
-
-                                </div>
-                            <div class="display"></div>
-                            </div>
-                        </li>
-                    </ul>
+                    
                     
                 </div><!--/.navbar-collapse -->
                 </div>
@@ -96,28 +85,35 @@
                              <div class="col-xs-4">
                                  <h3 class="page-header"><span class="glyphicon glyphicon-phone">&nbsp;</span>Notification Center</h3>
                              </div>
-                             <div class="col-xs-2">
-                                
-                             </div>
+                            
                              <div class="col-xs-3">
                                  
                              </div>
-                              <div class="col-xs-3">
-                                
+                              <div class="col-xs-3 toFix">
+                                <div class="form-group">
+                                    <input type="text" placeholder="Search for alumni" name=""  class="form-control input-sm" id="searching" autocomplete="off"/>
+                                    <div class="resWrapper moded_res" style="width:300px;">
+
+                                    </div>
+                                    <div class="display moded_dis" style="width:300px;"></div>
+                                  </div>
                              </div>
                          </div>
                         <div class="row placeholders " >
                             <br />
                             <!-- start main-content -->
-                            <div class="col-xs-6 col-sm-6 placeholder announcementHolder border-enabled" >
+                            <div class="col-xs-6 col-sm-6 placeholder announcementHolder border-enabled " style="background:#fff;">
                                 <br />
                               <asp:TextBox ID="txtNotificationMessage" runat="server" TextMode="MultiLine" placeholder="" CssClass="form-control"></asp:TextBox>
                                 <br />
-                                <div class="row">
-                                    <div class="col-xs-12 highlighted-div">
+                                <div class="row " style="background:#f5f5f5;border-top:thin solid #eee">
+                                     <br />
+                                    <div class="col-xs-3 ">
                                         <asp:Button ID="btnSendNotification" runat="server" Text="Send notification via SMS and Email" CssClass="btn btn-warning" type="button" />
                                         &nbsp;&nbsp;&nbsp;<span id="notifier"></span>
+                                        <br />
                                     </div>
+                                    
                                 </div>
                               
                             </div>

@@ -1,5 +1,9 @@
 ﻿
 @import url("http://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.5.4/bootstrap-select.min.css");
+body{
+    background:#F5F5F5;
+}
+
 
 .default-theme{background:maroon;}
 .shadowed{ box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.5) !important;border-top:4px solid #FFC40D !important;}
@@ -9,7 +13,8 @@
  .extended-brand > h3{float:right;}
  .bolder{font-weight:bold;}
  .border-enabled{border:1px solid #D0D1D5;border-radius:3px;  }
- .highlighted-div{background:#f5f5f5;width:100%;padding:15px;}
+ .top-border{border-top:1px solid #D0D1D5;}
+ .highlighted-div{background:none repeat scroll 0% 0% #fff;width:100%;padding:15px;padding-bottom:0px;}
  .highlighted-div > p{color:#333;}
  .minified{font-size:13px;}
  .header-padded{padding:3px;padding-bottom:8px;font-size:15px;font-weight:bold;color:rgba(0, 0, 0, 0.5);}
@@ -22,6 +27,11 @@
  .red{color:red;}
  .dim{color:#7F7F7F;}
  .borderless th,.borderless td{border:none !important;}
+ .clerical{font-weight:bold;padding-left:20px;padding-right:20px;}
+ .forceFix{position:absolute;right:140px;}
+ .toFix{position:relative;right:-20px;}
+
+#messagePlaceholder > tbody > tr:last-child > td{border:0px !important;}
 .resultContainer{
 
      opacity:0;
@@ -91,6 +101,14 @@ border-bottom: 1px solid #ddd;
    border-top:none;
 }
 
+.borderless-table thead > tr > th, .table tbody > tr > th, .table tfoot > tr > th, .table thead > tr > td, .table tbody > tr > td, .table tfoot > tr > td {
+    padding:8px;
+   line-height:1.428571429;
+   vertical-align:top;
+   border-bottom:0px solid #ddd;
+   border-top:none;
+}
+
 .min {
     font-size:14px !important;
     color:#222;
@@ -123,7 +141,7 @@ border-bottom: 1px solid #ddd;
     display:none;
     border-bottom:none;
     position:relative;
-    z-index:400000;
+    z-index:100;
 }
 
 .moded_res{
@@ -199,6 +217,12 @@ border-bottom: 1px solid #ddd;
     background:#f5f5f5;
    
 }
+.noPoll{
+    text-align:center;
+    padding:10px;
+    background:#f5f5f5;
+   
+}
 
 .extended{
     width:300px;
@@ -214,10 +238,19 @@ border-bottom: 1px solid #ddd;
 
 #Image2{
 
-    width:90% !important;
-    height:130px !important;
+    width:180px !important;
+   
 }
 
+#non{
+   width:75px;
+    height:75px;
+}
+
+#uneditable{
+    width:75px;
+    height:75px;
+}
 
 .printables{
     width:960px;
@@ -238,7 +271,11 @@ border-bottom: 1px solid #ddd;
 }
 
 #Label1{
-    display:none
+    display:none;
+}
+
+#Label2{
+    display:none;
 }
 
 .mailer{
@@ -251,7 +288,8 @@ border-bottom: 1px solid #ddd;
 
 #uid_u{display:none;}
 
-#trigger{display:none;
+#trigger{
+    display:none;
 }
 
 #umail{display:none;}
