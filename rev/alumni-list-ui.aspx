@@ -4,7 +4,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
-     <title>Alumni List</title>
+    <title>Alumni List</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="./css/bootstrap.min.css" rel="stylesheet" />
     <link href="./css/bootstrap.theme.min.css" rel="stylesheet" />
@@ -206,8 +206,7 @@
       </div>
       <div class="modal-footer">
           <div class="container">
-              <div class="row">
-                  
+              <div class="row">                  
                   <div class="col-xs-9">
                       <button type="button" class="btn btn-primary btn-sm" data-dismiss="modal">Close</button>
                   </div>
@@ -217,8 +216,6 @@
     </div>
   </div>
 </div>
-
-
 
   <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
       <div class="modal-dialog">
@@ -263,18 +260,26 @@
     <script>
         $(document).ready(function () {
             $("#btnPrintData").click(function () {
-                $(".viewAccountInfo").css("display", "none");
-                $(".uid").css("display", "none");
+                var sortBy = $("#sortBy option:selected").val();
+                var collegeDesc = $("#filterCollege option:selected").attr("data-id");
+                var yearGrad = $("#filterYear option:selected").val();
 
-                var datatoprint = document.getElementById('searchableTable');
-                newWin = window.open("");
-                newWin.document.write(datatoprint.outerHTML);
-                newWin.print();
-                newWin.close();
-
-                $(".viewAccountInfo").css("display", "block");
-                $(".uid").css("display", "block");
-                newWin.close();
+                $.ajax({
+                    type: "post",
+                    url: "alumni-list-ui.aspx/userlist_report",
+                    data: "{'sortBy':'" + sortBy + "','collegeDesc':'" + collegeDesc + "','yearGrad':'" + yearGrad + "'}",
+                    processData: false,
+                    traditional: true,
+                    contentType: "application/json; charset=utf-8",
+                    success: function (serverResponse) {
+                        if (serverResponse.d != null) {
+                            window.open("report_viewer.aspx", "fullscreen=yes")
+                        }
+                        else {
+                            alert("No data to view in the report viewer.");
+                        }
+                    }
+                });          
             });
         });
     </script>
@@ -366,6 +371,7 @@
                                     mod
                                 );
                         });
+
                         $(".viewAccountInfo").click(function () {
                             $(".modal-body").css("display", "block");
                             accId = $(this).data("account-id");
@@ -762,11 +768,9 @@
                                 console.log("Opps something went wrong.");
                             }
                         });
-
                     });
+
                     $(".uid").click(function () {
-
-
                         $(".resWrapper").html("");
                         $(".resWrapper").removeClass("revealWrap");
                         $(".display").css("visibility", "hidden");

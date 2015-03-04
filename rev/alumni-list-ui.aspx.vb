@@ -1,12 +1,12 @@
 ﻿Imports System.Data.SqlClient
 Imports System.Data
-
 Imports System.Configuration
 Imports System.Web.Script.Services
 Imports System.Web.Script.Serialization
 Imports System.Linq
 Imports System.Web
 Imports System.Collections.Generic
+
 Partial Class rev_alumni_list_ui
     Inherits System.Web.UI.Page
 
@@ -60,13 +60,36 @@ Partial Class rev_alumni_list_ui
         Return serializer.Serialize(rows)
     End Function
 
+    'DISPLAY REPORT
     <System.Web.Services.WebMethod()> _
-  <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
+    <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
+    Public Shared Function userlist_report(ByVal sortBy As String, ByVal collegeDesc As String, ByVal yearGrad As String) As String
+        Dim sqlSTR As String
+        Dim userlevel_id As Integer
+        Dim college_id As Integer
+
+
+        Using sqlCon As New SqlConnection(constr)
+
+            sqlCon.Open()
+
+            Using da As New SqlDataAdapter("SELECT tblAccounts.given_name,tblAccounts.middle_name,tblAccounts.family_name,tblColleges.description as collegeDes,tblCourses.description as courseDes,tblAccounts.year_graduated FROM tblAccounts,tblCourses,tblColleges WHERE course_idfk = course_idpk AND userlevel_idfk<>2 AND tblCourses.college_idfk = tblColleges.college_idpk AND tblAccounts.account_status = 1", sqlCon)
+                Dim ds As New DataSet
+                da.Fill(ds, "DTalumni_list")
+
+                If ds.Tables(0).Rows.Count <> 0 Then
+                    Return CStr(ds.Tables("DTalumni_list").Rows.Count)
+                End If
+            End Using
+
+            sqlCon.Close()
+        End Using
+    End Function
+
+    <System.Web.Services.WebMethod()> _
+    <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
     Public Shared Function pullAll(ByVal sortBy As String) As String
-        'Function named PushToDatabase 
-        'Includes delimitation of user input
-        'Opening and Closing Connection to the database
-        'Adding datas to database
+
         If sortBy = "all" Then
             Using sqlCon As New SqlConnection(constr)
 
@@ -114,10 +137,6 @@ Partial Class rev_alumni_list_ui
 
             End Using
         End If
-
-
-
-
     End Function
 
     'Textbox Search
@@ -152,7 +171,6 @@ Partial Class rev_alumni_list_ui
 
         'Returning Message : Fail or Successful
     End Function
-
 
     'Filter College
     <System.Web.Services.WebMethod()> _
@@ -257,6 +275,7 @@ Partial Class rev_alumni_list_ui
             End If
     End Function
 
+    'PAGE LOAD
     Protected Sub Page_Load(sender As Object, e As EventArgs) Handles Me.Load
        If Session.Item("id") Is Nothing Then
             Console.Write("sd")
@@ -266,7 +285,6 @@ Partial Class rev_alumni_list_ui
             For i As Integer = 1970 To CInt(Year(Now()))
                 filterYear.Items.Add(New ListItem(i.ToString(), i.ToString()))
             Next
-
 
             Image2.ID = "non"
             Using sqlCon As New SqlConnection(constr)
@@ -292,15 +310,10 @@ Partial Class rev_alumni_list_ui
         Response.Redirect("default.aspx")
     End Sub
 
+    'DISPLAY ACCOUNT INFO
     <System.Web.Services.WebMethod()> _
-   <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
+    <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
     Public Shared Function fetchAccountInfo(ByVal accId As String) As String
-        'Function named PushToDatabase 
-        'Includes delimitation of user input
-        'Opening and Closing Connection to the database
-        'Adding datas to database
-
-
         Using sqlCon As New SqlConnection(constr)
 
             sqlCon.Open()
@@ -309,18 +322,11 @@ Partial Class rev_alumni_list_ui
                 Dim table2 = New DataTable()
                 dat.Fill(table2)
 
-
                 Dim accIdPK As String = GetJson2(table2)
                 Return accIdPK
             End Using
 
-
-
-
             sqlCon.Close()
-
-            'Returning Message : Fail or Successful
-
 
         End Using
 
@@ -328,13 +334,8 @@ Partial Class rev_alumni_list_ui
 
     'Fetch colleges
     <System.Web.Services.WebMethod()> _
-  <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
+    <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
     Public Shared Function pullColleges() As String
-        'Function named PushToDatabase 
-        'Includes delimitation of user input
-        'Opening and Closing Connection to the database
-        'Adding datas to database
-
 
         Using sqlCon As New SqlConnection(constr)
 
@@ -347,19 +348,10 @@ Partial Class rev_alumni_list_ui
                 Return jsndata
             End Using
 
-
-
-
             sqlCon.Close()
-
-            'Returning Message : Fail or Successful
-
-
         End Using
 
     End Function
-
-
 
     'Filter Year
     <System.Web.Services.WebMethod()> _

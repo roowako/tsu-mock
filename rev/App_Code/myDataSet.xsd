@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="DSalumni_list" targetNamespace="http://tempuri.org/DSalumni_list.xsd" xmlns:mstns="http://tempuri.org/DSalumni_list.xsd" xmlns="http://tempuri.org/DSalumni_list.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="DSalumni_list" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:Generator_DataSetName="DSalumni_list" msprop:Generator_UserDSName="DSalumni_list">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="DTalumni_list" msprop:Generator_TableClassName="DTalumni_listDataTable" msprop:Generator_TableVarName="tableDTalumni_list" msprop:Generator_RowChangedName="DTalumni_listRowChanged" msprop:Generator_TablePropName="DTalumni_list" msprop:Generator_RowDeletingName="DTalumni_listRowDeleting" msprop:Generator_RowChangingName="DTalumni_listRowChanging" msprop:Generator_RowEvHandlerName="DTalumni_listRowChangeEventHandler" msprop:Generator_RowDeletedName="DTalumni_listRowDeleted" msprop:Generator_RowClassName="DTalumni_listRow" msprop:Generator_UserTableName="DTalumni_list" msprop:Generator_RowEvArgName="DTalumni_listRowChangeEvent">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="given_name" msprop:Generator_ColumnVarNameInTable="columngiven_name" msprop:Generator_ColumnPropNameInRow="given_name" msprop:Generator_ColumnPropNameInTable="given_nameColumn" msprop:Generator_UserColumnName="given_name" type="xs:string" minOccurs="0" />
+              <xs:element name="middle_name" msprop:Generator_ColumnVarNameInTable="columnmiddle_name" msprop:Generator_ColumnPropNameInRow="middle_name" msprop:Generator_ColumnPropNameInTable="middle_nameColumn" msprop:Generator_UserColumnName="middle_name" type="xs:string" minOccurs="0" />
+              <xs:element name="family_name" msprop:Generator_ColumnVarNameInTable="columnfamily_name" msprop:Generator_ColumnPropNameInRow="family_name" msprop:Generator_ColumnPropNameInTable="family_nameColumn" msprop:Generator_UserColumnName="family_name" type="xs:string" minOccurs="0" />
+              <xs:element name="collegeDes" msprop:Generator_ColumnVarNameInTable="columncollegeDes" msprop:Generator_ColumnPropNameInRow="collegeDes" msprop:Generator_ColumnPropNameInTable="collegeDesColumn" msprop:Generator_UserColumnName="collegeDes" type="xs:string" minOccurs="0" />
+              <xs:element name="courseDes" msprop:Generator_ColumnVarNameInTable="columncourseDes" msprop:Generator_ColumnPropNameInRow="courseDes" msprop:Generator_ColumnPropNameInTable="courseDesColumn" msprop:Generator_UserColumnName="courseDes" type="xs:string" minOccurs="0" />
+              <xs:element name="year_graduated" msprop:Generator_ColumnVarNameInTable="columnyear_graduated" msprop:Generator_ColumnPropNameInRow="year_graduated" msprop:Generator_ColumnPropNameInTable="year_graduatedColumn" msprop:Generator_UserColumnName="year_graduated" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>
