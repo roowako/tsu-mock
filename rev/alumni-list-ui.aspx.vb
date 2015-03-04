@@ -64,11 +64,7 @@ Partial Class rev_alumni_list_ui
     <System.Web.Services.WebMethod()> _
     <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
     Public Shared Function userlist_report(ByVal sortBy As String, ByVal collegeDesc As String, ByVal yearGrad As String) As String
-<<<<<<< HEAD
         Dim sqlSTR As String = ""
-=======
-        
->>>>>>> origin/master
 
         'FILTER DATA
         If sortBy = "all" Then
@@ -126,15 +122,16 @@ Partial Class rev_alumni_list_ui
                 da.Fill(ds, "DTalumni_list")
 
                 If ds.Tables(0).Rows.Count <> 0 Then
-
-                    'Return CStr(ds.Tables("DTalumni_list").Rows.Count)
+                    Return CStr(ds.Tables("DTalumni_list").Rows.Count)
                 End If
 
             End Using
 
             sqlCon.Close()
         End Using
+
     End Function
+
 
     <System.Web.Services.WebMethod()> _
     <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
@@ -226,7 +223,7 @@ Partial Class rev_alumni_list_ui
     <System.Web.Services.WebMethod()> _
     <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
     Public Shared Function filterView(ByVal sortBy As String, ByVal college_id As String) As String
-        
+
         If sortBy = "alumni" Then
             If college_id = "0" Then
                 Using sqlCon As New SqlConnection(constr)
@@ -258,7 +255,7 @@ Partial Class rev_alumni_list_ui
                 End Using
 
             End If
-            
+
         ElseIf sortBy = "all" Then
             If college_id = "0" Then
                 Using sqlCon As New SqlConnection(constr)
@@ -289,12 +286,12 @@ Partial Class rev_alumni_list_ui
 
                 End Using
             End If
-           
 
-            ElseIf sortBy = "graduating" Then
-                If college_id = "0" Then
-                    Using sqlCon As New SqlConnection(constr)
-                        sqlCon.Open()
+
+        ElseIf sortBy = "graduating" Then
+            If college_id = "0" Then
+                Using sqlCon As New SqlConnection(constr)
+                    sqlCon.Open()
                     Using dataAdapter = New SqlDataAdapter("SELECT *, tblColleges.description as collegeDes,tblCourses.description as courseDes  FROM tblAccounts,tblCourses,tblColleges  WHERE  tblCourses.course_idpk = tblAccounts.course_idfk AND tblCourses.college_idfk =   tblColleges.college_idpk AND tblAccounts.userlevel_idfk = 0 AND tblAccounts.account_status = 1", sqlCon)
                         Dim table = New DataTable()
                         dataAdapter.Fill(table)
@@ -302,13 +299,13 @@ Partial Class rev_alumni_list_ui
                         Dim jsndata As String = GetJson(table)
                         Return jsndata
                     End Using
-                        sqlCon.Close()
-                        'Returning Message : Fail or Successful
+                    sqlCon.Close()
+                    'Returning Message : Fail or Successful
 
-                    End Using
-                Else
-                    Using sqlCon As New SqlConnection(constr)
-                        sqlCon.Open()
+                End Using
+            Else
+                Using sqlCon As New SqlConnection(constr)
+                    sqlCon.Open()
                     Using dataAdapter = New SqlDataAdapter("SELECT *, tblColleges.description as collegeDes,tblCourses.description as courseDes  FROM tblAccounts,tblCourses,tblColleges  WHERE  tblCourses.course_idpk = tblAccounts.course_idfk AND tblCourses.college_idfk = '" + college_id + "' AND  tblColleges.college_idpk = '" + college_id + "' AND tblAccounts.userlevel_idfk = 0 AND tblAccounts.account_status = 1 ", sqlCon)
                         Dim table = New DataTable()
                         dataAdapter.Fill(table)
@@ -316,18 +313,18 @@ Partial Class rev_alumni_list_ui
                         Dim jsndata As String = GetJson(table)
                         Return jsndata
                     End Using
-                        sqlCon.Close()
-                        'Returning Message : Fail or Successful
+                    sqlCon.Close()
+                    'Returning Message : Fail or Successful
 
-                    End Using
+                End Using
 
-                End If
             End If
+        End If
     End Function
 
     'PAGE LOAD
     Protected Sub Page_Load(sender As Object, e As EventArgs) Handles Me.Load
-       If Session.Item("id") Is Nothing Then
+        If Session.Item("id") Is Nothing Then
             Console.Write("sd")
             Response.Redirect("Default.aspx")
         Else

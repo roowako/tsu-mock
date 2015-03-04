@@ -271,7 +271,7 @@
                     success: function (serverResponse) {
                         if (serverResponse.d != null)
                         {
-                            window.open("report_viewer.aspx", "fullscreen=yes")
+                            window.open("./reports/alumni_report.aspx?sortBy="+sortBy+"&collegeDesc="+collegeDesc+"&yearGrad="+yearGrad, "fullscreen=yes")
                         }
                         else
                         {

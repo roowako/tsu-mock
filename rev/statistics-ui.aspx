@@ -32,8 +32,7 @@
                             <asp:Image ID="Image1" runat="server" ImageUrl="./assets/images/TSULOGO.png" Height="55" Width="55" CssClass="img-float-nav" />
                             <h3>&nbsp;&nbsp;&nbsp;Dashboard</h3>
                              <span class="clearfix"></span>
-                        </span>
-                       
+                        </span>                       
                     </a>
                 </div>
                     <div id="navbar" class="navbar-collapse collapse" > <!---collapse collapse -->
@@ -60,7 +59,7 @@
 	                    <ul class="nav nav-sidebar">
 		                    <li>
 			                    <a href="#" >
-                                <asp:Image ID="undeditable" runat="server" ImageUrl="./assets/images/default-dp.jpg" Height="50" Width="65" BorderColor="White" BorderStyle="Solid" BorderWidth="3"  /> 
+                                    <asp:Image ID="undeditable" runat="server" ImageUrl="./assets/images/default-dp.jpg" Height="50" Width="65" BorderColor="White" BorderStyle="Solid" BorderWidth="3"  /> 
 			                    </a>
 		                    </li>
 		                    <li><a href="#" class="bolder"><span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;<asp:Label id="alumni_name" runat="server"></asp:Label></a></li>
@@ -94,8 +93,7 @@
                        
                         <div class="row borderless">
                             <div class="col-xs-4">
-                                  <h3 class="page-header"><span class="glyphicon glyphicon-option-vertical">&nbsp;</span>View Survey statitics</h3>
-                                 
+                                  <h3 class="page-header"><span class="glyphicon glyphicon-option-vertical">&nbsp;</span>View Survey statitics</h3>                                
                              </div>
                              <div class="col-xs-3">
                                 <div id="loaderImage"  class="ajax-loader"></div>
@@ -215,7 +213,6 @@
 
           <div class="modal-footer" style="background:#f5f5f5;">
               <div class="btn-group">
-
                   <button type="button" class="btn btn-warning btn-sm" data-dismiss="modal" id="director_print"><span class="glyphicon glyphicon-print"></span>&nbsp;Print Statistics </button>
                    <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal" id="close">Close</button>
               </div>
@@ -249,7 +246,10 @@
             course_desc = $("#cboCourse").val();
             report_desc = $("#filterSurvey").val();
 
-            window.open("./director-report.aspx?college_desc=" + college_desc + "&course_desc=" + course_desc + "&report_desc=" + report_desc + "&poll_id=" + pollID);
+            console.log(college_desc);
+            console.log(course_desc);
+            console.log(report_desc);
+            //window.open("./director-report.aspx?college_desc=" + college_desc + "&course_desc=" + course_desc + "&report_desc=" + report_desc + "&poll_id=" + pollID);
         });
 
         $('.chart').horizBarChart({
