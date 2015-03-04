@@ -29,7 +29,7 @@ Partial Class loginpage
 
         Using sqlCon As New SqlConnection(constr)
             sqlCon.Open()
-            cmd = New SqlCommand("SELECT account_idpk,userlevel_idfk,college_idfk FROM tblAccounts WHERE student_id=@p1 AND password=@p2 AND account_status=1", sqlCon)
+            cmd = New SqlCommand("SELECT account_idpk,userlevel_idfk,college_idfk,img_path FROM tblAccounts WHERE student_id=@p1 AND password=@p2 AND account_status=1", sqlCon)
             cmd.Parameters.AddWithValue("@p1", txtLog_Username.Text)
             cmd.Parameters.AddWithValue("@p2", txtLog_Password.Text)
 
@@ -40,6 +40,7 @@ Partial Class loginpage
                 user_id = dr.GetValue(0)
                 user_level = dr.GetValue(1)
                 college_id = dr.GetValue(2)
+
             End If
 
             sqlCon.Close()
@@ -49,6 +50,7 @@ Partial Class loginpage
             Session("id") = user_id
             Session("ul") = 0
             Session("dynamic_link1") = "./home.aspx"
+
             Response.Redirect("home.aspx")
         ElseIf user_level = 1 Then
             Session("id") = user_id

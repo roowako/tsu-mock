@@ -95,7 +95,7 @@
 
                              <div class="col-xs-3">
                                  <br />
-                                 &nbsp; <span><input type="button" data-toggle='modal' data-target='#myModal'  value="Send Message" class="btn btn-warning btn-sm viewMessaging" style="width:150px;"/></span>
+                                 &nbsp; <span><button data-toggle='modal' data-target='#myModal'  value="" class="btn btn-warning btn-sm viewMessaging" ><span class="glyphicon glyphicon-plus">&nbsp;</span> Message &nbsp;</button></span>
                              </div>
 
                          </div>
@@ -145,16 +145,12 @@
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
-          <div class="modal-header">
+          <div class="modal-header" style="border-bottom:0px;">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             <h4 class="modal-title" id="myModalLabel" style="text-transform:capitalize;">Modal title</h4>
           </div>
-          <div class="modal-body">
-             
-              
-             
-          </div>
-          <div class="modal-footer">
+         
+          <div class="modal-footer" style="border-top:thin solid #eee;background:#f5f5f5;">
               <div class="container">
                   <div class="row">
                       <div class="col-xs-6">
@@ -163,10 +159,11 @@
                       </div>
                       
                   </div>
-                  <div class="row ">
-                      <div class="col-xs-2 appBtn">
-                           <button type="button" class="btn btn-success btn-sm send" style="float:left;">Send</button>
-                           <button type="button" class="btn btn-primary btn-sm" data-dismiss="modal" style="float:right;margin-right:50px;">Close</button>
+                  <div class="row " style="text-align:right">
+                      
+                      <div class="col-xs-3 btn-group" style="text-align:right !important;">
+                           <button type="button" class="btn btn-warning btn-sm send"><span class="glyphicon glyphicon-send">&nbsp;</span>Send Message</button>
+                           <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal" ">Close</button>
                      
                       </div>
                   </div>
@@ -285,19 +282,25 @@
 
             $(".send").click(function () {
                 var m = $("#mailer").val();
-                $.ajax({
-                    type: "post",
-                    url: "./messaging-ui-alumni.aspx/pushMessages",
-                    data: "{'message':'" + m + "','actor_id':'" + aid + "','send_to':'" + id + "'}",
-                    dataType: "json",
-                    contentType: "application/json; charset=utf-8",
-                    async: true,
-                    success: function (r) {
-                        $("#actor-message").val("");
-                        alert("Message sent.");
-                        window.location.reload(true);
-                    }
-                });
+                if (m == "") {
+                    alert("Message can't be empty.");
+                }
+                else {
+                    $.ajax({
+                        type: "post",
+                        url: "./messaging-ui-alumni.aspx/pushMessages",
+                        data: "{'message':'" + m + "','actor_id':'" + aid + "','send_to':'" + id + "'}",
+                        dataType: "json",
+                        contentType: "application/json; charset=utf-8",
+                        async: true,
+                        success: function (r) {
+                            $("#actor-message").val("");
+                            alert("Message sent.");
+                            window.location.reload(true);
+                        }
+                    });
+                }
+
             });
         });
 

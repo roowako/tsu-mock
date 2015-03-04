@@ -77,10 +77,11 @@ body{
   }
    .basic-info tbody > tr:last-child{
      border-bottom:none !important;
+      
    }
 
-    .basic-info tbody > tr > td:last-child{
-        text-align:right;
+    .basic-info tbody > tr:last-child{
+       
    }
   .basic-info > div{
       padding:15px;
@@ -129,7 +130,7 @@ border-bottom: 1px solid #ddd;
 .searchableTable tbody > tr {background:none;border-bottom:thin solid #eee !important;}
 .searchableTable tbody > tr:last-child{border-bottom:0px !important;}
 .tableDetailsView tbody > tr {background:none;border-bottom:thin solid #eee !important;}
-.tableDetailsView tbody > tr tr:last-child{border-bottom:0px !important;}
+.tableDetailsView tbody > tr:last-child{border-bottom:0px !important;}
 #messagePlaceholder tbody > tr{border-bottom:1px solid #eee !important;}
 #messagePlaceholder tbody > tr:last-child{border-bottom:0px !important;}
 

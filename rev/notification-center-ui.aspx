@@ -61,7 +61,7 @@
 		                    <li>
 			                    <a href="#" >
 
-				                    <asp:Image ID="Image2" runat="server" ImageUrl="./assets/images/default-dp.jpg" Height="75" Width="75" BorderColor="White" BorderStyle="Solid" BorderWidth="3" />          
+				                   <asp:Image ID="undeditable" runat="server" ImageUrl="./assets/images/default-dp.jpg" Height="50" Width="65" BorderColor="White" BorderStyle="Solid" BorderWidth="3" />          
 
 			                    </a>
 
@@ -184,30 +184,33 @@
             e.preventDefault();
             
             var noti = $("#txtNotificationMessage").val();
-            $(this).prop("disabled", "true");
-            $("#notifier").text("Sending...")
-            $("#txtNotificationMessage").prop("disabled", "true");
-            $.ajax({
-                type: "post",
-                url: "notification-center-ui.aspx/pushNotification",
-                data: "{'notificationSMS':'" + noti + "','email':'" + emaiLarr + "'}",
-                dataType: "json",
-                processData: false,
-                traditional: true,
-                contentType: "application/json; charset=utf-8",
-                success: function (dataOpt) {
-                  
-                    
-                    
-                    alert(dataOpt.d);
-                    window.location.reload(true);
-                    $("#txtNotificationMessage").val("");
-                    $("#txtNotificationMessage").prop("disabled", "false");
-                    $("#notifier").text("");
-                    $("#btnSendNotification").prop("disabled", "false");
+            if (noti == "") { alert("Notification Message can't be empty."); }
+            else {
+                $(this).prop("disabled", "true");
+                $("#notifier").text("Sending...")
+                $("#txtNotificationMessage").prop("disabled", "true");
+                $.ajax({
+                    type: "post",
+                    url: "notification-center-ui.aspx/pushNotification",
+                    data: "{'notificationSMS':'" + noti + "','email':'" + emaiLarr + "'}",
+                    dataType: "json",
+                    processData: false,
+                    traditional: true,
+                    contentType: "application/json; charset=utf-8",
+                    success: function (dataOpt) {
 
-                }
-            });
+
+
+                        alert(dataOpt.d);
+                        window.location.reload(true);
+                        $("#txtNotificationMessage").val("");
+                        $("#txtNotificationMessage").prop("disabled", "false");
+                        $("#notifier").text("");
+                        $("#btnSendNotification").prop("disabled", "false");
+
+                    }
+                });
+            }
 
         });
     </script>

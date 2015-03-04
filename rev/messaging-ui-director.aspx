@@ -50,7 +50,7 @@
 		                    <li>
 			                    <a href="#" >
 
-				                    <asp:Image ID="Image2" runat="server" ImageUrl="./assets/images/default-dp.jpg" Height="75" Width="75" BorderColor="White" BorderStyle="Solid" BorderWidth="3" />          
+				                    <asp:Image ID="undeditable" runat="server" ImageUrl="./assets/images/default-dp.jpg" Height="50" Width="65" BorderColor="White" BorderStyle="Solid" BorderWidth="3" />          
 
 			                    </a>
 
@@ -180,7 +180,9 @@
               var account_idfk;
               var name;
               console.log(sess_id);
-
+              var src_;
+              var v_src;
+              var g_src;
               $.ajax({
                   type: "post",
                   url: "./messaging-ui-alumni.aspx/pullMessages",
@@ -197,10 +199,20 @@
                           $("#messagePlaceholder").append("No available messages.");
                       } else {
                           $.each(data, function (i, o) {
+                             
+                              if (o.dp == null) {
+                                  src_ = "./assets/images/default-dp.jpg";
+                              } else {
+                                  src_ = o.dp;
+                                  g_src = o.dp;
+                              }
                               $("#messagePlaceholder tbody").append(
                               
                               "<tr class=''  style='margin-top:5px;'> " +
                               "<br>" +
+                                "<td>" +
+                                    "<img src='"+ src_ +"' style='border-radius:0px;width:35px;height:35px;'/>"+
+                                "</td>"+
                                   "<td> " +
                                       "<div class='sender-name'><b> " + o.u + " </b></div>" +
                                       "</div>" +
@@ -241,6 +253,7 @@
                           });
 
                           $(".theatre_m").click(function (e) {
+                        
                               e.preventDefault();
                               $(".modal-body").css("display", "block");
                               $(".appBtn").html("");
@@ -271,12 +284,15 @@
                                       data = jQuery.parseJSON(data)
                                       $.each(data, function (i, o) {
                                           var name;
-
+                                         
                                           if (sess_id == o.sender_idfk) {
                                               name = "Me";
+                                             
+
                                           }
                                           else {
                                               name = fn;
+                                            
                                           }
 
                                           $("#messages").append(

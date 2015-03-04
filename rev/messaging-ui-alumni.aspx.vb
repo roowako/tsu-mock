@@ -73,7 +73,7 @@ Partial Class rev_messaging_ui_alumni
         Using sqlCon As New SqlConnection(constr)
             sqlCon.Open()
 
-            Using da = New SqlDataAdapter("SELECT actor_message,sender_idfk,CONVERT(VARCHAR, date_sent,0) as formatedB FROM tblMessages WHERE recipient_idfk = '" & account_id & "' AND sender_idfk = '" & account_idfk & "' OR sender_idfk = '" & account_id & "' AND recipient_idfk = '" & account_idfk & "' ORDER BY date_sent DESC ", sqlCon)
+            Using da = New SqlDataAdapter("SELECT  actor_message,sender_idfk,CONVERT(VARCHAR, date_sent,0) as formatedB FROM tblMessages WHERE recipient_idfk = '" & account_id & "' AND sender_idfk = '" & account_idfk & "' OR sender_idfk = '" & account_id & "' AND recipient_idfk = '" & account_idfk & "'  ORDER BY date_sent DESC ", sqlCon)
                 Dim table = New DataTable()
                 da.Fill(table)
 
@@ -92,7 +92,7 @@ Partial Class rev_messaging_ui_alumni
 
         Using sqlCon As New SqlConnection(constr)
             sqlCon.Open()
-            sqlStr = "SELECT DISTINCT given_name+ ' ' + family_name as u,account_idpk as uid FROM tblAccounts,tblMessages WHERE account_idpk=sender_idfk AND recipient_idfk='" & account_id & "' "
+            sqlStr = "SELECT DISTINCT given_name+ ' ' + family_name as u,account_idpk as uid,img_path as dp FROM tblAccounts,tblMessages WHERE account_idpk=sender_idfk AND recipient_idfk='" & account_id & "' "
             cmd = New SqlCommand(sqlStr, sqlCon)
             dr = cmd.ExecuteReader
 

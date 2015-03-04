@@ -164,6 +164,7 @@
             var fullname;
             var account_idfk;
             var name;
+            var src;
             console.log(sess_id);
 
             $.ajax({
@@ -182,8 +183,18 @@
                         $("#messagePlaceholder").append("No available messages.");
                     } else{
                         $.each(data, function (i, o) {
+                            if (o.dp == null) {
+                                src_ = "./assets/images/default-dp.jpg";
+                            } else {
+                                src_ = o.dp;
+                              
+                            }
                                 $("#messagePlaceholder tbody").append(
-                                "<tr> " +
+                                "<tr style='margin-top:5px;'> " +
+                                "<br>" +
+                                    "<td>" +
+                                        "<img src='" + src_ + "' style='border-radius:0px;width:35px;height:35px;'/>" +
+                                    "</td>" +
                                     "<td> " +
                                         "<div class='sender-name'><b> "+ o.u +  " </b></div>" +
                                         "</div>" +
@@ -200,7 +211,7 @@
                                     "</td>" +
 
                                     
-                                "</tr>" + "<br>");
+                                "</tr>" );
                         });
 
                         $(".delete").click(function () {
