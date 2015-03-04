@@ -272,10 +272,12 @@
                     traditional: true,
                     contentType: "application/json; charset=utf-8",
                     success: function (serverResponse) {
-                        if (serverResponse.d != null) {
+                        if (serverResponse.d != null)
+                        {
                             window.open("report_viewer.aspx", "fullscreen=yes")
                         }
-                        else {
+                        else
+                        {
                             alert("No data to view in the report viewer.");
                         }
                     }
@@ -336,8 +338,7 @@
                         $.each(data, function (i, o) {
                           var fn =  o.given_name + "  " + o.middle_name + " " + o.family_name ;
                             if (o.userlevel_idfk == 1) {
-                                var mod = ("<tr>" +
-                                    
+                                var mod = ("<tr>" +                                   
                                                 "<td> " + o.given_name + "  " + o.middle_name + " " + o.family_name + " </td>" +
                                                 "<td> " + o.collegeDes + " </td>" +
                                                 "<td>" + o.courseDes + " </td>" +

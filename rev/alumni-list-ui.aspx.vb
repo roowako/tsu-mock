@@ -64,22 +64,68 @@ Partial Class rev_alumni_list_ui
     <System.Web.Services.WebMethod()> _
     <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
     Public Shared Function userlist_report(ByVal sortBy As String, ByVal collegeDesc As String, ByVal yearGrad As String) As String
-        Dim sqlSTR As String
-        Dim userlevel_id As Integer
-        Dim college_id As Integer
+        Dim sqlSTR As String = ""
 
+        'FILTER DATA
+        If sortBy = "all" Then
+            If collegeDesc = "0" And yearGrad = "all" Then
+                sqlSTR = "SELECT tblAccounts.given_name,tblAccounts.middle_name,tblAccounts.family_name,tblColleges.description as collegeDes,tblCourses.description as courseDes,tblAccounts.year_graduated FROM tblAccounts,tblCourses,tblColleges WHERE course_idfk = course_idpk AND userlevel_idfk<2 AND tblCourses.college_idfk = tblColleges.college_idpk AND tblAccounts.account_status = 1"
 
+            ElseIf collegeDesc <> "0" And yearGrad = "all" Then
+                sqlSTR = "SELECT tblAccounts.given_name,tblAccounts.middle_name,tblAccounts.family_name,tblColleges.description as collegeDes,tblCourses.description as courseDes,tblAccounts.year_graduated FROM tblAccounts,tblCourses,tblColleges WHERE college_idpk = '" & collegeDesc & "' AND course_idfk = course_idpk AND userlevel_idfk<2 AND tblCourses.college_idfk = tblColleges.college_idpk AND tblAccounts.account_status = 1"
+
+            ElseIf collegeDesc = "0" And yearGrad <> "all" Then
+                sqlSTR = "SELECT tblAccounts.given_name,tblAccounts.middle_name,tblAccounts.family_name,tblColleges.description as collegeDes,tblCourses.description as courseDes,tblAccounts.year_graduated FROM tblAccounts,tblCourses,tblColleges WHERE course_idfk = course_idpk AND userlevel_idfk<2 AND tblCourses.college_idfk = tblColleges.college_idpk AND tblAccounts.account_status = 1 AND tblAccounts.year_graduated = '" & yearGrad & "' "
+
+            ElseIf collegeDesc <> "0" And yearGrad <> "all" Then
+                sqlSTR = "SELECT tblAccounts.given_name,tblAccounts.middle_name,tblAccounts.family_name,tblColleges.description as collegeDes,tblCourses.description as courseDes,tblAccounts.year_graduated FROM tblAccounts,tblCourses,tblColleges WHERE college_idpk = '" & collegeDesc & "' AND course_idfk = course_idpk AND userlevel_idfk<2 AND tblCourses.college_idfk = tblColleges.college_idpk AND tblAccounts.account_status = 1 AND tblAccounts.year_graduated = '" & yearGrad & "' "
+
+            End If
+
+        ElseIf sortBy = "graduating" Then
+            If collegeDesc = "0" And yearGrad = "all" Then
+                sqlSTR = "SELECT tblAccounts.given_name,tblAccounts.middle_name,tblAccounts.family_name,tblColleges.description as collegeDes,tblCourses.description as courseDes,tblAccounts.year_graduated FROM tblAccounts,tblCourses,tblColleges WHERE course_idfk = course_idpk AND userlevel_idfk = 0 AND tblCourses.college_idfk = tblColleges.college_idpk AND tblAccounts.account_status = 1"
+
+            ElseIf collegeDesc <> "0" And yearGrad = "all" Then
+                sqlSTR = "SELECT tblAccounts.given_name,tblAccounts.middle_name,tblAccounts.family_name,tblColleges.description as collegeDes,tblCourses.description as courseDes,tblAccounts.year_graduated FROM tblAccounts,tblCourses,tblColleges WHERE college_idpk = '" & collegeDesc & "' AND course_idfk = course_idpk AND userlevel_idfk = 0 AND tblCourses.college_idfk = tblColleges.college_idpk AND tblAccounts.account_status = 1"
+
+            ElseIf collegeDesc = "0" And yearGrad <> "all" Then
+                sqlSTR = "SELECT tblAccounts.given_name,tblAccounts.middle_name,tblAccounts.family_name,tblColleges.description as collegeDes,tblCourses.description as courseDes,tblAccounts.year_graduated FROM tblAccounts,tblCourses,tblColleges WHERE course_idfk = course_idpk AND userlevel_idfk = 0 AND tblCourses.college_idfk = tblColleges.college_idpk AND tblAccounts.account_status = 1 AND tblAccounts.year_graduated = '" & yearGrad & "' "
+
+            ElseIf collegeDesc <> "0" And yearGrad <> "all" Then
+                sqlSTR = "SELECT tblAccounts.given_name,tblAccounts.middle_name,tblAccounts.family_name,tblColleges.description as collegeDes,tblCourses.description as courseDes,tblAccounts.year_graduated FROM tblAccounts,tblCourses,tblColleges WHERE college_idpk = '" & collegeDesc & "' AND course_idfk = course_idpk AND userlevel_idfk = 0 AND tblCourses.college_idfk = tblColleges.college_idpk AND tblAccounts.account_status = 1 AND tblAccounts.year_graduated = '" & yearGrad & "' "
+
+            End If
+
+        ElseIf sortBy = "alumni" Then
+            If collegeDesc = "0" And yearGrad = "all" Then
+                sqlSTR = "SELECT tblAccounts.given_name,tblAccounts.middle_name,tblAccounts.family_name,tblColleges.description as collegeDes,tblCourses.description as courseDes,tblAccounts.year_graduated FROM tblAccounts,tblCourses,tblColleges WHERE course_idfk = course_idpk AND userlevel_idfk = 1 AND tblCourses.college_idfk = tblColleges.college_idpk AND tblAccounts.account_status = 1"
+
+            ElseIf collegeDesc <> "0" And yearGrad = "all" Then
+                sqlSTR = "SELECT tblAccounts.given_name,tblAccounts.middle_name,tblAccounts.family_name,tblColleges.description as collegeDes,tblCourses.description as courseDes,tblAccounts.year_graduated FROM tblAccounts,tblCourses,tblColleges WHERE college_idpk = '" & collegeDesc & "' AND course_idfk = course_idpk AND userlevel_idfk = 1 AND tblCourses.college_idfk = tblColleges.college_idpk AND tblAccounts.account_status = 1"
+
+            ElseIf collegeDesc = "0" And yearGrad <> "all" Then
+                sqlSTR = "SELECT tblAccounts.given_name,tblAccounts.middle_name,tblAccounts.family_name,tblColleges.description as collegeDes,tblCourses.description as courseDes,tblAccounts.year_graduated FROM tblAccounts,tblCourses,tblColleges WHERE course_idfk = course_idpk AND userlevel_idfk = 1 AND tblCourses.college_idfk = tblColleges.college_idpk AND tblAccounts.account_status = 1 AND tblAccounts.year_graduated = '" & yearGrad & "' "
+
+            ElseIf collegeDesc <> "0" And yearGrad <> "all" Then
+                sqlSTR = "SELECT tblAccounts.given_name,tblAccounts.middle_name,tblAccounts.family_name,tblColleges.description as collegeDes,tblCourses.description as courseDes,tblAccounts.year_graduated FROM tblAccounts,tblCourses,tblColleges WHERE college_idpk = '" & collegeDesc & "' AND course_idfk = course_idpk AND userlevel_idfk = 1 AND tblCourses.college_idfk = tblColleges.college_idpk AND tblAccounts.account_status = 1 AND tblAccounts.year_graduated = '" & yearGrad & "' "
+
+            End If
+        End If
+
+        'CHECK IF SEARCH EXIST
         Using sqlCon As New SqlConnection(constr)
-
             sqlCon.Open()
 
-            Using da As New SqlDataAdapter("SELECT tblAccounts.given_name,tblAccounts.middle_name,tblAccounts.family_name,tblColleges.description as collegeDes,tblCourses.description as courseDes,tblAccounts.year_graduated FROM tblAccounts,tblCourses,tblColleges WHERE course_idfk = course_idpk AND userlevel_idfk<>2 AND tblCourses.college_idfk = tblColleges.college_idpk AND tblAccounts.account_status = 1", sqlCon)
+            Using da As New SqlDataAdapter(sqlSTR, sqlCon)
                 Dim ds As New DataSet
                 da.Fill(ds, "DTalumni_list")
 
                 If ds.Tables(0).Rows.Count <> 0 Then
-                    Return CStr(ds.Tables("DTalumni_list").Rows.Count)
+
+                    'Return CStr(ds.Tables("DTalumni_list").Rows.Count)
                 End If
+
             End Using
 
             sqlCon.Close()
