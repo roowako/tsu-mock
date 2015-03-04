@@ -50,7 +50,7 @@
 	                        <ul class="nav nav-sidebar">
 		                        <li>
 			                        <a href="#" >
-				                        <asp:Image ID="Image2" runat="server" ImageUrl="./assets/images/default-dp.jpg" Height="75" Width="75" BorderColor="White" BorderStyle="Solid" BorderWidth="3" />          
+				                        <asp:Image ID="Image2" runat="server" ImageUrl="./assets/images/default-dp.jpg"  BorderColor="White" BorderStyle="Solid" BorderWidth="3" />          
 			                        </a>
 		                        </li>
                             <li>    
@@ -69,7 +69,7 @@
                     <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
                         <div class="row">
                              <div class="col-xs-4">
-                                 <h3 class="page-header"><span class="glyphicon glyphicon-comment">&nbsp;</span>Messages</h3>
+                                 <h3 class="page-header"><span class="glyphicon glyphicon-option-vertical">&nbsp;</span>Messages</h3>
                              </div>
                              <div class="col-xs-3">
                                  
@@ -118,28 +118,28 @@
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
-          <div class="modal-header">
+          <div class="modal-header" style="border-bottom:0px !important;">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             <h4 class="modal-title" id="myModalLabel" style="text-transform:capitalize;">Modal title</h4>
           </div>
           <div class="modal-body">
              
               
-              <ul id="messages">
+              <ul id="messages" style="border-top:thin solid #E5E5E5;padding-top:20px;">
                  
               </ul>
           </div>
-          <div class="modal-footer">
+          <div class="modal-footer" style="background:#f5f5f5;">
               <div class="container">
                   <div class="row">
                       <div class="col-xs-6">
-                          <textarea class="form-control" rows="1" id="replyMessage"></textarea> &nbsp;
+                          <textarea class="form-control" rows="1" id="replyMessage" style="resize:none;border-radius:0px;"></textarea> &nbsp;
                           
                       </div>
                       
                   </div>
                   <div class="row ">
-                      <div class="col-xs-2 appBtn">
+                      <div class="col-xs-4 appBtn" style="text-align:left">
                            
                      
                       </div>
@@ -183,7 +183,7 @@
                     } else{
                         $.each(data, function (i, o) {
                                 $("#messagePlaceholder tbody").append(
-                                "<tr class='warning'> " +
+                                "<tr> " +
                                     "<td> " +
                                         "<div class='sender-name'><b> "+ o.u +  " </b></div>" +
                                         "</div>" +
@@ -191,10 +191,15 @@
                                    "<td>&nbsp; </td>" +
                                   "<td>&nbsp; </td>" +
                                   "<td> &nbsp;</td>" +
-                                    "<td style='text-align:right;'>" +
-                                        "<input type='button' value='View conversation' data-name='"+ o.u +"' class='btn btn-success btn-sm theatre' data-toggle='modal' data-target='#myModal' data-id='" + o.uid + "'/>&nbsp;" +
+                                  "<td style='text-align:right;'>" +
+                                        "<div class='btn-group' role='group'>" +
+                                            "<input type='button' value='View conversation' data-name='"+ o.u +"' class='btn btn-warning btn-sm theatre' data-toggle='modal' data-target='#myModal' data-id='" + o.uid + "'/>&nbsp;"  +
+                                            "<button value='Delete conversation' class='btn btn-danger btn-sm delete' data-id='" + o.uid + "'>Delete&nbsp;&nbsp;<span class='glyphicon glyphicon-trash'></span></button>" +
+
+                                        "</div>" +
                                     "</td>" +
-                                    "<td> <input type='button' value='Delete conversation' class='btn btn-warning btn-sm delete' data-id='" + o.uid + "'/></td>"+
+
+                                    
                                 "</tr>" + "<br>");
                         });
 
@@ -225,8 +230,11 @@
                             $("#myModalLabel").text($(this).data("name"));
                             name = "";
                             $(".appBtn").append(
-                                '<button type="button" class="btn btn-success btn-sm reply" style="float:left;">Reply</button>' +
-                                '<button type="button" class="btn btn-primary btn-sm" data-dismiss="modal" style="float:right;margin-right:50px;">Close</button>');
+                                 "<div class='btn-group' style='text-align:left;'>" +
+                                  "<button type='button' class='btn btn-warning btn-sm reply' ><span class='glyphicon glyphicon-send'></span>&nbsp;&nbsp;Reply&nbsp;</button>" +
+                                  "<button type='button' class='btn btn-danger btn-sm' data-dismiss='modal' >Close conversation</button>" +
+                                  "</div>"
+                                );
                             var sess_id = $("#account_idpk").val();
                             account_idfk = $(this).data("id");
                             sendTo = $(this).data("id");
@@ -252,9 +260,9 @@
                                         }
 
                                         $("#messages").append(
-                                                "<li class='messaging'><b> " + name + "</b> </li>" +
+                                                "<li class='messaging'><b> " + name + "</b>  <span  style='float:right;font-size:12px;color:#333;font-family:Tahoma;margin-top:4px;' class='glyphicon glyphicon-hourglass'> <span  style='font-size:10px;color:#333;'>" + o.formatedB + " </span></span></li>" +
                                                 "<li class='messaging'>" + o.actor_message + " </li>" +
-                                                "<li style=font-size:10px;color:#333;> " + "  - " + o.formatedB +" </li>" +
+                                               
                                                 "<br>"
                                         );
                                      });
@@ -265,7 +273,8 @@
                             console.log(account_idfk);
                             $(".reply").click(function () {
                                 var message = $("#replyMessage").val();
-
+                                if (message == "") { alert("Message can't be empty"); }
+                                else
                                 $.ajax({
                                     type: "post",
                                     url: "./messaging-ui-alumni.aspx/pushMessages",

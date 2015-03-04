@@ -80,8 +80,8 @@
                                 </li>
 	                        </ul>
                     </div>
-                     <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-                         <h3 class="page-header"><span class="glyphicon glyphicon-star">&nbsp;</span>Generate Tokens</h3>
+                     <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" style="background:#fff;">
+                         <h3 class="page-header"><span class="glyphicon glyphicon-option-vertical">&nbsp;</span>Generate Tokens</h3>
                          <div class="row placeholders">
                              <br />
                             <!-- start main-content -->
@@ -124,16 +124,18 @@
                                         </div>
 
                                          <div class="row">
-                                             <div class="col-xs-12">
+                                             <div class="col-xs-8">
                                                  <div class="table-responsive">
-                                                     <table class="table table-hover" id="tokenHolder">
+                                                     <table class="table basic-info" id="tokenHolder">
+                                                         <thead>
                                                          <tr>
-                                                             <td><span class="glyphicon glyphicon-th-list"></span></td>
-                                                             <td>Token</td>
-                                                             <td>Status</td>
-                                                             <td></td>
+                                                            
+                                                             <th>Token</th>
+                                                             <th>Status</th>
+                                                             <th></th>
                                                          </tr>
-                                                       
+                                                       </thead>
+                                                         <tbody></tbody>
                                                      </table>
                                                  </div>
                                              </div>
@@ -219,10 +221,9 @@
 
                         $("#tokenHolder tbody").append(
                             "<tr>" +
-                                "<td class='green'> " + o.token_idpk + " </td>" +
-                                "<td class='green'> " + o.description + " </td>" +
-                                "<td class='green'> " + status + " </td>" +
-                                "<td><span class='glyphicon glyphicon-ok green'> &nbsp;</span> </td>"+
+                                "<td> " + o.description + " </td>" +
+                                "<td> " + status + " </td>" +
+                                "<td><span> &nbsp;</span> </td>"+
                             "</tr>"
                             );
                     });

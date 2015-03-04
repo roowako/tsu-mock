@@ -35,18 +35,7 @@
                 </div>
 
                 <div id="navbar" class="navbar-collapse collapse" > <!---collapse collapse -->
-                    <br />
-                    <ul class="nav navbar-nav navbar-right extended" style="margin-top:8px;margin-right:100px;">
-                        <li>
-                            <div class="form-group" style="position:absolute;z-index:40000;">
-                                <input type="text" placeholder="Search for alumni" name=""  class="form-control input-sm" id="searching" autocomplete="off"/>
-                                <div class="resWrapper">
-
-                                </div>
-                            <div class="display"></div>
-                            </div>
-                        </li>
-                    </ul>
+                    
                 </div><!--/.navbar-collapse -->
                 </div>
             </nav>-->
@@ -86,21 +75,31 @@
 	                    </ul>
                     </div>
 
-                    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+                    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main"  style="background:#fff;">
                         <div class="row">
-                            <div class="col-sm-4"> <h3 class="page-header"><span class="glyphicon glyphicon-list-alt">&nbsp;</span>List of Alumni</h3>
-                                <h5>Color Legend : <a href="#" class="btn btn-success btn-sm" style="height:18px;border-radius:0px;"> </a> &nbsp;Alumni &nbsp;<a href="#" class="btn btn-warning btn-sm" style="height:18px;border-radius:0px;"> </a> Graduating</h5> 
-                                <br />
+                            <div class="col-sm-4"> <h3 class="page-header"><span class="glyphicon glyphicon-option-vertical">&nbsp;</span>registered Alumni list</h3>
+                                 <input id="btnPrintData" type="button" class="btn btn-sm btn-success" value="Print Current Data Set"/>
+                                <br /><br />
                             </div>
-                            <div class="col-sm-1">
+                            <div class="col-sm-3">
                                 <div id="loaderImage"></div>
                             </div>
+                            <div class="col-xs-3 toFix">
+                                 <div class="form-group">
+                                    <input type="text" placeholder="Search for alumni" name=""  class="form-control input-sm" id="searching" autocomplete="off"/>
+                                    <div class="resWrapper moded_res" style="width:300px;">
+
+                                    </div>
+                                    <div class="display moded_dis" style="width:300px;"></div>
+                                  </div>
+                             </div>
                         </div>
 
                         <div class="row placeholders " >
                             <!-- start main-content -->
                             <div class="col-xs-6 col-sm-12 placeholder ">                            
                                 <div class="row">
+                                    <br />
                                     <div class="col-xs-3">
                                         <div class="input-group">
                                             <div class="input-group-addon">Sort by:</div>
@@ -125,21 +124,22 @@
                                     </div>
 
                                     <div class="col-xs-2">
-                                         <input id="btnPrintData" type="button" class="btn btn-sm btn-success" value="Print Data"/>
+                                        
                                     </div>   
                                 </div>
                                 <br />
                                     
                                     <div class="table-responsive">
-                                        <table class="table table-hover searchableTable" id="searchableTable">
+                                    
+                                        <table class="table searchableTable" id="searchableTable" style="cursor:pointer;">
                                             <thead>
                                                 <tr>
-                                                    <td><span class="glyphicon glyphicon-th-list"></span></td>  
-                                                    <td><b>Fullname</b></td>
-                                                    <td><b>College</b></td>
-                                                    <td><b>Course</b></td>
-                                                    <td><b>Graduated</b></td>
-                                                    <td></td>
+                                               
+                                                    <th><b>Fullname</b></th>
+                                                    <th><b>College</b></th>
+                                                    <th><b>Course</b></th>
+                                                    <th><b>Graduated</b></th>
+                                                    <th></th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -149,9 +149,7 @@
                                     </div>
 
                                     <div class="row">
-                                        <div class="col-md-12 text-center">
-                                            <ul class="pagination  pagination-centered" id="myPager"></ul>
-                                        </div>
+                                        
                                     </div>
                             <!-- end main-content -->
 
@@ -184,14 +182,14 @@
       </div>
         <div class="modal-body">
          <div class="table-responsive">
-            <table class="table table-hover" id="accountInfoPlaceholder">
+            <table class="table" id="accountInfoPlaceholder">
                 <thead>
                 <tr>
-                    <td><span class="glyphicon glyphicon-th-list"></span></td>  
+                    
                     <td>Student #</td>
                     <td>Adress</td>
-                    <td>Contact Number</td>
-                    <td>E-mail Address</td>
+                    <td>Contact No.</td>
+                    <td>E-mail</td>
                     <td>Birthday</td>
                     <td>Citizenship</td>
                     <td>Religion</td>
@@ -244,7 +242,7 @@
                       
                   </div>
                   <div class="row ">
-                      <div class="col-xs-2 appBtn">
+                      <div class="col-xs-4 appBtn" style='text-align:left;'>
                            
                       </div>
                   </div>
@@ -261,7 +259,7 @@
     <script type="text/javascript" src="./js/ajax-loader.js"></script>
     <script type="text/javascript" src="./js/paginate.js"></script>
     <script type="text/javascript" src="./js/bindDelay.js"></script>
-    <script type="text/javascript" src="./js/home-search.js"></script>
+
     <script>
         $(document).ready(function () {
             $("#btnPrintData").click(function () {
@@ -333,25 +331,34 @@
                         $.each(data, function (i, o) {
                           var fn =  o.given_name + "  " + o.middle_name + " " + o.family_name ;
                             if (o.userlevel_idfk == 1) {
-                                var mod = ("<tr class='success'>" +
-                                                "<td> " + o.account_idpk + " </td>" +
+                                var mod = ("<tr>" +
+                                    
                                                 "<td> " + o.given_name + "  " + o.middle_name + " " + o.family_name + " </td>" +
                                                 "<td> " + o.collegeDes + " </td>" +
                                                 "<td>" + o.courseDes + " </td>" +
                                                 "<td>"+ o.year_graduated +"</td>" +
-                                                "<td> <a class='btn btn-primary btn-sm viewAccountInfo' data-account-id='" + o.account_idpk + "' data-toggle='modal' data-target='.bs-example-modal-lg'> View info </a> </td>" +
-                                                "<td> <a class='btn btn-primary btn-sm uid' data-toggle='modal' data-id='" + o.account_idpk + "' data-target='#myModal' data-name='" + fn + "' > Message </a> </td>" +
+                                                "<td style='text-align:right;'>" +
+                                                    "<div class='btn-group' role='group'>" +
+                                                        "<a class='btn btn-primary btn-sm viewAccountInfo' data-account-id='" + o.account_idpk + "' data-toggle='modal' data-target='.bs-example-modal-lg'> View info </a>" +
+                                                        "<a class='btn btn-primary btn-sm uid' data-toggle='modal' data-id='" + o.account_idpk + "' data-target='#myModal' data-name='" + fn + "' ><span class='glyphicon glyphicon-send'></span> &nbsp;Message</a>" +
+                                                    "</div>" +
+                                                "</td>" +
                                             "</tr>");
                             }
                             else {
-                                var mod = ("<tr class='warning'>" +
-                                                "<td> " + o.account_idpk + " </td>" +
+                                var mod = ("<tr>" +
+                                              
                                                 "<td> " + o.given_name + "  " + o.middle_name + " " + o.family_name + " </td>" +
                                                 "<td> " + o.collegeDes + " </td>" +
                                                 "<td>" + o.courseDes + " </td>" +
                                                 "<td>" + o.year_graduated + "</td>" +
-                                                "<td> <a class='btn btn-primary btn-sm viewAccountInfo' data-account-id='" + o.account_idpk + "' data-toggle='modal' data-target='.bs-example-modal-lg'> View info </a> </td>" +
-                                                "<td> <a class='btn btn-primary btn-sm uid' data-toggle='modal' data-id='" + o.account_idpk + "' data-target='#myModal' data-name='" + fn + "' > Message </a> </td>" +
+                                                "<td style='text-align:right;'>" +
+                                                    "<div class='btn-group' role='group'>" +
+                                                        "<a class='btn btn-primary btn-sm viewAccountInfo' data-account-id='" + o.account_idpk + "' data-toggle='modal' data-target='.bs-example-modal-lg'> View info </a>" +
+                                                        "<a class='btn btn-primary btn-sm uid' data-toggle='modal' data-id='" + o.account_idpk + "' data-target='#myModal' data-name='" + fn + "' ><span class='glyphicon glyphicon-send'></span> &nbsp; Message</a>" +
+                                                    "</div>" +
+                                                "</td>" +
+                                                
                                             "</tr>");
                             }
                             
@@ -390,7 +397,7 @@
                                         }
                                         $("#accountInfoPlaceholder tbody").append(
                                                 "<tr>" +
-                                                    "<td> " + o.account_idpk + " </td>" +
+                                                 
                                                     "<td> " + o.student_id + " </td>" +
                                                     "<td> " + o.address + " </td>" +
                                                     "<td> " + o.telephone_number + " </td>" +
@@ -421,8 +428,11 @@
                             name = "";
 
                             $(".appBtn").append(
-                                    '<button type="button" class="btn btn-success btn-sm send" id="btnSend" style="float:left;">Send</button>' +
-                                    '<button type="button" class="btn btn-primary btn-sm" data-dismiss="modal" style="float:right;margin-right:50px;">Close</button>')
+                                "<div class='btn-group' style='text-align:left;'>" +
+                                '<button type="button" class="btn btn-warning btn-sm send" id="btnSend" style=""><span class="glyphicon glyphicon-send"></span>&nbsp;&nbsp;Send</button>' +
+                                '<button type="button" class="btn btn-danger btn-sm" data-dismiss="modal" style="">Close conversation</button>' +
+                             "</div>"
+                                )
                             var sess_id = $("#account_idpk").val();
                             account_idfk = $(this).data("id");
                          
@@ -491,7 +501,7 @@
                     traditional: true,
                     contentType: "application/json; charset=utf-8",
                     success: function (response) {
-
+                        if (response.d == "[]") { $(".searchableTable tbody").html("No result."); }
                         data = response.d;
                         data = jQuery.parseJSON(data);
 
@@ -500,26 +510,35 @@
                         $.each(data, function (i, o) {
                             var fn = o.given_name + "  " + o.middle_name + " " + o.family_name;
                             if (o.userlevel_idfk == 1) {
-                                var mod = ("<tr class='success'>" +
-                                                "<td> " + o.account_idpk + " </td>" +
+                                var mod = ("<tr>" +
+                                            
                                                 "<td> " + fn + " </td>" +
                                                 "<td> " + o.collegeDes + " </td>" +
                                                 "<td>" + o.courseDes + "</td>" +
-                                                "<td>"+ o.year_graduated+"</td>" +
-                                                "<td> <a class='btn btn-primary btn-sm viewAccountInfo' data-account-id='" + o.account_idpk + "' data-toggle='modal' data-target='.bs-example-modal-lg' > View info </a> </td>" +
-                                                "<td> <a class='btn btn-primary btn-sm uid' data-toggle='modal' data-id='" + o.account_idpk + "' data-target='#myModal' data-name='" + fn + "' > Message </a> </td>" +
+                                                "<td>" + o.year_graduated + "</td>" +
+                                                "<td style='text-align:right;'>" +
+                                                    "<div class='btn-group' role='group'>" +
+                                                        "<a class='btn btn-primary btn-sm viewAccountInfo' data-account-id='" + o.account_idpk + "' data-toggle='modal' data-target='.bs-example-modal-lg'> View info </a>" +
+                                                        "<a class='btn btn-primary btn-sm uid' data-toggle='modal' data-id='" + o.account_idpk + "' data-target='#myModal' data-name='" + fn + "' ><span class='glyphicon glyphicon-send'></span> &nbsp; Message</a>" +
+                                                    "</div>" +
+                                                "</td>" +
+
                                             "</tr>");
 
                             } else {
-                                var mod = ("<tr class='warning'>" +
-                                            "<td> " + o.account_idpk + " </td>" +
+                                var mod = ("<tr>" +
+                                           
                                             "<td> " + o.given_name + "  " + o.middle_name + " " + o.family_name + " </td>" +
                                             "<td> " + o.collegeDes + " </td>" +
                                             "<td>" + o.courseDes + "</td>" +
 
                                             "<td>" + o.year_graduated + "</td>" +
-                                            "<td> <a class='btn btn-primary btn-sm viewAccountInfo' data-account-id='" + o.account_idpk + "' data-toggle='modal' data-target='.bs-example-modal-lg' > View info </a> </td>" +
-                                             "<td> <a class='btn btn-primary btn-sm uid' data-toggle='modal' data-id='" + o.account_idpk + "' data-target='#myModal' data-name='" + fn + "' > Message </a> </td>" +
+                                            "<td style='text-align:right;'>" +
+                                                "<div class='btn-group' role='group'>" +
+                                                    "<a class='btn btn-primary btn-sm viewAccountInfo' data-account-id='" + o.account_idpk + "' data-toggle='modal' data-target='.bs-example-modal-lg'> View info </a>" +
+                                                    "<a class='btn btn-primary btn-sm uid' data-toggle='modal' data-id='" + o.account_idpk + "' data-target='#myModal' data-name='" + fn + "' ><span class='glyphicon glyphicon-send'></span> &nbsp; Message</a>" +
+                                                "</div>" +
+                                            "</td>" +
                                         "</tr>");
                             }
                             
@@ -560,7 +579,7 @@
 
                                         $("#accountInfoPlaceholder tbody").append(
                                                 "<tr>" +
-                                                    "<td> " + o.account_idpk + " </td>" +
+                                                  
                                                     "<td> " + o.student_id + " </td>" +
                                                     "<td> " + o.address + " </td>" +
                                                     "<td> " + o.telephone_number + " </td>" +
@@ -589,8 +608,11 @@
                             $(".modal-body").css("display", "none");
                             name = "";
                             $(".appBtn").append(
-                                    '<button type="button" class="btn btn-success btn-sm send" id="btnSend" style="float:left;">Send</button>' +
-                                    '<button type="button" class="btn btn-primary btn-sm" data-dismiss="modal" style="float:right;margin-right:50px;">Close</button>')
+                                "<div class='btn-group' style='text-align:left;'>" +
+                                '<button type="button" class="btn btn-warning btn-sm send" id="btnSend" style=""><span class="glyphicon glyphicon-send"></span>&nbsp;&nbsp;Send</button>' +
+                                '<button type="button" class="btn btn-danger btn-sm" data-dismiss="modal" style="">Close conversation</button>' +
+                                "</div>"
+                                );
                             var sess_id = $("#account_idpk").val();
                             account_idfk = $(this).data("id");
 
@@ -651,28 +673,37 @@
                     $.each(data, function (i, o) {
                         var fn = o.given_name + "  " + o.middle_name + " " + o.family_name;
                         if (o.userlevel_idfk == 1) {
-                            var mod = ("<tr class='success'>" +
-                                            "<td> " + o.account_idpk + " </td>" +
+                            var mod = ("<tr>" +
+                                            
                                             "<td> " + o.given_name + "  " + o.middle_name + " " + o.family_name + " </td>" +
                                             "<td> " + o.collegeDes + " </td>" +
                                             "<td>" + o.courseDes + "</td>" +
                                             "<td>" + o.year_graduated + "</td>" +
                                             "<td></td>" +
-                                            "<td> <a class='btn btn-primary btn-sm viewAccountInfo' data-account-id='" + o.account_idpk + "' data-toggle='modal' data-target='.bs-example-modal-lg' > View info </a> </td>" +
-                                            "<td> <a class='btn btn-primary btn-sm uid' data-toggle='modal' data-id='" + o.account_idpk + "' data-target='#myModal' data-name='" + fn + "' > Message </a> </td>" +
+                                             "<td style='text-align:right;'>" +
+                                                "<div class='btn-group' role='group'>" +
+                                                    "<a class='btn btn-primary btn-sm viewAccountInfo' data-account-id='" + o.account_idpk + "' data-toggle='modal' data-target='.bs-example-modal-lg'> View info </a>" +
+                                                    "<a class='btn btn-primary btn-sm uid' data-toggle='modal' data-id='" + o.account_idpk + "' data-target='#myModal' data-name='" + fn + "' ><span class='glyphicon glyphicon-send'></span> &nbsp; Message</a>" +
+                                                "</div>" +
+                                            "</td>" +
+                                            
                                        "</tr>");
 
                         }
                         else {
-                            var mod = ("<tr class='warning'>" +
-                                        "<td> " + o.account_idpk + " </td>" +
+                            var mod = ("<tr>" +
+                                       
                                         "<td> " + o.given_name + "  " + o.middle_name + " " + o.family_name + " </td>" +
                                         "<td> " + o.collegeDes + " </td>" +
                                         "<td>" + o.courseDes + "</td>" +
                                         "<td>" + o.year_graduated + "</td>" +
                                         "<td></td>" +
-                                        "<td> <a class='btn btn-primary btn-sm viewAccountInfo' data-account-id='" + o.account_idpk + "' data-toggle='modal' data-target='.bs-example-modal-lg' > View info </a> </td>" +
-                                        "<td> <a class='btn btn-primary btn-sm uid' data-toggle='modal' data-id='" + o.account_idpk + "' data-target='#myModal' data-name='" + fn + "' > Message </a> </td>" +
+                                        "<td style='text-align:right;'>" +
+                                            "<div class='btn-group' role='group'>" +
+                                                "<a class='btn btn-primary btn-sm viewAccountInfo' data-account-id='" + o.account_idpk + "' data-toggle='modal' data-target='.bs-example-modal-lg'> View info </a>" +
+                                                "<a class='btn btn-primary btn-sm uid' data-toggle='modal' data-id='" + o.account_idpk + "' data-target='#myModal' data-name='" + fn + "' ><span class='glyphicon glyphicon-send'></span> &nbsp; Message</a>" +
+                                            "</div>" +
+                                        "</td>" +
                                     "</tr>");
                         }
 
@@ -713,7 +744,7 @@
                                     }
                                     $("#accountInfoPlaceholder tbody").append(
                                             "<tr>" +
-                                                "<td> " + o.account_idpk + " </td>" +
+                                          
                                                 "<td> " + o.student_id + " </td>" +
                                                 "<td> " + o.address + " </td>" +
                                                 "<td> " + o.telephone_number + " </td>" +
@@ -746,8 +777,11 @@
                         $(".modal-body").css("display", "none");
                         name = "";
                         $(".appBtn").append(
-                                '<button type="button" class="btn btn-success btn-sm send" id="btnSend" style="float:left;">Send</button>' +
-                                '<button type="button" class="btn btn-primary btn-sm" data-dismiss="modal" style="float:right;margin-right:50px;">Close</button>')
+                            "<div class='btn-group' style='text-align:left;'>" +
+                                '<button type="button" class="btn btn-warning btn-sm send" id="btnSend" style=""><span class="glyphicon glyphicon-send"></span>&nbsp;&nbsp;Send</button>' +
+                                '<button type="button" class="btn btn-danger btn-sm" data-dismiss="modal" style="">Close conversation</button>' +
+                             "</div>"
+                            )
                         var sess_id = $("#account_idpk").val();
                         account_idfk = $(this).data("id");
 
@@ -799,25 +833,34 @@
                     $.each(data, function (i, o) {
                         var fn = o.given_name + "  " + o.middle_name + " " + o.family_name;
                         if (o.userlevel_idfk == 1) {
-                            var mod = ("<tr class='success'>" +
-                                            "<td> " + o.account_idpk + " </td>" +
+                            var mod = ("<tr>" +
+                                            
                                             "<td> " + o.given_name + "  " + o.middle_name + " " + o.family_name + " </td>" +
                                             "<td> " + o.collegeDes + " </td>" +
                                             "<td>" + o.courseDes + "</td>" +
                                             "<td>" + o.year_graduated + "</td>" +
-                                            "<td> <a class='btn btn-primary btn-sm viewAccountInfo' data-account-id='" + o.account_idpk + "' data-toggle='modal' data-target='.bs-example-modal-lg' > View info </a> </td>" +
-                                            "<td> <a class='btn btn-primary btn-sm uid' data-toggle='modal' data-id='" + o.account_idpk + "' data-target='#myModal' data-name='" + fn + "' > Message </a> </td>" +
+                                            "<td style='text-align:right;'>" +
+                                                "<div class='btn-group' role='group'>" +
+                                                    "<a class='btn btn-primary btn-sm viewAccountInfo' data-account-id='" + o.account_idpk + "' data-toggle='modal' data-target='.bs-example-modal-lg'> View info </a>" +
+                                                    "<a class='btn btn-primary btn-sm uid' data-toggle='modal' data-id='" + o.account_idpk + "' data-target='#myModal' data-name='" + fn + "' ><span class='glyphicon glyphicon-send'></span> &nbsp; Message</a>" +
+                                                "</div>" +
+                                            "</td>" +
+                                            
                                        "</tr>");
 
                         } else {
-                            var mod = ("<tr class='warning'>" +
-                                        "<td> " + o.account_idpk + " </td>" +
+                            var mod = ("<tr>" +
+                                       
                                         "<td> " + o.given_name + "  " + o.middle_name + " " + o.family_name + " </td>" +
                                         "<td> " + o.collegeDes + " </td>" +
                                         "<td>" + o.courseDes + "</td>" +
                                         "<td>" + o.year_graduated + "</td>" +                                     
-                                        "<td> <a class='btn btn-primary btn-sm viewAccountInfo' data-account-id='" + o.account_idpk + "' data-toggle='modal' data-target='.bs-example-modal-lg' > View info </a> </td>" +
-                                        "<td> <a class='btn btn-primary btn-sm uid' data-toggle='modal' data-id='" + o.account_idpk + "' data-target='#myModal' data-name='" + fn + "' > Message </a> </td>" +
+                                       "<td style='text-align:right;'>" +
+                                            "<div class='btn-group' role='group'>" +
+                                                "<a class='btn btn-primary btn-sm viewAccountInfo' data-account-id='" + o.account_idpk + "' data-toggle='modal' data-target='.bs-example-modal-lg'> View info </a>" +
+                                                "<a class='btn btn-primary btn-sm uid' data-toggle='modal' data-id='" + o.account_idpk + "' data-target='#myModal' data-name='" + fn + "' ><span class='glyphicon glyphicon-send'></span> &nbsp; Message</a>" +
+                                            "</div>" +
+                                        "</td>" +
                                     "</tr>");
                         }
 
@@ -859,7 +902,7 @@
                                     }
                                     $("#accountInfoPlaceholder tbody").append(
                                             "<tr>" +
-                                                "<td> " + o.account_idpk + " </td>" +
+                                              
                                                 "<td> " + o.student_id + " </td>" +
                                                 "<td> " + o.address + " </td>" +
                                                 "<td> " + o.telephone_number + " </td>" +
@@ -890,8 +933,11 @@
                         $(".modal-body").css("display", "none");
                         name = "";
                         $(".appBtn").append(
-                                '<button type="button" class="btn btn-success btn-sm send" id="btnSend" style="float:left;">Send</button>' +
-                                '<button type="button" class="btn btn-primary btn-sm" data-dismiss="modal" style="float:right;margin-right:50px;">Close</button>')
+                            "<div class='btn-group' style='text-align:left;'>" +
+                                '<button type="button" class="btn btn-warning btn-sm send" id="btnSend" style=""><span class="glyphicon glyphicon-send"></span>&nbsp;&nbsp;Send</button>' +
+                                '<button type="button" class="btn btn-danger btn-sm" data-dismiss="modal" style="">Close conversation</button>' +
+                             "</div>"
+                            )
                         var sess_id = $("#account_idpk").val();
                         account_idfk = $(this).data("id");
 

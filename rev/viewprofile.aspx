@@ -64,11 +64,11 @@
 	                        <ul class="nav nav-sidebar">
 		                        <li>
 			                        <a>
-				                        <asp:Image ID="Image2" runat="server" ImageUrl="./assets/images/default-dp.jpg" Height="75" Width="75" BorderColor="White" BorderStyle="Solid" BorderWidth="3" />          
+				                        <asp:Image ID="Image2" runat="server" ImageUrl="./assets/images/default-dp.jpg"  BorderColor="White" BorderStyle="Solid" BorderWidth="3" />          
 			                        </a>
 		                        </li>
                             <li>    
-                                <a  href="#" ><span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;<asp:Label id="alumni_name" runat="server"></asp:Label></a>
+                                <a  href="./alumni-profile.aspx" ><span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;<asp:Label id="alumni_name" runat="server"></asp:Label></a>
                             </li>
 		  		                <li> <a runat="server" id="pointer"> <span class="glyphicon glyphicon-home"></span>&nbsp;&nbsp;Timeline </a> </li>
                                 <li>
@@ -80,7 +80,7 @@
                             </ul>
                     </div>
 
-                     <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+                     <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" style="background:#fff;">
                          <div class="row">
                              <div class="col-xs-1 ">
                                  <asp:Image ID="Image3" runat="server" ImageUrl="./assets/images/default-dp.jpg" Height="65" Width="65" BorderColor="White" BorderStyle="Solid" BorderWidth="3" />
@@ -95,11 +95,11 @@
 
                              <div class="col-xs-3">
                                  <br />
-                                 &nbsp; <span><input type="button" data-toggle='modal' data-target='#myModal'  value="Message" class="btn btn-warning btn-sm viewMessaging" style="width:150px;"/></span>
+                                 &nbsp; <span><input type="button" data-toggle='modal' data-target='#myModal'  value="Send Message" class="btn btn-warning btn-sm viewMessaging" style="width:150px;"/></span>
                              </div>
 
                          </div>
-                        <div class="row placeholders " >
+                        <div class="row " >
                             <br />
 
                             <!-- start main-content -->
@@ -251,7 +251,7 @@
                                 "</tr>" +
 
                                 "<tr>" +
-                                    "<td><span class='glyphicon glyphicon-book dim'></span> &nbsp;" + o.cd + "    </td>" +
+                                    "<td><span class='glyphicon glyphicon-education dim'></span> &nbsp;" + o.cd + "    </td>" +
                                     "<td></td>" +
                                     "<td> </td>" +
                                 "</tr>" + "<tr>" +

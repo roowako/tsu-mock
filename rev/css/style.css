@@ -17,7 +17,9 @@ body{
  .highlighted-div{background:none repeat scroll 0% 0% #fff;width:100%;padding:15px;padding-bottom:0px;}
  .highlighted-div > p{color:#333;}
  .minified{font-size:13px;}
- .header-padded{padding:3px;padding-bottom:8px;font-size:15px;font-weight:bold;color:rgba(0, 0, 0, 0.5);}
+ .header-padded{padding:3px;padding-bottom:8px;font-size:15px;font-weight:bold;color:rgba(0, 0, 0, 0.5);text-transform:capitalize;vertical-align:top;}
+  .header-padded > img{vertical-align:top;}
+ 
  .theme-color{color:#fff;}
  .text-theme{color:#333;}
  .golden{color:#F0AD4E;}
@@ -31,12 +33,15 @@ body{
  .forceFix{position:absolute;right:140px;}
  .toFix{position:relative;right:-20px;}
 
-#messagePlaceholder > tbody > tr:last-child > td{border:0px !important;}
+
 .resultContainer{
 
      opacity:0;
     transition:visibility 0s linear 0.5s,opacity 0.5s linear;
+
  }
+
+.resultContainer
  .animateOnDisplay{
       visibility:visible;
       opacity:1;
@@ -67,7 +72,16 @@ body{
      padding:10px;
      background:;
  }
+  .basic-info tbody > tr {
+      border-bottom:thin solid #eee !important;
+  }
+   .basic-info tbody > tr:last-child{
+     border-bottom:none !important;
+   }
 
+    .basic-info tbody > tr > td:last-child{
+        text-align:right;
+   }
   .basic-info > div{
       padding:15px;
   }
@@ -80,7 +94,7 @@ body{
       list-style-type:none;
   }
   .messaging > b, .sender-name > b{
-      color:maroon;
+      color:#222;
       font-size:14px;
       text-transform:capitalize;
   }
@@ -109,6 +123,16 @@ border-bottom: 1px solid #ddd;
    border-top:none;
 }
 
+#accountTable tbody > tr{border-bottom:1px solid #eee !important;}
+
+#accountTable tbody > tr:last-child{border-bottom:0px !important;}
+.searchableTable tbody > tr {background:none;border-bottom:thin solid #eee !important;}
+.searchableTable tbody > tr:last-child{border-bottom:0px !important;}
+.tableDetailsView tbody > tr {background:none;border-bottom:thin solid #eee !important;}
+.tableDetailsView tbody > tr tr:last-child{border-bottom:0px !important;}
+#messagePlaceholder tbody > tr{border-bottom:1px solid #eee !important;}
+#messagePlaceholder tbody > tr:last-child{border-bottom:0px !important;}
+
 .min {
     font-size:14px !important;
     color:#222;
@@ -122,8 +146,10 @@ border-bottom: 1px solid #ddd;
 
 .dateIndicator{
     font-size:12px !important;
-    padding-left:30px;
-    
+    padding-left:42px;
+    color:#9197A3;
+    font-weight:normal;
+    vertical-align:top;
 
 }
 
@@ -135,6 +161,7 @@ border-bottom: 1px solid #ddd;
 
 .resWrapper{
 
+  
     padding:0px;
     background:#fff;
     border:thin solid #ccc;
@@ -142,8 +169,12 @@ border-bottom: 1px solid #ddd;
     border-bottom:none;
     position:relative;
     z-index:100;
+    
+   
 }
 
+
+.qDp{width:45px;height:45px;}
 .moded_res{
 
     padding:0px;
@@ -158,7 +189,7 @@ border-bottom: 1px solid #ddd;
 
 .revealWrap{
     display:block;
-   
+  
 }
 
 .revealWrap-vis{
@@ -182,7 +213,8 @@ border-bottom: 1px solid #ddd;
 }
 
 .clickable > span{
-    font-size:15px;
+    font-size:12px;
+    text-transform:capitalize;
    
 }
 .display{
@@ -248,8 +280,8 @@ border-bottom: 1px solid #ddd;
 }
 
 #uneditable{
-    width:75px;
-    height:75px;
+    width:65px;
+    height:50px;
 }
 
 .printables{
@@ -293,3 +325,5 @@ border-bottom: 1px solid #ddd;
 }
 
 #umail{display:none;}
+
+#course_idpk{display:none}

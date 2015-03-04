@@ -155,7 +155,7 @@ Partial Class rev_messaging_ui_alumni
 
         Using sqlCon As New SqlConnection(constr)
             sqlCon.Open()
-            sqlStr = "SELECT given_name+ ' ' +middle_name+ ' ' +family_name as u,given_name+ ' ' +family_name as u, account_idpk as uid  FROM tblAccounts WHERE given_name LIKE '%" & q & "%' OR middle_name LIKE '%" & q & "%' OR family_name LIKE '%" & q & "%'  "
+            sqlStr = "SELECT TOP 1 given_name+ ' ' +middle_name+ ' ' +family_name as u,given_name+ ' ' +family_name as u, account_idpk as uid, img_path as dp  FROM tblAccounts WHERE given_name LIKE '%" & q & "%' OR middle_name LIKE '%" & q & "%' OR family_name LIKE '%" & q & "%'  "
             cmd = New SqlCommand(sqlStr, sqlCon)
             dr = cmd.ExecuteReader
             If dr.HasRows Then

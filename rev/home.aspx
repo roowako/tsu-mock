@@ -92,10 +92,10 @@
                             </ul>
                     </div>
 
-                     <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main ">
+                     <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main " style="background:#fff">
                          <div class="row ">
                              <div class="col-xs-4">
-                                 <h3 class="page-header"><span class="glyphicon glyphicon-home">&nbsp;</span>Timeline</h3>
+                                 <h3 class="page-header"><span class="glyphicon glyphicon-option-vertical">&nbsp;</span>Timeline</h3>
                              </div>
                              <div class="col-xs-4">
                                  
@@ -120,19 +120,23 @@
                            
                             <!-- start right-side -->
                             <div class="col-xs-6 col-sm-5 placeholder border-enabled">
-                              <h4 class="header-padded"><span class="glyphicon glyphicon-th-alt-list minified"></span>&nbsp; Survey Questions</h4>
+                              <h4 class="header-padded"><span class="glyphicon glyphicon-tasks minified"></span>&nbsp; Survey Questions</h4>
                               <div class="row">
-                                  <table class="table table-hover">
-                                        <tr>
-                                            <td></td>
-                                            <td><span class="glyphicon glyphicon-th-list"></span></td>  
-                                            <td>Survey Title</td>                                          
-                                            <td></td>
-                                        </tr>
+                                  <div class="col-xs-12" >
+                                        <table class="table" style="border-top:thin solid #ccc;">
+                                            <tr>
+                                          
+                                                <td>Survey Title</td>                                          
+                                                <td></td>
+                                            </tr>
                                                     
-                                    </table>
-                                  <div id="noPoll"></div>
+                                        </table>
+
+                                  </div>
+                               
                               </div>
+                                <div class="row"> <div id="noPoll"></div></div>
+
                             </div>
                             <!-- end right-side -->
                         </div>
@@ -145,12 +149,12 @@
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
-          <div class="modal-header">
+          <div class="modal-header" style="border-bottom:0px;">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+            <h4 class="modal-title" id="myModalLabel" style="border-bottom:thin solid #eee;padding-bottom:8px;">Modal title</h4>
           </div>
           <div class="modal-body">
-              <h4>Survey Question</h4>
+              <h4 >Survey Question</h4>
               <p id="questionPlaceholder"></p>
            
               <br />
@@ -159,9 +163,14 @@
                  
               </ul>
           </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-primary btn-sm" data-dismiss="modal">Close</button>
-             <button type="button" class="btn btn-success btn-sm btnPollAns" data-dismiss="modal">Submit</button>
+          <div class="modal-footer" style="background:#f5f5f5;">
+              <div class="btn-group">
+
+                 
+                 <button type="button" class="btn btn-warning btn-sm btnPollAns" data-dismiss="modal"><span class="glyphicon glyphicon-send"></span>&nbsp;&nbsp;Submit</button>
+                  <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Close</button>
+              </div>
+             
           </div>
         </div>
       </div>
@@ -210,7 +219,7 @@
                                     "<tr>" +
                                     "<td>  " + object.polls_idpk + " </td>" +
                                     "<td>  " + object.description + " </td>" +
-                                    "<td>  " + "<a class='btn btn-success btn-sm theatre' id='" + object.polls_idpk + "' data-poll-title='" + object.description + "' data-poll-question='" + object.question + "' data-poll-id='" + object.polls_idpk + "' data-toggle='modal' data-target='#myModal'>View Details and participate </a>" + " </td>" +
+                                    "<td>  " + "<a class='btn btn-primary btn-sm theatre' id='" + object.polls_idpk + "' data-poll-title='" + object.description + "' data-poll-question='" + object.question + "' data-poll-id='" + object.polls_idpk + "' data-toggle='modal' data-target='#myModal'>View Details and participate </a>" + " </td>" +
                                     "</tr>"
                                     );
                             });
@@ -299,27 +308,23 @@
                                         "<h4 class='header-padded '><span class='glyphicon glyphicon-bookmark ' >&nbsp;</span>DIRECTOR </h4>" +
                                          "<span class='dateIndicator'>&nbsp;&nbsp;" + object.formatedB + "</span>" +
                                           "<br>" + "<br>" +
-                                        "<div class='row  top-border'>" +
-                                            "<br>" +
-                                            "<div class='col-xs-1'> </div>" +
+                                        "<div class='row  '>" +
+                         
                                             "<div class='theme-color col-xs-11'>" +
-                                                "<p class='text-theme'> " + object.description + "   </p>" +
-                                                "<br>" +
-                                               
+                                                "<p class='text-theme'> " + object.description + "   </p>" +   
                                             "</div>" +
                                         "</div> " +
-                                        "<div class='row noPoll'>" +
-                                            "<br>" +
-                                            "<div class='col-xs-1'> </div>" +
-                                            "<div class='theme-color col-xs-2 header-padded' style='text-align:left;'>" +
-                                                "<a class='share btn btn-primary btn-sm' data-sharable='" + object.description + "' data-u='TSU Alumni Director'>share on facebook</a>" +
+                                        "<div class='row' style='background:#f5f5f5;border-top:thin solid #eee;'>" +
+                                        "<br>" +
+                                            "<div class='theme-color col-xs-3' style='text-align:left;'>" +
+                                                "<a class='share btn btn-warning btn-sm' data-sharable='" + object.description + "' data-u='TSU Alumni Director'><span class='glyphicon glyphicon-send'></span>&nbsp;&nbsp;Share on Facebook</a>" +
                                             "</div>" +
-                                           
+                                           "<br>" + "<br>" +
                                         "</div> " +
                                     "</div>" +
                                 "</div>" +
-
-                                "<br />"
+                                "<br>" 
+                                
                                 );
                             }
 
@@ -330,23 +335,19 @@
                                         "<h4 class='header-padded'><span class='glyphicon glyphicon-bookmark'>&nbsp;</span>" + college_desc + " </h4>" +
                                         "<span class='dateIndicator'>&nbsp;&nbsp;" + object.formatedB + "</span>" +
                                         "<br>" + "<br>" +
-                                        "<div class='row  top-border'>" +
-                                            "<br>" +
-                                            "<div class='col-xs-1'> </div>" +
+                                        "<div class='row '>" +
                                             "<div class='theme-color col-xs-11 '>" +
                                                 "<p class='text-theme'> " + object.description + "   </p>" +
-                                                "<br>" +
-                                                
                                             "</div>" +
 
                                         "</div> " +
-                                        "<div class='row noPoll'>" +
+                                        "<div class='row' style='background:#f5f5f5;border-top:thin solid #eee;'>" +
                                             "<br>" +
-                                           "<div class='col-xs-1'> </div>" +
-                                            "<div class='theme-color col-xs-2  header-padded '>" +
-                                                "<a class='share btn btn-primary btn-sm' data-sharable='" + object.description + "' data-u='" + college_desc + "'>share on facebook</a>" +
+                                         
+                                            "<div class='theme-color col-xs-3'>" +
+                                                "<a class='share btn btn-warning btn-sm' data-sharable='" + object.description + "' data-u='" + college_desc + "'><span class='glyphicon glyphicon-send'></span>&nbsp;&nbsp;Share on Facebook</a>" +
                                             "</div>" +
-
+                                            "<br>" + "<br>" +
                                         "</div> " +
 
                                       

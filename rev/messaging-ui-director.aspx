@@ -81,10 +81,10 @@
 	                    </ul>
                     </div>
                     
-                    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+                    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" style="background:white">
                         <div class="row" >
                              <div class="col-xs-4">
-                                 <h3 class="page-header"><span class="glyphicon glyphicon-comment">&nbsp;</span>Messages</h3>
+                                 <h3 class="page-header"><span class="glyphicon glyphicon-option-vertical">&nbsp;</span>Messages</h3>
                              </div>
                              <div class="col-xs-3">
                                  
@@ -104,7 +104,7 @@
                             <!-- start main-content -->
                             <div class="col-xs-6 col-sm-12 placeholder" >
                                 <div class="table-responsive">
-                                    <table class="table table-condensed" id="messagePlaceholder">
+                                    <table class="table table-condensed" id="messagePlaceholder" style="cursor:pointer;">
                                         <tbody >
                                              
                                         </tbody>
@@ -154,7 +154,7 @@
                       
                   </div>
                   <div class="row ">
-                      <div class="col-xs-4 appBtn">
+                      <div class="col-xs-4 appBtn" style='text-align:left;'>
                            
                      
                       </div>
@@ -199,7 +199,7 @@
                           $.each(data, function (i, o) {
                               $("#messagePlaceholder tbody").append(
                               
-                              "<tr class='highlighted-div'  style='margin-top:5px;'> " +
+                              "<tr class=''  style='margin-top:5px;'> " +
                               "<br>" +
                                   "<td> " +
                                       "<div class='sender-name'><b> " + o.u + " </b></div>" +
@@ -208,10 +208,13 @@
                                   "<td>&nbsp; </td>" +
                                   "<td>&nbsp; </td>" +
                                   "<td> &nbsp;</td>" +
-                                  "<td style='text-align:right;'>" +
-                                      "<input type='button' value='View conversation' data-name='" + o.u + "' class='btn btn-success btn-sm theatre' data-toggle='modal' data-target='#myModal' data-id='" + o.uid + "'/>&nbsp;" +
-                                  "</td>" +
-                                  "<td><button value='Delete conversation' class='btn btn-warning btn-sm delete' data-id='" + o.uid + "'>Delete conversation&nbsp;&nbsp;<span class='glyphicon glyphicon-trash'></span></button></td>" +
+                                   "<td style='text-align:right;'>" +
+                                        "<div class='btn-group' role='group'>" +
+                                            "<input type='button' value='View conversation' data-name='" + o.u + "' class='btn btn-warning btn-sm theatre_m' data-toggle='modal' data-target='#myModal' data-id='" + o.uid + "'/>&nbsp;" +
+                                            "<button value='Delete conversation' class='btn btn-danger btn-sm delete' data-id='" + o.uid + "'>Delete&nbsp;&nbsp;<span class='glyphicon glyphicon-trash'></span></button>" +
+                                        "</div>" +
+                                    "</td>" +
+                                 
                               "</tr>" 
                              
                               );
@@ -237,16 +240,21 @@
                               });
                           });
 
-                          $(".theatre").click(function () {
+                          $(".theatre_m").click(function (e) {
+                              e.preventDefault();
+                              $(".modal-body").css("display", "block");
                               $(".appBtn").html("");
                               $("#messages").html("");
                               $("#myModalLabel").text("");
+                            
                               var fn = $(this).data("name");
                               $("#myModalLabel").text($(this).data("name"));
                               name = "";
                               $(".appBtn").append(
-                                  "<button type='button' class='btn btn-success btn-sm reply' style='float:left;'><span class='glyphicon glyphicon-send'></span>&nbsp;&nbsp;Reply</button>" +
-                                  "<button type='button' class='btn btn-primary btn-sm' data-dismiss='modal' style='float:right;margin-right:140px;'>Close conversation</button>");
+                                  "<div class='btn-group' style='text-align:left;'>"+
+                                  "<button type='button' class='btn btn-warning btn-sm reply' ><span class='glyphicon glyphicon-send'></span>&nbsp;&nbsp;Reply&nbsp;</button>" +
+                                  "<button type='button' class='btn btn-danger btn-sm' data-dismiss='modal' >Close conversation</button>"+
+                                  "</div>");
                               var sess_id = $("#account_idpk").val();
                               account_idfk = $(this).data("id");
                               sendTo = $(this).data("id");
@@ -272,9 +280,9 @@
                                           }
 
                                           $("#messages").append(
-                                                  "<li class='messaging'><b> " + name + "</b> </li>" +
+                                                  "<li class='messaging'><b> " + name + "</b> <span  style='float:right;font-size:12px;color:#333;font-family:Tahoma;margin-top:4px;' class='glyphicon glyphicon-hourglass'> <span  style='font-size:10px;color:#333;'>" + o.formatedB + " </span></span></li>" +
                                                   "<li class='messaging'>" + o.actor_message + " </li>" +
-                                                  "<li style=font-size:10px;color:#333;> " + "  - " + o.formatedB + " </li>" +
+                                                  
                                                   "<br>"
                                           );
                                       });
@@ -285,7 +293,8 @@
                               console.log(account_idfk);
                               $(".reply").click(function () {
                                   var message = $("#replyMessage").val();
-
+                                  if (message == "") { alert("Message can't be empty"); }
+                                  else
                                   $.ajax({
                                       type: "post",
                                       url: "./messaging-ui-alumni.aspx/pushMessages",

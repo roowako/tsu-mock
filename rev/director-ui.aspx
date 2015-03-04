@@ -52,9 +52,8 @@
                
                 </div>
                 <div id="navbar" class="navbar-collapse collapse" > <!---collapse collapse -->
-                  
-                     <br />
-                    <ul class="nav navbar-nav navbar-right extended" style="margin-top:8px;margin-right:100px;">
+                    <br />
+                  <ul class="nav navbar-nav navbar-right extended" style="margin-top:8px;margin-right:100px;">
                         <li>
                             <div class="form-group" style="position:absolute;z-index:40000;">
                                 <input type="text" placeholder="Search for alumni" name=""  class="form-control input-sm" id="searching" autocomplete="off"/>
@@ -65,7 +64,6 @@
                             </div>
                         </li>
                     </ul>
-                    
                 </div><!--/.navbar-collapse -->
                 </div>
             </nav>-->
@@ -77,12 +75,12 @@
 		                    <li>
 			                    <a href="#" >
 
-				                    <asp:Image ID="undeditable" runat="server" ImageUrl="./assets/images/default-dp.jpg" Height="" Width="75" BorderColor="White" BorderStyle="Solid" BorderWidth="3"  CssClass="non-m" />          
+				                    <asp:Image ID="undeditable" runat="server" ImageUrl="./assets/images/default-dp.jpg" Height="50" Width="65" BorderColor="White" BorderStyle="Solid" BorderWidth="3"  CssClass="non-m" />          
 
 			                    </a>
 
 		                    </li>
-		                    <li><a href="#" class="bolder"><span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;<asp:Label id="alumni_name" runat="server"></asp:Label></a></li>
+		                    <li><a href="./alumni-profile.aspx" class="bolder"><span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;<asp:Label id="alumni_name" runat="server"></asp:Label></a></li>
 		  
 		                    <li><a href="./director-ui.aspx" ><span class="glyphicon glyphicon-home"></span>&nbsp;&nbsp;Timeline</a></li>
 		                    <li><a href="./messaging-ui-director.aspx" ><span class="glyphicon glyphicon-comment"></span>&nbsp;&nbsp;Messages</a></li>
@@ -110,22 +108,18 @@
                     </div>
 
 
-                    <div class="col-sm-10 col-sm-offset-4 col-md-9 col-md-offset-2 main">
+                    <div class="col-sm-12 col-sm-offset-6 col-md-10 col-md-offset-2 main" >
                         <div class="row">
                              <div class="col-xs-4">
-                                 <h3 class="page-header"><span class="glyphicon glyphicon-home">&nbsp;</span>Timeline</h3>
+                                 <h3 class="page-header"><span class="glyphicon glyphicon-option-vertical">&nbsp;</span>Timeline</h3>
                              </div>
-                             <div class="col-xs-2">
-                                
-                             </div>
+                     
                              <div class="col-xs-3">
                                  
                              </div>
-                              <div class="col-xs-3">
-                                 
-                             </div>
+                              
                          </div>
-                        <div class="row placeholders " >
+                        <div class="row placeholders" >
                             <br />
                             <!-- start main-content -->
                             <div class="col-xs-6 col-sm-6 placeholder announcementHolder" >
@@ -142,19 +136,19 @@
 
                             <!-- start right-side -->
                             <div class="col-xs-6 col-sm-5 placeholder border-enabled " style="background:#fff;">
-                              <h4 class="header-padded"><span class="glyphicon glyphicon-edit minified"></span>&nbsp; Post Announcement</h4>
+                              <h4 class="header-padded" style="color:#A6635D;"><span style="color:#A6635D;" class="glyphicon glyphicon-bullhorn minified"></span>&nbsp; Post Announcement</h4>
                               <div class="row">
                                   <div class="col-xs-12 " >
                                       
-                                      <div class="" style="border-top:thin solid #ccc;">
+                                      <div class="" style="border-top:thin solid #E1E2E3;">
                                           <br />
-                                          <asp:TextBox ID="txtPostAnnouncementCoor" runat="server" TextMode="MultiLine" placeholder="" CssClass="form-control" style="resize:none;border-radius:0px"></asp:TextBox>
+                                          <asp:TextBox ID="txtPostAnnouncementCoor" runat="server" TextMode="MultiLine" placeholder="" CssClass="form-control" style="resize:none;border-radius:0px;"></asp:TextBox>
                                           <br />
                                           <div class="row">
-                                              <div class="col-xs-12" style="background:#f5f5f5">
-                                                  <br />
-                                                   <asp:Button ID="btnPostAnnouncementCoor" runat="server" Text="Post" CssClass="btn btn-warning btn-sm clerical" type="button" />
-                                                  <br /><br />
+                                              <div class="col-xs-12" style="background:#F6F7F8;text-align:right;padding:8px;border-top:thin solid #E1E2E3;">
+                                              
+                                                   <asp:Button ID="btnPostAnnouncementCoor" runat="server" Text="Post announcement" CssClass="btn btn-primary btn-sm clerical" type="button" />
+                                                
                                               </div>
                                               
                                           </div>
@@ -172,6 +166,25 @@
             </div>
         </div>
     </form>
+<div class="modal fade bs-example-modal-sm" id="myModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" style="border-radius:3px;">
+  <div class="modal-dialog modal-sm" style="width:500px;border-radius:3px;top:100px;">
+    <div class="modal-content" style="border-radius:3px;">
+      <div class="modal-header" style="background:#F6F7F8;border-radius:3px;padding:8px;">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h5 class="modal-title" id="myModalLabel" style="padding:3px;"><b>Delete Post</b></h5>
+      </div>
+      <div class="modal-body" style="border-radius:3px;">
+          <p style="border-bottom:thin solid #ccc;padding-bottom:15px;color:#333;">Are you sure you want to delete this post?</p>
+         
+          <div class="btn-group btn-sm" style="text-align:right;float:right">
+            <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Cancel</button>
+            <button type="button" class="btn btn-danger btn-sm del_p">Delete Post</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+</div>
     <script type="text/javascript" src="./js/jquery.js"></script>
     <script type="text/javascript" src="./js/bootstrap.min.js"></script>
     <script type="text/javascript" src="./js/custom.js"></script>
@@ -183,7 +196,7 @@
 
         $(document).ready(function () {
             var fk = $("#account_idpk").val();
-            
+            var uid;
             $.ajax({
                 type: "post",
                 url: "director-ui.aspx/pullAnnouncement",
@@ -200,25 +213,30 @@
                     data = announceReturn.d
                     data = jQuery.parseJSON(data)
                     $.each(data, function (i, object) {
+                        var src_;
+                        if (object.dp == null) { src_ = "./assets/images/default-dp.jpg"; }
+                        else { src_ = object.dp;}
+                        $(".announcementHolder").append(
 
-                        $(".announcementHolder").append(                            
                             "<div class='row'>" +
                                     "<div class='col-xs-12 border-enabled highlighted-div'>" +
-                                        "<h4 class='header-padded'><span class='glyphicon glyphicon-bookmark'>&nbsp;</span>" + object.given_name + "<br>  </h4>" +
-                                        "<span class='dateIndicator'>&nbsp;&nbsp;" + object.formatedB + "</span>" +
+                                        "<h4 class='header-padded' style='color:#A6635D;'><img style='border-radius:0px !important;width:36px;height:33px;' src='"+ src_ +"'/> &nbsp;" + object.u +  
+                                        "<br><span class='dateIndicator' >&nbsp;&nbsp;" + object.formatedB + "</span>" + "</h4>" +
 
                                         "<div class='row'>" +
-                                            "<br>" +
+                                            
                                             "<div class='theme-color col-xs-3 highlighted-div'>" +
-                                                "<p> " + object.description + "   </p>" +
+                                                "<p > " + object.description + "   </p>" +
                                             "</div>" +
                                         "</div> " +
-                                        "<div class='row ' style='background:#f5f5f5;border-top:thin solid #eee;'>" +
-                                            "<br>" +
-                                            "<div class='theme-color col-xs-3'>" +
-                                                "<a class='share btn btn-primary btn-sm' data-sharable='" + object.description + "' data-u='" + object.given_name + "'><span class='glyphicon glyphicon-send'></span>&nbsp;&nbsp;Share on Facebook</a>" +
+                                        "<div class='row ' style='background:#F6F7F8;border-top:thin solid #E1E2E3;'>" +
+                                           
+                                            "<div class='theme-color col-xs-12 btn-group' style='text-align:right;padding:8px;'>" +
+                                                "<a href='#' style='color:#A6635D;font-size:13px;' class='share' data-sharable='" + object.description + "' data-u='" + object.u + "' data-src='"+  src_ +"'>Share</a>" +
+                                                "<span style='color:#A6635D;font-size:13px;'>&nbsp;&nbsp;•&nbsp;&nbsp; </span>" +
+                                                "<a href='#' class='c_del'   data-toggle='modal' data-target='.bs-example-modal-sm '  style='color:#A6635D;font-size:13px;' data-id='" + object.uid + "'><span style='font-size:13px;' class='glyphicon glyphicon-trash'></span></a>&nbsp;&nbsp;" +
                                             "</div>" +
-                                             "<br>" + "<br>" +
+                                             
                                         "</div> " +
 
                                        
@@ -230,10 +248,36 @@
 
                        
                     });
-                
+                    
+                    
+
+                    $(".c_del").on("click", function () {
+                        uid = "";
+                        uid = $(this).data("id");
+                        $(".del_p").data("uid", uid);
+                    });
+                    $(".del_p").on("click", function () {
+                        $.ajax({
+                            type: "post",
+                            url: "director-ui.aspx/deleteAnnouncement",
+                            data: "{'aid':'" + uid + "'}",
+                            dataType: "json",
+                            processData: false,
+                            traditional: true,
+                            contentType: "application/json; charset=utf-8",
+                            success: function (announceReturn) {
+                                $("#txtPostAnnouncementCoor").val("");
+                                console.log(announceReturn);
+                                
+                                window.location.reload(true);
+                            }
+                        });
+                    });
+
                     $('.share').click(function (e) {
                         var context = $(this).data("sharable");
                         var u = $(this).data("u");
+                        var dp_ = $(this).data("src");
                         e.preventDefault();
                         FB.ui(
                         {
@@ -241,8 +285,8 @@
                             name: ' ' + context + ' ',
                             link: 'http://alumni.tsu.edu.ph/',
                             caption: '',
-                            description: ' Posted by : ' + u + ' ',
-                            message: 'aaa'
+                            description: ' Posted by :' + u + ' ',
+                           
                         });
                     });
                     }
@@ -253,9 +297,12 @@
 
                 e.preventDefault();
                 var announcement = $("#txtPostAnnouncementCoor").val();
-                var id = $("#account_idpk").val();
+               
                 console.log(announcement);
+                if (announcement == "") { alert("Announcement can't be empty."); }
 
+                else
+                    var id = $("#account_idpk").val();
                 $.ajax({
                     type: "post",
                     url: "director-ui.aspx/pushAnnouncement",

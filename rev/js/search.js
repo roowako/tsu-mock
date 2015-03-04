@@ -68,7 +68,7 @@
                     console.log(data.length);
                     
                     if (data.length > 0) {
-
+                        var src;
                         $(".resWrapper").html("");
                         $(".display").css("visibility", "visible");
 
@@ -76,18 +76,22 @@
                         $(".toFix").removeClass("toFix");
                         $.each(data, function (i, o) {
                             
-                            if( o.u == null){
+                            if (o.u == null && o.dp == null) {
+                                src = "./assets/images/default-dp.jpg";
                                 $(".resWrapper").append(
                                "<a href='#' data-name='" + o.u1 + "' data-toggle='modal' data-id='" + o.uid + "' data-target='#myModal' class='uid'>" +
                                 "<div class='clickable' >" +
-                                    "<span> <b> " + o.u1 + " </b> </span>" +
+                                    "<img src=" + src + " class='qDp'/>" +
+                                    "<span>&nbsp; <b> " + o.u1 + " </b> </span>" +
                                 "</div>" +
                                 "</a>");
-                            }else{
+                            } else {
+                                src = o.dp;
                                 $(".resWrapper").append(
                               "<a href='#' data-name='" + o.u + "' data-toggle='modal' data-id='" + o.uid + "' data-target='#myModal' class='uid'>" +
                                "<div class='clickable' >" +
-                                   "<span> <b> " + o.u + " </b> </span>" +
+                                 "<img src=" + src + " class='qDp'/>" +
+                                   "<span>&nbsp; <b> " + o.u + " </b> </span>" +
                                "</div>" +
                                "</a>");
                             }   
@@ -108,13 +112,17 @@
                         $(".appBtn").html("");
                         $("#messages").html("");
                         $("#myModalLabel").text("");
+                        $("#myModalLabel2").text("");
                         var fn = $(this).data("name");
                         $("#myModalLabel").text($(this).data("name"));
+                        $("#myModalLabel2").text($(this).data("name"));
                         $(".modal-body").css("display", "none");
                         name = "";
                         $(".appBtn").append(
-                                '<button type="button" class="btn btn-success btn-sm send" id="btnSend" style="float:left;"><span class="glyphicon glyphicon-send"></span>&nbsp;&nbsp;Send</button>' +
-                                '<button type="button" class="btn btn-primary btn-sm" data-dismiss="modal" style="float:right;margin-right:140px;">Close conversation</button>')
+                             "<div class='btn-group' style='text-align:left;'>" +
+                                '<button type="button" class="btn btn-warning btn-sm send" id="btnSend" style=""><span class="glyphicon glyphicon-send"></span>&nbsp;&nbsp;Send</button>' +
+                                '<button type="button" class="btn btn-danger btn-sm" data-dismiss="modal" style="">Close conversation</button>'+
+                             "</div>")
                         var sess_id = $("#account_idpk").val();
                         account_idfk = $(this).data("id");
                         
@@ -151,9 +159,12 @@
                         });
                         $("#btnSend").click(function (e) {
                             e.preventDefault();
-                            var sess_id = $("#account_idpk").val();
+                           
                             var message = $("#replyMessage").val();
+                            if (message == "") { alert("Message can't be empty"); }
+                            else
                             var sendTo = account_idfk;
+                            var sess_id = $("#account_idpk").val();
                             $.ajax({
                                 type: "post",
                                 url: "./messaging-ui-alumni.aspx/pushMessages",

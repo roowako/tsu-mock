@@ -82,8 +82,8 @@
                         </li>
 	                </ul>
                 </div>
-                    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-                        <h3 class="page-header"><span class="glyphicon glyphicon-signal">&nbsp;</span>Statistics</h3>
+                    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" style="background:#fff;">
+                        <h3 class="page-header"><span class="glyphicon glyphicon-option-vertical">&nbsp;</span>Statistics</h3>
                         <div class="row placeholders">
                             <br />
                             <!-- start main-content -->
@@ -123,11 +123,10 @@
                                                     <table class="table table-hover tableDetailsView" style="border-top:0px !important;" id="pendingPlaceholder">
                                                         <thead>
                                                         <tr>
-                                                            <td><span class="glyphicon glyphicon-th-list"></span></td>
-                                                            <td></td>
-                                                            <td><b>Title</b></td>
-                                                            <td><b>Question</b></td>                                   
-                                                            <td></td>
+                                                   
+                                                            <th><b>Title</b></th>
+                                                            <th><b>Question</b></th>                                   
+                                                            <th></th>
                                                         </tr>
                                                         </thead>
                                                         <tbody>
@@ -246,8 +245,7 @@
                     $.each(data, function (i, o) {
                         $(".tableDetailsView tbody").append(
                             "<tr>" +
-                                "<td> " + o.polls_idpk + " </td>" +
-                                "<td> </td>" +
+                              
                                 "<td> " + o.description + " </td>" +
                                 "<td> " + o.question + "</td>" +
                                 "<td> <a class='btn btn-primary btn-sm theatre' data-poll-id='" + o.polls_idpk + "' data-toggle='modal' data-target='#myModal'>View Statistics </a>&nbsp; </td>" +

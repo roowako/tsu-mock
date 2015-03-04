@@ -41,6 +41,7 @@ Partial Class rev_alumni_profile
                         alumni_name.Text = dr.GetString(6)
                         account_idpk.Text = Session("id")
                         Image2.ImageUrl = "./assets/images/default-dp.jpg"
+
                     Else
                         alumni_name.Text = dr.GetString(6)
                         account_idpk.Text = Session("id")

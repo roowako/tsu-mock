@@ -36,7 +36,18 @@
                
                 </div>
                 <div id="navbar" class="navbar-collapse collapse" > <!---collapse collapse -->
-                  
+                  <br />
+                  <ul class="nav navbar-nav navbar-right extended" style="margin-top:8px;margin-right:100px;">
+                        <li>
+                            <div class="form-group" style="position:absolute;z-index:40000;">
+                                <input type="text" placeholder="Search for alumni" name=""  class="form-control input-sm" id="searching" autocomplete="off"/>
+                                <div class="resWrapper">
+
+                                </div>
+                            <div class="display"></div>
+                            </div>
+                        </li>
+                    </ul>
                     
                     
                 </div><!--/.navbar-collapse -->
@@ -89,15 +100,7 @@
                              <div class="col-xs-3">
                                  
                              </div>
-                              <div class="col-xs-3 toFix">
-                                <div class="form-group">
-                                    <input type="text" placeholder="Search for alumni" name=""  class="form-control input-sm" id="searching" autocomplete="off"/>
-                                    <div class="resWrapper moded_res" style="width:300px;">
-
-                                    </div>
-                                    <div class="display moded_dis" style="width:300px;"></div>
-                                  </div>
-                             </div>
+                             
                          </div>
                         <div class="row placeholders " >
                             <br />
@@ -108,10 +111,11 @@
                                 <br />
                                 <div class="row " style="background:#f5f5f5;border-top:thin solid #eee">
                                      <br />
-                                    <div class="col-xs-3 ">
-                                        <asp:Button ID="btnSendNotification" runat="server" Text="Send notification via SMS and Email" CssClass="btn btn-warning" type="button" />
+                                    <div class="col-xs-8 btn-group">
+                                       <button class="btn btn-warning" disabled><span class="glyphicon glyphicon-send "></span></button>
+                                        <asp:Button ID="btnSendNotification" runat="server" Text="Send notification via SMS and Email" CssClass="btn btn-warning" type="button" /> 
                                         &nbsp;&nbsp;&nbsp;<span id="notifier"></span>
-                                        <br />
+                                        <br /><br /><br />
                                     </div>
                                     
                                 </div>

@@ -37,18 +37,18 @@
                
                 </div>
                 <div id="navbar" class="navbar-collapse collapse" > <!---collapse collapse -->
-                    <br />
-                    <ul class="nav navbar-nav navbar-right extended" style="margin-top:8px;margin-right:100px;">
-                        <li>
-                            <div class="form-group" style="position:absolute;z-index:40000;">
-                                <input type="text" placeholder="Search for alumni" name=""  class="form-control input-sm" id="searching" autocomplete="off"/>
-                                <div class="resWrapper">
+                     <br />
+                      <ul class="nav navbar-nav navbar-right extended" style="margin-top:8px;margin-right:100px;">
+                            <li>
+                                <div class="form-group" style="position:absolute;z-index:40000;">
+                                    <input type="text" placeholder="Search for alumni" name=""  class="form-control input-sm" id="searching" autocomplete="off"/>
+                                    <div class="resWrapper">
 
+                                    </div>
+                                <div class="display"></div>
                                 </div>
-                            <div class="display"></div>
-                            </div>
-                        </li>
-                    </ul>
+                            </li>
+                        </ul>
                 </div><!--/.navbar-collapse -->
                 </div>
             </nav>-->
@@ -90,62 +90,46 @@
                             </li>
 	                    </ul>
                     </div>
-                    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-                         <h3 class="page-header"><span class="glyphicon glyphicon-list-alt">&nbsp;</span>List of College Coordinators</h3>
+                    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" style="background:#fff;">
+                        
+                        <div class="row">
+                            <div class="col-xs-4">
+                                  <h3 class="page-header"><span class="glyphicon glyphicon-option-vertical">&nbsp;</span>List of College Coordinators</h3>
+                                 
+                             </div>
+                             <div class="col-xs-3">
+                                <div id="loaderImage"  class="ajax-loader"></div>
+                             </div>
+                             
+                        </div>
+
                          <div class="row placeholders">
                              
                              <br />
-
                              <!-- start main-content -->
-                             <div class="col-xs-12 col-sm-12 placeholder  ">
-                                 <div class="row">
-                                     <div class="col-xs-12 ">
-                                         <h4 class="header-padded "></h4>
-                                        
-                                         <div class="row">
-                                             <div class="col-xs-12">
-                                                 <div class="table-responsive">
-                                                     <table class="table table-hover" id="accountTable">
-                                                         <thead>
-                                                         <tr>
-                                                             <td>College</td>
-                                                             <td>Coordinator's Userame</td>
-                                                             <td>Password</td>
-                                                             <td></td>
-                                                         </tr>
-                                                         </thead>
-                                                         <tbody>
+                             <div class="col-xs-12 col-sm-12  ">
+                                 <div class="row" >
+                                     <div class="col-xs-12 table-responsive">
+                                               
+                                        <table class="table" id="accountTable" style="cursor:pointer;">
+                                            <thead>
+                                            <tr>
+                                                <th>College</th>
+                                                <th>Coordinator's Userame</th>
+                                                <th>Password</th>
+                                                <th></th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
 
-                                                         </tbody>
-                                                     </table>
-                                                 </div>
-                                             </div>
-                                         </div>
+                                            </tbody>
+                                        </table>
                                     </div>
 
                                 </div>
                              </div>
                               
-                            <!-- <div class="col-xs-4">
-                                 <h5>Create Coordinator account</h5>
-                                 
-                                 <div class="row">
-                                     <div class="row-xs-12 highlighted-div">
-                                         <div class="form-group">
-                                             <h5>Default Username </h5>
-                                             <asp:DropDownList ID="defaultUsername" runat="server" CssClass="form-control" ClientIDMode="Static">
-                                                 <asp:ListItem Text="" />
-                                             </asp:DropDownList>
-                                             <br />
-                                             <asp:TextBox ID="txtDefaultPassword" runat="server" placeholder="Default Password" CssClass="form-control" TextMode="Password" ></asp:TextBox>
-                                             <br />
-                                             <asp:Button ID="btnCreateDefault" runat="server" Text="Create Default account" CssClass="btn btn-primary"/>
-                                             
-                                         </div>
-                                     </div>
-                                 </div>
-                             </div>
-                         </div> -->
+                           
 
 
                      </div>
@@ -199,21 +183,31 @@
                             var mod = object.password;
 
                             if (accStatus == "0") {
-                                var ext = ("<tr class='success'>" +
+                                var ext = ("<tr class=''>" +
                                             "<td> " + object.student_id + "  </td>" +
                                             "<td> " + object.student_id + "  </td>" +
                                             "<td> " + mod + "  </td>" +
-                                            "<td> " + "<input type=button class='btn btn-success btn-sm activate_coordinator' value='Activate Account' data-id='" + object.account_idpk + "'>" + " </td>" +
-                                            "<td> " + "<input type=button class='btn btn-primary btn-sm default_coordinator' value='Restore Default' data-id='" + object.account_idpk + "'>" + " </td>" +
+                                            "<td style='text-align:right;'>" +
+                                                "<div class='btn-group' role='group'>" +
+                                                    "<button class='btn btn-success btn-sm activate_coordinator' value='Activate Account' data-id='" + object.account_idpk + "'> Activate &nbsp;<span class='glyphicon glyphicon-ok-circle'></span></button>" +
+                                                    "<button class='btn btn-danger btn-sm default_coordinator' value='Restore Default' data-id='" + object.account_idpk + "'> Restore &nbsp;<span class='glyphicon glyphicon-repeat'></span></button>" +
+                                                "</div>" +
+                                            "</td>" +
+
                                             "</tr>");
                             }
                             else {
-                                var ext = ("<tr class='warning'>" +
+                                var ext = ("<tr class=''>" +
                                             "<td> " + object.student_id + "  </td>" +
                                             "<td> " + object.student_id + "  </td>" +
                                             "<td > " + mod + "  </td>" +
-                                            "<td> " + "<input type=button class='btn btn-warning btn-sm deactivate_coordinator' value='Deactivate Account ' data-id='" + object.account_idpk + "'>" + " </td>" +
-                                            "<td> " + "<input type=button class='btn btn-primary btn-sm default_coordinator' value='Restore Default' data-id='" + object.account_idpk + "'>" + " </td>" +
+                                            "<td style='text-align:right;'>" +
+                                                "<div class='btn-group' role='group'>" +
+                                                    "<button class='btn btn-warning btn-sm deactivate_coordinator' value='Deactivate Account ' data-id='" + object.account_idpk + "'>Deactivate &nbsp;<span class='glyphicon glyphicon-ban-circle'></span></button>" +
+                                                   "<button class='btn btn-danger btn-sm default_coordinator' value='Restore Default' data-id='" + object.account_idpk + "'>Restore &nbsp;<span class='glyphicon glyphicon-repeat'></span></button>" +
+                                                "</div>" +
+                                            "</td>" +
+                                            
                                             "</tr>");        
                             }
 

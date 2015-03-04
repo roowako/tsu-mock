@@ -73,10 +73,10 @@
 	                        </ul>
                     </div>
 
-                    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+                    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" style="background:#fff;">
                         <div class="row">
                              <div class="col-xs-4">
-                                 <h3 class="page-header"><span class="glyphicon glyphicon-comment">&nbsp;</span>Messages</h3>
+                                 <h3 class="page-header"><span class="glyphicon glyphicon-option-vertical">&nbsp;</span>Messages</h3>
                              </div>
                              <div class="col-xs-3">
                                  
@@ -96,7 +96,7 @@
                             <!-- start main-content -->
                             <div class="col-xs-6 col-sm-12 placeholder" >
                                 <div class="table-responsive">
-                                    <table class="table table-condensed" id="messagePlaceholder">
+                                    <table class="table" id="messagePlaceholder">
                                         <tbody>
                                              
                                         </tbody>
@@ -129,18 +129,18 @@
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
-          <div class="modal-header">
+          <div class="modal-header" style="border-bottom:none !important;">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             <h4 class="modal-title" id="myModalLabel" style="text-transform:capitalize;">Modal title</h4>
           </div>
           <div class="modal-body">
              
               
-              <ul id="messages">
+              <ul id="messages" style="border-top:thin solid #E5E5E5;padding-top:20px;">
                  
               </ul>
           </div>
-          <div class="modal-footer">
+          <div class="modal-footer"  style="background:#f5f5f5;">
               <div class="container">
                   <div class="row">
                       <div class="col-xs-6">
@@ -148,7 +148,7 @@
                       </div>
                   </div>
                   <div class="row ">
-                      <div class="col-xs-2 appBtn">
+                      <div class="col-xs-4 appBtn" style="text-align:left">
                            <button type="button" class="btn btn-success btn-sm reply" style="float:left;">Reply</button>
                            <button type="button" class="btn btn-primary btn-sm" data-dismiss="modal" style="float:right;margin-right:50px;">Close</button>
                       </div>
@@ -193,18 +193,25 @@
                         $.each(data, function (i, o) {
                            
                                 $("#messagePlaceholder tbody").append(
-                                "<tr class='warning'> " +
+                                "<tr> " +
                                     "<td> " +
                                         "<div class='sender-name'><b> "+ o.u +  " </b></div>" +
                                         "</div>" +
                                     "</td>" +
                                     "<td>" +
-                                        "<input type='button' value='View conversation' data-name='" + o.u + "' class='btn btn-success btn-sm theatre' data-toggle='modal' data-target='#myModal' data-id='" + o.uid + "'/>&nbsp;" +
-                                        "<input type='button' value='Delete conversation' class='btn btn-warning btn-sm delete'  data-id='"+ o.uid +"'/>" +
-                                    "</td>"+
+                                    "<td style='text-align:right;'>" +
+                                        "<div class='btn-group' role='group'>" +
+                                            "<input type='button' value='View conversation' data-name='" + o.u + "' class='btn btn-warning btn-sm theatre' data-toggle='modal' data-target='#myModal' data-id='" + o.uid + "'/>&nbsp;" +
+                                             "<button value='Delete conversation' class='btn btn-danger btn-sm delete'  data-id='" + o.uid + "'>Delete&nbsp;&nbsp;<span class='glyphicon glyphicon-trash'></span> </button>" +
+
+                                        "</div>" +
+                                    "</td>" +
+
+                                     
                                 "</tr>" + "<br>");
                         });
-                        $(".delete").click(function () {
+                        $(".delete").click(function (e) {
+                            e.preventDefault();
                             account_idfk = $(this).data("id");
                             sess_id = $("#account_idpk").val();
 
@@ -231,8 +238,11 @@
                             $("#myModalLabel").text($(this).data("name"));
                             name = "";
                             $(".appBtn").append(
-                                '<button type="button" class="btn btn-success btn-sm reply" style="float:left;">Reply</button>' +
-                                '<button type="button" class="btn btn-primary btn-sm" data-dismiss="modal" style="float:right;margin-right:50px;">Close</button>');
+                                "<div class='btn-group' style='text-align:left;'>" +
+                                  "<button type='button' class='btn btn-warning btn-sm reply' ><span class='glyphicon glyphicon-send'></span>&nbsp;&nbsp;Reply&nbsp;</button>" +
+                                  "<button type='button' class='btn btn-danger btn-sm' data-dismiss='modal' >Close conversation</button>" +
+                                  "</div>"
+                                );
                             var sess_id = $("#account_idpk").val();
                             account_idfk = $(this).data("id");
                             sendTo = $(this).data("id");
@@ -271,7 +281,9 @@
                             console.log(account_idfk);
                             $(".reply").click(function () {
                                 var message = $("#replyMessage").val();
-
+                                var message = $("#replyMessage").val();
+                                if (message == "") { alert("Message can't be empty"); }
+                                else
                                 $.ajax({
                                     type: "post",
                                     url: "./messaging-ui-alumni.aspx/pushMessages",

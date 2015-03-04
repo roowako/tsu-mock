@@ -54,25 +54,34 @@
                     }
                     console.log(data.length);
                     if (data.length > 0) {
+
+                        var dp_src;
                        
+
                         $(".resWrapper").html("");
                         $(".display").css("visibility", "visible");
 
                         $(".toFix").addClass("forceFix");
                         $(".toFix").removeClass("toFix");
-                        $.each(data, function (i,o) {
-                            if( o.u == null ){
+                        $.each(data, function (i, o) {
+                            var src;
+
+                            if (o.u == null && o.dp == null) {
+                                src = "./assets/images/default-dp.jpg";
                                 $(".resWrapper").append(
                                 "<a class='uid' href='./viewprofile.aspx?id=" + o.uid + "' >" +
                                 "<div class='clickable'>" +
-                                    "<span> <b> " + o.u1 + " </b> </span>" +
+                                    "<img src=" + src + " class='qDp'/>" +
+                                    "<span>&nbsp; <b> " + o.u1 + " </b> </span>" +
                                 "</div>" +
                                 "</a>");
-                            } else{
+                            } else {
+                                src = o.dp;
                                 $(".resWrapper").append(
                                 "<a class='uid' href='./viewprofile.aspx?id=" + o.uid + "' >" +
                                 "<div class='clickable'>" +
-                                    "<span> <b> " + o.u + " </b> </span>" +
+                                    "<img src=" + src + " class='qDp'/>" +
+                                    "<span>&nbsp; <b> " + o.u + " </b> </span>" +
                                 "</div>" +
                                 "</a>");
                             }
@@ -95,6 +104,8 @@
                         $(".display").html("");
                         $(".display").css("visibility", "hidden");
                     }
+
+                    
                 }
             });
 

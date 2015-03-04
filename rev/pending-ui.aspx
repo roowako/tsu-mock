@@ -37,6 +37,18 @@
                 </div>
                 <div id="navbar" class="navbar-collapse collapse" > <!---collapse collapse -->
                   
+                    <br />
+                  <ul class="nav navbar-nav navbar-right extended" style="margin-top:8px;margin-right:100px;">
+                        <li>
+                            <div class="form-group" style="position:absolute;z-index:40000;">
+                                <input type="text" placeholder="Search for alumni" name=""  class="form-control input-sm" id="searching" autocomplete="off"/>
+                                <div class="resWrapper">
+
+                                </div>
+                            <div class="display"></div>
+                            </div>
+                        </li>
+                    </ul>
                     
                     
                 </div><!--/.navbar-collapse -->
@@ -88,42 +100,32 @@
                     </div>
 
 
-                    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+                    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" style="background:#fff;">
                         <div class="row">
                             <div class="col-xs-4">
-                                 <h3 class="page-header"><span class="glyphicon glyphicon-home">&nbsp;</span>Pending Surveys</h3>
+                                 <h3 class="page-header"><span class="glyphicon glyphicon-option-vertical">&nbsp;</span>Pending Surveys</h3>
                              </div>
                              <div class="col-xs-3">
                                 
                              </div>
-                             <div class="col-xs-3 toFix">
-                                 <div class="form-group">
-                                    <input type="text" placeholder="Search for alumni" name=""  class="form-control input-sm" id="searching" autocomplete="off"/>
-                                    <div class="resWrapper moded_res" style="width:300px;">
-
-                                    </div>
-                                    <div class="display moded_dis" style="width:300px;"></div>
-                                  </div>
-                             </div>
+                            
                               
-                        </div>
-                        
+                        </div>          
                         <div class="row placeholders " >
                             <br />
                             <!-- start main-content -->
-                            <div class="col-xs-6 col-sm-10 placeholder  ">
-                                <div class="row">
+                            <div class="col-xs-6 col-sm-12 placeholder  " >
+                                <div class="row" >
                                     <div class="col-xs-12">
                                         <div class="table-responsive" style="border-top:0px !important;">
-                                            <table class="table table-hover" style="border-top:0px !important;" id="surveyPlaceholder" >
+                                            <table class="table borderless-table" style="border-top:0px !important;" id="surveyPlaceholder" >
                                                 <thead>
                                                 <tr>
-                                                    <td><span class="glyphicon glyphicon-th-list"></span></td>
-                                                    <td>Survey Title</td>
-                                                
-                                                    <td>Current Status</td>
-                                                    <td>View Survey Details</td>
-                                                    <td></td>
+                                                  
+                                                    <th>Survey Title</th>
+                                                    <th>Current Status</th>
+                                                    <th></th>
+                                                  
                                                 </tr>
                                                 </thead>
                                                 <tbody>
@@ -132,17 +134,13 @@
                                             </table>
                                         </div>
                                     </div>
-                                </div>
-                                 
-                              
-                            
-                              
+                                </div> 
                               
                             </div>
                             <!-- end main-content -->
 
                             <!-- star spacer -->
-                            <div class="col-xs-6 col-sm-1 placeholder"> </div>
+                          
                              <!-- end spacer -->
                            
 
@@ -164,17 +162,18 @@
      <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
-          <div class="modal-header">
+          <div class="modal-header" style="border-bottom:0px;">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+            <h4 class="modal-title" id="myModalLabel" style="border-bottom:thin solid #eee;padding-bottom:15px;">Modal title </h4>
+            
           </div>
-          <div class="modal-body">
-              <ul id="placeholderOptions">
+          <div class="modal-body" >
+              <ul id="placeholderOptions" >
                  
               </ul>
           </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+          <div class="modal-footer" style="background:#f5f5f5;">
+            <button type="button" class="btn btn-primary btn-sm" data-dismiss="modal">Close</button>
             
           </div>
         </div>
@@ -215,12 +214,18 @@
                             }
                             object.status = "active";
                             $("#surveyPlaceholder tbody").append(
-                                "<tr>" +
-                                "<td>  " + object.polls_idpk + " </td>" +
+                                "<tr class='warning'>" +
+                            
                                 "<td>  " + object.description + " </td>" +
                                 "<td>  " + stringify + " </td>" +
-                                "<td>   " + "<a class='btn btn-primary btn-sm theatre' id='" + object.polls_idpk + "' data-poll-title='" + object.description + "'  data-survey-id='" + object.polls_idpk + "'  data-toggle='modal' data-target='#myModal'>View Details </a>" + " </td>" +
-                                "<td> " + "<a class='btn btn-success btn-sm approveSurvey' data-survey-id='" + object.polls_idpk + "'>Approve </a> " + "<a class='btn btn-warning btn-sm rejectSurvey' data-survey-id='" + object.polls_idpk + "'>Reject</a> </td>" +
+                                "<td style='text-align:right;'>" +
+                                    "<div class='btn-group' role='group'>" +
+                                      "<a class='btn btn-warning btn-sm theatre' id='" + object.polls_idpk + "' data-poll-title='" + object.description + "'  data-survey-id='" + object.polls_idpk + "'  data-toggle='modal' data-target='#myModal'>View Survey Details </a>" +
+                                      "<a class='btn btn-danger btn-sm approveSurvey' data-survey-id='" + object.polls_idpk + "'>Approve</span></a> " +
+                                      "<a class='btn btn-danger btn-sm rejectSurvey' data-survey-id='" + object.polls_idpk + "'><span class='glyphicon glyphicon-trash'></span></a> " +
+                                    "</div>" +
+                                "</td>" +
+
                                "</tr>"
                                 );
 

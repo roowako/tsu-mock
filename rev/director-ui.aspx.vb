@@ -45,7 +45,7 @@ Partial Class director_ui
         Using sqlCon As New SqlConnection(constr)
 
             sqlCon.Open()
-            Using dat = New SqlDataAdapter("SELECT given_name,description,CONVERT(VARCHAR, datetime_posted,0) AS formatedB FROM tblAnnouncements,tblAccounts WHERE tblAnnouncements.account_idfk = tblAccounts.account_idpk ORDER BY announcement_idpk DESC", sqlCon)
+            Using dat = New SqlDataAdapter("SELECT LOWER(given_name) as u,description,CONVERT(VARCHAR, datetime_posted,0) AS formatedB,img_path as dp,announcement_idpk as uid FROM tblAnnouncements,tblAccounts WHERE tblAnnouncements.account_idfk = tblAccounts.account_idpk ORDER BY announcement_idpk DESC", sqlCon)
 
                 Dim table2 = New DataTable()
                 dat.Fill(table2)
@@ -81,6 +81,27 @@ Partial Class director_ui
 
     End Function
 
+    <System.Web.Services.WebMethod()> _
+<ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
+    Public Shared Function deleteAnnouncement(ByVal aid As String) As String
+
+        Using sqlCon As New SqlConnection(constr)
+
+            sqlCon.Open()
+
+            sqlStr = "DELETE FROM tblAnnouncements WHERE announcement_idpk = @aid"
+            cmd = New SqlCommand(sqlStr, sqlCon)
+            cmd.Parameters.AddWithValue("@aid", aid)
+            cmd.ExecuteNonQuery()
+
+            sqlCon.Close()
+
+            Return aid
+
+        End Using
+
+    End Function
+
     'PAGE LOAD
     Protected Sub Page_Load(sender As Object, e As EventArgs) Handles Me.Load
         If Session.Item("id") Is Nothing Then
@@ -95,8 +116,17 @@ Partial Class director_ui
                 dr = cmd.ExecuteReader
 
                 While dr.Read
-                    alumni_name.Text = dr.GetString(6)
-                    account_idpk.Text = Session("id")
+                    If IsDBNull(dr(3)) OrElse String.IsNullOrEmpty(dr.GetString(3)) Then
+                        alumni_name.Text = dr.GetString(6)
+                        account_idpk.Text = Session("id")
+                        undeditable.ImageUrl = "./assets/images/default-dp.jpg"
+                    Else
+                        alumni_name.Text = dr.GetString(6)
+                        account_idpk.Text = Session("id")
+                        undeditable.ImageUrl = dr.GetString(20)
+                    End If
+                   
+
                 End While
 
                 sqlCon.Close()

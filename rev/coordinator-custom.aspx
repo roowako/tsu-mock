@@ -106,9 +106,9 @@
                 </div>
 
 
-                    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-                        <h3 class="page-header"><span class="glyphicon glyphicon-home">&nbsp;</span>Timeline </h3>
-                        <div class="row placeholders " >
+                    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" style="background:#fff">
+                        <h3 class="page-header"><span class="glyphicon glyphicon-option-vertical">&nbsp;</span>Timeline </h3>
+                        <div class="row placeholders">
                             <br />
                             <!-- start main-content -->
                             <div class="col-xs-6 col-sm-6 placeholder announcementHolder ">
@@ -127,14 +127,24 @@
 
                             <!-- start right-side -->
                             <div class="col-xs-6 col-sm-5 placeholder border-enabled">
-                              <h4 class="header-padded"><span class="glyphicon glyphicon-pencil minified"></span>&nbsp; Post Announcement</h4>
+                              <h4 class="header-padded"><span class="glyphicon glyphicon-bullhorn minified"></span>&nbsp; Post Announcement</h4>
                               <div class="row">
-                                  <div class="col-xs-12 highlighted-div ">
-                                      <div class="form-group">
-                                          <asp:TextBox ID="txtPostAnnouncementCoor" runat="server" TextMode="MultiLine" placeholder="" CssClass="form-control"></asp:TextBox>
+                                  <div class="col-xs-12">
+
+                                      <div class="" style="border-top:thin solid #ccc;">
                                           <br />
-                                          <asp:Button ID="btnPostAnnouncementCoor" runat="server" Text="Post Announcement" CssClass="btn btn-warning" type="button" />
-                                      </div>
+                                          <asp:TextBox ID="txtPostAnnouncementCoor" runat="server" TextMode="MultiLine" placeholder="" CssClass="form-control" style="resize:none;border-radius:0px;"></asp:TextBox>
+                                          <br />
+                                          <div class="row">
+                                              <div class="col-xs-12" style="background:#f5f5f5;text-align:right">
+                                                  <br />
+                                                   <asp:Button ID="btnPostAnnouncementCoor" runat="server" Text="Post announcement" CssClass="btn btn-primary btn-sm clerical" type="button" />
+                                                  <br /><br />
+                                              </div>
+                                              
+                                          </div>
+                                     
+                                       </div>
                                   </div>
                                   
                               </div>
@@ -187,40 +197,39 @@
                         data = jQuery.parseJSON(data)
                         $.each(data, function (i, object) {
                             console.log(fk);
-                            
+                            var src_;
+                            if (object.dp == null) { src_ = "./assets/images/default-dp.jpg"; }
+                            else { src_ = object.dp; }
 
                             $(".announcementHolder").append(
 
                                 "<div class='row'>" +
                                     "<div class='col-xs-12 border-enabled'>" +
-                                        "<h4 class='header-padded'><span class='glyphicon glyphicon-bookmark'>&nbsp;</span>" + object.given_name + "<br>  </h4>" +
-                                        "<span class='dateIndicator'>&nbsp;&nbsp;" + object.formatedB + "</span>" +
-                                        "<span id='del'>x </span>"+
+                                        "<h4 class='header-padded' style='color:#A6635D;'><img style='border-radius:0px !important;width:36px;height:33px;' src='" + src_ + "'/> &nbsp;" + object.u +
+                                        "<br><span class='dateIndicator' >&nbsp;&nbsp;" + object.formatedB + "</span>" + "</h4>" +
+                                      
                                         "<div class='row'>" +
-                                            "<br>"+
+                                         
                                             "<div class='theme-color col-xs-3 highlighted-div'>" +
                                                 "<p> " + object.description + "   </p>" +
                                             "</div>" +                                       
                                         "</div> " +
-                                        "<div class='row'>" +
-                                            "<br>" +
-                                            "<div class='theme-color col-xs-3'>" +
-                                                "<a class='share btn btn-primary btn-sm' data-sharable='" + object.description + "' data-u='" + object.given_name + "'>share on facebook</a>" +
+                                        "<div class='row' style='background:#F6F7F8;border-top:thin solid #E1E2E3;'>" +
+                                           
+                                            "<div class='theme-color col-xs-12 btn-group' style='text-align:right;padding:8px;'>" +
+                                                "<a href='#' style='color:#A6635D;font-size:13px;' class='share' data-sharable='" + object.description + "' data-u='" + object.given_name + "'>Share</a>" +
+                                                "<span style='color:#A6635D;font-size:13px;'>&nbsp;&nbsp;•&nbsp;&nbsp; </span>" +
+                                                "<a href='#' style='color:#A6635D;font-size:13px;'><span style='font-size:13px;' class='glyphicon glyphicon-trash'>&nbsp;</span></a>" +
                                             "</div>" +
-
+                                          
                                         "</div> " +
 
-                                        "<br>" +
                                     "</div>" +
                                 "</div>" +
 
                                 "<br />"
                                 );
-                            if (fk == object.uid) {
-                                $("#del").css("display", "block");
-                            } else {
-                                $("#del").css("display", "none");
-                            }
+                           
                         });
 
                         $('.share').click(function (e) {
@@ -245,7 +254,9 @@
                 e.preventDefault();
                 var announcement = $("#txtPostAnnouncementCoor").val();
                 console.log(announcement);
+                if (announcement == "") { alert("Announcement can't be empty."); }
 
+                else
                 $.ajax({
                     type: "post",
                     url: "coordinator-custom.aspx/pushAnnouncement",

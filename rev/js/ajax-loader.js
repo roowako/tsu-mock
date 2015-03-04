@@ -1,7 +1,7 @@
 ﻿var cSpeed = 9;
 var cWidth = 50;
 var cHeight = 50;
-var cTotalFrames = 23;
+var cTotalFrames = 13;
 var cFrameWidth = 50;
 var cImageSrc = './assets/images/sprites.gif';
 

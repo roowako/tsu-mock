@@ -8,20 +8,20 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "rev", "http://localhost:525
 		UseIISExpress = "true"
 		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.5"
 		Debug.AspNetCompiler.VirtualPath = "/localhost_52519"
-		Debug.AspNetCompiler.PhysicalPath = "..\rev\"
+		Debug.AspNetCompiler.PhysicalPath = "..\..\..\..\Desktop\tsu-mock\rev\"
 		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_52519\"
 		Debug.AspNetCompiler.Updateable = "true"
 		Debug.AspNetCompiler.ForceOverwrite = "true"
 		Debug.AspNetCompiler.FixedNames = "false"
 		Debug.AspNetCompiler.Debug = "True"
 		Release.AspNetCompiler.VirtualPath = "/localhost_52519"
-		Release.AspNetCompiler.PhysicalPath = "..\rev\"
+		Release.AspNetCompiler.PhysicalPath = "..\..\..\..\Desktop\tsu-mock\rev\"
 		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_52519\"
 		Release.AspNetCompiler.Updateable = "true"
 		Release.AspNetCompiler.ForceOverwrite = "true"
 		Release.AspNetCompiler.FixedNames = "false"
 		Release.AspNetCompiler.Debug = "False"
-		SlnRelativePath = "..\rev\"
+		SlnRelativePath = "..\..\..\..\Desktop\tsu-mock\rev\"
 	EndProjectSection
 EndProject
 Global

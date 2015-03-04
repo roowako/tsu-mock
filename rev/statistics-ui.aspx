@@ -38,17 +38,17 @@
                 </div>
                     <div id="navbar" class="navbar-collapse collapse" > <!---collapse collapse -->
                         <br />
-                        <ul class="nav navbar-nav navbar-right extended" style="margin-top:8px;margin-right:100px;">
-                        <li>
-                            <div class="form-group" style="position:absolute;z-index:40000;">
-                                <input type="text" placeholder="Search for alumni" name=""  class="form-control input-sm" id="searching" autocomplete="off"/>
-                                <div class="resWrapper">
+                      <ul class="nav navbar-nav navbar-right extended" style="margin-top:8px;margin-right:100px;">
+                            <li>
+                                <div class="form-group" style="position:absolute;z-index:40000;">
+                                    <input type="text" placeholder="Search for alumni" name=""  class="form-control input-sm" id="searching" autocomplete="off"/>
+                                    <div class="resWrapper">
 
+                                    </div>
+                                <div class="display"></div>
                                 </div>
-                            <div class="display"></div>
-                            </div>
-                        </li>
-                    </ul>
+                            </li>
+                        </ul>
                     </div><!--/.navbar-collapse -->
                 </div>
             </nav>-->
@@ -90,14 +90,23 @@
 	                    </ul>
                     </div>
 
-                    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-                        <h3 class="page-header"><span class="glyphicon glyphicon-signal">&nbsp;</span>Statistics</h3>
+                    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main"  style="background:#FFF;">
+                       
+                        <div class="row borderless">
+                            <div class="col-xs-4">
+                                  <h3 class="page-header"><span class="glyphicon glyphicon-option-vertical">&nbsp;</span>View Survey statitics</h3>
+                                 
+                             </div>
+                             <div class="col-xs-3">
+                                <div id="loaderImage"  class="ajax-loader"></div>
+                             </div>
+                         </div>    
                         <div class="row placeholders">
                             <br />
                             <!-- start main-content -->
-                             <div class="col-xs-6 col-sm-12 placeholder ">
+                             <div class="col-xs-6 col-sm-12 placeholder " >
 
-                                 <div class="row">
+                                 <div class="row"  >
                                      <div class="col-xs-3">
                                          <div class="input-group">
                                              <div class="input-group-addon">Filter by :</div>
@@ -121,24 +130,22 @@
                                           </asp:DropDownList>
                                      </div>
                                  </div>
-                                 <div class="row">
+                                 <div class="row"  style="background:#FFF;">
                                      <div class="col-xs-12 ">
                                          <h4 class="header-padded "></h4>
                                          <div class="row">
                                              <div class="col-xs-12 ">
 
                                                 <div class="table-responsive" >
-                                                    <table class="table table-hover tableDetailsView" style="border-top:0px !important;" id="pendingPlaceholder">
+                                                    <table class="table tableDetailsView "  id="pendingPlaceholder" style="cursor:pointer">
                                                         <thead>
-                                                        <tr>
-                                                            <td><span class="glyphicon glyphicon-th-list"></span></td>
-                                                            <td></td>
-                                                            <td><b>Title</b></td>
-                                                            <td><b>Question</b></td>                                   
-                                                            <td><b>College</b></td>
-                                                            <td></td>
-                                                            <td></td>
-                                                        </tr>
+                                                            <tr>
+                                                      
+                                                                <th><b>Title</b></th>
+                                                                <th><b>Question</b></th>                                   
+                                                                <th><b>College</b></th>
+                                                                <th></th>
+                                                            </tr>
                                                         </thead>
                                                         <tbody>
                                                
@@ -149,20 +156,20 @@
                                                  <div class="row">
                                                      <div class="col-xs-12">
                                                          <div class="genSurvey table-responsive" style="display:none;"> 
-                                                          <table class="table table-hover" style="border-top:0px !important;">
+                                                          <table class="table" >
                                                             <thead>
                                                                 <tr>
-                                                                    <td><span class="glyphicon glyphicon-th-list"></span></td>
-                                                                    <td><b>Survey</b></td>
-                                                                    <td><b></b></td>                                   
+                                                                   
+                                                                    <th><b>Survey</b></th>
+                                                                    <th><b></b></th>                                   
                                                                 </tr>
                                                             </thead>
                                                             
                                                             <tbody>
                                                                 <tr>
-                                                                    <td><span>1</span></td>
+                                                                
                                                                     <td>General Employment Survey</td>
-                                                                    <td><input type="button" class="btn btn-primary btn-sm" value="View statistics" id="employed_stat" data-toggle='modal' data-target='#myModal' /></td>                               
+                                                                    <td  style="text-align:right;"><input type="button" class="btn btn-warning btn-sm" value="View statistics" id="employed_stat" data-toggle='modal' data-target='#myModal' /></td>                               
                                                                 </tr> 
                                                             </tbody>          
                                                         </table>
@@ -206,9 +213,13 @@
               </div>
           </div>
 
-          <div class="modal-footer">
-              <button type="button" class="btn btn-success btn-sm" data-dismiss="modal" id="director_print">Print Statistics</button>
-              <button type="button" class="btn btn-warning btn-sm" data-dismiss="modal" id="close">Close</button>
+          <div class="modal-footer" style="background:#f5f5f5;">
+              <div class="btn-group">
+
+                  <button type="button" class="btn btn-warning btn-sm" data-dismiss="modal" id="director_print"><span class="glyphicon glyphicon-print"></span>&nbsp;Print Statistics </button>
+                   <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal" id="close">Close</button>
+              </div>
+              
           </div>
         </div>
       </div>
@@ -264,13 +275,18 @@
                     $.each(data, function (i, o) {
                         $(".tableDetailsView tbody").append(
                             "<tr>" +
-                                "<td> " + o.polls_idpk + " </td>" +
-                                "<td> </td>" +
+                               
+                                
                                 "<td> " + o.description + " </td>" +
                                 "<td> " + o.question + "</td>" +
-                                "<td> </td>"+
-                                "<td> <a class='btn btn-primary btn-sm theatre' data-poll-id='" + o.polls_idpk + "' data-toggle='modal' data-target='#myModal'>View Statistics </a> </td>" +
-                                "<td> <a class='btn btn-warning btn-sm deletePoll' data-poll-id='" + o.polls_idpk + "'>Delete Survey </a></td>" +
+                                "<td> </td>" +
+                                "<td style='text-align:right;'>" +
+                                    "<div class='btn-group' role='group'>" +
+                                        "<a class='btn btn-warning btn-sm theatre' data-poll-id='" + o.polls_idpk + "' data-toggle='modal' data-target='#myModal'>View Statistics </a> " +
+                                        "<a class='btn btn-danger btn-sm deletePoll' data-poll-id='" + o.polls_idpk + "'>&nbsp;<span class='glyphicon glyphicon-trash'></span></a>" +
+                                    "</div>" +
+                                "</td>" +
+                               
                             "</tr>"
                             );
                         console.log(o.polls_idpk);
@@ -370,12 +386,17 @@
                             $.each(data, function (i, o) {
                                 $(".tableDetailsView tbody").append(
                                     "<tr>" +
-                                        "<td> " + o.polls_idpk + " </td>" +
-                                        "<td> </td>" +
+                                     
                                         "<td> " + o.description + " </td>" +
                                         "<td> " + o.question + "</td>" +
-                                        "<td> <a class='btn btn-primary btn-sm theatre' data-poll-id='" + o.polls_idpk + "' data-toggle='modal' data-target='#myModal'>View Statistics </a>&nbsp; <a class='btn btn-warning btn-sm'>Delete Poll </a></td>" +
-                                    "</tr>"
+                                        "<td style='text-align:right;'>" +
+                                            "<div class='btn-group' role='group'>" +
+                                                "<a class='btn btn-warning btn-sm theatre' data-poll-id='" + o.polls_idpk + "' data-toggle='modal' data-target='#myModal'>View Statistics </a> " +
+                                                "<a class='btn btn-danger btn-sm deletePoll' data-poll-id='" + o.polls_idpk + "'>&nbsp;<span class='glyphicon glyphicon-trash'></span></a>" +
+                                            "</div>" +
+                                        "</td>" +
+
+                                   "</tr>"
                                     );
                                 console.log(o.polls_idpk);
                             });

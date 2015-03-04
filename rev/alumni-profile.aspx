@@ -75,26 +75,26 @@
                             </ul>
                     </div>
 
-                     <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+                     <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" style="background:#fff;">
                          <div class="row">
-                             <div class="col-xs-3">
+                             <div class="col-xs-7">
                                  <h3 class="page-header">Profile</h3>
                              </div>
-                             <div class="col-xs-1"></div>
+                          
 
                              <div class="col-xs-3" style="text-align:right">
-                                 <asp:FileUpload ID="uploader" runat="server" CssClass="btn btn-primary btn-sm " style="max-width:250px;"/>
+                                 <asp:FileUpload ID="uploader" runat="server" CssClass="btn btn-warning btn-sm " style="max-width:250px;"/>
                              </div>
 
                              <div class="col-xs-2">
-                                 <asp:Button ID="btnUpload" runat="server" Text="Update Profile Picture" CssClass="btn btn-default btn-sm" />
+                                 <asp:Button ID="btnUpload" runat="server" Text="Update Profile Picture" CssClass="btn btn-danger btn-sm" />
                              </div>
                          </div>
                         <div class="row placeholders " >
                             <br />
 
                             <!-- start main-content -->
-                            <div class="col-xs-12 col-sm-12 placeholder announcementHolder">
+                            <div class="col-xs-12 col-sm-12  announcementHolder">
                                 <div class="row" >
                                     <div class="col-xs-12">
                                         <div class="row">
@@ -199,8 +199,8 @@
                     data = jQuery.parseJSON(data)
                     $.each(data, function (i, o) {
                        
-                        fullname = o.given_name + " " + o.family_name + " " + o.middle_name;
-                        $(".page-header").text(fullname);
+                        fullname = o.given_name + " " + o.family_name ;
+                        $(".page-header").html("<span class='glyphicon glyphicon-option-vertical'></span>"+fullname);
                         email = o.email_address;
                         contact = o.telephone_number;
                         password = o.password;
@@ -233,17 +233,17 @@
                             "<tr>" +
                                 "<td><span><b  class='min'> Email  </b>  </td>" +
                                 "<td>" + email + " </span> </td>" +
-                                "<td style='text-align:right;'><input type='button' value='Edit' id='editMail' class='btn btn-primary btn-sm ' data-toggle='modal' data-target='#myModal'/> </td>" +
+                                "<td style='text-align:;'><input type='button' value='Update' id='editMail' class='btn btn-warning btn-sm' data-toggle='modal' data-target='#myModal'/> </td>" +
                             "</tr>"+
                             "<tr>" +
                                 "<td><span><b  class='min'> Contact Number  </b>  </td>" +
                                 "<td>" + contact + " </span> </td>" +
-                                "<td style='text-align:right;'><input type='button' value='Edit' id='editContact' class='btn btn-primary btn-sm' data-toggle='modal' data-target='#myModal'/> </td>" +
+                                "<td style='text-align:;'><input type='button' value='Update' id='editContact' class='btn btn-warning btn-sm' data-toggle='modal' data-target='#myModal'/> </td>" +
                             "</tr>"+
                             "<tr>" +
                                 "<td><span><b  class='min'> Password  </b>  </td>" +
                                 "<td>Update your password</td>" +
-                                "<td style='text-align:right;'><input type='button' value='Edit' id='editPassword' class='btn btn-primary btn-sm' data-toggle='modal' data-target='#myModal'/> </td>" +
+                                "<td style='text-align:;'><input type='button' value='Update' id='editPassword' class='btn btn-warning btn-sm' data-toggle='modal' data-target='#myModal'/> </td>" +
                             "</tr>"
                             );
                     });

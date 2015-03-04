@@ -17,7 +17,7 @@
         <div class="container-fluid">
             <nav class="navbar navbar-inverse navbar-fixed-top default-theme shadowed"> 
                 <div class="container-fluid">
-                <div class="navbar-header ">
+                <div class="navbar-header " >
                     <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
                     <span class="sr-only">Toggle navigation</span>
                     <span class="icon-bar"></span>
@@ -82,12 +82,12 @@
 	                        </ul>
                     </div>
 
-                     <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-                         <h3 class="page-header"><span class="glyphicon glyphicon-list-alt">&nbsp;</span>Generate Survey Questions</h3>
+                     <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" style="background:#fff;">
+                         <h3 class="page-header"><span class="glyphicon glyphicon-option-vertical">&nbsp;</span>Generate Survey Questions</h3>
                          <div class="row placeholders">
                              <br />
                              <!-- start main-content -->
-                             <div class="col-xs-6 col-sm-6 placeholder ">
+                             <div class="col-xs-6 col-sm-5 placeholder ">
                               
                                 <div class="row">
                                     <div class="col-xs-12 border-enabled">
@@ -97,7 +97,7 @@
                                                 <div class="form-group">
                                                     <asp:TextBox ID="txtPollTitle" runat="server" placeholder="Survey Title" CssClass="form-control" ClientIDMode="Static"></asp:TextBox>
                                                     <br />
-                                                    <asp:TextBox ID="txtPollQuestionArea" runat="server" placeholder="Survey Details" TextMode="MultiLine" CssClass="form-control" ClientIDMode="Static"></asp:TextBox>
+                                                    <asp:TextBox ID="txtPollQuestionArea" runat="server" placeholder="Survey Question" TextMode="MultiLine" CssClass="form-control" ClientIDMode="Static"></asp:TextBox>
                                                  
                                                 </div>
                                                 
@@ -109,7 +109,7 @@
                                         <div class="row">
                                             <br />
                                             <div class="col-xs-12">
-                                                <h4 class="header-padded">Populate Survey Options</h4>
+                                                <h4 class="header-padded">Populate Survey Answers</h4>
                                                 <div class="row">
                                                     <div class="col-xs-12 enable-populate form-group">
                                                         <asp:HiddenField ID="counterPart" runat="server" />
@@ -119,11 +119,13 @@
                                                  <br /><br />
                                                  <div class="row">
                                                      <div class="col-xs-12">
-                                                         
-                                                         <asp:Button ID="btnAddOption" runat="server" Text="Add Option" CssClass="btn btn-primary btn-sm"/>
-                                                         <asp:Button ID="remove_poll_opt" runat="server" Text="Remove Option" CssClass="btn btn-warning btn-sm"/>
-                                                         <asp:Button ID="remove_all_poll_opt" runat="server" Text="Remove all Option" CssClass="btn btn-warning btn-sm"/>
-                                                         <input id="btnGetTime" type="button" class="btn btn-sm btn-success" value="Submit Survey" onclick = "pushToServer()" />
+                                                         <div class="btn-group">
+                                                              <asp:Button ID="btnAddOption" runat="server" Text="Add Option" CssClass="btn btn-danger btn-sm"/>
+                                                             <asp:Button ID="remove_poll_opt" runat="server" Text="Remove Option" CssClass="btn btn-danger btn-sm"/>
+                                                             <asp:Button ID="remove_all_poll_opt" runat="server" Text="Remove all answers" CssClass="btn btn-danger btn-sm"/>
+                                                             <input id="btnGetTime" type="button" class="btn btn-sm btn-warning" value="Submit" onclick = "pushToServer()" />
+                                                         </div>
+                                                        
                                                          <br /><br />
                                                      </div>
                                                    
@@ -146,17 +148,16 @@
                               <div class="col-xs-6 col-sm-1 placeholder"> </div>
 
                               <!-- start right-side -->
-                               <div class="col-xs-6 col-sm-5 placeholder border-enabled">
+                               <div class="col-xs-6 col-sm-6 placeholder border-enabled" style="background:#fff;">
                                   <h5 >&nbsp; Active Surveys</h5>
                                   <div class="row">
-                                      <div class="col-xs-12 highlighted-div ">
-                                          <div class="table-responsive">
-                                                <table class="table table-hover">
+                                      <div class="col-xs-12">
+                                          <div class="table-responsive" style="border-top:thin solid #eee;">
+                                                <table class="table" style="cursor:pointer;">
                                                     <tr>
-                                                       <td><span class="glyphicon glyphicon-th-list"></span></td>  
-                                                        <td>Survey Title</td>
-                                                        <td>Status</td>
-                                                        <td></td>
+                                                        <th>Survey Title</th>
+                                                        <th>Status</th>
+                                                        <th></th>
                                                     </tr>
                                                     
                                                 </table>
@@ -176,21 +177,21 @@
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
-          <div class="modal-header">
+          <div class="modal-header" style="border:0px solid #eee ;">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             <h4 class="modal-title" id="myModalLabel">Modal title</h4>
           </div>
           <div class="modal-body">
-              <h4>Survey Question</h4>
+              <h4 style="border-top:1px solid #eee;padding-top:15px;">Survey Question</h4>
               <p id="questionPlaceholder"></p>
            
               <br />
-              <h4>Survey Options</h4>
+              <h4>Survey Answers</h4>
               <ul id="placeholderOptions">
                  
               </ul>
           </div>
-          <div class="modal-footer">
+          <div class="modal-footer" style="background:#f5f5f5;">
             <button type="button" class="btn btn-primary btn-sm" data-dismiss="modal">Close</button>
             
           </div>
@@ -235,11 +236,18 @@
                         object.status = "active";
                         $(".table").append(
                             "<tr>" +
-                            "<td>  " + object.polls_idpk  +" </td>" +
+                            
                             "<td>  " + object.description + " </td>" +
                             "<td>  " + stat + " </td>" +
-                            "<td>   " + "<a class='btn btn-success btn-sm theatre' id='" + object.polls_idpk + "' data-poll-title='" + object.description + "' data-poll-question='" + object.question + "' data-poll-id='" + object.polls_idpk + "' data-toggle='modal' data-target='#myModal'>View Details </a>" + " </td>" +
-                            "<td>   " + "<a class='btn btn-warning btn-sm delete_survey' id='" + object.polls_idpk + "' data-poll-title='" + object.description + "' data-poll-question='" + object.question + "' data-poll-id='" + object.polls_idpk + "'>Delete </a>" + " </td>" +
+
+                            "<td style='text-align:right;'>" +
+                                "<div class='btn-group' role='group'>" +
+                                    "<a class='btn btn-success btn-sm theatre' id='" + object.polls_idpk + "' data-poll-title='" + object.description + "' data-poll-question='" + object.question + "' data-poll-id='" + object.polls_idpk + "' data-toggle='modal' data-target='#myModal'>View Details </a>" +
+                                    "<a class='btn btn-success btn-sm delete-survey' id='" + object.polls_idpk + "' data-poll-title='" + object.description + "' data-poll-question='" + object.question + "' data-poll-id='" + object.polls_idpk + "'><span class='glyphicon glyphicon-trash'></span></a>" +
+                                "</div>" +
+                            "</td>" +
+
+                        
 
                             "</tr>"
                             );
