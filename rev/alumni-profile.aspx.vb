@@ -29,6 +29,8 @@ Partial Class rev_alumni_profile
 
         Else
 
+
+
             Using sqlCon As New SqlConnection(constr)
                 sqlCon.Open()
 
@@ -70,7 +72,8 @@ Partial Class rev_alumni_profile
             End If
         End If
 
-        
+      
+
     End Sub
 
     'SERIALIZER
@@ -179,8 +182,6 @@ Partial Class rev_alumni_profile
 
 
 
-    
-
     Protected Sub btnUpload_Click(sender As Object, e As EventArgs) Handles btnUpload.Click
         Dim counter As Integer = 1
 
@@ -189,7 +190,9 @@ Partial Class rev_alumni_profile
         s = (++counter).ToString
 
         If uploader.HasFile Then
+            responder.Text = ""
 
+            btnUpload.Enabled = True
             Dim account = New Account(
                       "roowako06",
                       "198241248352399",
@@ -216,7 +219,7 @@ Partial Class rev_alumni_profile
             Dim result = cloudinary.Upload(uploadParams)
 
 
-            imgUrl = cloudinary.Api.UrlImgUp.Secure(True).Transform(New Transformation().Height(150).Crop("fit")).BuildUrl(result.PublicId + ".jpg")
+            imgUrl = cloudinary.Api.UrlImgUp.Secure(True).Transform(New Transformation().Height(150).Crop("fill")).BuildUrl(result.PublicId + ".jpg")
 
 
 
@@ -234,14 +237,15 @@ Partial Class rev_alumni_profile
                 cmd.Parameters.AddWithValue("@p1", account_idpk.Text.ToString)
                 cmd.Parameters.AddWithValue("@p2", imgUrl)
                 cmd.ExecuteNonQuery()
+                responder.Text = "Profile picture updated."
+                Response.Redirect("./alumni-profile.aspx")
 
-                Response.Redirect("alumni-profile.aspx")
                 sqlCon.Close()
             End Using
 
         Else
 
-
+            responder.Text = "Please choose a file."
 
 
         End If

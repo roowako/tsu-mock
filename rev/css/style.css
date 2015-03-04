@@ -33,7 +33,20 @@ body{
  .forceFix{position:absolute;right:140px;}
  .toFix{position:relative;right:-20px;}
 
+ .ipt{
+     z-index:2;
+     opacity:0;
+ }
 
+ .nonmod{
+     width:90%;
+     height:145px;
+ }
+ #responder{
+     margin-top:5px;
+    
+  
+ }
 .resultContainer{
 
      opacity:0;

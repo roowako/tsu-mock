@@ -277,19 +277,19 @@
                             "<tr>" +
                                
                                 
-                                "<td> " + o.description + " </td>" +
-                                "<td> " + o.question + "</td>" +
-                                "<td> </td>" +
+                                "<td> " + o.t + " </td>" +
+                                "<td> " + o.q + "</td>" +
+                                "<td>"+ o.c +" </td>" +
                                 "<td style='text-align:right;'>" +
                                     "<div class='btn-group' role='group'>" +
-                                        "<a class='btn btn-warning btn-sm theatre' data-poll-id='" + o.polls_idpk + "' data-toggle='modal' data-target='#myModal'>View Statistics </a> " +
-                                        "<a class='btn btn-danger btn-sm deletePoll' data-poll-id='" + o.polls_idpk + "'>&nbsp;<span class='glyphicon glyphicon-trash'></span></a>" +
+                                        "<a class='btn btn-warning btn-sm theatre' data-poll-id='" + o.pid + "' data-toggle='modal' data-target='#myModal'>View Statistics </a> " +
+                                        "<a class='btn btn-danger btn-sm deletePoll' data-poll-id='" + o.pid + "'>&nbsp;<span class='glyphicon glyphicon-trash'></span></a>" +
                                     "</div>" +
                                 "</td>" +
                                
                             "</tr>"
                             );
-                        console.log(o.polls_idpk);
+                        console.log(o.poid);
                     });
 
                     $(".theatre").click(function () {

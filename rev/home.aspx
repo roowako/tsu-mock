@@ -75,7 +75,7 @@
 	                        <ul class="nav nav-sidebar">
 		                        <li>
 			                        <a href="#" >
-				                        <asp:Image ID="Image2" runat="server" ImageUrl="./assets/images/default-dp.jpg"  BorderColor="White" BorderStyle="Solid" BorderWidth="3" />          
+				                        <asp:Image ID="Image2" runat="server" ImageUrl="./assets/images/default-dp.jpg"  BorderColor="White" BorderStyle="Solid" BorderWidth="3" CssClass="nonmod"/>          
 			                        </a>
 		                        </li>
                             <li>    

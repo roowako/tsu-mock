@@ -44,7 +44,7 @@ Partial Class statistics_ui
             sqlCon.Open()
             If filterView = "poll" Then
 
-                Using da = New SqlDataAdapter(" SELECT * FROM tblPolls ", sqlCon)
+                Using da = New SqlDataAdapter(" SELECT DISTINCT tblPolls.description as t, tblPolls.question as q,tblPolls.polls_idpk as pid,tblColleges.description as c FROM tblAccounts,tblColleges,tblPolls WHERE   tblPolls.target_id = tblAccounts.college_idfk AND tblColleges.college_idpk = tblPolls.target_id ", sqlCon)
                     Dim table = New DataTable()
                     da.Fill(table)
 

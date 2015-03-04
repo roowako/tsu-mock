@@ -77,18 +77,24 @@
 
                      <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" style="background:#fff;">
                          <div class="row">
-                             <div class="col-xs-7">
+                             <div class="col-xs-6">
                                  <h3 class="page-header">Profile</h3>
                              </div>
                           
-
-                             <div class="col-xs-3" style="text-align:right">
-                                 <asp:FileUpload ID="uploader" runat="server" CssClass="btn btn-warning btn-sm " style="max-width:250px;"/>
+                             <div class="col-xs-2">
+                      
+                                  <asp:Label ID="responder" runat="server" Text=""></asp:Label>
+                             </div>
+                             <div class="col-xs-2 " style="text-align:right;position:relative">
+                                 <span class="glyphicon glyphicon-camera" style="position:absolute;top:4px;font-size:22px;cursor:pointer;color:#A6635D" id="checker"  runat="server">&nbsp;</span>
+                                 <asp:FileUpload ID="uploader" runat="server" CssClass="btnbtn-sm  ipt" style="max-width:250px;cursor:pointer;"/>
                              </div>
 
                              <div class="col-xs-2">
-                                 <asp:Button ID="btnUpload" runat="server" Text="Update Profile Picture" CssClass="btn btn-danger btn-sm" />
+                                 <asp:Button ID="btnUpload" runat="server" Text="Update" CssClass="btn btn-danger btn-sm" />
+                                
                              </div>
+                             
                          </div>
                         <div class="row placeholders " >
                             <br />
@@ -233,17 +239,17 @@
                             "<tr>" +
                                 "<td><span><b  class='min'> Email  </b>  </td>" +
                                 "<td>" + email + " </span> </td>" +
-                                "<td style='text-align:;'><input type='button' value='Update' id='editMail' class='btn btn-warning btn-sm' data-toggle='modal' data-target='#myModal'/> </td>" +
+                                "<td style='text-align:right;'><button value='Update' id='editMail' class='btn btn-danger btn-sm' data-toggle='modal' data-target='#myModal'> <span class='glyphicon glyphicon-pencil'></span></button></td>" +
                             "</tr>"+
                             "<tr>" +
                                 "<td><span><b  class='min'> Contact Number  </b>  </td>" +
                                 "<td>" + contact + " </span> </td>" +
-                                "<td style='text-align:;'><input type='button' value='Update' id='editContact' class='btn btn-warning btn-sm' data-toggle='modal' data-target='#myModal'/> </td>" +
+                                "<td style='text-align:right;'><button value='Update' id='editContact' class='btn btn-danger btn-sm' data-toggle='modal' data-target='#myModal'> <span class='glyphicon glyphicon-pencil'></span></button></td>" +
                             "</tr>"+
                             "<tr>" +
                                 "<td><span><b  class='min'> Password  </b>  </td>" +
                                 "<td>Update your password </span></td>" +
-                                "<td style='text-align:;'><input type='button' value='Update' id='editPassword' class='btn btn-warning btn-sm' data-toggle='modal' data-target='#myModal'/> </td>" +
+                                "<td style='text-align:right;'><button value='Update' id='editPassword' class='btn btn-danger btn-sm' data-toggle='modal' data-target='#myModal'> <span class='glyphicon glyphicon-pencil'></span></button></td>" +
                             "</tr>"
                             );
                     });
@@ -257,8 +263,10 @@
                         $("#old_email").val(email);
                       
                         $(".modal-footer").append(
-                            "<input type='button' class='btn btn-success btn-sm saveMail' value='Update email' />"+
-                             "<button type='button' class='btn btn-warning btn-sm' data-dismiss='modal' id='close'>Close</button>"
+                            "<div class='btn-group'>"+
+                            "<input type='button' class='btn btn-warning btn-sm saveMail' value='Update email' />"+
+                             "<button type='button' class='btn btn-danger btn-sm' data-dismiss='modal' id='close'>Cancel</button>"+
+                             "</div>"
                             );
                         $("#appendable").append(
                             "<input type=text' name='' value='' placeholder='New email' id='newmail' class='form-control' />"+
@@ -302,8 +310,10 @@
                         $("#old_email").val(contact);
 
                         $(".modal-footer").append(
-                            "<input type='button' class='btn btn-success btn-sm saveCon' value='Update contact' />" +
-                             "<button type='button' class='btn btn-warning btn-sm' data-dismiss='modal' id='close'>Close</button>"
+                            "<div class='btn-group'>" +
+                            "<input type='button' class='btn btn-warning btn-sm saveCon' value='Update contact' />" +
+                             "<button type='button' class='btn btn-danger btn-sm' data-dismiss='modal' id='close'>Cancel</button>"+
+                             "</div>"
                             );
                         $("#appendable").append(
                             "<input type='text' name='' value='' placeholder='New number' id='newnum' class='form-control' />" +
@@ -354,13 +364,17 @@
                         $("#old_email").attr("enabled", false);
 
                         $(".modal-footer").append(
-                            "<input type='button' class='btn btn-success btn-sm savePass' value='Update password' />" +
-                             "<button type='button' class='btn btn-warning btn-sm' data-dismiss='modal' id='close'>Close</button>"
+                            "<div class='btn-group'>" +
+                            "<input type='button' class='btn btn-warning btn-sm savePass' value='Update password' />" +
+                             "<button type='button' class='btn btn-danger btn-sm' data-dismiss='modal' id='close'>Cancel</button>"+
+                              "</div>"
                             );
                         $("#appendable").append(
+                            
                             "<input type='password' name='' value='' placeholder='New password' id='newpass' class='form-control' />" +
                             "<br/>" +
                             "<input type='password' name='' value='' placeholder='Re-type password' id='repass' class='form-control' />"
+                           
                             );
 
                         $(".savePass").click(function () {
