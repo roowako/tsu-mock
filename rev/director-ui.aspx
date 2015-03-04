@@ -301,22 +301,23 @@
                 console.log(announcement);
                 if (announcement == "") { alert("Announcement can't be empty."); }
 
-                else
+                else{
                     var id = $("#account_idpk").val();
-                $.ajax({
-                    type: "post",
-                    url: "director-ui.aspx/pushAnnouncement",
-                    data: "{'myAnnouncement':'"+ announcement +"','id':'"+ id +"'}",
-                    dataType: "json",
-                    processData: false,
-                    traditional: true,
-                    contentType: "application/json; charset=utf-8",
-                    success: function (announceReturn) {
-                        $("#txtPostAnnouncementCoor").val("");
-                        console.log(announceReturn);
-                        window.location.reload(true);
-                    }
-                });
+                    $.ajax({
+                        type: "post",
+                        url: "director-ui.aspx/pushAnnouncement",
+                        data: "{'myAnnouncement':'"+ announcement +"','id':'"+ id +"'}",
+                        dataType: "json",
+                        processData: false,
+                        traditional: true,
+                        contentType: "application/json; charset=utf-8",
+                        success: function (announceReturn) {
+                            $("#txtPostAnnouncementCoor").val("");
+                            console.log(announceReturn);
+                            window.location.reload(true);
+                        }
+                    });
+                }
             });
         });
     </script>

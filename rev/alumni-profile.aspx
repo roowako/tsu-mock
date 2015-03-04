@@ -99,9 +99,9 @@
                                     <div class="col-xs-12">
                                         <div class="row">
                                             <div class="col-xs-12">
-                                                <div class="basic-info table">
-                                                    <table class="table" data-toggle="table">
-                                                        <tbody>
+                                                <div class=" table">
+                                                    <table class="table basic-info" data-toggle="table" >
+                                                        <tbody style="text-align:left !important">
 
                                                         </tbody>
                                                     </table>   
@@ -242,7 +242,7 @@
                             "</tr>"+
                             "<tr>" +
                                 "<td><span><b  class='min'> Password  </b>  </td>" +
-                                "<td>Update your password</td>" +
+                                "<td>Update your password </span></td>" +
                                 "<td style='text-align:;'><input type='button' value='Update' id='editPassword' class='btn btn-warning btn-sm' data-toggle='modal' data-target='#myModal'/> </td>" +
                             "</tr>"
                             );

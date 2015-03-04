@@ -64,9 +64,7 @@ Partial Class rev_alumni_list_ui
     <System.Web.Services.WebMethod()> _
     <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
     Public Shared Function userlist_report(ByVal sortBy As String, ByVal collegeDesc As String, ByVal yearGrad As String) As String
-        Dim sqlSTR As String
-        Dim userlevel_id As Integer
-        Dim college_id As Integer
+        
 
 
         Using sqlCon As New SqlConnection(constr)
@@ -286,7 +284,7 @@ Partial Class rev_alumni_list_ui
                 filterYear.Items.Add(New ListItem(i.ToString(), i.ToString()))
             Next
 
-            Image2.ID = "non"
+
             Using sqlCon As New SqlConnection(constr)
                 sqlCon.Open()
 
@@ -297,6 +295,7 @@ Partial Class rev_alumni_list_ui
                 While dr.Read
                     alumni_name.Text = dr.GetString(6)
                     account_idpk.Text = Session("id")
+                    undeditable.ImageUrl = dr.GetString(20)
                 End While
 
                 sqlCon.Close()

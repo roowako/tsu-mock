@@ -47,10 +47,10 @@
 	                    <ul class="nav nav-sidebar">
 		                    <li>
 			                    <a href="#" >
-				                    <asp:Image ID="Image2" runat="server" ImageUrl="./assets/images/default-dp.jpg" Height="75" Width="75" BorderColor="White" BorderStyle="Solid" BorderWidth="3" />          
+                                <asp:Image ID="undeditable" runat="server" ImageUrl="./assets/images/default-dp.jpg" Height="50" Width="65" BorderColor="White" BorderStyle="Solid" BorderWidth="3"  /> 
 			                    </a>
 		                    </li>
-		                    <li><a href="#" class="bolder"><span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;<asp:Label id="alumni_name" runat="server"></asp:Label></a></li>		  
+		                    <li><a href="./alumni-profile.aspx" class="bolder"><span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;<asp:Label id="alumni_name" runat="server"></asp:Label></a></li>		  
 		                    <li><a href="./director-ui.aspx" ><span class="glyphicon glyphicon-home"></span>&nbsp;&nbsp;Timeline</a></li>
 		                    <li><a href="./messaging-ui-director.aspx" ><span class="glyphicon glyphicon-comment"></span>&nbsp;&nbsp;Messages</a></li>
 		                    <li><a href="./notification-center-ui.aspx"><span class="glyphicon glyphicon-phone"></span>&nbsp;&nbsp;Notification Center</a></li>
@@ -131,7 +131,7 @@
                                     
                                     <div class="table-responsive">
                                     
-                                        <table class="table searchableTable" id="searchableTable" style="cursor:pointer;">
+                                        <table class="table searchableTable table-condensed" id="searchableTable" style="cursor:pointer;font-size:13px;">
                                             <thead>
                                                 <tr>
                                                
@@ -148,13 +148,10 @@
                                         </table>
                                     </div>
 
-                                    <div class="row">
-                                        
-                                    </div>
                             <!-- end main-content -->
 
                             <!-- star spacer -->
-                            <div class="col-xs-6 col-sm-1 placeholder"> </div>
+                           
                              <!-- end spacer -->
                            
 
@@ -343,7 +340,7 @@
                                                 "<td>" + o.courseDes + " </td>" +
                                                 "<td>"+ o.year_graduated +"</td>" +
                                                 "<td style='text-align:right;'>" +
-                                                    "<div class='btn-group' role='group'>" +
+                                                    "<div class='btn-group'>" +
                                                         "<a class='btn btn-primary btn-sm viewAccountInfo' data-account-id='" + o.account_idpk + "' data-toggle='modal' data-target='.bs-example-modal-lg'> View info </a>" +
                                                         "<a class='btn btn-primary btn-sm uid' data-toggle='modal' data-id='" + o.account_idpk + "' data-target='#myModal' data-name='" + fn + "' ><span class='glyphicon glyphicon-send'></span> &nbsp;Message</a>" +
                                                     "</div>" +
@@ -351,8 +348,7 @@
                                             "</tr>");
                             }
                             else {
-                                var mod = ("<tr>" +
-                                              
+                                var mod = ("<tr>" +       
                                                 "<td> " + o.given_name + "  " + o.middle_name + " " + o.family_name + " </td>" +
                                                 "<td> " + o.collegeDes + " </td>" +
                                                 "<td>" + o.courseDes + " </td>" +
@@ -362,8 +358,7 @@
                                                         "<a class='btn btn-primary btn-sm viewAccountInfo' data-account-id='" + o.account_idpk + "' data-toggle='modal' data-target='.bs-example-modal-lg'> View info </a>" +
                                                         "<a class='btn btn-primary btn-sm uid' data-toggle='modal' data-id='" + o.account_idpk + "' data-target='#myModal' data-name='" + fn + "' ><span class='glyphicon glyphicon-send'></span> &nbsp; Message</a>" +
                                                     "</div>" +
-                                                "</td>" +
-                                                
+                                                "</td>" +    
                                             "</tr>");
                             }
                             
@@ -537,7 +532,6 @@
                                             "<td> " + o.given_name + "  " + o.middle_name + " " + o.family_name + " </td>" +
                                             "<td> " + o.collegeDes + " </td>" +
                                             "<td>" + o.courseDes + "</td>" +
-
                                             "<td>" + o.year_graduated + "</td>" +
                                             "<td style='text-align:right;'>" +
                                                 "<div class='btn-group' role='group'>" +
@@ -685,7 +679,7 @@
                                             "<td> " + o.collegeDes + " </td>" +
                                             "<td>" + o.courseDes + "</td>" +
                                             "<td>" + o.year_graduated + "</td>" +
-                                            "<td></td>" +
+                                          
                                              "<td style='text-align:right;'>" +
                                                 "<div class='btn-group' role='group'>" +
                                                     "<a class='btn btn-primary btn-sm viewAccountInfo' data-account-id='" + o.account_idpk + "' data-toggle='modal' data-target='.bs-example-modal-lg'> View info </a>" +
@@ -703,7 +697,7 @@
                                         "<td> " + o.collegeDes + " </td>" +
                                         "<td>" + o.courseDes + "</td>" +
                                         "<td>" + o.year_graduated + "</td>" +
-                                        "<td></td>" +
+                                     
                                         "<td style='text-align:right;'>" +
                                             "<div class='btn-group' role='group'>" +
                                                 "<a class='btn btn-primary btn-sm viewAccountInfo' data-account-id='" + o.account_idpk + "' data-toggle='modal' data-target='.bs-example-modal-lg'> View info </a>" +

@@ -22,7 +22,7 @@ Partial Class rev_messaging_ui_director
             Console.Write("sd")
             Response.Redirect("Default.aspx")
         Else
-            Image2.ID = "non"
+
             Using sqlCon As New SqlConnection(constr)
                 sqlCon.Open()
 
@@ -33,6 +33,7 @@ Partial Class rev_messaging_ui_director
                 While dr.Read
                     alumni_name.Text = dr.GetString(6)
                     account_idpk.Text = Session("id")
+                    undeditable.ImageUrl = dr.GetString(20)
                 End While
 
                 sqlCon.Close()
@@ -89,7 +90,7 @@ Partial Class rev_messaging_ui_director
     Public Shared Function pullMessages(ByVal account_id As String) As String
         Using sqlCon As New SqlConnection(constr)
             sqlCon.Open()
-            Using da = New SqlDataAdapter("SELECT DISTINCT given_name,family_name,account_idpk FROM tblAccounts,tblMessages WHERE account_idpk=sender_idfk AND recipient_idfk='" & account_id & "'  ", sqlCon)
+            Using da = New SqlDataAdapter("SELECT DISTINCT given_name,family_name,account_idpk,img_path as dp FROM tblAccounts,tblMessages WHERE account_idpk=sender_idfk AND recipient_idfk='" & account_id & "'  ", sqlCon)
                 Dim table = New DataTable()
                 da.Fill(table)
 

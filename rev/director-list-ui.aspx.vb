@@ -122,7 +122,7 @@ Partial Class rev_director_list_ui
             Console.Write("sd")
             Response.Redirect("Default.aspx")
         Else
-            Image2.ID = "non"
+
             Using sqlCon As New SqlConnection(constr)
                 sqlCon.Open()
 
@@ -133,6 +133,7 @@ Partial Class rev_director_list_ui
                 While dr.Read
                     alumni_name.Text = dr.GetString(6)
                     account_idpk.Text = Session("id")
+                    undeditable.ImageUrl = dr.GetString(20)
                 End While
 
                 sqlCon.Close()
