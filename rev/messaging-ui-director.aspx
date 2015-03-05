@@ -133,14 +133,12 @@
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
-          <div class="modal-header" style="border-bottom:0px !important;">
+          <div class="modal-header" style="border-bottom:0px !important;padding-bottom:0px;">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             <h4 class="modal-title" id="myModalLabel" style="text-transform:capitalize;">Modal title</h4>
           </div>
-          <div class="modal-body">
-             
-              
-              <ul id="messages" style="border-top:thin solid #E5E5E5;padding-top:20px;">
+          <div class="modal-body"> 
+              <ul id="messages" style="border-top:thin solid #E5E5E5;padding-top:10px;margin-left:-40px;">
                  
               </ul>
           </div>
@@ -164,6 +162,27 @@
         </div>
       </div>
     </div>
+
+//Delete modal
+         <div class="modal fade bs-example-modal-sm" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" style="border-radius:3px;">
+          <div class="modal-dialog modal-sm" style="width:500px;border-radius:3px;top:100px;">
+            <div class="modal-content" style="border-radius:3px;">
+              <div class="modal-header" style="background:#F6F7F8;border-radius:3px;padding:8px;">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h5 class="modal-title" id="myModalLabel2" style="padding:3px;"><b>Delete Post</b></h5>
+              </div>
+              <div class="modal-body" style="border-radius:3px;">
+                  <p style="border-bottom:thin solid #ccc;padding-bottom:15px;color:#333;">Are you sure you want to delete this?</p>
+         
+                  <div class="btn-group btn-sm" style="text-align:right;float:right">
+                    <button type="button" class="btn btn-default btn-sm" data-dismiss="modal" style="font-weight:bold;">Cancel</button>
+                    <button type="button" class="btn btn-danger btn-sm del_p" style="font-weight:bold;">Delete</button>
+                </div>
+              </div>
+      
+            </div>
+          </div>
+        </div>
     </form>
      <script type="text/javascript" src="./js/jquery.js"></script>
     <script type="text/javascript" src="./js/bootstrap.min.js"></script>
@@ -183,6 +202,8 @@
               var src_;
               var v_src;
               var g_src;
+              var uid;
+
               $.ajax({
                   type: "post",
                   url: "./messaging-ui-alumni.aspx/pullMessages",
@@ -195,7 +216,7 @@
                       data = jQuery.parseJSON(data)
                       var last
 
-                      if (r.d == "[]") {
+                      if (r.d == "[]" || r.d == null) {
                           $("#messagePlaceholder").append("No available messages.");
                       } else {
                           $.each(data, function (i, o) {
@@ -222,8 +243,8 @@
                                   "<td> &nbsp;</td>" +
                                    "<td style='text-align:right;'>" +
                                         "<div class='btn-group' role='group'>" +
-                                            "<input type='button' value='View conversation' data-name='" + o.u + "' class='btn btn-warning btn-sm theatre_m' data-toggle='modal' data-target='#myModal' data-id='" + o.uid + "'/>&nbsp;" +
-                                            "<button value='Delete conversation' class='btn btn-danger btn-sm delete' data-id='" + o.uid + "'>Delete&nbsp;&nbsp;<span class='glyphicon glyphicon-trash'></span></button>" +
+                                            "<input type='button' style='font-weight:bold;' value='View conversation' data-name='" + o.u + "' class='btn btn-warning btn-sm theatre_m' data-toggle='modal' data-target='#myModal' data-id='" + o.uid + "'/>&nbsp;" +
+                                            "<a href='#' data-toggle='modal' data-target='.bs-example-modal-sm '  class='btn btn-danger btn-sm delete' data-id='" + o.uid + "'><span class='glyphicon glyphicon-trash'></span></a>" +
                                         "</div>" +
                                     "</td>" +
                                  
@@ -232,25 +253,28 @@
                               );
                           });
 
-                          $(".delete").click(function (e) {
-                              e.preventDefault();
-                              account_idfk = $(this).data("id");
-                              sess_id = $("#account_idpk").val();
-                              
+                          $(".delete").on("click", function () {
+                              uid = "";
+                              uid = $(this).data("id");
+                              $(".del_p").data("uid", uid);
+                          });
+                          $(".del_p").on("click", function () {
                               $.ajax({
                                   type: "post",
                                   url: "./messaging-ui-alumni.aspx/deleteMessages",
-                                  data: "{'actor_id':'" + sess_id + "','account_id':'" + account_idfk + "'}",
+                                  data: "{'actor_id':'" + sess_id + "','account_id':'" + uid + "'}",
                                   dataType: "json",
+                                  processData: false,
+                                  traditional: true,
                                   contentType: "application/json; charset=utf-8",
-                                  async: true,
                                   success: function (r) {
                                       console.log(r.d);
-                                      alert("Conversation deleted.");
                                       window.location.reload(true);
                                   }
                               });
                           });
+
+                          
 
                           $(".theatre_m").click(function (e) {
                         

@@ -16,21 +16,33 @@
 
 <body>
     <form id="form1" runat="server">
-            <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+        <div class="container" style="background:;margin-top:-50px;">
+            <div class="row">
+                <div class="col-sm-1" style="background:;"></div>
+                <div class="col-sm-9" style="vertical-align:middle;text-align:center">
+                    <div class="row">
+                        <div class="col-sm-12">
 
-                <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
+                             <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
 
-                <rsweb:ReportViewer ID="rptViewer" runat="server" Font-Names="Segoe UI" Font-Size="8pt" Height="11.25in" WaitMessageFont-Names="Verdana" WaitMessageFont-Size="14pt" Width="8.75in" ShowRefreshButton="False" ZoomMode="PageWidth" BorderColor="#CC0000" ZoomPercent="60">
-                    <ServerReport DisplayName="TSU Alumni Tracer - Reports" />
+                            <rsweb:ReportViewer ID="rptViewer" runat="server" Font-Names="Segoe UI" Font-Size="8pt" Height="100%" WaitMessageFont-Names="Verdana" WaitMessageFont-Size="14pt" Width="100%" ShowRefreshButton="False" ZoomMode="PageWidth" BorderColor="#CC0000" ZoomPercent="60">
+                                <ServerReport DisplayName="TSU Alumni Tracer - Reports" />
                         
-                    <LocalReport ReportPath="RPTalumni_list.rdlc">
-                        <DataSources>
-                            <rsweb:ReportDataSource DataSourceId="ObjectDataSource2" Name="DSalumni_list" />
-                        </DataSources>
-                    </LocalReport>
-                </rsweb:ReportViewer>
+                                <LocalReport ReportPath="RPTalumni_list.rdlc">
+                                    <DataSources>
+                                        <rsweb:ReportDataSource DataSourceId="ObjectDataSource2" Name="DSalumni_list" />
+                                    </DataSources>
+                                </LocalReport>
+                            </rsweb:ReportViewer>
+                        </div>
+                    </div>
+                   
 
-            </div> 
+                </div>
+               <div class="col-sm-1" style="background:;"></div>
+            
+            </div>
+       </div>
     </form>
 </body>
 </html>

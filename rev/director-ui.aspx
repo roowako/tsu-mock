@@ -178,7 +178,7 @@
          
           <div class="btn-group btn-sm" style="text-align:right;float:right">
             <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Cancel</button>
-            <button type="button" class="btn btn-danger btn-sm del_p">Delete Post</button>
+            <button type="button" class="btn btn-danger btn-sm del_p">Confirm</button>
         </div>
       </div>
       
