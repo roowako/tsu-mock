@@ -249,7 +249,7 @@
             console.log(college_desc);
             console.log(course_desc);
             console.log(report_desc)
-            //window.open("./director-report.aspx?college_desc=" + college_desc + "&course_desc=" + course_desc + "&report_desc=" + report_desc + "&poll_id=" + pollID);
+            window.open("./reports/employment_report.aspx?college_desc=" + college_desc + "&course_desc=" + course_desc, "fullscreen=yes");
         });
 
         $('.chart').horizBarChart({
