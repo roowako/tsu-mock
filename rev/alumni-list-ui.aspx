@@ -131,7 +131,7 @@
                                     
                                     <div class="table-responsive">
                                     
-                                        <table class="table searchableTable table-condensed" id="searchableTable" style="cursor:pointer;font-size:13px;">
+                                        <table class="table searchableTable table-condensed" id="searchableTable" style="cursor:pointer;font-size:12px;">
                                             <thead>
                                                 <tr>
                                                

@@ -158,6 +158,12 @@ border-bottom: 1px solid #ddd;
     padding-top:120px;
 }
 
+.btn-group > button{
+    font-weight:bold;
+}
+.btn-group > a{
+    font-weight:bold;
+}
 .dateIndicator{
     font-size:12px !important;
     padding-left:42px;

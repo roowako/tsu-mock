@@ -121,7 +121,7 @@
                         $(".appBtn").append(
                              "<div class='btn-group' style='text-align:left;'>" +
                                 '<button type="button" class="btn btn-warning btn-sm send" id="btnSend" style=""><span class="glyphicon glyphicon-send"></span>&nbsp;&nbsp;Send</button>' +
-                                '<button type="button" class="btn btn-danger btn-sm" data-dismiss="modal" style="">Close conversation</button>'+
+                                '<button type="button" class="btn btn-danger btn-sm" data-dismiss="modal" style="">Cancel</button>'+
                              "</div>")
                         var sess_id = $("#account_idpk").val();
                         account_idfk = $(this).data("id");
