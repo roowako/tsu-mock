@@ -435,7 +435,12 @@ Partial Class _Default
     Protected Sub Page_Load(sender As Object, e As EventArgs) Handles Me.Load
         If Not IsPostBack Then
             fetch_college()
+            Dim currYear As Integer = Date.Now.Year
 
+            For i As Integer = 1905 To currYear
+                cboYear_Graduated.Items.Add(New ListItem(i.ToString(), i.ToString()))
+
+            Next
             'DISREGARD PAGE LOAD FUNCTION ON POSTBACK
         Else
 

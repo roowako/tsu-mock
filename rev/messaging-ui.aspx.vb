@@ -86,19 +86,7 @@ Partial Class messaging_ui
                 End Using
             End If
 
-            sqlStr2 = " SELECT DISTINCT username as u,coordinator_idpk as uid FROM tblCoordinators,tblMessages WHERE coordinator_idpk=sender_idfk AND recipient_idfk='" & account_id & "' "
-            cmd = New SqlCommand(sqlStr2, sqlCon)
-            dr = cmd.ExecuteReader
-            If dr.HasRows Then
-                Using dat = New SqlDataAdapter(sqlStr2, sqlCon)
-                    Dim table2 = New DataTable()
-                    dat.Fill(table2)
-
-                    Dim pollOptionsJsonData As String = GetJson(table2)
-                    Return pollOptionsJsonData
-                End Using
-
-            End If
+            
             sqlCon.Close()
 
         End Using

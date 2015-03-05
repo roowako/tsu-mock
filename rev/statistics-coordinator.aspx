@@ -246,9 +246,10 @@
                         $(".tableDetailsView tbody").append(
                             "<tr>" +
                               
-                                "<td> " + o.description + " </td>" +
-                                "<td> " + o.question + "</td>" +
-                                "<td> <a class='btn btn-primary btn-sm theatre' data-poll-id='" + o.polls_idpk + "' data-toggle='modal' data-target='#myModal'>View Statistics </a>&nbsp; </td>" +
+                                "<td> " + o.t + " </td>" +
+                                "<td> " + o.q + "</td>" +
+                                "<td> " + o.c + "</td>" +
+                                "<td> <a class='btn btn-primary btn-sm theatre' data-poll-id='" + o.pid + "' data-toggle='modal' data-target='#myModal'>View Statistics </a>&nbsp; </td>" +
 
                             "</tr>"
                             );
@@ -343,11 +344,11 @@
                             $.each(data, function (i, o) {
                                 $(".tableDetailsView tbody").append(
                                     "<tr>" +
-                                        "<td> " + o.polls_idpk + " </td>" +
-                                        "<td> </td>" +
-                                        "<td> " + o.description + " </td>" +
-                                        "<td> " + o.question + "</td>" +
-                                        "<td> <a class='btn btn-primary btn-sm theatre' data-poll-id='" + o.polls_idpk + "' data-toggle='modal' data-target='#myModal'>View Statistics </a>&nbsp; <a class='btn btn-warning btn-sm'>Delete Survey </a></td>" +
+                                       
+                                        "<td> "+ o.t +"</td>" +
+                                        "<td> " + o.q + " </td>" +
+                                        "<td> " + o.c + "</td>" +
+                                        "<td> <a class='btn btn-primary btn-sm theatre' data-poll-id='" + o.pid + "' data-toggle='modal' data-target='#myModal'>View Statistics </a>&nbsp; <a class='btn btn-warning btn-sm'>Delete Survey </a></td>" +
 
                                     "</tr>"
                                     );

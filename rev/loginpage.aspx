@@ -318,32 +318,7 @@
                                         <div class="input-group">
                                             <div class="input-group-addon">Year Graduated</div>
                                             <asp:DropDownList ID="cboYear_Graduated" runat="server" CssClass="form-control">
-                                                <asp:ListItem Text="1990" />
-                                                <asp:ListItem Text="1991" />
-                                                <asp:ListItem Text="1992" />
-                                                <asp:ListItem Text="1993" />
-                                                <asp:ListItem Text="1994" />
-                                                <asp:ListItem Text="1995" />
-                                                <asp:ListItem Text="1996" />
-                                                <asp:ListItem Text="1997" />
-                                                <asp:ListItem Text="1998" />
-                                                <asp:ListItem Text="1999" />
-                                                <asp:ListItem Text="2000" />
-                                                <asp:ListItem Text="2001" />
-                                                <asp:ListItem Text="2002" />
-                                                <asp:ListItem Text="2003" />
-                                                <asp:ListItem Text="2004" />
-                                                <asp:ListItem Text="2005" />
-                                                <asp:ListItem Text="2006" />
-                                                <asp:ListItem Text="2007" />
-                                                <asp:ListItem Text="2008" />
-                                                <asp:ListItem Text="2009" />
-                                                <asp:ListItem Text="2010" />
-                                                <asp:ListItem Text="2011" />
-                                                <asp:ListItem Text="2012" />
-                                                <asp:ListItem Text="2013" />
-                                                <asp:ListItem Text="2014" />
-                                                <asp:ListItem Text="2015" />
+                                                
                                             </asp:DropDownList>
                                         </div>
                                     </div>

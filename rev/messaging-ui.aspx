@@ -158,6 +158,27 @@
         </div>
       </div>
     </div>
+
+    //Modal delete
+        <div class="modal fade bs-example-modal-sm" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" style="border-radius:3px;">
+  <div class="modal-dialog modal-sm" style="width:500px;border-radius:3px;top:100px;">
+    <div class="modal-content" style="border-radius:3px;">
+      <div class="modal-header" style="background:#F6F7F8;border-radius:3px;padding:8px;">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h5 class="modal-title" id="myModalLabel2" style="padding:3px;"><b>Delete Post</b></h5>
+      </div>
+      <div class="modal-body" style="border-radius:3px;">
+          <p style="border-bottom:thin solid #ccc;padding-bottom:15px;color:#333;">Are you sure you want to delete this post?</p>
+         
+          <div class="btn-group btn-sm" style="text-align:right;float:right">
+            <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Cancel</button>
+            <button type="button" class="btn btn-danger btn-sm del_p">Confirm</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+</div>
     </form>
 
     <script type="text/javascript" src="./js/jquery.js"></script>
@@ -173,6 +194,7 @@
             var fullname;
             var account_idfk;
             var name;
+            var uid;
             console.log(sess_id);
             $.ajax({
                 type: "post",
@@ -186,7 +208,7 @@
                     data = jQuery.parseJSON(data)
                     var last
 
-                    if (r.d == "[]") {
+                    if (r.d == "[]" || r.d == null) {
                         $("#messagePlaceholder").append("No available messages.");
                         console.log("a");
                     } else{
@@ -201,8 +223,8 @@
                                     "<td>" +
                                     "<td style='text-align:right;'>" +
                                         "<div class='btn-group' role='group'>" +
-                                            "<input type='button' value='View conversation' data-name='" + o.u + "' class='btn btn-warning btn-sm theatre' data-toggle='modal' data-target='#myModal' data-id='" + o.uid + "'/>&nbsp;" +
-                                             "<button value='Delete conversation' class='btn btn-danger btn-sm delete'  data-id='" + o.uid + "'>Delete&nbsp;&nbsp;<span class='glyphicon glyphicon-trash'></span> </button>" +
+                                            "<button value='View conversation' data-name='" + o.u + "' class='btn btn-warning btn-sm theatre' data-toggle='modal' data-target='#myModal' data-id='" + o.uid + "'>View conversation</button>&nbsp;" +
+                                             "<a href='#' value='Delete conversation' class='btn btn-danger btn-sm delete'  data-id='" + o.uid + "' data-toggle='modal' data-target='.bs-example-modal-sm '><span class='glyphicon glyphicon-trash'></span> </a>" +
 
                                         "</div>" +
                                     "</td>" +
@@ -210,27 +232,30 @@
                                      
                                 "</tr>" + "<br>");
                         });
-                        $(".delete").click(function (e) {
-                            e.preventDefault();
-                            account_idfk = $(this).data("id");
-                            sess_id = $("#account_idpk").val();
 
+                        $(".delete").on("click", function () {
+                            uid = "";
+                            uid = $(this).data("id");
+                            $(".del_p").data("uid", uid);
+                        });
+                        $(".del_p").on("click", function () {
                             $.ajax({
                                 type: "post",
                                 url: "./messaging-ui-alumni.aspx/deleteMessages",
-                                data: "{'actor_id':'" + sess_id + "','account_id':'" + account_idfk + "'}",
+                                data: "{'actor_id':'" + sess_id + "','account_id':'" + uid + "'}",
                                 dataType: "json",
+                                processData: false,
+                                traditional: true,
                                 contentType: "application/json; charset=utf-8",
-                                async: true,
                                 success: function (r) {
-                                    console.log(r.d);
-                                    alert("Conversation deleted.");
+                                   
                                     window.location.reload(true);
                                 }
                             });
                         });
 
-                        $(".theatre").click(function () {
+                        $(".theatre").click(function (e) {
+                            e.preventDefault();
                             $(".appBtn").html("");
                             $("#messages").html("");
                             $("#myModalLabel").text("");
