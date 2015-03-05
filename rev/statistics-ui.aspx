@@ -259,10 +259,6 @@
         var report_desc = $("#filterSurvey").val();
         var ui;
 
-        $("#close").click(function () {
-            $(".modal-body .chart").html("");
-        });
-
         $("#director_print").click(function () {
             college_desc = $("#cboCollege").val();
             course_desc = $("#cboCourse").val();
@@ -272,6 +268,10 @@
             console.log(course_desc);
             console.log(report_desc)
             window.open("./reports/employment_report.aspx?college_desc=" + college_desc + "&course_desc=" + course_desc, "fullscreen=yes");
+        });
+
+        $("#close").click(function () {
+            $(".modal-body .chart").html("");
         });
 
         $('.chart').horizBarChart({
@@ -294,23 +294,22 @@
                 success: function (serverData) {
                     data = serverData.d;
                     data = jQuery.parseJSON(data);
+
                     $.each(data, function (i, o) {
                         $(".tableDetailsView tbody").append(
-                            "<tr>" +
-                               
-                                
-                                "<td> " + o.t + " </td>" +
-                                "<td> " + o.q + "</td>" +
-                                "<td>"+ o.c +" </td>" +
+                            "<tr>" +                              
+                                "<td>" + o.t + " </td>" +
+                                "<td>" + o.q + "</td>" +
+                                "<td>" + o.c + " </td>" +
                                 "<td style='text-align:right;'>" +
                                     "<div class='btn-group' role='group'>" +
                                         "<a class='btn btn-warning btn-sm theatre' data-poll-id='" + o.pid + "' data-toggle='modal' data-target='#myModal'>View Statistics </a> " +
                                         "<a class='btn btn-danger btn-sm deletePoll' data-poll-id='" + o.pid + "' data-toggle='modal' data-target='.bs-example-modal-sm '>&nbsp;<span class='glyphicon glyphicon-trash'></span></a>" +
                                     "</div>" +
-                                "</td>" +
-                               
+                                "</td>" +                               
                             "</tr>"
                             );
+
                         console.log(o.poid);
                     });
 
@@ -341,8 +340,7 @@
 
                                 $.each(optionsArr, function (i, pollOpt) {
                                     if (pollOpt.stats_data == 0) {
-                                        s = "Zero respondents";
-                                        
+                                        s = "Zero respondents";                                       
                                     }
                                     else {
                                         s = pollOpt.stats_data;                                      
@@ -374,6 +372,7 @@
                         uid = $(this).data("poll-id");
                         $(".del_p").data("uid", uid);
                     });
+
                     $(".del_p").on("click", function () {
                         $.ajax({
                             type: "post",

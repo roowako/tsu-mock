@@ -15,11 +15,11 @@ Partial Class reports_employment_report
     Public Shared Property sqlCon As SqlConnection
     Public Shared Property cmd As SqlCommand
     Public Shared Property dr As SqlDataReader
+    Dim college_desc As String = ""
+    Dim course_desc As String = ""
 
     'PAGE LOAD
     Protected Sub Page_Load(sender As Object, e As EventArgs) Handles Me.Load
-        Dim college_desc As String = ""
-        Dim course_desc As String = ""
         Dim college_id As Integer = 0
         Dim course_id As Integer = 0
         Dim sqlSTR As String = ""
@@ -136,10 +136,14 @@ Partial Class reports_employment_report
     Sub genRPT_esurvey_stats(ByVal dt As DataTable)
         rptViewer.Reset()
 
-        rptViewer.LocalReport.ReportPath = Server.MapPath("RPTemployment_.rdlc")
+        rptViewer.LocalReport.ReportPath = Server.MapPath("RPTemployment_survey.rdlc")
         rptViewer.LocalReport.DataSources.Clear()
 
+        Dim rpCollegeDesc As New ReportParameter("paramCollegeDesc", college_desc)
+        Dim rpCourseDesc As New ReportParameter("paramCourseDesc", course_desc)
         Dim _rsource As New ReportDataSource("DSalumni_list", dt)
+
+        rptViewer.LocalReport.SetParameters(New ReportParameter() {rpCollegeDesc, rpCourseDesc})
         rptViewer.LocalReport.DataSources.Add(_rsource)
         rptViewer.LocalReport.Refresh()
     End Sub

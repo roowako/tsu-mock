@@ -37,6 +37,7 @@ Partial Class statistics_ui
         Return serializer.Serialize(rows)
     End Function
 
+    'FILTER VIEW
     <System.Web.Services.WebMethod()> _
     <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
     Public Shared Function pullQ(ByVal filterView As String) As String
@@ -272,10 +273,13 @@ Partial Class statistics_ui
         Using sqlCon As New SqlConnection(constr)
             If college_desc = "ALL COLLEGES" And course_desc = "ALL COURSES" Then
                 sqlstr = "SELECT option_description, COUNT(tblPollsdata.pollsoption_idfk) as stats_data FROM tblPollsoption LEFT JOIN tblPollsdata ON tblPollsoption.pollsoption_idpk=tblPollsdata.pollsoption_idfk WHERE tblPollsoption.polls_idfk='" & optFk & "' GROUP BY option_description ORDER BY stats_data DESC "
+
             ElseIf college_desc <> "ALL COLLEGES" And course_desc = "ALL COURSES" Then
                 sqlstr = "SELECT option_description, COUNT(CASE WHEN college_idfk = '" & college_id & "' THEN 1 ELSE NULL END) as stats_data FROM tblPollsoption LEFT JOIN tblPollsdata ON tblPollsoption.pollsoption_idpk=tblPollsdata.pollsoption_idfk WHERE tblPollsoption.polls_idfk='" & optFk & "' GROUP BY option_description ORDER BY stats_data DESC "
+
             ElseIf college_desc <> "ALL COLLEGES" And course_desc <> "ALL COURSES" Then
                 sqlstr = "SELECT option_description, COUNT(CASE WHEN college_idfk = '" & college_id & "' AND course_idfk = '" & course_id & "' THEN 1 ELSE NULL END) as stats_data FROM tblPollsoption LEFT JOIN tblPollsdata ON tblPollsoption.pollsoption_idpk=tblPollsdata.pollsoption_idfk WHERE tblPollsoption.polls_idfk='" & optFk & "' GROUP BY option_description ORDER BY stats_data DESC "
+
             End If
 
             sqlCon.Open()
