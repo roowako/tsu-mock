@@ -95,7 +95,7 @@
 
                              <div class="col-xs-3">
                                  <br />
-                                 &nbsp; <span><button data-toggle='modal' data-target='#myModal'  value="" class="btn btn-warning btn-sm viewMessaging" ><span class="glyphicon glyphicon-plus">&nbsp;</span> Message &nbsp;</button></span>
+                                 &nbsp; <span><button data-toggle='modal' data-target='#myModal'  value="" class="btn btn-warning btn-sm viewMessaging" ><span class="glyphicon glyphicon-plus"></span>&nbsp;Message</button></span>
                              </div>
 
                          </div>

@@ -222,6 +222,27 @@
       </div>
     </div>
 
+    //Delete modal
+    <div class="modal fade bs-example-modal-sm" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" style="border-radius:3px;">
+  <div class="modal-dialog modal-sm" style="width:500px;border-radius:3px;top:100px;">
+    <div class="modal-content" style="border-radius:3px;">
+      <div class="modal-header" style="background:#F6F7F8;border-radius:3px;padding:8px;">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h5 class="modal-title" id="myModalLabel2" style="padding:3px;"><b>Delete Post</b></h5>
+      </div>
+      <div class="modal-body" style="border-radius:3px;">
+          <p style="border-bottom:thin solid #ccc;padding-bottom:15px;color:#333;">Are you sure you want to delete this post?</p>
+         
+          <div class="btn-group btn-sm" style="text-align:right;float:right">
+            <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Cancel</button>
+            <button type="button" class="btn btn-danger btn-sm del_p">Confirm</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+</div>
+
     <script type="text/javascript" src="./js/jquery.js"></script>
     <script type="text/javascript" src="./js/bootstrap.min.js"></script>
     <script type="text/javascript" src="./js/custom.js"></script>
@@ -236,6 +257,7 @@
         var college_desc = $("#cboCollege").val();
         var course_desc = $("#cboCourse").val();
         var report_desc = $("#filterSurvey").val();
+        var ui;
 
         $("#close").click(function () {
             $(".modal-body .chart").html("");
@@ -283,7 +305,7 @@
                                 "<td style='text-align:right;'>" +
                                     "<div class='btn-group' role='group'>" +
                                         "<a class='btn btn-warning btn-sm theatre' data-poll-id='" + o.pid + "' data-toggle='modal' data-target='#myModal'>View Statistics </a> " +
-                                        "<a class='btn btn-danger btn-sm deletePoll' data-poll-id='" + o.pid + "'>&nbsp;<span class='glyphicon glyphicon-trash'></span></a>" +
+                                        "<a class='btn btn-danger btn-sm deletePoll' data-poll-id='" + o.pid + "' data-toggle='modal' data-target='.bs-example-modal-sm '>&nbsp;<span class='glyphicon glyphicon-trash'></span></a>" +
                                     "</div>" +
                                 "</td>" +
                                
@@ -346,21 +368,28 @@
                         });
                     });
 
-                    $(".deletePoll").click(function (e) {
-                        e.preventDefault();
-                        var pollId = $(this).data("poll-id");
+
+                    $(".deletePoll").on("click", function () {
+                        uid = "";
+                        uid = $(this).data("poll-id");
+                        $(".del_p").data("uid", uid);
+                    });
+                    $(".del_p").on("click", function () {
                         $.ajax({
                             type: "post",
                             url: "statistics-ui.aspx/deletePoll",
-                            data: "{'poll_id':'" + pollId + "'}",
+                            data: "{'poll_id':'" + uid + "'}",
                             dataType: "json",
-                            contentType: "application/json",
+                            processData: false,
+                            traditional: true,
+                            contentType: "application/json; charset=utf-8",
                             success: function (serverData) {
-                                alert(serverData.d);
                                 window.location.reload(true);
                             }
                         });
                     });
+                    
+
                 }
             });
             
@@ -387,12 +416,13 @@
                                 $(".tableDetailsView tbody").append(
                                     "<tr>" +
                                      
-                                        "<td> " + o.description + " </td>" +
-                                        "<td> " + o.question + "</td>" +
+                                        "<td> " + o.t + " </td>" +
+                                        "<td> " + o.q + "</td>" +
+                                        "<td>" + o.c + " </td>" +
                                         "<td style='text-align:right;'>" +
                                             "<div class='btn-group' role='group'>" +
-                                                "<a class='btn btn-warning btn-sm theatre' data-poll-id='" + o.polls_idpk + "' data-toggle='modal' data-target='#myModal'>View Statistics </a> " +
-                                                "<a class='btn btn-danger btn-sm deletePoll' data-poll-id='" + o.polls_idpk + "'>&nbsp;<span class='glyphicon glyphicon-trash'></span></a>" +
+                                                "<a class='btn btn-warning btn-sm theatre' data-poll-id='" + o.pid + "' data-toggle='modal' data-target='#myModal'>View Statistics </a> " +
+                                                "<a class='btn btn-danger btn-sm deletePoll' data-poll-id='" + o.pid + "' data-toggle='modal' data-target='.bs-example-modal-sm '>&nbsp;<span class='glyphicon glyphicon-trash'></span></a>" +
                                             "</div>" +
                                         "</td>" +
 
