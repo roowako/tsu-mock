@@ -64,7 +64,7 @@
 			                        </a>
 		                        </li>
                             <li>    
-                                <a href="#"><span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;<asp:Label id="alumni_name" runat="server"></asp:Label></a>
+                                <a href="./alumni-profile.aspx"><span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;<asp:Label id="alumni_name" runat="server"></asp:Label></a>
                             </li>
 		  		                <li><a  runat="server" id="pointer"><span class="glyphicon glyphicon-home"></span>&nbsp;&nbsp;Timeline </a></li>
                                 <li><a href="#" id="alumni_logout" runat="server"><span class="glyphicon glyphicon-off" ></span>&nbsp;&nbsp;Log out</a></li>

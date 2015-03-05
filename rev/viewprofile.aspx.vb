@@ -127,7 +127,7 @@ Partial Class viewprofile
 
         Using sqlCon As New SqlConnection(constr)
             sqlCon.Open()
-            sqlStr = " SELECT TOP 1 given_name+' '+middle_name+' '+family_name as u, CONVERT(VARCHAR, birthday,7) as formatedB,telephone_number as c,email_address as m,address as a,citizenship as ct, religion as r,marital_status as ms,tblAccounts.year_graduated as yg,tblAccounts.given_name+' ' +tblAccounts.family_name as u,tblColleges.description as cd,tblCourses.description as ccd FROM tblAccounts,tblColleges,tblCourses WHERE account_idpk = '" & id & "' AND tblAccounts.college_idfk = tblColleges.college_idpk AND tblCourses.college_idfk = tblColleges.college_idpk "
+            sqlStr = " SELECT TOP 1 LOWER(given_name+' '+middle_name+' '+family_name) as u, CONVERT(VARCHAR, birthday,7) as formatedB,telephone_number as c,email_address as m,address as a,citizenship as ct, religion as r,marital_status as ms,tblAccounts.year_graduated as yg,LOWER(given_name+' '+family_name) as u,tblColleges.description as cd,tblCourses.description as ccd FROM tblAccounts,tblColleges,tblCourses WHERE account_idpk = '" & id & "' AND tblAccounts.college_idfk = tblColleges.college_idpk AND tblCourses.college_idfk = tblColleges.college_idpk "
             cmd = New SqlCommand(sqlStr, sqlCon)
             dr = cmd.ExecuteReader
             If dr.HasRows Then
@@ -142,7 +142,7 @@ Partial Class viewprofile
 
 
             Else
-                sqlStr2 = " SELECT TOP 1 given_name as u, userlevel_idfk as ul FROM tblAccounts WHERE account_idpk = '" & id & "'  "
+                sqlStr2 = " SELECT TOP 1 LOWER(given_name) as u, userlevel_idfk as ul FROM tblAccounts WHERE account_idpk = '" & id & "'  "
                 Using dat = New SqlDataAdapter(sqlStr2, sqlCon)
 
                     Dim table2 = New DataTable()
