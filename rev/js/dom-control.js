@@ -146,12 +146,11 @@
     });
 
     $("#employed_no").click(function () {
-
-        $(".ep-no").show();
         $(".ep-yes").hide();
         $(".password-show").show();
         $(".createShow").show();
     });
+
     $("#employed_yes").click(function () {
         $(".ep-yes").show();
         $(".ep-no").hide();

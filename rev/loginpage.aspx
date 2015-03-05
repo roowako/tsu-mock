@@ -189,37 +189,7 @@
 
                              <div class="col-xs-4">
                                  <asp:DropDownList ID="cboYear" runat="server" CssClass="form-control" >
-                                     
-                                    <asp:ListItem Text="1970" />
-                                    <asp:ListItem Text="1971" />
-                                    <asp:ListItem Text="1972" />
-                                    <asp:ListItem Text="1973" />
-                                    <asp:ListItem Text="1974" />
-                                    <asp:ListItem Text="1975" />
-                                    <asp:ListItem Text="1976" />
-                                    <asp:ListItem Text="1977" />
-                                    <asp:ListItem Text="1978" />
-                                    <asp:ListItem Text="1979" />
-                                    <asp:ListItem Text="1980" />
-                                    <asp:ListItem Text="1981" />
-                                    <asp:ListItem Text="1982" />
-                                    <asp:ListItem Text="1983" />
-                                    <asp:ListItem Text="1984" />
-                                    <asp:ListItem Text="1985" />
-                                    <asp:ListItem Text="1986" />
-                                    <asp:ListItem Text="1987" />
-                                    <asp:ListItem Text="1988" />
-                                    <asp:ListItem Text="1989" />
-                                    <asp:ListItem Text="1990" />
-                                    <asp:ListItem Text="1991" />
-                                    <asp:ListItem Text="1992" />
-                                    <asp:ListItem Text="1993" />
-                                    <asp:ListItem Text="1994" />
-                                    <asp:ListItem Text="1995" />
-                                    <asp:ListItem Text="1997" />
-                                    <asp:ListItem Text="1998" />
-                                    <asp:ListItem Text="1999" />
-                                    <asp:ListItem Text="2000" />
+                                       
                                 </asp:DropDownList>
                              </div>
                          </div>
@@ -332,7 +302,7 @@
                                         &nbsp;<asp:RadioButton ID="employed_no" runat="server" Text="No" GroupName="ep_q" ClientIDMode="Static" CssClass="emp_status"/>
                                     </div>
                                 </div>
-                                <div class="row form-group ep-no" style="display:none;">
+                                <div class="row form-group ep-nos" style="display:none;">
                                     <div class="col-xs-12">
                                         <asp:Label Text="If unemployed choose your status" runat="server" />
                                         <br /><br />
@@ -432,11 +402,10 @@
                                         <asp:ListItem Text="7 months to 1 year" />
                                         <asp:ListItem Text="1 year to 3 years" />
                                         <asp:ListItem Text="Others" />    
-                                    </asp:RadioButtonList>
-
-                                    
+                                    </asp:RadioButtonList>                                    
                                 </div>
                             </div>
+
                             <div class="row form-group ep-yes" style="display:none;">
                                 <div class="col-xs-12">
                                     <label>Further Study : </label>
@@ -447,6 +416,7 @@
                                    
                                 </div>
                             </div>
+
                             <div class="row form-group fu-ans" style="display:none;">
                                 <div class="col-xs-12">
                                     <label>Choose your highest Educational Attainment </label>
@@ -457,21 +427,21 @@
                                     </asp:RadioButtonList>
                                 </div>
                             </div>
-
-                          
+                   
                             <div class="row form-group password-show" style="display:none;">
                                 <div class=" col-sm-12">
                                     <div class="input-group">
                                         <div class="input-group-addon">Password</div>
-                                        <input type="password" id="txtPassword" runat="server" class="form-control" placeholder="Password" required />
+                                        <input type="password" id="txtPassword" pattern=".{8,}" title="Minimum of 8 characters for password required." runat="server" class="form-control" placeholder="Password" required />
                                     </div>
                                 </div>
                             </div>
+
                              <div class="row form-group password-show" style="display:none;">
                                 <div class=" col-sm-12">
                                      <div class="input-group ">
                                         <div class="input-group-addon">Re-type Password</div>
-                                        <input type="password" id="txtConfirm_Password" runat="server" class="form-control" placeholder="Confirm Password" required />
+                                        <input type="password" id="txtConfirm_Password" pattern=".{8,}" title="Minimum of 8 characters for password required." runat="server" class="form-control" placeholder="Confirm Password" required />
                                     </div>
                                 </div>
                             </div>
@@ -591,10 +561,7 @@
                     alert("Please select employment status.");
                 }
                 else {
-                    if (employment_status == "employed_no" && unemployed_status == null) {
-                        alert("Please select unemployed status.");
-                    }
-                    else if (employment_status == "employed_yes" && q1 == undefined) {
+                    if (employment_status == "employed_yes" && q1 == undefined) {
                         alert("Please answer survey question 1.");
                     }
                     else if (employment_status == "employed_yes" && q2 == undefined) {
@@ -625,7 +592,7 @@
                         $.ajax({
                             type: "post",
                             url: "./loginpage.aspx/alumni_register",
-                            data: "{'highest_education':'" + highest_education + "','higher_education':'" + higher_education + "','q7':'" + q7 + "','q6':'" + q6 + "','q5':'" + q5 + "','q4':'" + q4 + "','q3':'" + q3 + "','q2':'" + q2 + "','q1':'" + q1 + "','unemployed_status':'" + unemployed_status + "','employment_status':'" + employment_status + "','year_graduated':'" + year_graduated + "','student_number':'" + student_number + "','given_name':'" + given_name + "','middle_name':'" + middle_name + "','family_name':'" + family_name + "','maiden_name':'" + maiden_name + "','gender':'" + gender + "','marital_status':'" + marital_status + "','address':'" + address + "','birthday':'" + birthday + "','birthplace':'" + birthplace + "','number':'" + number + "','citizenship':'" + citizenship + "','religion':'" + religion + "','email':'" + email + "','password':'" + password + "','college':'" + college + "','course':'" + course + "'}",
+                            data: "{'highest_education':'" + highest_education + "','higher_education':'" + higher_education + "','q7':'" + q7 + "','q6':'" + q6 + "','q5':'" + q5 + "','q4':'" + q4 + "','q3':'" + q3 + "','q2':'" + q2 + "','q1':'" + q1 + "','employment_status':'" + employment_status + "','year_graduated':'" + year_graduated + "','student_number':'" + student_number + "','given_name':'" + given_name + "','middle_name':'" + middle_name + "','family_name':'" + family_name + "','maiden_name':'" + maiden_name + "','gender':'" + gender + "','marital_status':'" + marital_status + "','address':'" + address + "','birthday':'" + birthday + "','birthplace':'" + birthplace + "','number':'" + number + "','citizenship':'" + citizenship + "','religion':'" + religion + "','email':'" + email + "','password':'" + password + "','college':'" + college + "','course':'" + course + "'}",
                             dataType: "json",
                             processData: false,
                             traditional: true,

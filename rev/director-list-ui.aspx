@@ -149,25 +149,6 @@
         $(document).ready(function () {
             var id;
 
-                 $.ajax({
-                    
-                     type: "post",
-                     url: "director-list-ui.aspx/pullColleges",
-                     processData: false,
-                     traditional: true,
-                     contentType: "application/json; charset=utf-8",
-                     success: function (serverResponse) {
-                         data = serverResponse.d;
-                         data = jQuery.parseJSON(data);
-                         $.each(data, function (i, object) {
-                             $("#defaultUsername ").append(
-                                 "<option value='"+ object.description + "' data-id='"+ object.college_idpk +"'> " + object.description +  "</option>"
-                                 );
-                             console.log(object.description);
-                         });
-                     }
-                 });
-
                 $.ajax({
                     type: "post",
                     url: "director-list-ui.aspx/pullUsers",

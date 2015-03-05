@@ -238,24 +238,29 @@
                     parseInt(printnumber)
                 }
                 catch (err) {
-                    alert(err.message)
+                    alert("Please input numbers only.");
                 }
                 finally {
-                    $.ajax({
-                        type: "post",
-                        url: "./token-generator-ui.aspx/printTokens",
-                        data: "{'college':'" + college_fk + "'}",
-                        dataType: "json",
-                        contentType: "application/json; charset=utf-8",
-                        success: function (r) {
-                            if (printnumber > parseInt(r.d)) {
-                                alert("Insufficient tokens to print.")
+                    if (printnumber < 1) {
+                        alert("Please input number of tokens to print.")
+                    }
+                    else {
+                        $.ajax({
+                            type: "post",
+                            url: "./token-generator-ui.aspx/printTokens",
+                            data: "{'college':'" + college_fk + "'}",
+                            dataType: "json",
+                            contentType: "application/json; charset=utf-8",
+                            success: function (r) {
+                                if (printnumber > parseInt(r.d)) {
+                                    alert("System has only " + r.d + " tokens, generate more tokens.")
+                                }
+                                else {
+                                    window.open("./reports/token_report.aspx?college_id=" + college_fk + "&limit=" + printnumber);
+                                }
                             }
-                            else {
-                                window.open("./token-print.aspx?college_fk="+college_fk+"&number_of_tokens="+printnumber);
-                            }
-                        }
-                    });
+                        });
+                    }
                 }
             });
         });

@@ -270,8 +270,9 @@
 
             console.log(college_desc);
             console.log(course_desc);
-            console.log(report_desc)
-            window.open("./reports/employment_report.aspx?college_desc=" + college_desc + "&course_desc=" + course_desc, "fullscreen=yes");
+            console.log(report_desc);
+            console.log(pollID);
+            window.open("./reports/statistics_report.aspx?college_desc=" + college_desc + "&course_desc=" + course_desc + "&report_desc=" + report_desc + "&survey_id=" + pollID, "fullscreen=yes");
         });
 
         $("#close").click(function () {

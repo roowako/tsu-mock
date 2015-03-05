@@ -58,6 +58,54 @@
             </xs:sequence>
           </xs:complexType>
         </xs:element>
+        <xs:element name="DTtoken_print" msprop:Generator_TableClassName="DTtoken_printDataTable" msprop:Generator_TableVarName="tableDTtoken_print" msprop:Generator_RowChangedName="DTtoken_printRowChanged" msprop:Generator_TablePropName="DTtoken_print" msprop:Generator_RowDeletingName="DTtoken_printRowDeleting" msprop:Generator_RowChangingName="DTtoken_printRowChanging" msprop:Generator_RowEvHandlerName="DTtoken_printRowChangeEventHandler" msprop:Generator_RowDeletedName="DTtoken_printRowDeleted" msprop:Generator_RowClassName="DTtoken_printRow" msprop:Generator_UserTableName="DTtoken_print" msprop:Generator_RowEvArgName="DTtoken_printRowChangeEvent">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="token_desc" msprop:Generator_ColumnVarNameInTable="columntoken_desc" msprop:Generator_ColumnPropNameInRow="token_desc" msprop:Generator_ColumnPropNameInTable="token_descColumn" msprop:Generator_UserColumnName="token_desc" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="225" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="college_desc" msprop:Generator_ColumnVarNameInTable="columncollege_desc" msprop:Generator_ColumnPropNameInRow="college_desc" msprop:Generator_ColumnPropNameInTable="college_descColumn" msprop:Generator_UserColumnName="college_desc" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="225" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="DTsurvey_report" msprop:Generator_TableClassName="DTsurvey_reportDataTable" msprop:Generator_TableVarName="tableDTsurvey_report" msprop:Generator_TablePropName="DTsurvey_report" msprop:Generator_RowDeletingName="DTsurvey_reportRowDeleting" msprop:Generator_RowChangingName="DTsurvey_reportRowChanging" msprop:Generator_RowEvHandlerName="DTsurvey_reportRowChangeEventHandler" msprop:Generator_RowDeletedName="DTsurvey_reportRowDeleted" msprop:Generator_UserTableName="DTsurvey_report" msprop:Generator_RowChangedName="DTsurvey_reportRowChanged" msprop:Generator_RowEvArgName="DTsurvey_reportRowChangeEvent" msprop:Generator_RowClassName="DTsurvey_reportRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="survey_desc" msprop:Generator_ColumnVarNameInTable="columnsurvey_desc" msprop:Generator_ColumnPropNameInRow="survey_desc" msprop:Generator_ColumnPropNameInTable="survey_descColumn" msprop:Generator_UserColumnName="survey_desc" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="225" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="survey_ques" msprop:Generator_ColumnVarNameInTable="columnsurvey_ques" msprop:Generator_ColumnPropNameInRow="survey_ques" msprop:Generator_ColumnPropNameInTable="survey_quesColumn" msprop:Generator_UserColumnName="survey_ques" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="225" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="option_description" msprop:Generator_ColumnVarNameInTable="columnoption_description" msprop:Generator_ColumnPropNameInRow="option_description" msprop:Generator_ColumnPropNameInTable="option_descriptionColumn" msprop:Generator_UserColumnName="option_description" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="225" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="stats_data" msprop:Generator_ColumnVarNameInTable="columnstats_data" msprop:Generator_ColumnPropNameInRow="stats_data" msprop:Generator_ColumnPropNameInTable="stats_dataColumn" msprop:Generator_UserColumnName="stats_data" type="xs:int" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
       </xs:choice>
     </xs:complexType>
   </xs:element>

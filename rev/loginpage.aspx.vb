@@ -168,7 +168,7 @@ Partial Class _Default
         ElseIf duplicate_number = True Then
             Return "Mobile number is already taken."
         ElseIf duplicate_email = True Then
-            Return "Email number is already taken."
+            Return "Email address is already taken."
         ElseIf tokenStatus = False Then
             Return "Invalid token."
         Else
@@ -219,7 +219,7 @@ Partial Class _Default
     'REGISTER ALUMNI
     <System.Web.Services.WebMethod()> _
     <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
-    Public Shared Function alumni_register(ByVal highest_education As String, ByVal higher_education As String, ByVal q7 As String, ByVal q6 As String, ByVal q5 As String, ByVal q4 As String, ByVal q3 As String, ByVal q2 As String, ByVal q1 As String, ByVal unemployed_status As String, ByVal employment_status As String, ByVal year_graduated As String, ByVal student_number As String, ByVal given_name As String, ByVal middle_name As String, ByVal family_name As String, ByVal maiden_name As String, ByVal gender As String, ByVal marital_status As String, ByVal address As String, ByVal birthday As String, ByVal birthplace As String, ByVal number As String, ByVal citizenship As String, ByVal religion As String, ByVal email As String, ByVal password As String, ByVal college As String, ByVal course As String) As String
+    Public Shared Function alumni_register(ByVal highest_education As String, ByVal higher_education As String, ByVal q7 As String, ByVal q6 As String, ByVal q5 As String, ByVal q4 As String, ByVal q3 As String, ByVal q2 As String, ByVal q1 As String, ByVal employment_status As String, ByVal year_graduated As String, ByVal student_number As String, ByVal given_name As String, ByVal middle_name As String, ByVal family_name As String, ByVal maiden_name As String, ByVal gender As String, ByVal marital_status As String, ByVal address As String, ByVal birthday As String, ByVal birthplace As String, ByVal number As String, ByVal citizenship As String, ByVal religion As String, ByVal email As String, ByVal password As String, ByVal college As String, ByVal course As String) As String
         Dim college_id As Integer
         Dim course_id As Integer
         Dim duplicate As Boolean
@@ -341,9 +341,9 @@ Partial Class _Default
         ElseIf duplicate_number = True Then
             Return "Mobile number is already taken."
         ElseIf duplicate_email = True Then
-            Return "Email number is already taken."
+            Return "Email address is already taken."
         ElseIf isGraduate = False And student_number <> "" Then
-            Return "No alumni/graduate records found. Please check your student number, birthday or year of graduation."
+            Return "No alumni/graduate records found. Please check your student number, birthday or year of graduation. Leave student number empty if you forgot your student number."
         Else
             Using sqlCon As New SqlConnection(constr) 'insert account and get identity
                 Using cmd As New SqlCommand("INSERT INTO tblAccounts(userlevel_idfk,course_idfk,student_id,password,family_name,given_name,middle_name,maiden_name,address,telephone_number,email_address,birthday,citizenship,religion,marital_status,gender,account_status,college_idfk,year_graduated,img_path) VALUES(@p1,@p2,@p3,@p4,@p5,@p6,@p7,@p8,@p9,@p10,@p11,@p12,@p13,@p14,@p15,@p16,@p17,@p18,@p19,@p20)", sqlCon)
@@ -379,7 +379,7 @@ Partial Class _Default
             Using sqlCon As New SqlConnection(constr) 'add survey for the account
                 sqlCon.Open()
 
-                cmd = New SqlCommand("INSERT INTO tblEmployment(account_idfk,employment_status,q1,q2,q3,q4,q5,q6,q7,unemployed_status,further_study,highest_educ_attainment,college_idfk,course_idfk) VALUES(@p1,@p2,@p3,@p4,@p5,@p6,@p7,@p8,@p9,@p10,@p12,@p13,@p14,@p15)", sqlCon)
+                cmd = New SqlCommand("INSERT INTO tblEmployment(account_idfk,employment_status,q1,q2,q3,q4,q5,q6,q7,further_study,highest_educ_attainment,college_idfk,course_idfk) VALUES(@p1,@p2,@p3,@p4,@p5,@p6,@p7,@p8,@p9,@p12,@p13,@p14,@p15)", sqlCon)
                 cmd.Parameters.AddWithValue("@p1", account_id)
                 cmd.Parameters.AddWithValue("@p2", employment_status)
                 cmd.Parameters.AddWithValue("@p3", q1)
@@ -389,7 +389,6 @@ Partial Class _Default
                 cmd.Parameters.AddWithValue("@p7", q5)
                 cmd.Parameters.AddWithValue("@p8", q6)
                 cmd.Parameters.AddWithValue("@p9", q7)
-                cmd.Parameters.AddWithValue("@p10", unemployed_status)
                 cmd.Parameters.AddWithValue("@p12", higher_education)
                 cmd.Parameters.AddWithValue("@p13", highest_education)
                 cmd.Parameters.AddWithValue("@p14", college_id)
@@ -436,14 +435,15 @@ Partial Class _Default
         If Not IsPostBack Then
             fetch_college()
             Dim currYear As Integer = Date.Now.Year
+            Dim gradYear As Integer = Date.Now.Year - 15
 
-            For i As Integer = 1905 To currYear
+            For i As Integer = 1935 To currYear
                 cboYear_Graduated.Items.Add(New ListItem(i.ToString(), i.ToString()))
-
             Next
-            'DISREGARD PAGE LOAD FUNCTION ON POSTBACK
-        Else
 
+            For x As Integer = 1905 To gradYear
+                cboYear.Items.Add(New ListItem(x.ToString(), x.ToString()))
+            Next
         End If
     End Sub
 
