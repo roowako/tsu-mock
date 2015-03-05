@@ -86,7 +86,11 @@
                           </a>
                         </li>
                             <li> <asp:TextBox ID="account_idpk" runat="server" ></asp:TextBox> </li>
+
+                            <li> <asp:TextBox ID="college_id" runat="server"></asp:TextBox> </li>
+                            
 	                    </ul>
+
                     </div>
 
                     <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main"  style="background:#FFF;">
@@ -281,14 +285,14 @@
 
         var object =[];
         var param1 =[];
-
+        var c_id = $("#college_id").val();
             var filterView = "poll";
             var collegeView;
            
             $.ajax({
                 type: "post",
                 url: "statistics-ui.aspx/PullQ",
-                data: "{'filterView':'" + filterView + "'}",
+                data: "{'filterView':'" + filterView + "','cid':'" + c_id + "'}",
                 dataType: "json",
                 contentType: "application/json",
                 success: function (serverData) {

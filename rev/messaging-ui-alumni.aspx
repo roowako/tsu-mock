@@ -117,15 +117,15 @@
     //Modal form
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
       <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header" style="border-bottom:0px !important;">
+        <div class="modal-content" >
+          <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             <h4 class="modal-title" id="myModalLabel" style="text-transform:capitalize;">Modal title</h4>
           </div>
           <div class="modal-body">
              
               
-              <ul id="messages" style="border-top:thin solid #E5E5E5;padding-top:20px;">
+              <ul id="messages">
                  
               </ul>
           </div>
@@ -149,6 +149,27 @@
         </div>
       </div>
     </div>
+
+          //Modal delete
+        <div class="modal fade bs-example-modal-sm" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" style="border-radius:3px;">
+          <div class="modal-dialog modal-sm" style="width:500px;border-radius:3px;top:100px;">
+            <div class="modal-content" style="border-radius:3px;">
+              <div class="modal-header" style="background:#F6F7F8;border-radius:3px;padding:8px;"">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h5 class="modal-title" id="myModalLabel2" style="padding:3px;"><b>Delete Post</b></h5>
+              </div>
+              <div class="modal-body" style="border-radius:3px;">
+                  <p style="border-bottom:thin solid #ccc;padding-bottom:15px;color:#333;">Are you sure you want to delete this post?</p>
+         
+                  <div class="btn-group btn-sm" style="text-align:right;float:right">
+                    <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-danger btn-sm del_p">Confirm</button>
+                </div>
+              </div>
+      
+            </div>
+          </div>
+        </div>
     </form>
 
     <script type="text/javascript" src="./js/jquery.js"></script>
@@ -165,7 +186,15 @@
             var account_idfk;
             var name;
             var src;
+           
             console.log(sess_id);
+            var src_;
+            var v_src;
+            var g_src;
+            var uid;
+            var dp_r;
+            var dp_m;
+            var dp_s;
 
             $.ajax({
                 type: "post",
@@ -185,15 +214,20 @@
                         $.each(data, function (i, o) {
                             if (o.dp == null) {
                                 src_ = "./assets/images/default-dp.jpg";
+                                dp_m = "<img src='" + src_ + "' style='border-radius:0px;width:35px;height:32px;'/>";
                             } else {
                                 src_ = o.dp;
+                                g_src = o.dp;
+                                dp_s = "<img src='" + g_src + "' style='border-radius:0px;width:35px;height:32px;'/>";
                               
                             }
+
+                            dp_r = "<img src='" + src_ + "' style='border-radius:0px;width:35px;height:32px;'/>";
                                 $("#messagePlaceholder tbody").append(
                                 "<tr style='margin-top:5px;'> " +
                                 "<br>" +
                                     "<td>" +
-                                        "<img src='" + src_ + "' style='border-radius:0px;width:35px;height:35px;'/>" +
+                                        dp_r +
                                     "</td>" +
                                     "<td> " +
                                         "<div class='sender-name'><b> "+ o.u +  " </b></div>" +
@@ -204,8 +238,8 @@
                                   "<td> &nbsp;</td>" +
                                   "<td style='text-align:right;'>" +
                                         "<div class='btn-group' role='group'>" +
-                                            "<input type='button' value='View conversation' data-name='"+ o.u +"' class='btn btn-warning btn-sm theatre' data-toggle='modal' data-target='#myModal' data-id='" + o.uid + "'/>&nbsp;"  +
-                                            "<button value='Delete conversation' class='btn btn-danger btn-sm delete' data-id='" + o.uid + "'>Delete&nbsp;&nbsp;<span class='glyphicon glyphicon-trash'></span></button>" +
+                                            "<input type='button' value='View conversation' data-name='" + o.u + "' class='btn btn-warning btn-sm theatre' data-toggle='modal' data-target='#myModal' data-id='" + o.uid + "' data-src='" + o.dp + "'/>&nbsp;" +
+                                            "<a href='#' data-toggle='modal' data-target='.bs-example-modal-sm ' value='Delete conversation' class='btn btn-danger btn-sm delete' data-id='" + o.uid + "'><span class='glyphicon glyphicon-trash'></span></a>" +
 
                                         "</div>" +
                                     "</td>" +
@@ -214,20 +248,22 @@
                                 "</tr>" );
                         });
 
-                        $(".delete").click(function () {
-                            account_idfk = $(this).data("id");
-                            sess_id = $("#account_idpk").val();
-
+                        $(".delete").on("click", function () {
+                            uid = "";
+                            uid = $(this).data("id");
+                            $(".del_p").data("uid", uid);
+                        });
+                        $(".del_p").on("click", function () {
                             $.ajax({
                                 type: "post",
                                 url: "./messaging-ui-alumni.aspx/deleteMessages",
-                                data: "{'actor_id':'" + sess_id + "','account_id':'" + account_idfk + "'}",
+                                data: "{'actor_id':'" + sess_id + "','account_id':'" + uid + "'}",
                                 dataType: "json",
+                                processData: false,
+                                traditional: true,
                                 contentType: "application/json; charset=utf-8",
-                                async: true,
                                 success: function (r) {
-                                    console.log(r.d);
-                                    alert("Conversation deleted.");
+
                                     window.location.reload(true);
                                 }
                             });
@@ -238,8 +274,10 @@
                             $("#messages").html("");
                             $("#myModalLabel").text("");
                             var fn = $(this).data("name");
+                            var src = $(this).data("src");
                             $("#myModalLabel").text($(this).data("name"));
                             name = "";
+                            dp = "";
                             $(".appBtn").append(
                                  "<div class='btn-group' style='text-align:left;'>" +
                                   "<button type='button' class='btn btn-warning btn-sm reply' ><span class='glyphicon glyphicon-send'></span>&nbsp;&nbsp;Reply&nbsp;</button>" +
@@ -262,17 +300,20 @@
                                     data = jQuery.parseJSON(data)
                                     $.each(data, function (i, o) {
                                         var name;
-
+                                        var dp;
                                         if (sess_id == o.sender_idfk){
                                             name = "Me";
+                                            dp_m = $("#Image2").attr("src");
+                                            dp = "<img src='" + dp_m + "' style='border-radius:0px;width:35px;height:30px;'/>";
                                         }
                                         else{
                                             name = fn;
+                                            dp = "<img src='" + src + "' style='border-radius:0px;width:35px;height:30px;'/>";
                                         }
 
                                         $("#messages").append(
-                                                "<li class='messaging'><b> " + name + "</b>  <span  style='float:right;font-size:12px;color:#333;font-family:Tahoma;margin-top:4px;' class='glyphicon glyphicon-hourglass'> <span  style='font-size:10px;color:#333;'>" + o.formatedB + " </span></span></li>" +
-                                                "<li class='messaging'>" + o.actor_message + " </li>" +
+                                                "<li class='messaging'>" + dp + "<b> " + name + "</b>  <span  style='float:right;font-size:12px;color:#333;font-family:Tahoma;margin-top:4px;' class='glyphicon glyphicon-hourglass'> <span  style='font-size:10px;color:#333;'>" + o.formatedB + " </span></span></li>" +
+                                                "<li class='messaging' style='margin-left:5px;vertical-align:top;'><span >" + o.actor_message + "</span></li>" +
                                                
                                                 "<br>"
                                         );

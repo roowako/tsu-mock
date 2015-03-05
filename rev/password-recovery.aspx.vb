@@ -56,7 +56,7 @@ Partial Class rev_password_recovery
         Using sqlCon As New SqlConnection(constr)
             sqlCon.Open()
 
-            cmd = New SqlCommand("SELECT account_idpk as aid,given_name as u,email_address as um,img_path as imp  FROM tblAccounts WHERE email_address = @p1 OR student_id = @p1 OR given_name+ ' ' +middle_name+ ' ' +family_name = @p1 OR telephone_number = @p1 AND account_status = 1 ", sqlCon)
+            cmd = New SqlCommand("SELECT account_idpk as aid,given_name as u,email_address as um,img_path as imp  FROM tblAccounts WHERE email_address = @p1 OR student_id = @p1 OR given_name+ ' ' +middle_name+ ' ' +family_name = @p1 OR given_name+ ' ' +family_name = @p1 OR telephone_number = @p1 AND account_status = 1 ", sqlCon)
             cmd.Parameters.AddWithValue("@p1", r)
 
             dr = cmd.ExecuteReader
@@ -71,7 +71,7 @@ Partial Class rev_password_recovery
 
 
             Else
-                um = "null"
+                
                 Return "None"
             End If
 
@@ -97,7 +97,7 @@ Partial Class rev_password_recovery
         stringify = stringify.Replace("{umail}", um)
 
         m.From = New MailAddress("TSU Alumni Tracer <tsualumnitracer@gmail.com>")
-        m.To.Add(um.ToString())
+        m.To.Add(New MailAddress(um.ToString()))
         m.Subject = "Password Reset"
         m.Body = stringify
         m.IsBodyHtml = True
@@ -124,7 +124,9 @@ Partial Class rev_password_recovery
    
 
     Protected Sub sendResetTemplate(sender As Object, e As EventArgs) Handles trigger.Click
-        sendResetTemplate()
+       
+            sendResetTemplate()
+
 
     End Sub
 End Class

@@ -63,7 +63,7 @@
 	                <ul class="nav nav-sidebar">
 		                <li>
 			                <a href="#" >
-				                <asp:Image ID="Image2" runat="server" ImageUrl="./assets/images/default-dp.jpg" Height="75" Width="75" BorderColor="White" BorderStyle="Solid" BorderWidth="3" />          
+				                <asp:Image ID="Image2" runat="server" ImageUrl="./assets/images/default-dp.jpg" BorderColor="White" BorderStyle="Solid" BorderWidth="3" />          
 			                </a>
 		                </li>
 		                <li><a href="#" class="bolder"><span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;<asp:Label id="alumni_name" runat="server"></asp:Label></a></li>
@@ -79,6 +79,9 @@
 		                <li><a href="#" id="alumni_logout" runat="server"><span class="glyphicon glyphicon-off"></span>&nbsp;&nbsp;Log out</a></li>
                         <li>
                             <asp:TextBox ID="account_idpk" runat="server" ></asp:TextBox>
+                        </li>
+                        <li>
+                            <asp:TextBox ID="college_id" runat="server"></asp:TextBox>
                         </li>
 	                </ul>
                 </div>
@@ -101,17 +104,7 @@
                                          </div>
                                      </div>
 
-                                     <div class="col-xs-3">
-                                          <asp:DropDownList ID="cboCollege" runat="server" CssClass="form-control">
-                                             
-                                          </asp:DropDownList>
-                                     </div>
-
-                                     <div class="col-xs-3">
-                                          <asp:DropDownList ID="cboCourse" runat="server" CssClass="form-control">
-                                             <asp:ListItem>ALL COURSES</asp:ListItem>
-                                          </asp:DropDownList>
-                                     </div>
+                                     
                                  </div>
                                  <div class="row">
                                      <div class="col-xs-12 ">
@@ -126,6 +119,7 @@
                                                    
                                                             <th><b>Title</b></th>
                                                             <th><b>Question</b></th>                                   
+                                                            <th></th>
                                                             <th></th>
                                                         </tr>
                                                         </thead>
@@ -230,32 +224,35 @@
 
         var object =[];
         var param1 =[];
-    
+        var c_id = $("#college_id").val();
             var filterView = "poll";
             var collegeView;
             $.ajax({
                 type: "post",
                 url: "statistics-ui.aspx/PullQ",
-                data: "{'filterView':'" + filterView + "'}",
+                data: "{'filterView':'" + filterView + "','cid':'"+ c_id +"'}",
                 dataType: "json",
                 contentType: "application/json",
                 success: function (serverData) {
                     data = serverData.d;
                     data = jQuery.parseJSON(data);
-                    $.each(data, function (i, o) {
-                        $(".tableDetailsView tbody").append(
-                            "<tr>" +
-                              
-                                "<td> " + o.t + " </td>" +
-                                "<td> " + o.q + "</td>" +
-                                "<td> " + o.c + "</td>" +
-                                "<td> <a class='btn btn-primary btn-sm theatre' data-poll-id='" + o.pid + "' data-toggle='modal' data-target='#myModal'>View Statistics </a>&nbsp; </td>" +
+                    if (serverData.d == null || serverData.d == "[]") {
+                        $(".tableDetailsView").html("No available survey for you college at the moment.");
+                    } else {
+                        $.each(data, function (i, o) {
+                            $(".tableDetailsView tbody").append(
+                                "<tr>" +
 
-                            "</tr>"
-                            );
-                        console.log(o.polls_idpk);
-                    });
+                                    "<td> " + o.t + " </td>" +
+                                    "<td> " + o.q + "</td>" +
+                                    "<td> " + o.c + "</td>" +
+                                    "<td> <a class='btn btn-primary btn-sm theatre' data-poll-id='" + o.pid + "' data-toggle='modal' data-target='#myModal'>View Statistics </a>&nbsp; </td>" +
 
+                                "</tr>"
+                                );
+                            console.log(o.polls_idpk);
+                        });
+                    }
                     $(".theatre").click(function () {
 
                         $(".chart").html("");
@@ -348,7 +345,7 @@
                                         "<td> "+ o.t +"</td>" +
                                         "<td> " + o.q + " </td>" +
                                         "<td> " + o.c + "</td>" +
-                                        "<td> <a class='btn btn-primary btn-sm theatre' data-poll-id='" + o.pid + "' data-toggle='modal' data-target='#myModal'>View Statistics </a>&nbsp; <a class='btn btn-warning btn-sm'>Delete Survey </a></td>" +
+                                        "<td> <a class='btn btn-primary btn-sm theatre' data-poll-id='" + o.pid + "' data-toggle='modal' data-target='#myModal'>View Statistics </a></td>" +
 
                                     "</tr>"
                                     );

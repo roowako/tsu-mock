@@ -23,17 +23,18 @@ Partial Class messaging_ui
             Console.Write("sd")
             Response.Redirect("Default.aspx")
         Else
-            Image2.ID = "non"
+
             Using sqlCon As New SqlConnection(constr)
                 sqlCon.Open()
 
-                cmd = New SqlCommand("SELECT given_name,account_idpk FROM tblAccounts WHERE account_idpk=@p1", sqlCon)
+                cmd = New SqlCommand("SELECT given_name,account_idpk,img_path FROM tblAccounts WHERE account_idpk=@p1", sqlCon)
                 cmd.Parameters.AddWithValue("@p1", Session("id"))
                 dr = cmd.ExecuteReader
 
                 While dr.Read
                     alumni_name.Text = dr.GetString(0)
                     account_idpk.Text = CStr(dr.GetValue(1))
+                    undeditable.ImageUrl = dr.GetString(2)
                 End While
 
                 sqlCon.Close()

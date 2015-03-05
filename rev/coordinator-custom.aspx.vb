@@ -44,7 +44,7 @@ Partial Class coordinator_custom
 
             sqlCon.Open()
 
-            Using dat = New SqlDataAdapter("SELECT LOWER(given_name) as u,description,CONVERT(VARCHAR, datetime_posted,0) AS formatedB,tblAccounts.account_idpk as uid,img_path as dp FROM tblAnnouncements,tblAccounts WHERE tblAnnouncements.account_idfk = tblAccounts.account_idpk ORDER BY announcement_idpk DESC", sqlCon)
+            Using dat = New SqlDataAdapter("SELECT LOWER(given_name) as u,description,CONVERT(VARCHAR, datetime_posted,0) AS formatedB,tblAccounts.account_idpk as uid,img_path as dp,announcement_idpk as aid FROM tblAnnouncements,tblAccounts WHERE tblAnnouncements.account_idfk = tblAccounts.account_idpk ORDER BY announcement_idpk DESC", sqlCon)
 
                 Dim table2 = New DataTable()
                 dat.Fill(table2)
@@ -84,11 +84,11 @@ Partial Class coordinator_custom
             Console.Write("sd")
             Response.Redirect("Default.aspx")
         Else
-            Image2.ID = "non"
+
             Using sqlCon As New SqlConnection(constr)
                 sqlCon.Open()
 
-                cmd = New SqlCommand("SELECT account_idpk,student_id,college_idfk FROM tblAccounts WHERE account_idpk = @p1", sqlCon)
+                cmd = New SqlCommand("SELECT account_idpk,student_id,college_idfk,img_path FROM tblAccounts WHERE account_idpk = @p1", sqlCon)
                 cmd.Parameters.AddWithValue("@p1", Session.Item("id"))
                 dr = cmd.ExecuteReader
 
@@ -96,6 +96,7 @@ Partial Class coordinator_custom
                     account_idpk.Text = Session(0)
                     alumni_name.Text = dr.GetString(1)
                     college_idfk.Text = dr.GetValue(2)
+                    undeditable.ImageUrl = dr.GetString(3)
                 End While
 
                 sqlCon.Close()

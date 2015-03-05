@@ -166,25 +166,25 @@
             </div>
         </div>
     </form>
-<div class="modal fade bs-example-modal-sm" id="myModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" style="border-radius:3px;">
-  <div class="modal-dialog modal-sm" style="width:500px;border-radius:3px;top:100px;">
-    <div class="modal-content" style="border-radius:3px;">
-      <div class="modal-header" style="background:#F6F7F8;border-radius:3px;padding:8px;">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h5 class="modal-title" id="myModalLabel" style="padding:3px;"><b>Delete Post</b></h5>
-      </div>
-      <div class="modal-body" style="border-radius:3px;">
-          <p style="border-bottom:thin solid #ccc;padding-bottom:15px;color:#333;">Are you sure you want to delete this post?</p>
+    <div class="modal fade bs-example-modal-sm" id="myModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" style="border-radius:3px;">
+      <div class="modal-dialog modal-sm" style="width:500px;border-radius:3px;top:100px;">
+        <div class="modal-content" style="border-radius:3px;">
+          <div class="modal-header" style="background:#F6F7F8;border-radius:3px;padding:8px;">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h5 class="modal-title" id="myModalLabel" style="padding:3px;"><b>Delete Post</b></h5>
+          </div>
+          <div class="modal-body" style="border-radius:3px;">
+              <p style="border-bottom:thin solid #ccc;padding-bottom:15px;color:#333;">Are you sure you want to delete this post?</p>
          
-          <div class="btn-group btn-sm" style="text-align:right;float:right">
-            <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Cancel</button>
-            <button type="button" class="btn btn-danger btn-sm del_p">Confirm</button>
+              <div class="btn-group btn-sm" style="text-align:right;float:right">
+                <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-danger btn-sm del_p">Confirm</button>
+            </div>
+          </div>
+      
         </div>
       </div>
-      
     </div>
-  </div>
-</div>
     <script type="text/javascript" src="./js/jquery.js"></script>
     <script type="text/javascript" src="./js/bootstrap.min.js"></script>
     <script type="text/javascript" src="./js/custom.js"></script>

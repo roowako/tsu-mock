@@ -329,7 +329,7 @@ Partial Class rev_alumni_list_ui
             Response.Redirect("Default.aspx")
         Else
 
-            For i As Integer = 1970 To CInt(Year(Now()))
+            For i As Integer = 1905 To CInt(Year(Now()))
                 filterYear.Items.Add(New ListItem(i.ToString(), i.ToString()))
             Next
 

@@ -61,7 +61,7 @@
                             <div class="col-xs-7">
                                 <h4> Find your account.</h4>
                                 <div class="form-group">
-                                    <input type="text" placeholder="" class="form-control" id="mail" />
+                                    <input type="text" placeholder="" class="form-control" id="mail" autocomplete="off"/>
                                 </div>
                                 <div class="form-group">
                                     <p>Email, Phone, Student ID or Fullname.</p>
@@ -122,10 +122,11 @@
         $(document).ready(function () {
 
             $("#getMail").click(function (e) {
-              
+
+                $("#mail").prop("disabled", true);
                 var mail = $("#mail").val();
                 console.log(mail);
-              
+                   
                     $.ajax({
                     type: "post",
                     url: "./password-recovery.aspx/pullMail",
@@ -137,20 +138,39 @@
                     success: function (r) {
                         console.log(r.d);
                         if (r.d == "None") {
+                            $("#mail").prop("disabled", false);
+                            $("#mail").focus();
+                            $("#mail").val("");
+                            
                             $("#resultMailer").removeClass("btn-success");
                             $("#resultMailer").addClass("btn-danger");
-                            $("#resultMailer").fadeIn('slow').delay(4000).fadeOut('slow');
+                            $("#resultMailer").fadeIn('slow').delay(2000).fadeOut('slow');
                             $("#resultMailer").html("Please try again with other information.");
+                            
                         } else {
+                            $("#mail").val("");
                             $("#resultMailer").removeClass("btn-danger");
                             $("#resultMailer").addClass("btn-success");
-                            $("#resultMailer").fadeIn('slow').delay(3500).fadeOut('slow');
+                            $("#resultMailer").fadeIn('slow').delay(2500).fadeOut('slow');
                             $("#resultMailer").html("Please check your email for further instructions. Thank you.");
+                            $("#mail").prop("disabled", false);
                             $("#trigger").click();
                         }
                     }
                     });
                
+            });
+
+            $("#mail").on("keydown", function (e) {
+                var enter = 13;
+                var key = e.which || e.keyCode;
+                if( key == enter){
+                    $("#trigger").prop("disabled", true);
+                    $("#getMail").focus();
+                    $("#getMail").click;
+                }else{
+
+                }
             });
         });
     </script>

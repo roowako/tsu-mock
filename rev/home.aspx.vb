@@ -39,13 +39,13 @@ Partial Class home
                             college_idpk.Text = dr.GetValue(1)
                             college_desc.Text = dr.GetString(2)
                             course_idpk.Text = dr.GetValue(4)
-                            Image2.ImageUrl = "./assets/images/default-dp.jpg"
+                            undeditable.ImageUrl = "./assets/images/default-dp.jpg"
                         Else
                             alumni_name.Text = dr.GetString(0)
                             account_idpk.Text = Session.Item("id")
                             college_idpk.Text = dr.GetValue(1)
                             college_desc.Text = dr.GetString(2)
-                            Image2.ImageUrl = dr.GetString(3)
+                            undeditable.ImageUrl = dr.GetString(3)
                             course_idpk.Text = dr.GetValue(4)
                         End If
                         
@@ -108,7 +108,7 @@ Partial Class home
     Public Shared Function pullAnnouncement(ByVal college_id As Integer) As String
         Using sqlCon As New SqlConnection(constr)
             sqlCon.Open()
-            Using dat = New SqlDataAdapter("SELECT description,target_id,CONVERT(VARCHAR, datetime_posted,0) as formatedB FROM tblAnnouncements WHERE target_id = '" & college_id & "' OR target_id = 0  ORDER BY announcement_idpk DESC", sqlCon)
+            Using dat = New SqlDataAdapter("SELECT DISTINCT LOWER(given_name) as u,description,CONVERT(VARCHAR, datetime_posted,0) AS formatedB,img_path as dp,announcement_idpk as uid FROM tblAnnouncements,tblAccounts WHERE tblAnnouncements.account_idfk = tblAccounts.account_idpk AND target_id = '" & college_id & "' OR account_idpk = 41 AND target_id = 0 ORDER BY announcement_idpk DESC", sqlCon)
                 Dim table2 = New DataTable()
                 dat.Fill(table2)
 

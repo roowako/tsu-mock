@@ -81,7 +81,7 @@
 		                <li>
 			                <a href="" >
 
-				                <asp:Image ID="Image2" runat="server" ImageUrl="./assets/images/default-dp.jpg" Height="75" Width="75" BorderColor="White" BorderStyle="Solid" BorderWidth="3" />          
+				                <asp:Image ID="undeditable" runat="server" ImageUrl="./assets/images/default-dp.jpg" Height="50" Width="65" BorderColor="White" BorderStyle="Solid" BorderWidth="3" CssClass="non-m"/>          
 
 			                </a>
 
@@ -163,6 +163,25 @@
 
 
     </form>
+    <div class="modal fade bs-example-modal-sm" id="myModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" style="border-radius:3px;">
+      <div class="modal-dialog modal-sm" style="width:500px;border-radius:3px;top:100px;">
+        <div class="modal-content" style="border-radius:3px;">
+          <div class="modal-header" style="background:#F6F7F8;border-radius:3px;padding:8px;">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h5 class="modal-title" id="myModalLabel" style="padding:3px;"><b>Delete Post</b></h5>
+          </div>
+          <div class="modal-body" style="border-radius:3px;">
+              <p style="border-bottom:thin solid #ccc;padding-bottom:15px;color:#333;">Are you sure you want to delete this post?</p>
+         
+              <div class="btn-group btn-sm" style="text-align:right;float:right">
+                <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-danger btn-sm del_p">Confirm</button>
+            </div>
+          </div>
+      
+        </div>
+      </div>
+    </div>
     
     <script type="text/javascript" src="./js/jquery.js"></script>
     <script type="text/javascript" src="./js/bootstrap.min.js"></script>
@@ -178,6 +197,7 @@
             var college_id = $("#college_idfk").val();
             var name;
             var actor_name = $("#alumni_name").text();
+            var uid;
 
             $.ajax({
                 type: "post",
@@ -219,7 +239,7 @@
                                             "<div class='theme-color col-xs-12 btn-group' style='text-align:right;padding:8px;'>" +
                                                 "<a href='#' style='color:#A6635D;font-size:13px;' class='share' data-sharable='" + object.description + "' data-u='" + object.given_name + "'>Share</a>" +
                                                 "<span style='color:#A6635D;font-size:13px;'>&nbsp;&nbsp;•&nbsp;&nbsp; </span>" +
-                                                "<a href='#' style='color:#A6635D;font-size:13px;'><span style='font-size:13px;' class='glyphicon glyphicon-trash'>&nbsp;</span></a>" +
+                                                "<a href='#' class='c_del' data-toggle='modal' data-target='.bs-example-modal-sm ' data-id='" + object.aid + "'   style='color:#A6635D;font-size:13px;'><span style='font-size:13px;' class='glyphicon glyphicon-trash'  ></span></a>&nbsp;&nbsp" +
                                             "</div>" +
                                           
                                         "</div> " +
@@ -232,6 +252,29 @@
                            
                         });
 
+
+                        $(".c_del").on("click", function () {
+                            uid = "";
+                            uid = $(this).data("id");
+                            $(".del_p").data("uid", uid);
+                        });
+                        $(".del_p").on("click", function () {
+                            $.ajax({
+                                type: "post",
+                                url: "director-ui.aspx/deleteAnnouncement",
+                                data: "{'aid':'" + uid + "'}",
+                                dataType: "json",
+                                processData: false,
+                                traditional: true,
+                                contentType: "application/json; charset=utf-8",
+                                success: function (announceReturn) {
+                                   
+                                    console.log(announceReturn);
+                                    window.location.reload(true)
+                                    
+                                }
+                            });
+                        });
                         $('.share').click(function (e) {
                             var context = $(this).data("sharable");
                             var u = $(this).data("u");

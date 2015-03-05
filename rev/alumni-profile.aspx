@@ -87,7 +87,7 @@
                              </div>
                              <div class="col-xs-2 " style="text-align:right;position:relative">
                                  <span class="glyphicon glyphicon-camera" style="position:absolute;top:4px;font-size:22px;cursor:pointer;color:#A6635D" id="checker"  runat="server">&nbsp;</span>
-                                 <asp:FileUpload ID="uploader" runat="server" CssClass="btnbtn-sm  ipt" style="max-width:250px;cursor:pointer;"/>
+                                 <asp:FileUpload ID="uploader" runat="server" CssClass="btnbtn-sm  ipt" style="max-width:250px;cursor:pointer;opacity:0;"/>
                              </div>
 
                              <div class="col-xs-2">

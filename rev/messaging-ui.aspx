@@ -52,7 +52,7 @@
 	                       <ul class="nav nav-sidebar">
 		                        <li>
 			                        <a href="#" >
-				                        <asp:Image ID="Image2" runat="server" ImageUrl="./assets/images/default-dp.jpg" Height="75" Width="75" BorderColor="White" BorderStyle="Solid" BorderWidth="3" />          
+				                          <asp:Image ID="undeditable" runat="server" ImageUrl="./assets/images/default-dp.jpg" Height="50" Width="65" BorderColor="White" BorderStyle="Solid" BorderWidth="3" CssClass="non-m"/>          
 			                        </a>
 
 		                        </li>
@@ -129,18 +129,18 @@
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
-          <div class="modal-header" style="border-bottom:none !important;">
+          <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             <h4 class="modal-title" id="myModalLabel" style="text-transform:capitalize;">Modal title</h4>
           </div>
           <div class="modal-body">
              
               
-              <ul id="messages" style="border-top:thin solid #E5E5E5;padding-top:20px;">
+              <ul id="messages">
                  
               </ul>
           </div>
-          <div class="modal-footer"  style="background:#f5f5f5;">
+          <div class="modal-footer"  style="">
               <div class="container">
                   <div class="row">
                       <div class="col-xs-6">
@@ -195,10 +195,20 @@
             var account_idfk;
             var name;
             var uid;
+            var src_;
+            var v_src;
+            var g_src;
+            var uid;
+            var dp_r;
+            var dp_m;
+            var dp_s;
+
+
+
             console.log(sess_id);
             $.ajax({
                 type: "post",
-                url: "./messaging-ui.aspx/pullMessages",
+                url: "./messaging-ui-alumni.aspx/pullMessages",
                 data:"{'account_id':'"+ sess_id +"'}",
                 dataType: "json",
                 contentType: "application/json; charset=utf-8",
@@ -208,29 +218,49 @@
                     data = jQuery.parseJSON(data)
                     var last
 
+                    data = r.d
+                    data = jQuery.parseJSON(data)
+                    var last
+
                     if (r.d == "[]" || r.d == null) {
                         $("#messagePlaceholder").append("No available messages.");
-                        console.log("a");
-                    } else{
+                    } else {
                         $.each(data, function (i, o) {
-                           
-                                $("#messagePlaceholder tbody").append(
-                                "<tr> " +
-                                    "<td> " +
-                                        "<div class='sender-name'><b> "+ o.u +  " </b></div>" +
-                                        "</div>" +
-                                    "</td>" +
-                                    "<td>" +
-                                    "<td style='text-align:right;'>" +
-                                        "<div class='btn-group' role='group'>" +
-                                            "<button value='View conversation' data-name='" + o.u + "' class='btn btn-warning btn-sm theatre' data-toggle='modal' data-target='#myModal' data-id='" + o.uid + "'>View conversation</button>&nbsp;" +
-                                             "<a href='#' value='Delete conversation' class='btn btn-danger btn-sm delete'  data-id='" + o.uid + "' data-toggle='modal' data-target='.bs-example-modal-sm '><span class='glyphicon glyphicon-trash'></span> </a>" +
 
-                                        "</div>" +
-                                    "</td>" +
 
-                                     
-                                "</tr>" + "<br>");
+                            if (o.dp == null) {
+                                src_ = "./assets/images/default-dp.jpg";
+                                dp_m = "<img src='" + src_ + "' style='border-radius:0px;width:35px;height:32px;'/>";
+                            } else {
+                                src_ = o.dp;
+                                g_src = o.dp;
+                                dp_s = "<img src='" + g_src + "' style='border-radius:0px;width:35px;height:32px;'/>";
+                            }
+                            $("#messagePlaceholder tbody").append(
+
+                            "<tr class=''  style='margin-top:5px;'> " +
+                            "<br>" +
+
+                              "<td>" +
+                                  "<img src='" + src_ + "' style='border-radius:0px;width:35px;height:32px;'/>" +
+                              "</td>" +
+                                "<td> " +
+                                    "<div class='sender-name'><b> " + o.u + " </b></div>" +
+                                    "</div>" +
+                                "</td>" +
+                                "<td>&nbsp; </td>" +
+                                "<td>&nbsp; </td>" +
+                                "<td> &nbsp;</td>" +
+                                 "<td style='text-align:right;'>" +
+                                      "<div class='btn-group' role='group'>" +
+                                          "<input type='button' style='font-weight:bold;' value='View conversation' data-name='" + o.u + "' class='btn btn-warning btn-sm theatre_m' data-toggle='modal' data-target='#myModal' data-id='" + o.uid + "' data-src='" + o.dp + "'/>&nbsp;" +
+                                          "<a href='#' data-toggle='modal' data-target='.bs-example-modal-sm '  class='btn btn-danger btn-sm delete' data-id='" + o.uid + "'><span class='glyphicon glyphicon-trash'></span></a>" +
+                                      "</div>" +
+                                  "</td>" +
+
+                            "</tr>"
+
+                            );
                         });
 
                         $(".delete").on("click", function () {
@@ -254,14 +284,16 @@
                             });
                         });
 
-                        $(".theatre").click(function (e) {
+                        $(".theatre_m").click(function (e) {
                             e.preventDefault();
                             $(".appBtn").html("");
                             $("#messages").html("");
                             $("#myModalLabel").text("");
                             var fn = $(this).data("name");
+                            var src = $(this).data("src");
                             $("#myModalLabel").text($(this).data("name"));
                             name = "";
+                            dp = "";
                             $(".appBtn").append(
                                 "<div class='btn-group' style='text-align:left;'>" +
                                   "<button type='button' class='btn btn-warning btn-sm reply' ><span class='glyphicon glyphicon-send'></span>&nbsp;&nbsp;Reply&nbsp;</button>" +
@@ -284,20 +316,23 @@
                                     data = jQuery.parseJSON(data)
                                     $.each(data, function (i, o) {
                                         var name;
-
+                                        var dp;
                                         if (sess_id == o.sender_idfk) {
                                             name = "Me";
+                                            dp_m = $("#undeditable").attr("src");
+                                            dp = "<img src='" + dp_m + "' style='border-radius:0px;width:32px;height:30px;'/>";
                                         }
                                         else {
                                             name = fn;
+                                            dp = "<img src='" + src + "' style='border-radius:0px;width:32px;height:30px;'/>";
                                         }
 
                                         $("#messages").append(
-                                                "<li class='messaging'><b> " + name + "</b> </li>" +
-                                                "<li class='messaging'>" + o.actor_message + " </li>" +
-                                                "<li style=font-size:10px;color:#333;> " + "  - " + o.formatedB + " </li>" +
-                                                "<br>"
-                                        );
+                                                  "<li class='messaging'>" + dp + "<b> " + name + "</b> <span  style='float:right;font-size:12px;color:#333;font-family:Tahoma;margin-top:4px;' class='glyphicon glyphicon-hourglass'> <span  style='font-size:10px;color:#333;'>" + o.formatedB + " </span></span></li>" +
+                                                  "<li class='messaging' style='margin-left:5px;vertical-align:top;'>" + o.actor_message + "</span></li>" +
+
+                                                  "<br>"
+                                          );
                                     });
 
                                 }

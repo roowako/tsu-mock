@@ -17,7 +17,7 @@ Partial Class statistics_ui
 
     Public Shared Property sqlStr As String
     Public Shared Property getLast As String
-
+    Public Shared Property user_id As String
     'SERIALIZER
     Public Shared Function GetJson(ByVal dt As DataTable) As String
         Dim serializer As New System.Web.Script.Serialization.JavaScriptSerializer()
@@ -40,12 +40,12 @@ Partial Class statistics_ui
     'FILTER VIEW
     <System.Web.Services.WebMethod()> _
     <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
-    Public Shared Function pullQ(ByVal filterView As String) As String
+    Public Shared Function pullQ(ByVal filterView As String, ByVal cid As Integer) As String
         Using sqlCon As New SqlConnection(constr)
             sqlCon.Open()
-            If filterView = "poll" Then
+            If filterView = "poll" And cid <> 0 Then
 
-                Using da = New SqlDataAdapter(" SELECT DISTINCT tblPolls.description as t, tblPolls.question as q,tblPolls.polls_idpk as pid,tblColleges.description as c FROM tblAccounts,tblColleges,tblPolls WHERE   tblPolls.target_id = tblAccounts.college_idfk AND tblColleges.college_idpk = tblPolls.target_id ", sqlCon)
+                Using da = New SqlDataAdapter(" SELECT DISTINCT tblPolls.description as t, tblPolls.question as q,tblPolls.polls_idpk as pid,tblColleges.description as c FROM tblAccounts,tblColleges,tblPolls WHERE tblPolls.target_id = '" & cid & "' AND tblColleges.college_idpk = '" & cid & "' AND tblAccounts.college_idfk = '" & cid & "' AND status = 1 ", sqlCon)
                     Dim table = New DataTable()
                     da.Fill(table)
 
@@ -55,6 +55,14 @@ Partial Class statistics_ui
 
             ElseIf filterView = "survey" Then
                 Using da = New SqlDataAdapter(" SELECT * FROM tblEmployment ", sqlCon)
+                    Dim table = New DataTable()
+                    da.Fill(table)
+
+                    Dim jsndata As String = GetJson(table)
+                    Return jsndata
+                End Using
+            ElseIf filterView = "poll" And cid = 0 Then
+                Using da = New SqlDataAdapter(" SELECT DISTINCT tblPolls.description as t, tblPolls.question as q,tblPolls.polls_idpk as pid,tblColleges.description as c FROM tblAccounts,tblPolls,tblColleges WHERE  tblAccounts.college_idfk = 0 AND tblPolls.target_id = 0   AND  status = 1", sqlCon)
                     Dim table = New DataTable()
                     da.Fill(table)
 
@@ -200,6 +208,8 @@ Partial Class statistics_ui
                 While dr.Read
                     alumni_name.Text = dr.GetString(6)
                     account_idpk.Text = Session("id")
+                    user_id = dr.GetValue(18)
+                    college_id.Text = dr.GetValue(18)
                     undeditable.ImageUrl = dr.GetString(20)
                 End While
 

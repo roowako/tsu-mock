@@ -91,7 +91,7 @@
                              </div>
                              <div class="col-xs-3 toFix" >
                                   <div class="form-group">
-                                    <input type="text" placeholder="Search for alumni" name=""  class="form-control input-sm" id="searching" autocomplete="off"/>
+                                    <input type="text" placeholder="New Message" name=""  class="form-control input-sm" id="searching" autocomplete="off"/>
                                     <div class="resWrapper moded_res" style="width:300px;">
 
                                     </div>
@@ -133,12 +133,12 @@
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
-          <div class="modal-header" style="border-bottom:0px !important;padding-bottom:0px;">
+          <div class="modal-header" >
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             <h4 class="modal-title" id="myModalLabel" style="text-transform:capitalize;">Modal title</h4>
           </div>
           <div class="modal-body"> 
-              <ul id="messages" style="border-top:thin solid #E5E5E5;padding-top:10px;margin-left:-40px;">
+              <ul id="messages" >
                  
               </ul>
           </div>
@@ -203,6 +203,9 @@
               var v_src;
               var g_src;
               var uid;
+              var dp_r;
+              var dp_m;
+              var dp_s;
 
               $.ajax({
                   type: "post",
@@ -212,27 +215,36 @@
                   contentType: "application/json; charset=utf-8",
 
                   success: function (r) {
+
+                      
                       data = r.d
                       data = jQuery.parseJSON(data)
                       var last
-
+                      
                       if (r.d == "[]" || r.d == null) {
                           $("#messagePlaceholder").append("No available messages.");
                       } else {
                           $.each(data, function (i, o) {
                              
+
                               if (o.dp == null) {
                                   src_ = "./assets/images/default-dp.jpg";
+                                  dp_m = "<img src='" + src_ + "' style='border-radius:0px;width:35px;height:32px;'/>";
                               } else {
                                   src_ = o.dp;
                                   g_src = o.dp;
+                                  dp_s = "<img src='" + g_src + "' style='border-radius:0px;width:35px;height:32px;'/>";
+                                 
                               }
+
+                              dp_r = "<img src='" + src_ + "' style='border-radius:0px;width:35px;height:32px;'/>";
                               $("#messagePlaceholder tbody").append(
                               
                               "<tr class=''  style='margin-top:5px;'> " +
                               "<br>" +
+                             
                                 "<td>" +
-                                    "<img src='"+ src_ +"' style='border-radius:0px;width:35px;height:35px;'/>"+
+                                   dp_r +
                                 "</td>"+
                                   "<td> " +
                                       "<div class='sender-name'><b> " + o.u + " </b></div>" +
@@ -243,7 +255,7 @@
                                   "<td> &nbsp;</td>" +
                                    "<td style='text-align:right;'>" +
                                         "<div class='btn-group' role='group'>" +
-                                            "<input type='button' style='font-weight:bold;' value='View conversation' data-name='" + o.u + "' class='btn btn-warning btn-sm theatre_m' data-toggle='modal' data-target='#myModal' data-id='" + o.uid + "'/>&nbsp;" +
+                                            "<input type='button' style='font-weight:bold;' value='View conversation' data-name='" + o.u + "' class='btn btn-warning btn-sm theatre_m' data-toggle='modal' data-target='#myModal' data-id='" + o.uid + "' data-src='"+ o.dp +"'/>&nbsp;" +
                                             "<a href='#' data-toggle='modal' data-target='.bs-example-modal-sm '  class='btn btn-danger btn-sm delete' data-id='" + o.uid + "'><span class='glyphicon glyphicon-trash'></span></a>" +
                                         "</div>" +
                                     "</td>" +
@@ -279,14 +291,17 @@
                           $(".theatre_m").click(function (e) {
                         
                               e.preventDefault();
+                           
                               $(".modal-body").css("display", "block");
                               $(".appBtn").html("");
                               $("#messages").html("");
                               $("#myModalLabel").text("");
                             
                               var fn = $(this).data("name");
+                              var src = $(this).data("src");
                               $("#myModalLabel").text($(this).data("name"));
                               name = "";
+                              dp = "";
                               $(".appBtn").append(
                                   "<div class='btn-group' style='text-align:left;'>"+
                                   "<button type='button' class='btn btn-warning btn-sm reply' ><span class='glyphicon glyphicon-send'></span>&nbsp;&nbsp;Reply&nbsp;</button>" +
@@ -308,20 +323,21 @@
                                       data = jQuery.parseJSON(data)
                                       $.each(data, function (i, o) {
                                           var name;
-                                         
+                                          var dp;
                                           if (sess_id == o.sender_idfk) {
                                               name = "Me";
-                                             
+                                              dp_m = $("#undeditable").attr("src");
+                                              dp = "<img src='" + dp_m + "' style='border-radius:0px;width:35px;height:30px;'/>";
 
                                           }
                                           else {
                                               name = fn;
-                                            
+                                              dp = "<img src='" + src + "' style='border-radius:0px;width:35px;height:30px;'/>";
                                           }
 
                                           $("#messages").append(
-                                                  "<li class='messaging'><b> " + name + "</b> <span  style='float:right;font-size:12px;color:#333;font-family:Tahoma;margin-top:4px;' class='glyphicon glyphicon-hourglass'> <span  style='font-size:10px;color:#333;'>" + o.formatedB + " </span></span></li>" +
-                                                  "<li class='messaging'>" + o.actor_message + " </li>" +
+                                                  "<li class='messaging'>"+ dp +"<b> " + name + "</b> <span  style='float:right;font-size:12px;color:#333;font-family:Tahoma;' class='glyphicon glyphicon-hourglass'> <span  style='font-size:10px;color:#333;'>" + o.formatedB + " </span></span></li>" +
+                                                  "<li class='messaging' style='margin-left:5px;vertical-align:top;'><span >" + o.actor_message + "</span></li>" +
                                                   
                                                   "<br>"
                                           );

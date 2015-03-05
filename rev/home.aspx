@@ -75,8 +75,7 @@
 	                        <ul class="nav nav-sidebar">
 		                        <li>
 			                        <a href="#" >
-				                        <asp:Image ID="Image2" runat="server" ImageUrl="./assets/images/default-dp.jpg"  BorderColor="White" BorderStyle="Solid" BorderWidth="3" CssClass="nonmod"/>          
-			                        </a>
+<asp:Image ID="undeditable" runat="server" ImageUrl="./assets/images/default-dp.jpg" Height="50" Width="65" BorderColor="White" BorderStyle="Solid" BorderWidth="3"  CssClass="non-m" />			                        </a>
 		                        </li>
                             <li>    
                                 <a href="./alumni-profile.aspx"><span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;<asp:Label id="alumni_name" runat="server"></asp:Label></a>
@@ -92,7 +91,7 @@
                             </ul>
                     </div>
 
-                     <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main " style="background:#fff">
+                     <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main " >
                          <div class="row ">
                              <div class="col-xs-4">
                                  <h3 class="page-header"><span class="glyphicon glyphicon-option-vertical">&nbsp;</span>Timeline</h3>
@@ -175,7 +174,25 @@
         </div>
       </div>
     </div>
-    
+        <div class="modal fade bs-example-modal-sm" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" style="border-radius:3px;">
+      <div class="modal-dialog modal-sm" style="width:500px;border-radius:3px;top:100px;">
+        <div class="modal-content" style="border-radius:3px;">
+          <div class="modal-header" style="background:#F6F7F8;border-radius:3px;padding:8px;">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h5 class="modal-title" id="myModalLabel2" style="padding:3px;"><b>Delete Post</b></h5>
+          </div>
+          <div class="modal-body" style="border-radius:3px;">
+              <p style="border-bottom:thin solid #ccc;padding-bottom:15px;color:#333;">Are you sure you want to delete this post?</p>
+         
+              <div class="btn-group btn-sm" style="text-align:right;float:right">
+                <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-danger btn-sm del_p">Confirm</button>
+            </div>
+          </div>
+      
+        </div>
+      </div>
+    </div>
      <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
 
     <script type="text/javascript" src="./js/jquery.js"></script>
@@ -192,6 +209,8 @@
         var filterPoll = $("#account_idpk").val();
         var myParam = location.search.split('id=')[1];
         var sharable;
+        var uid;
+
         $("#alumni_name").text(myParam);
 
             function pullFromServer() {
@@ -296,81 +315,83 @@
                     if (announceReturn.d == "[]") {
                         $(".announcementHolder").append("<p> No available announcement as of the moment. </p>");
                     } else {
+
                         data = announceReturn.d
                         data = jQuery.parseJSON(data)
                         $.each(data, function (i, object) {
-                           
-                            if (object.target_id == 0) {
-                                
-                                $(".announcementHolder").append(
+                            var src_;
+                            if (object.dp == null) { src_ = "./assets/images/default-dp.jpg"; }
+                            else { src_ = object.dp; }
+                            $(".announcementHolder").append(
+
                                 "<div class='row'>" +
-                                    "<div class='col-xs-12 border-enabled highlighted-div'>" +
-                                        "<h4 class='header-padded '><span class='glyphicon glyphicon-bookmark ' >&nbsp;</span>DIRECTOR </h4>" +
-                                         "<span class='dateIndicator'>&nbsp;&nbsp;" + object.formatedB + "</span>" +
-                                          "<br>" + "<br>" +
-                                        "<div class='row  '>" +
-                         
-                                            "<div class='theme-color col-xs-11'>" +
-                                                "<p class='text-theme'> " + object.description + "   </p>" +   
-                                            "</div>" +
-                                        "</div> " +
-                                        "<div class='row' style='background:#f5f5f5;border-top:thin solid #eee;'>" +
-                                        "<br>" +
-                                            "<div class='theme-color col-xs-3' style='text-align:left;'>" +
-                                                "<a class='share btn btn-warning btn-sm' data-sharable='" + object.description + "' data-u='TSU Alumni Director'><span class='glyphicon glyphicon-send'></span>&nbsp;&nbsp;Share on Facebook</a>" +
-                                            "</div>" +
-                                           "<br>" + "<br>" +
-                                        "</div> " +
+                                        "<div class='col-xs-12 border-enabled highlighted-div'>" +
+                                            "<h4 class='header-padded' style='color:#A6635D;'><img style='border-radius:0px !important;width:36px;height:33px;' src='" + src_ + "'/> &nbsp;" + object.u +
+                                            "<br><span class='dateIndicator' >&nbsp;&nbsp;" + object.formatedB + "</span>" + "</h4>" +
+
+                                            "<div class='row'>" +
+
+                                                "<div class='theme-color col-xs-3 highlighted-div'>" +
+                                                    "<p > " + object.description + "   </p>" +
+                                                "</div>" +
+                                            "</div> " +
+                                            "<div class='row ' style='background:#F6F7F8;border-top:thin solid #E1E2E3;'>" +
+
+                                                "<div class='theme-color col-xs-12 btn-group' style='text-align:right;padding:8px;'>" +
+                                                    "<a href='#' style='color:#A6635D;font-size:13px;' class='share' data-sharable='" + object.description + "' data-u='" + object.u + "' data-src='" + src_ + "'>Share</a>" +
+                                                    
+                                                "</div>" +
+
+                                            "</div> " +
+
+
+                                        "</div>" +
                                     "</div>" +
-                                "</div>" +
-                                "<br>" 
-                                
+
+                                    "<br />"
                                 );
-                            }
 
-                            else {
-                                $(".announcementHolder").append(
-                                "<div class='row'>" +
-                                    "<div class='col-xs-12 border-enabled highlighted-div'>" +
-                                        "<h4 class='header-padded'><span class='glyphicon glyphicon-bookmark'>&nbsp;</span>" + college_desc + " </h4>" +
-                                        "<span class='dateIndicator'>&nbsp;&nbsp;" + object.formatedB + "</span>" +
-                                        "<br>" + "<br>" +
-                                        "<div class='row '>" +
-                                            "<div class='theme-color col-xs-11 '>" +
-                                                "<p class='text-theme'> " + object.description + "   </p>" +
-                                            "</div>" +
 
-                                        "</div> " +
-                                        "<div class='row' style='background:#f5f5f5;border-top:thin solid #eee;'>" +
-                                            "<br>" +
-                                         
-                                            "<div class='theme-color col-xs-3'>" +
-                                                "<a class='share btn btn-warning btn-sm' data-sharable='" + object.description + "' data-u='" + college_desc + "'><span class='glyphicon glyphicon-send'></span>&nbsp;&nbsp;Share on Facebook</a>" +
-                                            "</div>" +
-                                            "<br>" + "<br>" +
-                                        "</div> " +
+                        });
 
-                                      
-                                    "</div>" +
-                                "</div>" +
 
-                                "<br />"
-                                );
-                            }
+
+                        $(".c_del").on("click", function () {
+                            uid = "";
+                            uid = $(this).data("id");
+                            $(".del_p").data("uid", uid);
+                        });
+                        $(".del_p").on("click", function () {
+                            $.ajax({
+                                type: "post",
+                                url: "director-ui.aspx/deleteAnnouncement",
+                                data: "{'aid':'" + uid + "'}",
+                                dataType: "json",
+                                processData: false,
+                                traditional: true,
+                                contentType: "application/json; charset=utf-8",
+                                success: function (announceReturn) {
+                                    $("#txtPostAnnouncementCoor").val("");
+                                    console.log(announceReturn);
+
+                                    window.location.reload(true);
+                                }
+                            });
                         });
 
                         $('.share').click(function (e) {
                             var context = $(this).data("sharable");
                             var u = $(this).data("u");
+                            var dp_ = $(this).data("src");
                             e.preventDefault();
                             FB.ui(
                             {
                                 method: 'feed',
-                                name: ' '+ context +' ',
-                                link: 'http://alumni.tsu.edu.ph/default.aspx',
+                                name: ' ' + context + ' ',
+                                link: 'http://alumni.tsu.edu.ph/',
                                 caption: '',
-                                description: ' Posted by : '+ u +' ',
-                                message: 'aaa'
+                                description: ' Posted by :' + u + ' ',
+
                             });
                         });
                     }

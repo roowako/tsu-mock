@@ -28,13 +28,14 @@ Partial Class statistics_coordinator
             Using sqlCon As New SqlConnection(constr)
                 sqlCon.Open()
 
-                cmd = New SqlCommand("SELECT given_name,account_idpk FROM tblAccounts WHERE account_idpk=@p1", sqlCon)
+                cmd = New SqlCommand("SELECT given_name,account_idpk,college_idfk FROM tblAccounts WHERE account_idpk=@p1", sqlCon)
                 cmd.Parameters.AddWithValue("@p1", Session("id"))
                 dr = cmd.ExecuteReader
 
                 While dr.Read
                     alumni_name.Text = dr.GetString(0)
                     account_idpk.Text = CStr(dr.GetValue(1))
+                    college_id.Text = CStr(dr.GetValue(2))
                 End While
 
                 sqlCon.Close()
