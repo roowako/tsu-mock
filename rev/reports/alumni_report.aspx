@@ -25,7 +25,7 @@
                 <div class="col-sm-9" style="vertical-align:middle;text-align:center">
                     <div class="row">
                         <div class="col-sm-12">
-                            <rsweb:ReportViewer ID="rptViewer" runat="server" Font-Names="Segoe UI" Font-Size="8pt" Height="11in" WaitMessageFont-Names="Verdana" WaitMessageFont-Size="14pt" Width="8.5in" ShowRefreshButton="False" ZoomMode="PageWidth" BorderColor="#CC0000" ZoomPercent="60">
+                            <rsweb:ReportViewer ID="rptViewer" runat="server" Font-Names="Segoe UI" Font-Size="8pt" Height="11in" WaitMessageFont-Names="Verdana" WaitMessageFont-Size="14pt" Width="8.5in" ShowRefreshButton="False" ZoomMode="PageWidth" BorderColor="#CC0000" ZoomPercent="60" SizeToReportContent="True">
                                 <ServerReport DisplayName="TSU Alumni Tracer - Reports" />
                         
                                 <LocalReport ReportPath="RPTtoken_print.rdlc">

@@ -320,7 +320,7 @@ Partial Class _Default
             Using sqlCon As New SqlConnection(constr)
                 sqlCon.Open()
 
-                cmd = New SqlCommand("SELECT graduate_idpk FROM tblGraduates WHERE student_id = @p1", sqlCon)
+                cmd = New SqlCommand("SELECT graduate_idpk FROM tblGraduates WHERE student_number = @p1", sqlCon)
                 cmd.Parameters.AddWithValue("@p1", student_number)
                 dr = cmd.ExecuteReader
 
