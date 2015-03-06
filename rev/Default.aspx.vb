@@ -26,55 +26,60 @@ Partial Class loginpage
         Dim user_level As Integer = 10
         Dim user_id As Integer
         Dim college_id As Integer
+        If Session.Count = 0 Then
+            Using sqlCon As New SqlConnection(constr)
+                sqlCon.Open()
+                cmd = New SqlCommand("SELECT account_idpk,userlevel_idfk,college_idfk,img_path FROM tblAccounts WHERE student_id=@p1 AND password=@p2 AND account_status=1", sqlCon)
+                cmd.Parameters.AddWithValue("@p1", txtLog_Username.Text)
+                cmd.Parameters.AddWithValue("@p2", txtLog_Password.Text)
 
-        Using sqlCon As New SqlConnection(constr)
-            sqlCon.Open()
-            cmd = New SqlCommand("SELECT account_idpk,userlevel_idfk,college_idfk,img_path FROM tblAccounts WHERE student_id=@p1 AND password=@p2 AND account_status=1", sqlCon)
-            cmd.Parameters.AddWithValue("@p1", txtLog_Username.Text)
-            cmd.Parameters.AddWithValue("@p2", txtLog_Password.Text)
+                dr = cmd.ExecuteReader
 
-            dr = cmd.ExecuteReader
+                If dr.HasRows Then
+                    dr.Read()
+                    user_id = dr.GetValue(0)
+                    user_level = dr.GetValue(1)
+                    college_id = dr.GetValue(2)
 
-            If dr.HasRows Then
-                dr.Read()
-                user_id = dr.GetValue(0)
-                user_level = dr.GetValue(1)
-                college_id = dr.GetValue(2)
+                End If
 
+                sqlCon.Close()
+            End Using
+
+            If user_level = 0 Then
+                Session("id") = user_id
+                Session("ul") = 0
+                Session("dynamic_link1") = "./home.aspx"
+
+                Response.Redirect("home.aspx")
+            ElseIf user_level = 1 Then
+                Session("id") = user_id
+                Session("ul") = 1
+                Session("dynamic_link1") = "./home.aspx"
+                Response.Redirect("home.aspx")
+
+            ElseIf user_level = 2 Then
+                Session("id") = user_id
+                Session("ul") = 2
+                Session("college_id") = college_id
+                Session("dynamic_link2") = "./coordinator-custom.aspx"
+
+                Response.Redirect("coordinator-custom.aspx")
+
+            ElseIf user_level = 3 Then
+                Session("id") = user_id
+                Session("ul") = 3
+                Session("dynamic_link3") = "./director-ui.aspx"
+                Response.Redirect("director-ui.aspx")
+
+            Else
+                Response.Write(<script>alert("Login Failed.")</script>)
             End If
-
-            sqlCon.Close()
-        End Using
-
-        If user_level = 0 Then
-            Session("id") = user_id
-            Session("ul") = 0
-            Session("dynamic_link1") = "./home.aspx"
-
-            Response.Redirect("home.aspx")
-        ElseIf user_level = 1 Then
-            Session("id") = user_id
-            Session("ul") = 1
-            Session("dynamic_link1") = "./home.aspx"
-            Response.Redirect("home.aspx")
-
-        ElseIf user_level = 2 Then
-            Session("id") = user_id
-            Session("ul") = 2
-            Session("college_id") = college_id
-            Session("dynamic_link2") = "./coordinator-custom.aspx"
-
-            Response.Redirect("coordinator-custom.aspx")
-
-        ElseIf user_level = 3 Then
-            Session("id") = user_id
-            Session("ul") = 3
-            Session("dynamic_link3") = "./director-ui.aspx"
-            Response.Redirect("director-ui.aspx")
-
         Else
-            Response.Write(<script>alert("Login Failed.")</script>)
+            Response.Write(<script>alert("Another user is already logged in.")</script>)
+
         End If
+       
     End Sub
 
     'PAGE LOAD
@@ -86,7 +91,9 @@ Partial Class loginpage
         End If
         If Session.Count > 1 Then
             Label1.Text = Session.Count
-            Response.Write(<script>alert("A user is already logged in.");</script>)
+
+
+
         Else
             Label1.Text = Session.Count
             If Session.Item("id") <> Nothing Then

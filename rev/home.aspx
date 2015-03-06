@@ -4,7 +4,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
-   <title>TSU Alumin Tracer</title>
+    <title>TSU Alumin Tracer</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="./css/bootstrap.min.css" rel="stylesheet" />
     <link href="./css/bootstrap.theme.min.css" rel="stylesheet" />
@@ -75,7 +75,7 @@
 	                        <ul class="nav nav-sidebar">
 		                        <li>
 			                        <a href="#" >
-<asp:Image ID="undeditable" runat="server" ImageUrl="./assets/images/default-dp.jpg" Height="50" Width="65" BorderColor="White" BorderStyle="Solid" BorderWidth="3"  CssClass="non-m" />			                        </a>
+                                       <asp:Image ID="undeditable" runat="server" ImageUrl="./assets/images/default-dp.jpg" Height="50" Width="60" BorderColor="White" BorderStyle="Solid" BorderWidth="3"  CssClass="non-m" />			                        </a>
 		                        </li>
                             <li>    
                                 <a href="./alumni-profile.aspx"><span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;<asp:Label id="alumni_name" runat="server"></asp:Label></a>
@@ -87,7 +87,9 @@
                                 <li> <asp:TextBox ID="account_idpk" runat="server"></asp:TextBox> </li>
                                 <li> <asp:TextBox ID="college_idpk" runat="server"></asp:TextBox> </li>
                                 <li> <asp:TextBox ID="course_idpk" runat="server"></asp:TextBox> </li>
-                                <li> <asp:TextBox ID="college_desc" runat="server"></asp:TextBox> </li>                              
+                                <li> <asp:TextBox ID="college_desc" runat="server"></asp:TextBox> </li>     
+                                <li> <asp:TextBox ID="u_level" runat="server"></asp:TextBox> </li>   
+                                <li> <asp:TextBox ID="flag_stat" runat="server"></asp:TextBox> </li>                       
                             </ul>
                     </div>
 
@@ -118,15 +120,15 @@
                              <!-- end spacer -->
                            
                             <!-- start right-side -->
-                            <div class="col-xs-6 col-sm-5 placeholder border-enabled">
-                              <h4 class="header-padded"><span class="glyphicon glyphicon-tasks minified"></span>&nbsp; Survey Questions</h4>
+                            <div class="col-xs-6 col-sm-5 border-enabled" style="background:#fff;">
+                              <h4 class="header-padded" ><span class="glyphicon glyphicon-tasks minified"></span>&nbsp; Survey Questions</h4>
                               <div class="row">
                                   <div class="col-xs-12" >
                                         <table class="table" style="border-top:thin solid #ccc;">
                                             <tr>
                                           
-                                                <td>Survey Title</td>                                          
-                                                <td></td>
+                                                <th>Title</th>                                          
+                                                <th></th>
                                             </tr>
                                                     
                                         </table>
@@ -134,9 +136,12 @@
                                   </div>
                                
                               </div>
-                                <div class="row"> <div id="noPoll"></div></div>
+                                <div class="row finder" > <div id="noPoll"></div></div>
+                                
+                                
 
                             </div>
+                            
                             <!-- end right-side -->
                         </div>
                     </div>
@@ -174,7 +179,7 @@
         </div>
       </div>
     </div>
-        <div class="modal fade bs-example-modal-sm" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" style="border-radius:3px;">
+    <div class="modal fade bs-example-modal-sm" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" style="border-radius:3px;">
       <div class="modal-dialog modal-sm" style="width:500px;border-radius:3px;top:100px;">
         <div class="modal-content" style="border-radius:3px;">
           <div class="modal-header" style="background:#F6F7F8;border-radius:3px;padding:8px;">
@@ -193,8 +198,7 @@
         </div>
       </div>
     </div>
-     <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
-
+    <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
     <script type="text/javascript" src="./js/jquery.js"></script>
     <script type="text/javascript" src="./js/bootstrap.min.js"></script>
     <script type="text/javascript" src="./js/custom.js"></script>
@@ -210,6 +214,26 @@
         var myParam = location.search.split('id=')[1];
         var sharable;
         var uid;
+        var u_level = $("#u_level").val();
+        var flag_s = $("#flag_stat").val();
+
+        if (u_level == 0 && flag_s == 1) {
+           
+            $(".finder").after(
+       
+                "<div class='row' style='background:#f5f5f5;text-align:center;vertical-align:middle;'>" +
+                    
+                    "<div class='col-xs-12'>"+
+                        "<a href='./emp_status.aspx?aid="+ filterPoll +"' target='_blank' class='btn btn-primary btn-sm'> Employment Survey is now active. Click here to participate </a>" +
+                    "</div>"+
+                     "<br>" + "<br>" +
+                "</div>"
+                
+                );
+        }else{
+    
+        }
+
 
         $("#alumni_name").text(myParam);
 
@@ -227,7 +251,7 @@
 
                         if (data.length == 0)
                         {
-                            $("#noPoll").append("<span> <b> No available survey for graduating students. </b> </span>");
+                            $("#noPoll").append("<span> <b> No available surveys at the moment. </b> </span>");
                         }
                         else
                         {
@@ -236,8 +260,8 @@
 
                                 $(".table").append(
                                     "<tr>" +
-                                    "<td>  " + object.polls_idpk + " </td>" +
-                                    "<td>  " + object.description + " </td>" +
+                                 
+                                    "<td>  " + object.question + " </td>" +
                                     "<td>  " + "<a class='btn btn-primary btn-sm theatre' id='" + object.polls_idpk + "' data-poll-title='" + object.description + "' data-poll-question='" + object.question + "' data-poll-id='" + object.polls_idpk + "' data-toggle='modal' data-target='#myModal'>View Details and participate </a>" + " </td>" +
                                     "</tr>"
                                     );

@@ -40,39 +40,69 @@ Partial Class statistics_ui
     'FILTER VIEW
     <System.Web.Services.WebMethod()> _
     <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
-    Public Shared Function pullQ(ByVal filterView As String, ByVal cid As Integer) As String
+    Public Shared Function pullQ(ByVal filterView As String, ByVal cid As Integer, ByVal college_desc As String) As String
+        Dim college_id As Integer
+
+        'FETCH COLLEGE ID
         Using sqlCon As New SqlConnection(constr)
             sqlCon.Open()
-            If filterView = "poll" And cid <> 0 Then
 
-                Using da = New SqlDataAdapter(" SELECT DISTINCT tblPolls.description as t, tblPolls.question as q,tblPolls.polls_idpk as pid,tblColleges.description as c FROM tblAccounts,tblColleges,tblPolls WHERE tblPolls.target_id = '" & cid & "' AND tblColleges.college_idpk = '" & cid & "' AND tblAccounts.college_idfk = '" & cid & "' AND status = 1 ", sqlCon)
-                    Dim table = New DataTable()
-                    da.Fill(table)
+            cmd = New SqlCommand("SELECT college_idpk FROM tblColleges WHERE description = '" & college_desc & "' ", sqlCon)
+            dr = cmd.ExecuteReader
 
-                    Dim jsndata As String = GetJson(table)
-                    Return jsndata
-                End Using
-
-            ElseIf filterView = "survey" Then
-                Using da = New SqlDataAdapter(" SELECT * FROM tblEmployment ", sqlCon)
-                    Dim table = New DataTable()
-                    da.Fill(table)
-
-                    Dim jsndata As String = GetJson(table)
-                    Return jsndata
-                End Using
-            ElseIf filterView = "poll" And cid = 0 Then
-                Using da = New SqlDataAdapter(" SELECT DISTINCT tblPolls.description as t, tblPolls.question as q,tblPolls.polls_idpk as pid,tblColleges.description as c FROM tblAccounts,tblPolls,tblColleges WHERE  tblAccounts.college_idfk = 0 AND tblPolls.target_id = 0   AND  status = 1", sqlCon)
-                    Dim table = New DataTable()
-                    da.Fill(table)
-
-                    Dim jsndata As String = GetJson(table)
-                    Return jsndata
-                End Using
+            If dr.HasRows Then
+                dr.Read()
+                college_id = dr.GetValue(0)
+                dr.Close()
             End If
 
             sqlCon.Close()
         End Using
+
+
+        If filterView = "survey" Then
+            Using da = New SqlDataAdapter(" SELECT * FROM tblEmployment ", sqlCon)
+                Dim table = New DataTable()
+                da.Fill(table)
+
+                Dim jsndata As String = GetJson(table)
+                Return jsndata
+            End Using
+
+
+        ElseIf filterView = "poll" And cid <> 0 Then
+            Using sqlCon As New SqlConnection(constr)
+                sqlCon.Open()
+                Using da = New SqlDataAdapter("SELECT DISTINCT tblPolls.description as t, tblPolls.question as q, tblPolls.polls_idpk as pid, c = CASE WHEN tblPolls.target_id <> 0 THEN (SELECT description FROM tblColleges WHERE college_idpk = tblPolls.target_id) ELSE 'Director Survey' END FROM tblPolls,tblColleges WHERE tblPolls.status = 1 AND tblPolls.target_id = '" & cid & "' ", sqlCon)
+                    Dim table = New DataTable()
+                    da.Fill(table)
+
+                    Dim jsndata As String = GetJson(table)
+                    Return jsndata
+                End Using
+                sqlCon.Close()
+            End Using
+
+        ElseIf filterView = "poll" And cid = 0 Then
+                If college_desc = "ALL COLLEGES" Then
+                    sqlStr = "SELECT DISTINCT tblPolls.description as t, tblPolls.question as q, tblPolls.polls_idpk as pid, c = CASE WHEN tblPolls.target_id <> 0 THEN (SELECT description FROM tblColleges WHERE college_idpk = tblPolls.target_id) ELSE 'Director Survey' END FROM tblPolls,tblColleges WHERE tblPolls.status = 1"
+                Else
+                    sqlStr = "SELECT DISTINCT tblPolls.description as t, tblPolls.question as q, tblPolls.polls_idpk as pid, c = CASE WHEN tblPolls.target_id <> 0 THEN (SELECT description FROM tblColleges WHERE college_idpk = tblPolls.target_id) ELSE 'Director Survey' END FROM tblPolls,tblColleges WHERE tblPolls.status = 1 AND tblPolls.target_id = '" & college_id & "' "
+                End If
+
+                Using sqlCon As New SqlConnection(constr)
+                    sqlCon.Open()
+                    Using da = New SqlDataAdapter(sqlStr, sqlCon)
+                        Dim table = New DataTable()
+                        da.Fill(table)
+
+                        Dim jsndata As String = GetJson(table)
+                        Return jsndata
+                    End Using
+                    sqlCon.Close()
+                End Using
+
+        End If
 
     End Function
 
@@ -141,7 +171,7 @@ Partial Class statistics_ui
                     "COUNT(CASE WHEN q1 = '1 to 3 months' then 1 else NULL end) Q1A, COUNT(CASE when q1 = '4 to 6 months' then 1 else NULL end) Q1B, COUNT(CASE when q1 = '7 months to 1 year' then 1 else NULL end) Q1C, COUNT(CASE when q1 = 'Others' then 1 else NULL end) Q1D, " +
                     "COUNT(CASE WHEN q2 = 'Yes' then 1 else NULL end) Q2A, COUNT(CASE when q2 = 'No' then 1 else NULL end) Q2B, " +
                     "COUNT(CASE WHEN q3 = 'Abroad' then 1 else NULL end) Q3A, COUNT(CASE when q3 = 'Local' then 1 else NULL end) Q3B, " +
-                    "COUNT(CASE WHEN q4 = 'Private' then 1 else NULL end) Q4A, COUNT(CASE when q3 = 'Public' then 1 else NULL end) Q4B, " +
+                    "COUNT(CASE WHEN q4 = 'Private' then 1 else NULL end) Q4A, COUNT(CASE when q4 = 'Public' then 1 else NULL end) Q4B, " +
                     "COUNT(CASE WHEN q5 = 'nat_app_reg' then 1 else NULL end) Q5A, COUNT(CASE when q5 = 'nat_app_prob' then 1 else NULL end) Q5B, COUNT(CASE when q5 = 'self_emp_opt' then 1 else NULL end) Q5C, " +
                     "COUNT(CASE WHEN q6 = 'Rank and File' then 1 else NULL end) Q6A, COUNT(CASE when q6 = 'Supervisory Level' then 1 else NULL end) Q6B, COUNT(CASE when q6 = 'Managerial Level' then 1 else NULL end) Q6C, COUNT(CASE when q6 = 'Others' then 1 else NULL end) Q6D, " +
                     "COUNT(CASE WHEN q7 = '1 to 6 months' then 1 else NULL end) Q7A, COUNT(CASE when q7 = '7 months to 1 year' then 1 else NULL end) Q7B, COUNT(CASE when q7 = '1 year to 3 years' then 1 else NULL end) Q7C, COUNT(CASE when q7 = 'Others' then 1 else NULL end) Q7D, " +

@@ -217,7 +217,7 @@
             <h5 class="modal-title" id="myModalLabel2" style="padding:3px;"><b>Delete Post</b></h5>
             </div>
             <div class="modal-body" style="border-radius:3px;">
-                <p style="border-bottom:thin solid #ccc;padding-bottom:15px;color:#333;">Are you sure you want to delete this post?</p>
+                <p style="border-bottom:thin solid #ccc;padding-bottom:15px;color:#333;">Are you sure you want to reject this?</p>
          
                 <div class="btn-group btn-sm" style="text-align:right;float:right">
                 <button type="button" class="btn btn-default btn-sm" data-dismiss="modal" style="font-weight:bold;">Cancel</button>

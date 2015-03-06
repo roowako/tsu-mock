@@ -101,10 +101,12 @@
                              <div class="col-xs-4">
                                   <h3 class="page-header"><span class="glyphicon glyphicon-option-vertical">&nbsp;</span>Generate Survey Questions</h3>
                              </div>
-                             <div class="col-xs-3">
+                             <div class="col-xs-4">
                                 
                              </div>
-                             
+                             <div class="col-xs-4" style="text-align:right">
+                                <a style="font-weight:bold" href="#" class="btn btn-primary btn-sm flag">Activate Employment Survey</a>
+                             </div>
                          </div>
                         
                          <div class="row placeholders">
@@ -164,7 +166,7 @@
                                <div class="col-xs-6 col-sm-6 placeholder border-enabled" style="background:#fff;">
                                   <h5 >&nbsp; Active Surveys</h5>
                                   <div class="table-responsive" style="border-top:thin solid #eee;">         
-                                    <table class="table  borderless-table" style="cursor:pointer;">
+                                    <table class="table searchableTable" style="cursor:pointer;">
                                         <thead >
                                         <tr >
                                             <th >Survey Title</th>
@@ -195,6 +197,52 @@
    
     <script type="text/javascript">
         var uid;
+
+ 
+        $.ajax({
+            type: "post",
+            url: "./survey-gen-director.aspx/checkDynamicEmployment",
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function (r) {
+                data = r.d;
+                data = jQuery.parseJSON(data);
+                $.each(data,function(i,o){
+                    if (o.flag == 0){
+                 
+                        $(".flag").removeClass("btn-danger");
+                        $(".flag").addClass("btn-primary");
+                        $(".flag").text("Activate Employment Survey");
+                    } else{
+                    
+
+                        $(".flag").removeClass("btn-primary");
+                        $(".flag").addClass("btn-danger");
+                        $(".flag").text("Deactivate Employment Survey");
+                    }
+                       
+                });
+            }
+            
+        });
+
+        $(".flag").click(function (e) {
+            e.preventDefault();
+            var flag = $(this).text();
+            $.ajax({
+                type: "post",
+                url: "./survey-gen-director.aspx/DynamicFlag",
+                data:"{'flag':'"+ flag +"'}",
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                success: function (r) {
+                    alert("Updated Successfully");
+                    window.location.reload(true);
+                }
+
+            });
+        });
+
         function pullFromServer() {
             $.ajax({
                 type: "post",
@@ -227,7 +275,7 @@
                         $(".table tbody").append(
                             "<tr class=''>" +
                        
-                            "<td>  " + object.description + " </td>" +
+                            "<td>  " + object.question + " </td>" +
                             "<td>  " + stat + " </td>" +
                            
                             "<td style='text-align:right;'>"+

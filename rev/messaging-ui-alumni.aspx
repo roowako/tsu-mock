@@ -50,7 +50,7 @@
 	                        <ul class="nav nav-sidebar">
 		                        <li>
 			                        <a href="#" >
-				                        <asp:Image ID="Image2" runat="server" ImageUrl="./assets/images/default-dp.jpg"  BorderColor="White" BorderStyle="Solid" BorderWidth="3" CssClass="nonmod"/>          
+                                       <asp:Image ID="undeditable" runat="server" ImageUrl="./assets/images/default-dp.jpg" Height="50" Width="60" BorderColor="White" BorderStyle="Solid" BorderWidth="3"  CssClass="non-m" />
 			                        </a>
 		                        </li>
                             <li>    
@@ -208,7 +208,7 @@
                     data = jQuery.parseJSON(data)
                     var last
 
-                    if (r.d == "[]") {
+                    if (r.d == "[]" || r.d == null) {
                         $("#messagePlaceholder").append("No available messages.");
                     } else{
                         $.each(data, function (i, o) {
@@ -303,7 +303,7 @@
                                         var dp;
                                         if (sess_id == o.sender_idfk){
                                             name = "Me";
-                                            dp_m = $("#Image2").attr("src");
+                                            dp_m = $("#undeditable").attr("src");
                                             dp = "<img src='" + dp_m + "' style='border-radius:0px;width:35px;height:30px;'/>";
                                         }
                                         else{

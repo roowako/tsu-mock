@@ -28,7 +28,7 @@ Partial Class home
             Using sqlCon As New SqlConnection(constr)
                 sqlCon.Open()
 
-                cmd = New SqlCommand("SELECT given_name,college_idfk,tblColleges.description,tblAccounts.img_path,course_idfk FROM tblAccounts,tblColleges WHERE account_idpk=@p1 AND college_idfk = college_idpk", sqlCon)
+                cmd = New SqlCommand("SELECT given_name,college_idfk,tblColleges.description,tblAccounts.img_path,course_idfk,userlevel_idfk FROM tblAccounts,tblColleges WHERE account_idpk=@p1 AND college_idfk = college_idpk", sqlCon)
                 cmd.Parameters.AddWithValue("@p1", Session.Item("id"))
                 dr = cmd.ExecuteReader
                 If dr.HasRows Then
@@ -40,6 +40,7 @@ Partial Class home
                             college_desc.Text = dr.GetString(2)
                             course_idpk.Text = dr.GetValue(4)
                             undeditable.ImageUrl = "./assets/images/default-dp.jpg"
+                            u_level.Text = dr.GetValue(5)
                         Else
                             alumni_name.Text = dr.GetString(0)
                             account_idpk.Text = Session.Item("id")
@@ -47,6 +48,7 @@ Partial Class home
                             college_desc.Text = dr.GetString(2)
                             undeditable.ImageUrl = dr.GetString(3)
                             course_idpk.Text = dr.GetValue(4)
+                            u_level.Text = dr.GetValue(5)
                         End If
                         
                     End While
@@ -55,6 +57,17 @@ Partial Class home
 
                 sqlCon.Close()
             End Using
+            Using sqlCon As New SqlConnection(constr)
+                sqlCon.Open()
+                cmd = New SqlCommand("SELECT flag FROM tblEmploymentFlag", sqlCon)
+                dr = cmd.ExecuteReader
+                While dr.Read
+                    flag_stat.Text = dr.GetValue(0)
+                End While
+
+                sqlCon.Close()
+            End Using
+
         End If
     End Sub
 
@@ -127,7 +140,7 @@ Partial Class home
         Using sqlCon As New SqlConnection(constr)
             sqlCon.Open()
 
-            Using da = New SqlDataAdapter("SELECT polls_idpk,description,question FROM tblPolls WHERE status=1 AND target_id='" & college_id & "' OR target_id=0 AND tblPolls.polls_idpk NOT IN(SELECT polls_idfk FROM tblPollsdata WHERE account_idfk='" & filter & "')", sqlCon)
+            Using da = New SqlDataAdapter("SELECT polls_idpk,description,question FROM tblPolls WHERE status=1 AND target_id='" & college_id & "' AND tblPolls.polls_idpk NOT IN(SELECT polls_idfk FROM tblPollsdata WHERE account_idfk='" & filter & "') OR status=1 AND target_id=0 AND tblPolls.polls_idpk NOT IN(SELECT polls_idfk FROM tblPollsdata WHERE account_idfk='" & filter & "')", sqlCon)
                 Dim table = New DataTable()
                 da.Fill(table)
                 Dim jsndata As String = GetJson(table)

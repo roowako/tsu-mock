@@ -119,7 +119,7 @@
                                                    
                                                             <th><b>Title</b></th>
                                                             <th><b>Question</b></th>                                   
-                                                            <th></th>
+                                                            <th>College</th>
                                                             <th></th>
                                                         </tr>
                                                         </thead>
@@ -230,7 +230,7 @@
             $.ajax({
                 type: "post",
                 url: "statistics-ui.aspx/PullQ",
-                data: "{'filterView':'" + filterView + "','cid':'"+ c_id +"'}",
+                data: "{'filterView':'" + filterView + "','cid':'"+ c_id +"','college_desc':'barang'}",
                 dataType: "json",
                 contentType: "application/json",
                 success: function (serverData) {
@@ -246,7 +246,7 @@
                                     "<td> " + o.t + " </td>" +
                                     "<td> " + o.q + "</td>" +
                                     "<td> " + o.c + "</td>" +
-                                    "<td> <a class='btn btn-primary btn-sm theatre' data-poll-id='" + o.pid + "' data-toggle='modal' data-target='#myModal'>View Statistics </a>&nbsp; </td>" +
+                                    "<td> <a class='btn btn-primary btn-sm theatre' data-poll-id='" + o.pid + "' data-toggle='modal' data-target='#myModal' data-college='"+ o.c +"'>View Statistics </a>&nbsp; </td>" +
 
                                 "</tr>"
                                 );
@@ -259,12 +259,13 @@
                         $("#questionPlaceholder").text($(this).data("poll-question"));
                         $("#myModalLabel").text($(this).data("poll-title"));
                         pollsPK = $(this).data("poll-id");
+                        var c_desc = $(this).data("college");
                         console.log(pollsPK);
 
                         $.ajax({
                             type: "post",
                             url: "./statistics-ui.aspx/pullPollOptions",
-                            data: "{'optFk' :'" + pollsPK + "' }",
+                            data: "{'optFk' :'" + pollsPK + "','college_desc':'"+ c_desc +"','course_desc':'ALL COURSES' }",
                             dataType: "json",
                             processData: false,
                             traditional: true,

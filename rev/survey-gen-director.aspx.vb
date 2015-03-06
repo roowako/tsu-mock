@@ -61,7 +61,7 @@ Partial Class rev_survey_gen_director
         Using sqlCon As New SqlConnection(constr)
 
             sqlCon.Open()
-            Using da = New SqlDataAdapter(" SELECT * FROM tblPolls ORDER BY polls_idpk DESC", sqlCon)
+            Using da = New SqlDataAdapter(" SELECT * FROM tblPolls  ORDER BY polls_idpk DESC", sqlCon)
                 Dim table = New DataTable()
                 da.Fill(table)
 
@@ -99,6 +99,7 @@ Partial Class rev_survey_gen_director
 
     End Function
 
+    'Pull options
     <System.Web.Services.WebMethod()> _
     <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
     Public Shared Function pullPollOptions(ByVal optFk As String) As String
@@ -121,6 +122,8 @@ Partial Class rev_survey_gen_director
 
     End Function
 
+
+    'Push survey
     <System.Web.Services.WebMethod()> _
     <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
     Public Shared Function PushToDatabase(ByVal pollOptArr As String, ByVal pollTitle As String, ByVal pollQ As String) As String
@@ -175,6 +178,79 @@ Partial Class rev_survey_gen_director
         End Using
 
     End Function
+
+    'Dynamic Employment Activation
+    <System.Web.Services.WebMethod()> _
+    <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
+    Public Shared Function checkDynamicEmployment() As String
+
+
+        Using sqlCon As New SqlConnection(constr)
+
+            sqlCon.Open()
+            Using dat = New SqlDataAdapter(" SELECT flag FROM tblEmploymentFlag ", sqlCon)
+
+                Dim table2 = New DataTable()
+                dat.Fill(table2)
+
+                Dim pollOptionsJsonData As String = GetJsonOpt(table2)
+                Return pollOptionsJsonData
+            End Using
+
+            sqlCon.Close()
+
+        End Using
+
+    End Function
+
+    'Activate : Reactivate
+    <System.Web.Services.WebMethod()> _
+    <ScriptMethod(ResponseFormat:=ResponseFormat.Json)> _
+    Public Shared Function DynamicFlag(ByVal flag As String) As String
+
+        If flag = "Activate Employment Survey" Then
+
+            Using sqlCon As New SqlConnection(constr)
+
+                sqlCon.Open()
+                Using dat = New SqlDataAdapter(" UPDATE tblEmploymentFlag SET flag = 1 WHERE flag = 0 ", sqlCon)
+
+                    Dim table2 = New DataTable()
+                    dat.Fill(table2)
+
+                    Dim pollOptionsJsonData As String = GetJsonOpt(table2)
+                    Return pollOptionsJsonData
+                End Using
+
+                sqlCon.Close()
+
+            End Using
+        Else
+            Using sqlCon As New SqlConnection(constr)
+
+                sqlCon.Open()
+                Using dat = New SqlDataAdapter(" UPDATE tblEmploymentFlag SET flag = 0 WHERE flag = 1 ", sqlCon)
+
+                    Dim table2 = New DataTable()
+                    dat.Fill(table2)
+
+                    Dim pollOptionsJsonData As String = GetJsonOpt(table2)
+                    Return pollOptionsJsonData
+                End Using
+
+                sqlCon.Close()
+
+            End Using
+        End If
+        
+
+    End Function
+
+
+
+
+
+
 
     'PAGE LOAD
     Protected Sub Page_Load(sender As Object, e As EventArgs) Handles Me.Load

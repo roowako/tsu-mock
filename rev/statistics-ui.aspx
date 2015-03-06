@@ -255,7 +255,6 @@
     <script type="text/javascript" src="./js/bindDelay.js"></script>
     <script type="text/javascript" src="./js/home-search.js"></script>
     <script type="text/javascript" src="./js/json2.js"></script>
-
     <script type="text/javascript">
         var pollID;
         var college_desc = $("#cboCollege").val();
@@ -293,7 +292,7 @@
             $.ajax({
                 type: "post",
                 url: "statistics-ui.aspx/PullQ",
-                data: "{'filterView':'" + filterView + "','cid':'" + c_id + "'}",
+                data: "{'filterView':'" + filterView + "','cid':'" + c_id + "','college_desc':'" + college_desc + "'}",
                 dataType: "json",
                 contentType: "application/json",
                 success: function (serverData) {
@@ -397,10 +396,22 @@
                 }
             });
             
+            $("#cboCollege").change(function () {
+                var a = $(".filterView option:selected").val();
+                var b = $("#college_id").val();
+                var c = $("#cboCollege").val();
+
+                console.log(a)
+                console.log(b)
+                console.log(c)
+
+                myFunction(a, b, c);
+            });
+
             $(".filterView").change(function () {
-              filterView =  $(".filterView option:selected").val();
+                filterView = $(".filterView option:selected").val();
+
               if (filterView == "poll") {
-                 
                   $(".modal-body .chart").html("");
                   $(".table-responsive").css("display", "block");
                   $(".genSurvey").css("display", "none");
@@ -836,6 +847,115 @@
                     });
                 });
             });
+
+
+
+            function myFunction(a, b, c) {
+                if (a == "poll") {
+                    $(".modal-body .chart").html("");
+                    $(".table-responsive").css("display", "block");
+                    $(".genSurvey").css("display", "none");
+                    $(".tableDetailsView tbody").html("");
+
+                    $.ajax({
+                        type: "post",
+                        url: "statistics-ui.aspx/PullQ",
+                        data: "{'filterView':'" + a + "','cid':'" + b + "','college_desc':'" + c + "'}",
+                        dataType: "json",
+                        contentType: "application/json",
+                        success: function (serverData) {
+                            data = serverData.d;
+                            data = jQuery.parseJSON(data);
+
+                            $.each(data, function (i, o) {
+                                $(".tableDetailsView tbody").append(
+                                    "<tr>" +
+                                        "<td>" + o.t + " </td>" +
+                                        "<td>" + o.q + "</td>" +
+                                        "<td>" + o.c + " </td>" +
+                                        "<td style='text-align:right;'>" +
+                                            "<div class='btn-group' role='group'>" +
+                                                "<a class='btn btn-warning btn-sm theatre' data-poll-id='" + o.pid + "' data-toggle='modal' data-target='#myModal'>View Statistics </a> " +
+                                                "<a class='btn btn-danger btn-sm deletePoll' data-poll-id='" + o.pid + "' data-toggle='modal' data-target='.bs-example-modal-sm '>&nbsp;<span class='glyphicon glyphicon-trash'></span></a>" +
+                                            "</div>" +
+                                        "</td>" +
+                                    "</tr>"
+                                    );
+                            });
+
+                            $(".theatre").click(function () {
+                                $(".chart").html("");
+                                $("#questionPlaceholder").text($(this).data("poll-question"));
+                                $("#myModalLabel").text($(this).data("poll-title"));
+
+                                pollsPK = $(this).data("poll-id");
+                                pollID = $(this).data("poll-id");
+
+                                $.ajax({
+                                    type: "post",
+                                    url: "./statistics-ui.aspx/pullPollOptions",
+                                    data: "{'optFk' :'" + pollsPK + "','college_desc' :'" + college_desc + "','course_desc' :'" + course_desc + "' }",
+                                    dataType: "json",
+                                    processData: false,
+                                    traditional: true,
+                                    contentType: "application/json; charset=utf-8",
+                                    success: function (dataOpt) {
+
+                                        optionsArr = dataOpt.d;
+                                        optionsArr = jQuery.parseJSON(optionsArr);
+                                        var s;
+
+                                        $.each(optionsArr, function (i, pollOpt) {
+                                            if (pollOpt.stats_data == 0) {
+                                                s = "Zero respondents";
+                                            }
+                                            else {
+                                                s = pollOpt.stats_data;
+                                            }
+
+                                            console.log(pollOpt.stats_data);
+                                            $(".chart").append(
+                                                "<li class='bar' title='" + pollOpt.option_description + "' >" +
+                                                    "<span class='bar' data-number=" + s + "></span>" +
+                                                    "<span class='number'>" + s + "</span>" +
+                                                "</li>"
+                                                );
+                                        });
+
+                                        $('.chart').horizBarChart({
+                                            selector: '.bar',
+                                            speed: 3000
+                                        });
+
+                                        console.log(object);
+                                    }
+                                });
+                            });
+
+                            $(".deletePoll").on("click", function () {
+                                uid = "";
+                                uid = $(this).data("poll-id");
+                                $(".del_p").data("uid", uid);
+                            });
+
+                            $(".del_p").on("click", function () {
+                                $.ajax({
+                                    type: "post",
+                                    url: "statistics-ui.aspx/deletePoll",
+                                    data: "{'poll_id':'" + uid + "'}",
+                                    dataType: "json",
+                                    processData: false,
+                                    traditional: true,
+                                    contentType: "application/json; charset=utf-8",
+                                    success: function (serverData) {
+                                        window.location.reload(true);
+                                    }
+                                });
+                            });
+                        }
+                    }); 
+                }
+            }
     </script>
 </body>
 </html>

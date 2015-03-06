@@ -373,7 +373,7 @@
                         $('#btAdd').removeAttr('disabled');
                         $('#btAdd').attr('class', 'bt');
                         console.log(response.d);
-                        alert("Sury has been made. Please wait for the apporval of Director. Thank you.");
+                        alert("Survey has been made,please wait for the apporval of Director. Thank you.");
                         window.location.reload(true);
                     }
                 });
