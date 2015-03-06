@@ -93,10 +93,19 @@ Partial Class coordinator_custom
                 dr = cmd.ExecuteReader
 
                 While dr.Read
-                    account_idpk.Text = Session(0)
-                    alumni_name.Text = dr.GetString(1)
-                    college_idfk.Text = dr.GetValue(2)
-                    undeditable.ImageUrl = dr.GetString(3)
+                    If IsDBNull(dr(3)) OrElse String.IsNullOrEmpty(dr.GetValue(3)) Then
+                        account_idpk.Text = Session(0)
+                        alumni_name.Text = dr.GetString(1)
+                        college_idfk.Text = dr.GetValue(2)
+
+                        undeditable.ImageUrl = "./assets/images/default-dp.jpg"
+                    Else
+                        account_idpk.Text = Session(0)
+                        alumni_name.Text = dr.GetString(1)
+                        college_idfk.Text = dr.GetValue(2)
+                        undeditable.ImageUrl = dr.GetString(3)
+                    End If
+                   
                 End While
 
                 sqlCon.Close()

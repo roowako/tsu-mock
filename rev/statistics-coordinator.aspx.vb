@@ -24,18 +24,29 @@ Partial Class statistics_coordinator
             Console.Write("sd")
             Response.Redirect("Default.aspx")
         Else
-            Image2.ID = "non"
+
             Using sqlCon As New SqlConnection(constr)
                 sqlCon.Open()
 
-                cmd = New SqlCommand("SELECT given_name,account_idpk,college_idfk FROM tblAccounts WHERE account_idpk=@p1", sqlCon)
+                cmd = New SqlCommand("SELECT given_name,account_idpk,college_idfk,img_path FROM tblAccounts WHERE account_idpk=@p1", sqlCon)
                 cmd.Parameters.AddWithValue("@p1", Session("id"))
                 dr = cmd.ExecuteReader
 
                 While dr.Read
-                    alumni_name.Text = dr.GetString(0)
-                    account_idpk.Text = CStr(dr.GetValue(1))
-                    college_id.Text = CStr(dr.GetValue(2))
+                    If IsDBNull(dr(3)) OrElse String.IsNullOrEmpty(dr.GetString(3)) Then
+                        alumni_name.Text = dr.GetString(0)
+                        account_idpk.Text = CStr(dr.GetValue(1))
+                        college_id.Text = CStr(dr.GetValue(2))
+
+                        undeditable.ImageUrl = "./assets/images/default-dp.jpg"
+                    Else
+                        alumni_name.Text = dr.GetString(0)
+                        account_idpk.Text = CStr(dr.GetValue(1))
+                        college_id.Text = CStr(dr.GetValue(2))
+                        undeditable.ImageUrl = dr.GetString(3)
+
+                    End If
+                   
                 End While
 
                 sqlCon.Close()

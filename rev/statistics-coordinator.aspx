@@ -63,7 +63,7 @@
 	                <ul class="nav nav-sidebar">
 		                <li>
 			                <a href="#" >
-				                <asp:Image ID="Image2" runat="server" ImageUrl="./assets/images/default-dp.jpg" BorderColor="White" BorderStyle="Solid" BorderWidth="3" />          
+				                    <asp:Image ID="undeditable" runat="server" ImageUrl="./assets/images/default-dp.jpg" Height="50" Width="65" BorderColor="White" BorderStyle="Solid" BorderWidth="3"  CssClass="non-m" />          
 			                </a>
 		                </li>
 		                <li><a href="#" class="bolder"><span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;<asp:Label id="alumni_name" runat="server"></asp:Label></a></li>
